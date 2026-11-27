@@ -1,0 +1,21 @@
+[decision]
+title = "Verdikt inspektora"
+owners = ["inspector-hugo"]
+text = "Hugo musí biskupovi něco oznámit. Bez dopisu může jen uzavřít případ jako nehodu."
+brief = "Biskup čeká na tvou zprávu. Rozhodni, co mu napíšeš."
+
+[[decision.option]]
+label = "Obvinit Anselma"
+needs = ["abbot-murdered"]
+gives = ["accusation"]
+
+# PLANTED ISSUE (option never chosen): the forged key never exists (see forge-key.toml).
+[[decision.option]]
+label = "Zatknout padělatele"
+needs = ["forged-key"]
+gives = ["accusation"]
+
+[[decision.option]]
+label = "Uzavřít jako nehodu"
+needs = ["abbot-bones"]
+gives = ["ending-accident"]

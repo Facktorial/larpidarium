@@ -1,0 +1,19 @@
+[package]
+name = "larp-render"
+description = "Renders HTML pages and LaTeX sources from minijinja templates."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+larp-graph.workspace = true
+larp-model.workspace = true
+minijinja.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

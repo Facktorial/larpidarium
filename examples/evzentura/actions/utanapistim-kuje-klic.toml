@@ -1,0 +1,13 @@
+[action]
+segment = "patro-4"
+title = "Utanapištim ukuje měděný klíč"
+owners = ["utanapistim"]
+needs = ["cesta-do-patra-4", "zhavy-uhlik"]
+uses = ["spatna-med"]
+gives = ["medeny-klic"]
+brief = "Stavitel lodi ví o Nicotě déle než kdokoli. Umí i kovat, když má čím topit."
+text = """
+Utanapištim staví loď, která Nicotě odolá. Ze špatné mědi ukuje klíč k Pandořině skříňce
+(zkažená měď sedí do zkaženého zámku), ale jen v ohni, který Nicota neuhasí: potřebuje Žhavý uhlík z Krbu.
+Uhlík mu zůstane jen půjčený, tým si ho odnese zpátky.
+"""

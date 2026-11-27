@@ -1,0 +1,15 @@
+# PLANTED ISSUE (stuck playthrough): choosing "Odejít" means the bones are never found,
+# so the inspector's verdict can never be made and the game ends without any ending.
+[decision]
+title = "Otevřít kryptu?"
+owners = ["crypt"]
+text = "Před dveřmi krypty. Kdo má klíč a důvod, může vejít."
+brief = "Dveře krypty jsou zamčené. Otevřít je, nebo odejít?"
+
+[[decision.option]]
+label = "Otevřít"
+needs = ["rusty-key", "crypt-suspicion"]
+gives = ["abbot-bones"]
+
+[[decision.option]]
+label = "Odejít"

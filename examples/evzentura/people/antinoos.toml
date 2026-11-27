@@ -1,0 +1,38 @@
+[person]
+name = "Antinoos"
+role = "npc"
+color = "#c0392b"
+goals = [
+  "Zabít Odyssea, aby se nikdy nevrátil domů",
+  "Získat Gabriela (nebo aspoň nějakého anděla, když to nepůjde)",
+  "Zůstat v nebi tak dlouho, jak se mu zachce",
+]
+secrets = [
+  "V nebi jsi jen díky Diovu zákonu pohostinnosti: přišel jsi a nebešťané tě musí hostit a nesmí tě vyhodit.",
+  "Tvoje plechovka Argus se lísá k hráčům, protože z nich cítí Odyssea. Prozrazuje tak, kdo s ním mluvil.",
+  "Když tě Gabriel odmítne, nakonec se smíříš i s obrázkem zadku od Zadkiela.",
+]
+
+[person.sheet]
+appearance = "Řecký šlechtic, drahý chitón, prsteny, víno v ruce. Na provázku za sebou táhneš plechovku s nápisem ARGUS, kterou oslovuješ jako psa. Šíp v krku (třeba z kartonu)."
+whereabouts = "Nebe. Rozvaluješ se na nejlepším místě u nebeské tabule a nikdo tě nedokáže vyhodit."
+backstory = """
+Jsi Antinoos, nejdrzejší z nápadníků Pénelopé.
+Léta jsi vyjídal Odysseův palác, pil jeho víno a čekal, až se Pénelopé konečně vzdá.
+Pak se Odysseus vrátil a uprostřed hostiny ti prostřelil krk šípem.
+Teď jsi v nebi, protože znáš pravidla: host je posvátný, a kdo přijde, musí být pohoštěn.
+Máš s sebou Arguse, Odysseova starého psa, který je teď plechovka, a ta se pořád k někomu lísá.
+"""
+manner = "Arogantně, flirtovně, s plnou pusou. Na každou výtku odpovíš „Diův zákon, zlatíčko. Jsem host.“ Nadbíháš Gabrielovi i ostatním andělům bez ostychu. Když se plechovka lísá k hráčům, zbystříš: „Vy jste s ním mluvili. Kde je?“"
+
+[[person.relation]]
+with = "odysseus"
+text = "Zabil tě šípem uprostřed hostiny. Odplata je jediné, na čem ti víc záleží než na víně."
+
+[[person.relation]]
+with = "gabriel"
+text = "Archanděl, válečník, krásná křídla. Tvůj. Jen o tom ještě neví."
+
+[[person.relation]]
+with = "zadkiel"
+text = "Ten druhý anděl. Nouzová varianta."

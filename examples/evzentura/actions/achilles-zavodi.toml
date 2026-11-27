@@ -1,0 +1,12 @@
+[action]
+segment = "patro-4"
+title = "Achilles závodí se želvou"
+owners = ["achilles"]
+needs = ["cesta-do-patra-4"]
+gives = ["achilluv-stit", "stopa-skrinky"]
+brief = "Nejrychlejší z Řeků pořád nemůže doběhnout želvu. A cestou viděl věci."
+text = """
+Achilles lituje, že chtěl být slavný; radši by žil dlouho a skromně. Odyssea mu nepřipomínejte.
+Štít mu překáží v závodě, tak ho dá týmu. Mimochodem zmíní, že viděl muže s korunou, jak nese
+zamčenou skříňku dolů, a že mu říkali Karle. Kterému Karlovi, neví.
+"""

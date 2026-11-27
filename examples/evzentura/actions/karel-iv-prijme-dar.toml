@@ -1,0 +1,12 @@
+[action]
+segment = "patro-5"
+title = "Karel IV. přijme dar pro univerzitu"
+owners = ["karel-iv"]
+needs = ["cesta-do-patra-5"]
+uses = ["diferencialni-pocet"]
+gives = ["karlstejn-otevren"]
+brief = "Zakladatel univerzity nepustí na hrad jen tak někoho. Učence ale vítá vždycky."
+text = """
+Karel IV. je obležený a nikoho nepouští. Za Diferenciální počet (dar pro jeho univerzitu) tým pustí
+na Karlštejn.
+"""

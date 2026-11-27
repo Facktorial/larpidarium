@@ -1,0 +1,13 @@
+/target
+/dist
+/mutants.out*
+/lcov.info
+*.pdf
+*.aux
+*.log
+.env
+.claude/settings.local.json
+
+# Private design notes and writers-room drafts (spoilers); kept local
+/EVŽENTURA.md
+/drafts/

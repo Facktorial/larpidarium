@@ -1,0 +1,12 @@
+[action]
+segment = "nebe"
+title = "Rorschach se dozví o Nicotě"
+owners = ["rorschach"]
+needs = ["cesta-do-nebe", "zprava-o-nicote"]
+gives = ["rorschachuv-denik", "mefikarel-odesel"]
+brief = "Muž s měnící se maskou ví, kdo dřív vládl Peklu. Neví ale, co se tam děje teď."
+text = """
+Rorschach připomene, že v Pekle vládl MefiKarel a že odešel a potlouká se po Zemi. O Nicotě neví
+nic, dokud mu ji tým nepopíše. Pak mu dojde, že Nicota je důsledek MefiKarlovy nepřítomnosti,
+rozhodne se Karla přivést a zapíše všechno do deníku. Deník dá týmu: „Ukažte to Gabrielovi.“
+"""

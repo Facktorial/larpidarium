@@ -1,0 +1,32 @@
+[person]
+name = "William Blake"
+role = "npc"
+color = "#2980b9"
+goals = [
+  "Stvořit tygra a beránka tak, aby tygr beránka nesežral",
+  "Aspoň jednou dopsat báseň se šťastným koncem",
+]
+secrets = [
+  "Tygra a beránka umíš stvořit jen oba naráz. Vždycky to dopadne stejně.",
+  "Kdyby měl tygr jiné maso (třeba játra), nechal by beránka být. Na to jsi sám ještě nepřišel.",
+]
+
+[person.sheet]
+appearance = "Rozcuchaný básník 18. století: vesta, krajkový límec, brk za uchem, ruce od rytecké barvy. Plyšový tygr a plyšový beránek (nebo papírové loutky)."
+whereabouts = "Patro 2. Sedíš u stolu s rytinami a nešťastně hledíš na prázdné místo, kde byl ještě před chvílí beránek."
+backstory = """
+Jsi William Blake, básník, malíř a vizionář.
+Za života jsi psal o Tygrovi a o Beránkovi a ptal ses, zda je stvořila tatáž ruka.
+V Pekle ses dozvěděl odpověď: ano, tvoje. A vždycky naráz.
+Pokaždé, když ze slov stvoříš beránka, vedle něj se zhmotní tygr, a tygr má hlad.
+Viděl jsi to už stokrát a pořád to bolí.
+"""
+manner = "Vznešeně, zasněně, v půlce věty přejdeš do veršů: „Tygře, tygře, žhavě žhnoucí…“ Když tygr sežere beránka, smutně, ale bez překvapení řekneš „Zase.“ Mluvíš o andělech, jako bys je viděl včera na zahradě."
+
+[[person.relation]]
+with = "prometheus"
+text = "Muž, kterému každý den dorostou játra. Netušíš, k čemu by ti to mohlo být."
+
+[[person.relation]]
+with = "krb"
+text = "Oheň v tvých básních byl vždycky posvátný. Tenhle ti ale připadá nějak hladový."

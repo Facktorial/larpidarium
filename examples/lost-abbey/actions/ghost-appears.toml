@@ -1,0 +1,9 @@
+[action]
+segment = "arrival"
+title = "Duch v kryptě"
+owners = ["org-petra", "crypt"]
+gives = ["rumor-ghost"]
+brief = "V noci se z krypty ozývá sténání."
+text = """
+Po setmění Petra v kryptě sténá a chrastí řetězem. Kdo jde kolem brány, slyší to.
+"""

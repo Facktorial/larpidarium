@@ -1,0 +1,8 @@
+[action]
+title = "Duch v kryptě"
+owners = ["org-petra", "crypt"]
+gives = ["rumor-ghost", "ghost-chain"] # PLANTED ISSUE: ghost-chain is never needed
+brief = "V noci se z krypty ozývá sténání."
+text = """
+Po setmění Petra v kryptě sténá a chrastí řetězem. Kdo jde kolem brány, slyší to.
+"""

@@ -1,0 +1,11 @@
+[action]
+segment = "patro-5"
+title = "Karel IV. vydá Pandořinu skříňku"
+owners = ["karel-iv"]
+needs = ["karlstejn-otevren", "skrinku-ma-karel-iv", "karel-iv-ochranen", "o-skrince-pandorry"]
+gives = ["pandorina-skrinka"]
+brief = "Na hradě plném relikvií je jedna, která sem nepatří."
+text = """
+Karel IV. zapírá, dokud tým neví, že skříňku má on, a neví, co to je za skříňku. Když je na hradě,
+ví to a Karel je chráněný před Nicotou, skříňku vydá. Přizná, že ji Pandoře vzal jako relikvii.
+"""

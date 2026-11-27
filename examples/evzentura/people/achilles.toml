@@ -1,0 +1,25 @@
+[person]
+name = "Achilles"
+role = "npc"
+color = "#d35400"
+goals = ["Předběhnout želvu. Aspoň jednou.", "Dostat od Odyssea omluvu za Trojskou válku"]
+secrets = [
+  "Lituješ, že jsi chtěl být slavný válečník. Teď bys radši žil skromný a dlouhý život.",
+  "Želvu nikdy nepředběhneš. Pokaždé, když doběhneš tam, kde byla, už je kousek dál.",
+]
+
+[person.sheet]
+appearance = "Řecký hoplít: helma s chocholem, štít, kopí, obvaz na patě. Vedle tebe želva (plyšová nebo kartonová) a závodní dráha z lepicí pásky."
+whereabouts = "Patro 4. Běháš po závodní dráze za želvou. Nikdy ji nedoběhneš."
+backstory = """
+Jsi Achilles, nejslavnější válečník Řecka, skoro nesmrtelný, až na tu patu.
+Šel jsi do Trojské války pro slávu a slávu jsi dostal, spolu se šípem do paty.
+Odysseus, který tě do té války přemluvil, mezitím přežil a jede domů.
+Teď jsi v Pekle a závodíš se želvou. Je to filozofický problém a ty ho prohráváš.
+Kdybys mohl začít znovu, zůstal bys doma a choval kozy.
+"""
+manner = "Zadýchaně, rozzlobeně a zároveň melancholicky. Mluvíš mezi sprinty: „Počkejte… už ji skoro mám…“ Když padne jméno Odysseus, vybuchneš: „On žije a já ne! A to byl jeho nápad!“ Pak ztichneš a mluvíš o kozách."
+
+[[person.relation]]
+with = "odysseus"
+text = "Přemluvil tě do války, ve které jsi umřel. On žije. Nikdy mu to neodpustíš."

@@ -1,0 +1,30 @@
+[[category]]
+id = "key"
+color = "#d4a017"
+
+[[category]]
+id = "evidence"
+color = "#8e44ad"
+
+[[item]]
+id = "rusty-key"
+name = "Rezavý klíč"
+category = "key"
+owners = ["brother-anselm"]
+starting = true
+text = "Velký železný klíč od krypty. Anselm ho nosí na krku."
+
+[[item]]
+id = "sealed-letter"
+name = "Zapečetěný dopis"
+category = "evidence"
+owners = ["novice-marta"]
+starting = true
+text = "Dopis s opatovou pečetí, adresovaný biskupovi. Nikdy nebyl odeslán."
+
+[[item]]
+id = "abbot-bones"
+name = "Opatovy kosti"
+category = "evidence"
+owners = ["crypt"]
+text = "Kostra v mnišské kutně. Lebka má prasklinu."

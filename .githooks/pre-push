@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Slower checks (~1 minute). Skip once with: git push --no-verify
+set -euo pipefail
+just lint test deny

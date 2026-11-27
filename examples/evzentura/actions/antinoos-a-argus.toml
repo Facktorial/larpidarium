@@ -1,0 +1,12 @@
+[action]
+segment = "nebe"
+title = "Antinoos a plechovka Argus"
+owners = ["antinoos"]
+needs = ["cesta-do-nebe"]
+gives = ["antinoos-obleha-gabriela"]
+brief = "V Nebi se usadil host, kterého nikdo nezval. A jeho plechovka se k vám lísá."
+text = """
+Antinoos se dovolal Diova zákona: přišel jako host a nebešťané ho nesmí vyhodit. Uchází se o Gabriela
+a nikoho k němu nepustí. Plechovka Argus se lísá k týmu, protože z něj cítí Odyssea; Antinoos zpozorní
+a vyptává se, kde Odysseus je. Chce ho zabít, aby se nevrátil domů.
+"""

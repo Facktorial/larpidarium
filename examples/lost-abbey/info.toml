@@ -1,0 +1,47 @@
+[[info]]
+id = "rumor-ghost"
+name = "Zvěst o duchovi"
+text = "V noci prý v kryptě někdo sténá."
+
+[[info]]
+id = "letter-content"
+name = "Obsah dopisu"
+text = "Opat chtěl biskupovi oznámit, že bratr Anselm krade z pokladnice."
+
+[[info]]
+id = "crypt-suspicion"
+name = "Podezření na kryptu"
+text = "Sténání se ozývá jen tehdy, když Anselm v noci chybí."
+
+[[info]]
+id = "abbot-murdered"
+name = "Opat byl zavražděn"
+text = "Prasklá lebka a dopis spolu dávají smysl: opata někdo umlčel."
+
+[[info]]
+id = "letter-shown"
+name = "Dopis v rukou inspektora"
+text = "Inspektor viděl opatův dopis a ví, že Anselm kradl."
+
+[[info]]
+id = "accusation"
+name = "Obvinění"
+text = "Inspektor veřejně obvinil Anselma z vraždy."
+
+[[info]]
+id = "ending-accident"
+name = "Konec: nehoda"
+text = "Případ je uzavřen jako nešťastná náhoda. Vrah zůstává v opatství."
+ending = true
+
+[[info]]
+id = "ending-confession"
+name = "Konec: přiznání"
+text = "Anselm se přizná a je předán biskupovi."
+ending = true
+
+[[info]]
+id = "ending-escape"
+name = "Konec: útěk"
+text = "Anselm uprchne nocí. Opatství zůstane bez opata i bez pokladníka."
+ending = true

@@ -1,0 +1,11 @@
+[action]
+segment = "patro-2"
+title = "Nakrmit tygra"
+owners = ["william-blake"]
+needs = ["tygr-a-beranek"]
+uses = ["jatra"]
+gives = ["beranek"]
+brief = "Tygr má hlad. Dokud ho nikdo nenakrmí, beránek nemá šanci."
+text = """
+Když tým přinese játra, tygr sní je a beránka nechá být. Blake je šťastný a beránka dá týmu.
+"""

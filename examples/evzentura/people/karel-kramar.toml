@@ -1,0 +1,28 @@
+[person]
+name = "Karel Kramář"
+role = "npc"
+color = "#16a085"
+goals = [
+  "Přesvědčit týmy, že Nicota je to samé co bolševici",
+  "Zbavit se Karla Marxe (nebo aspoň jeho hrobu)",
+]
+secrets = ["Nicota tě děsí stejně jako revoluce v Rusku. Za tvou vilou ses nikdy necítil bezpečně."]
+
+[person.sheet]
+appearance = "Oblek, cvikr, upravený knír, prvorepublikový klobouk. V ruce noviny Národní listy, na saku trikolóra."
+whereabouts = "Patro 5. Stojíš co nejdál od Marxova hrobu a hlasitě nadáváš směrem k němu."
+backstory = """
+Jsi Karel Kramář, první předseda vlády Československa a muž, který bolševiky nenáviděl víc než cokoli jiného.
+Měl jsi ruskou manželku, krásnou vilu nad Prahou a jasný názor: všechno zlé jde zleva.
+Nicota je pro tebe jen další bolševická revoluce, jen tichší.
+A navrch tě pohřbili v jednom patře s Marxem. Nikdy ti nikdo neudělal větší naschvál.
+"""
+manner = "Pateticky, státnicky, s prvorepublikovou mluvou: „Pánové, to je bolševictví!“ Všechno zlé přirovnáváš k bolševikům, Nicotu nejvíc. Když se zmíní Marx, rudneš a ukazuješ na jeho hrob."
+
+[[person.relation]]
+with = "karel-marx"
+text = "Původce všeho zla. Kdybys mohl, zakázal bys mu i ten hrob."
+
+[[person.relation]]
+with = "krb"
+text = "Krb by mohl spálit ten Marxův hrob. Možná je to jediný rozumný tvor v Pekle."

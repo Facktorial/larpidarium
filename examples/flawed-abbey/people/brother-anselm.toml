@@ -1,0 +1,22 @@
+[person]
+name = "Bratr Anselm"
+role = "player"
+color = "#c0392b"
+goals = ["Udržet kryptu zavřenou", "Dostat inspektora pryč z opatství"]
+secrets = ["Pohřbil opata v kryptě", "Krade z pokladnice už tři roky"]
+
+[person.sheet]
+appearance = "Vysoký, shrbený, s železným klíčem na krku."
+whereabouts = "Na začátku hry se modlíš v kapli u krypty."
+backstory = """
+Do kláštera jsi vstoupil jako syn zkrachovalého kupce. Počítat penízky ti šlo vždycky
+lépe než modlit se. Když na to opat přišel, pohádali jste se v kryptě. Upadl. Nebo jsi ho strčil?
+"""
+
+[[person.relation]]
+with = "novice-marta"
+text = "Marta byla opatovou chráněnkyní. Bojíš se, co ví."
+
+[[person.relation]]
+with = "inspector-hugo"
+text = "Biskupův člověk. Musí odjet dřív, než najde kryptu."

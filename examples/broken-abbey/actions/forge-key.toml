@@ -1,0 +1,8 @@
+# PLANTED ISSUE (loop): forging the key needs a wax imprint, and the imprint needs the forged key.
+# Neither action can ever happen.
+[action]
+title = "Padělat klíč"
+owners = ["brother-anselm"]
+needs = ["wax-imprint"]
+gives = ["forged-key"]
+brief = "Kovář ve vsi umí udělat kopii klíče."

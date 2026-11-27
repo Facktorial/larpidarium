@@ -1,0 +1,37 @@
+[person]
+name = "Walt Disney"
+role = "npc"
+color = "#27ae60"
+goals = [
+  "Naverbovat Christophera Nolana, Matta Damona a Matthewa McConaugheyho",
+  "Rozšířit předplatné DisneyPlus na celé Peklo",
+]
+secrets = [
+  "Postavu, která má účet DisneyPlus, můžeš legálně zabít. Stojí to v obchodních podmínkách a nikdo je nečetl.",
+  "Když se ti podaří naverbovat všechny tři Hollywooďany z prvního patra, týmům něco vydáš.",
+  "Tvoje hlava je ve skutečnosti zmražená. To, co mluví, je jen marketingové oddělení.",
+]
+
+[person.sheet]
+appearance = "Oblek, knírek, široký úsměv. Myší uši na hlavě, desky se smlouvami, razítko ©."
+whereabouts = "Patro 2. Sedíš za stolem s logem a podáváš ruku každému, kdo projde."
+backstory = """
+Jsi Walt Disney, vizionář zábavy a otec jedné myši, ze které se stalo impérium.
+Peklo pro tebe není trest. Je to nový trh. Tolik duší a nikdo z nich nemá předplatné!
+Kupuješ všechno, co má příběh: princezny, vesmírné rytíře, superhrdiny.
+Teď chceš Nolana, Damona a McConaugheyho, protože tvůj katalog postrádá trochu Oscarů.
+Nicota je pro tebe problém hlavně proto, že maže obsah, a obsah je tvůj majetek.
+"""
+manner = "Přátelsky, žoviálně, s úsměvem obchodníka. Každou nabídku podáš jako kouzlo: „Snít je zadarmo. Všechno ostatní je na předplatné.“ Ptáš se každého: „Máte už účet DisneyPlus?“ Jestli ano, usměješ se ještě víc."
+
+[[person.relation]]
+with = "christopher-nolan"
+text = "Nejcennější akvizice. Nechce prodat. Zatím."
+
+[[person.relation]]
+with = "matt-damon"
+text = "Levná akvizice. Chce hlavně, aby ho někdo zachránil, a to umíš zařídit."
+
+[[person.relation]]
+with = "matthew-mcconaughey"
+text = "Snadná akvizice. Stačí mu říct „alright“."

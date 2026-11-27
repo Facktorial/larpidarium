@@ -1,0 +1,11 @@
+[action]
+segment = "patro-4"
+title = "Sherlock vyšetřuje"
+owners = ["sherlock-holmes"]
+needs = ["cesta-do-patra-4"]
+gives = ["pripad-sherlock"]
+brief = "Detektiv v tvídu vyšetřuje případ. Jaký, to neřekne. Ale není ani trochu noir."
+text = """
+Sherlock dlouho tají, o jaký případ jde, a chce mluvit s obětí, která skončila v pekle. Postupně vyjde
+najevo: Newton ukradl Leibnizovi Diferenciální počet. Sherlock chce, aby mu tým pomohl případ uzavřít.
+"""

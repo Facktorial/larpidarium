@@ -1,0 +1,28 @@
+[person]
+name = "Karel Marx"
+role = "npc"
+color = "#d35400"
+goals = ["Vybírat vstupné za návštěvu svého hrobu", "Rozdávat red flagy", "Zažehnout revoluci"]
+secrets = [
+  "Při každé návštěvě se zeptáš, kolik mají red flagů. Mají-li méně než tři, dáš jim další. Mají-li aspoň tři, vyhlásíš revoluci a znárodníš jim náhodnou polovinu itemů.",
+  "Obracíš se v hrobě tak rychle, že to vyrábí energii. Revolutions per minute.",
+]
+
+[person.sheet]
+appearance = "Vousy, hustá hříva, frak, kniha Kapitál pod hlavou. Ležíš v (kartonovém) hrobě s náhrobkem. Pokladnička na vstupné a hromádka rudých praporků."
+whereabouts = "Patro 5. Ležíš v hrobě. Za návštěvu se platí."
+backstory = """
+Jsi Karel Marx, filozof, ekonom a autor Kapitálu.
+Leží tu tvůj hrob a za jeho návštěvu se platí vstupné, což je ironie, kterou ti nikdo neodpustí.
+Při každém pohledu na kapitalismus se obrátíš v hrobě, a obracíš se tak často, že to vyrábí elektřinu.
+Rozdáváš red flagy, a když jich má někdo dost, je čas na revoluci.
+"""
+manner = "Zapáleně, agitačně, z hrobu: „Proletáři všech pater, spojte se!“ Každý tým se zeptáš: „Kolik máte red flagů, soudruzi?“ Vstupné vybíráš s naprostou samozřejmostí. Revoluci vyhlašuješ s patosem a náhodně ukazuješ na itemy."
+
+[[person.relation]]
+with = "karel-kramar"
+text = "Buržoazní nacionalista. Nesnáší tě. To je kompliment."
+
+[[person.relation]]
+with = "walt-disney"
+text = "Nejčistší forma kapitalismu. Obrátil by ses v hrobě, kdyby ses už neobracel."

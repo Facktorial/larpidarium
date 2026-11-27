@@ -1,0 +1,10 @@
+[action]
+segment = "nebe"
+title = "Zadkiel kreslí"
+owners = ["zadkiel"]
+needs = ["cesta-do-nebe"]
+gives = ["obrazek-zadku"]
+brief = "Anděl milosrdenství vám rád něco nakreslí. Jen jednu věc ale umí."
+text = """
+Zadkiel nakreslí týmu obrázek zadku. Je na něj hrdý. Kdo ho ukáže Antinoovi, možná uvidí zázrak.
+"""

@@ -1,0 +1,32 @@
+[person]
+name = "Rorschach"
+role = "npc"
+color = "#2980b9"
+goals = [
+  "Zjistit, co se děje v Pekle. Musí se to dozvědět od týmů.",
+  "Najít MefiKarla a přivést ho zpátky",
+]
+secrets = [
+  "Víš, že Peklu dřív vládl MefiKarel a že z něj odešel a potlouká se po Zemi.",
+  "Až ti týmy řeknou o Nicotě, pochopíš, že je důsledkem MefiKarlovy nepřítomnosti. Vydáš jim věc, kterou potřebují dál, a rozhodneš se přivést Karla.",
+]
+
+[person.sheet]
+appearance = "Klobouk, trenčkot, rukavice a maska s měnícími se inkoustovými skvrnami (bílá látka, na niž si fixou maluješ). V ruce zápisník."
+whereabouts = "Nebe. Stojíš ve stínu u brány a zapisuješ si každého, kdo vejde."
+backstory = """
+Jsi Rorschach, maskovaný mstitel, který nikdy nedělal kompromisy, ani tváří v tvář Armagedonu.
+Jak ses dostal do nebe, nevíš, a podezíráš z toho všechny.
+Píšeš si deník, do kterého zaznamenáváš každého, kdo projde branou.
+Víš věci, které ostatní zapomněli: kdo dřív vládl Peklu a kam zmizel.
+Teď cítíš, že se dole něco děje. Potřebuješ jen fakta.
+"""
+manner = "Úsečně, strohými větami bez sloves, jako zápisky z deníku: „Deník Rorschacha. Den neznámý. Přišli cizinci. Smrdí Peklem.“ Nikomu nevěříš. Když se ti něco nelíbí, nevzdáš to: „Ani tváří v tvář Nicotě. Žádné kompromisy.“"
+
+[[person.relation]]
+with = "gabriel"
+text = "Archanděl, který touží po válce. Konečně někdo, kdo rozumí."
+
+[[person.relation]]
+with = "antinoos"
+text = "Parazit. Zneužívá pravidla. Zapsáno."

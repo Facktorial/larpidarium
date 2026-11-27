@@ -1,0 +1,179 @@
+# --- Patro 1 ---
+
+[[info]]
+id = "zprava-o-nicote"
+name = "Zpráva o Nicotě"
+owners = ["atreyu"]
+text = "Peklo pohlcuje Nicota, patro po patře, od prvního k poslednímu. Co pohltí, zmizí všem najednou."
+
+[[info]]
+id = "atreyova-otazka"
+name = "Atreyu hledá odpověď"
+owners = ["atreyu"]
+text = "Atreyu nehledá řešení. Hledá odpověď. Sám neví na co."
+
+[[info]]
+id = "proroctvi-nocniho-krale"
+name = "Proroctví o Nočním králi"
+owners = ["ned-stark"]
+text = "Zima se blíží. Až přijde Noční král, zastaví ho jen oheň, který Nicota neuhasí."
+
+[[info]]
+id = "damonova-omluva"
+name = "Damonova omluva"
+owners = ["matt-damon"]
+text = "Matt Damon se omlouvá McConaugheymu za to, co mu udělal na ledové planetě v Interstellaru."
+
+[[info]]
+id = "herci-smireni"
+name = "Herci jsou smíření"
+owners = ["matthew-mcconaughey"]
+text = "McConaughey a Damon spolu zase můžou točit."
+
+[[info]]
+id = "pribeh-od-nolana"
+name = "Nolanův příběh"
+owners = ["christopher-nolan"]
+text = "Nolan natočil příběh. Atreyu si myslí, že je to ta odpověď. Není."
+
+[[info]]
+id = "cesta-do-patra-2"
+name = "Cesta do patra 2"
+owners = ["atreyu"]
+text = "Atreyu pustil tým dolů."
+
+# --- Patro 2 ---
+
+[[info]]
+id = "tygr-a-beranek"
+name = "Tygr a beránek"
+owners = ["william-blake"]
+text = "Blake stvořil tygra a beránka. Tygr má hlad."
+
+[[info]]
+id = "o-skrince-pandorry"
+name = "O Pandořině skříňce"
+owners = ["pandorra"]
+text = "Pandorra má zamčenou skříňku a v ní MefiKarlův přístroj. Otevřít ji nesmíme. Klíč je prý z mědi."
+
+[[info]]
+id = "cesta-do-nebe"
+name = "Cesta do Nebe"
+owners = ["krb"]
+text = "Beránek shořel v Krbu jako oběť Strážcům. Cesta nahoru, do Nebe, je otevřená."
+
+[[info]]
+id = "diuv-zakon"
+name = "Diův zákon"
+owners = ["odysseus"]
+text = "Zákon pohostinství: hosta, který přijde, je nutné přijmout a nesmí se vyhodit."
+
+# --- Nebe ---
+
+[[info]]
+id = "mefikarel-odesel"
+name = "MefiKarel odešel"
+owners = ["rorschach"]
+text = "V Pekle dřív vládl MefiKarel. Odešel na Zemi. Nicota je důsledek jeho nepřítomnosti."
+
+[[info]]
+id = "antinoos-obleha-gabriela"
+name = "Antinoos obléhá Gabriela"
+owners = ["antinoos"]
+text = "Antinoos se dovolal Diova zákona, usadil se v Nebi a nepustí nikoho ke Gabrielovi."
+
+[[info]]
+id = "odpoved-z-polevky"
+name = "Odpověď z polévky"
+owners = ["nudliel"]
+text = "Nudlielova věštba z písmenkové polévky. Odpověď pro Atreye, zmínka o Lucifemme a zlé tušení o konci boje s Nicotou."
+
+[[info]]
+id = "gabriel-volny"
+name = "Gabriel má čas"
+owners = ["gabriel"]
+text = "Antinoos už Gabriela neblokuje."
+
+[[info]]
+id = "gabriel-vi-o-pekle"
+name = "Gabriel ví o Pekle"
+owners = ["gabriel"]
+text = "Gabriel přečetl Rorschachův deník. Ví o Pekle i o Nicotě a chystá se tam sestoupit."
+
+[[info]]
+id = "cesta-do-patra-4"
+name = "Cesta do patra 4"
+owners = ["zadkiel"]
+text = "Andělé vyhostili tým z Nebe a Nebe zamkli. Cesta vede jen dolů."
+
+# --- Patro 4 ---
+
+[[info]]
+id = "pripad-sherlock"
+name = "Sherlockův případ"
+owners = ["sherlock-holmes"]
+text = "Sherlock vyšetřuje krádež. Pachatel: Isaac Newton. Lup: Diferenciální počet. Okradený: Leibniz."
+
+[[info]]
+id = "stopa-skrinky"
+name = "Stopa skříňky"
+owners = ["achilles"]
+text = "Achilles viděl muže s korunou, jak nese dolů zamčenou skříňku. Říkali mu Karle."
+
+[[info]]
+id = "skrinku-ma-karel-iv"
+name = "Skříňku má Karel IV."
+owners = ["sherlock-holmes"]
+text = "Pandořinu skříňku ukradl Karel IV. a uložil ji mezi relikvie na Karlštejně."
+
+[[info]]
+id = "cesta-do-patra-5"
+name = "Cesta do patra 5"
+owners = ["gabriel"]
+text = "Gabriel zatroubil k poslední bitvě. Cesta do posledního patra je otevřená."
+
+# --- Patro 5 ---
+
+[[info]]
+id = "marx-nabizi-vlajky"
+name = "Marx nabízí vlajky"
+owners = ["karel-marx"]
+text = "Za návštěvu hrobu se platí. Marx se ptá, kolik máte rudých vlajek, a nabízí další."
+
+[[info]]
+id = "marx-chysta-revoluci"
+name = "Marx chystá revoluci"
+owners = ["karel-kramar"]
+text = "Kramář varuje: kdo bude mít moc rudých vlajek, tomu Marx znárodní majetek. Nicota je jako bolševici."
+
+[[info]]
+id = "karlstejn-otevren"
+name = "Karlštejn je otevřený"
+owners = ["karel-iv"]
+text = "Karel IV. pustil tým na Karlštejn."
+
+[[info]]
+id = "karel-iv-ochranen"
+name = "Karel IV. je chráněn před Nicotou"
+owners = ["karel-iv"]
+text = "Karel IV. už se nebojí, že ho Nicota pohltí i s pokladem."
+
+[[info]]
+id = "cesta-k-capkovi"
+name = "Cesta ke Karlu Čapkovi"
+owners = ["karel-gott"]
+text = "Noční král shořel a zase vstal. Cesta ke Karlu Čapkovi je volná."
+
+# --- Konce ---
+
+[[info]]
+id = "konec-pristroj"
+name = "Konec: MefiKarlův přístroj"
+text = "Tým předá Čapkovi MefiKarlův přístroj. Čapek ho zapne a dopíše konec: Nicota se zastaví. Peklo přežije, ale Strážci si ho už všimli."
+ending = true
+
+[[info]]
+id = "konec-nicota"
+name = "Konec: Nicota"
+text = "Čapek neví, jak příběh skončit, a ptá se čtenářů. Než odpovědí, Nicota pohltí i jeho. Zůstane prázdná stránka."
+ending = true

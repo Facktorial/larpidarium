@@ -1,0 +1,32 @@
+[person]
+name = "Atrej"
+role = "npc"
+color = "#c0392b"
+goals = [
+  "Vysvětlit týmům, co je Nicota a jak pohlcuje Peklo",
+  "Najít odpověď, ne řešení (týmy mu ji musí donést od vědmy v nebi dřív, než zmizí)",
+]
+secrets = [
+  "Tvůj kůň Artax je úplně zbytečný. Až ho pohltí Nicota, budeš fungovat přesně jako předtím.",
+  "Nehledáš způsob, jak Nicotu porazit. Hledáš odpověď a tu zná jen Nudliel v nebi.",
+]
+
+[person.sheet]
+appearance = "Bojovník z pustin: hnědá kožená vesta, malované pruhy na tvářích, luk. Vedle tebe stojí kůň (hobby horse nebo kartonová maketa), kterého hladíš a oslovuješ jménem."
+whereabouts = "Patro 1. Stojíš na okraji patra, kde to nejvíc táhne, a díváš se směrem, odkud Nicota přichází."
+backstory = """
+Jsi Atrej, mladý bojovník, který už jednou zachraňoval svět před Nicotou, a ten svět se jmenoval Fantázie.
+Nicota tě pronásledovala až sem, do prvního patra Pekla, a ty víš o ní víc než kdokoli jiný:
+že maže všechno, co pohltí, že nic nevrací a že nikoho nečeká.
+Se svým koněm Artaxem stojíš na stráži a vyprávíš každému, kdo přijde, jak se proti ní bránit.
+Nehledáš ale řešení. Hledáš odpověď, a to je velký rozdíl.
+"""
+manner = "Vážný, patetický, mluvíš jako hrdina z pohádky: „Nicota nemá tvar ani hlas. Jen hlad.“ Každou větu o Nicotě pronášíš, jako by byla poslední. Až Nicota spolkne koně, zahraj velkou scénu: padni na kolena, natáhni ruku, křič „ARTAXI!“. Hned potom vstaň a pokračuj, jako by se nic nestalo."
+
+[[person.relation]]
+with = "christopher-nolan"
+text = "Tvrdí, že umí vymýšlet příběhy. Možná ví, kde se rodí odpovědi."
+
+[[person.relation]]
+with = "nudliel"
+text = "O vědmě v nebi jsi slyšel. Neznáš ji, ale tušíš, že tvoje odpověď leží v její polévce."

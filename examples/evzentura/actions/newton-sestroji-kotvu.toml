@@ -1,0 +1,13 @@
+[action]
+segment = "patro-4"
+title = "Newton sestrojí gravitační kotvu"
+owners = ["isaac-newton"]
+needs = ["cesta-do-patra-4"]
+uses = ["stark-technology"]
+gives = ["gravitacni-kotva"]
+brief = "Vědec pod jabloní tvrdí, že Nicota padá jako jablko. Chybí mu jen lepší technika."
+text = """
+Newton vykládá teorii gravitace: Nicota se chová jako černá díra. Ze Stark Technology (rozebere ji)
+sestrojí gravitační kotvu, která jednu postavu ukotví proti Nicotě. O Diferenciálním počtu mluví
+vyhýbavě.
+"""

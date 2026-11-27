@@ -1,0 +1,12 @@
+[action]
+segment = "patro-1"
+title = "Ned Stark: Zima se blíží"
+owners = ["ned-stark"]
+needs = ["zprava-o-nicote"]
+gives = ["stark-technology", "proroctvi-nocniho-krale"]
+brief = "Starý lord na severu prvního patra mluví o zimě. Možná nemyslí počasí."
+text = """
+Ned přirovná Nicotu k zimě, která se blíží, a vysloví proroctví o Nočním králi: zastaví ho jen oheň,
+který Nicota neuhasí. Až tým zmíní Nicotu, dá mu rodinné dědictví „Stark Technology“
+(kartička nebo rekvizita, ve skutečnosti reaktor Iron Mana; Ned o tom neví).
+"""

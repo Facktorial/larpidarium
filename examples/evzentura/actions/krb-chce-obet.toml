@@ -1,0 +1,25 @@
+[decision]
+segment = "patro-1"
+title = "Co hodit do Krbu?"
+owners = ["krb"]
+brief = "Krb praská a šeptá, že má hlad. Když ho nakrmíte, prý se odvděčí. Věřit Krbu?"
+text = """
+Krb ničí všechno, co dostane, a týmy to vědí. Hraj podezřele, ale tentokrát chce pomoct.
+Vezme jednu z věcí v nabídce a vydá Žhavý uhlík: oheň, který Nicota neuhasí (bez něj nejde
+ukout měděný klíč v patře 4). Krb je dostupný po celou hru, takže tým se může rozhodnout i později.
+"""
+
+[[decision.option]]
+label = "Hodit do Krbu Stark Technology"
+uses = ["stark-technology"]
+gives = ["zhavy-uhlik"]
+
+[[decision.option]]
+label = "Hodit do Krbu Cooperovy hodinky"
+uses = ["cooperovy-hodinky"]
+gives = ["zhavy-uhlik"]
+
+[[decision.option]]
+label = "Hodit do Krbu Nolanův scénář"
+uses = ["scenar-odyssey"]
+gives = ["zhavy-uhlik"]

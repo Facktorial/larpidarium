@@ -1,0 +1,8 @@
+[person]
+name = "Ondra (organizátor)"
+role = "organizer"
+color = "#16a085"
+goals = [
+  "Hrát Matta Damona (patro 1), Nudliela (nebe), Isaaca Newtona (patro 4) a Karla Kramáře (patro 5)",
+  "V patře 2 nemá postavu: hlídat časomíru Nicoty a pomáhat ostatním",
+]

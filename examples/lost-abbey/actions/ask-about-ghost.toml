@@ -1,0 +1,8 @@
+[action]
+segment = "arrival"
+title = "Vyptávat se na ducha"
+owners = ["inspector-hugo", "gate"]
+needs = ["rumor-ghost"]
+gives = ["crypt-suspicion"]
+brief = "Mniši u brány vědí víc, než říkají. Ptej se."
+text = "Hugo se ptá mnichů u brány. Kdo odpoví upřímně, prozradí, že Anselm v noci chybí."

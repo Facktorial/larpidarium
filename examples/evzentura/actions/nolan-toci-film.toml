@@ -1,0 +1,12 @@
+[action]
+segment = "patro-1"
+title = "Nolan natočí film"
+owners = ["christopher-nolan"]
+needs = ["herci-smireni"]
+gives = ["pribeh-od-nolana", "scenar-odyssey"]
+brief = "Režisér přišel do pekla točit film. Chybí mu jen herci, kteří spolu promluví."
+text = """
+Nolan točí v pekle Odysseiu a potřebuje McConaugheyho i Damona. Až jsou smíření, natočí krátkou
+scénu s týmem jako komparzem. Dá týmu příběh (pro Atreye) a výtisk scénáře. Ví, že tu potká
+Odyssea, a naznačí, že scénář by ho zajímal.
+"""

@@ -1,0 +1,11 @@
+[action]
+segment = "patro-2"
+title = "Blake stvoří tygra a beránka"
+owners = ["william-blake"]
+needs = ["cesta-do-patra-2"]
+gives = ["tygr-a-beranek"]
+brief = "Smutný básník umí stvořit dvě zvířata najednou. Nikdy to nedopadne dobře."
+text = """
+Blake stvoří Tygra a Beránka, vždy obojí současně. Tygr hned chce Beránka sežrat a Blake je
+z toho smutný. Nech tým, ať přijde na to, že tygrovi stačí jiné maso.
+"""

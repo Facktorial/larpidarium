@@ -1,0 +1,7 @@
+[action]
+title = "Přečíst dopis"
+owners = ["novice-marta"]
+needs = ["sealed-letter"]
+gives = ["letter-content"]
+brief = "Opatův dopis ti může prozradit, proč zmizel."
+text = "Marta zlomí pečeť. Organizátor jí předá obálku s obsahem dopisu."

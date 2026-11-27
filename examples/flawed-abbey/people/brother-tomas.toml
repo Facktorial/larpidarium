@@ -1,0 +1,8 @@
+# PLANTED ISSUE (incomplete sheet): no whereabouts, no goals, no decision of his own.
+[person]
+name = "Bratr Tomáš"
+role = "player"
+color = "#8e6c4b"
+
+[person.sheet]
+backstory = "Zvoník. Slyší všechno, co se v opatství šeptá."

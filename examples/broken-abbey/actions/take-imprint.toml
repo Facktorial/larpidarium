@@ -1,0 +1,6 @@
+# PLANTED ISSUE (loop): see forge-key.toml.
+[action]
+title = "Otisknout klíč do vosku"
+owners = ["crypt"]
+needs = ["forged-key"]
+gives = ["wax-imprint"]

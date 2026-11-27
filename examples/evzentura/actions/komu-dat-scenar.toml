@@ -1,0 +1,23 @@
+[decision]
+segment = "patro-2"
+title = "Komu dát Nolanův scénář?"
+owners = ["odysseus", "walt-disney"]
+brief = "O Nolanův scénář stojí dva: hrdina, který chce domů, a muž, který chce koupit všechno."
+text = """
+Scénář je jen jeden. Odysseus přišel do pekla zeptat se Háda na cestu domů; ze scénáře se dozví,
+že se domů vrátí, a z vděčnosti týmu vyloží Diův zákon (Nudliel v Nebi bez něj nevěští).
+Walt Disney chce Nolana a jeho herce pod smlouvu; za scénář dá kryokomoru, která jednu
+postavu ochrání před Nicotou.
+"""
+
+[[decision.option]]
+label = "Dát scénář Odysseovi"
+needs = ["cesta-do-patra-2"]
+uses = ["scenar-odyssey"]
+gives = ["diuv-zakon"]
+
+[[decision.option]]
+label = "Prodat scénář Waltu Disneymu"
+needs = ["cesta-do-patra-2"]
+uses = ["scenar-odyssey"]
+gives = ["kryokomora"]

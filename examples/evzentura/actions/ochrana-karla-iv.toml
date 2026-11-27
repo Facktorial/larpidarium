@@ -1,0 +1,24 @@
+[decision]
+segment = "patro-5"
+title = "Čím ochránit Karla IV. před Nicotou?"
+owners = ["karel-iv"]
+brief = "Císař se bojí, že ho Nicota pohltí i s celým pokladem. Bez záruky vám nic nevydá."
+text = """
+Karel IV. vydá relikvie, jen když bude chráněný před Nicotou. Tým mu může dát jednu z ochran,
+které cestou získal. Ostatní mu zůstanou (třeba pro Karla Čapka nebo pro jiný tým).
+"""
+
+[[decision.option]]
+label = "Dát mu Auryn"
+uses = ["auryn"]
+gives = ["karel-iv-ochranen"]
+
+[[decision.option]]
+label = "Zmrazit ho v Disneyho kryokomoře"
+uses = ["kryokomora"]
+gives = ["karel-iv-ochranen"]
+
+[[decision.option]]
+label = "Ukotvit ho gravitační kotvou"
+uses = ["gravitacni-kotva"]
+gives = ["karel-iv-ochranen"]

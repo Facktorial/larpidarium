@@ -1,0 +1,11 @@
+[action]
+segment = "patro-1"
+title = "Atreyu varuje před Nicotou"
+owners = ["atreyu"]
+gives = ["zprava-o-nicote", "atreyova-otazka"]
+brief = "Mladý bojovník s koněm ví, co se děje s Peklem. A sám něco hledá."
+text = """
+První zastávka každého týmu. Atreyu vysvětlí Nicotu: pohlcuje Peklo patro po patře, co zmizí, zmizí všem.
+Zmíní, že hledá „odpověď“ (ne řešení!) a že ji zatím nikdo nemá. Když se týmy ptají na boj s Nicotou,
+řekni, že prostředky se najdou níž. Časomíru Nicoty týmům neprozrazuj.
+"""

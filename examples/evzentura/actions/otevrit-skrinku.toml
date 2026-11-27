@@ -1,0 +1,10 @@
+[action]
+segment = "patro-5"
+title = "Otevřít Pandořinu skříňku"
+owners = ["karel-iv"]
+needs = ["pandorina-skrinka", "medeny-klic"]
+gives = ["mefikarluv-pristroj"]
+brief = "Zamčená skříňka a zkažený zámek. Pandorra říkala, že se nesmí otevírat."
+text = """
+Měděný klíč pasuje. Ve skříňce je MefiKarlův přístroj (rekvizita) a závan lží a manipulací.
+"""

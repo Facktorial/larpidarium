@@ -1,0 +1,21 @@
+# Segments are parts of the game: acts, levels, or side plots that barely touch the rest.
+# Each action says which segment it belongs to with `segment = "<id>"`.
+# The graph draws every segment as its own area; arrows between segments are dashed.
+
+[[segment]]
+id = "arrival"
+name = "I. Příjezd"
+color = "#5b8def"
+text = "Večer prvního dne: duch, dopis a první otázky."
+
+[[segment]]
+id = "night"
+name = "II. Krypta"
+color = "#c9853a"
+text = "Noc: krypta, kosti a dopis, který může zmizet."
+
+[[segment]]
+id = "verdict"
+name = "III. Verdikt"
+color = "#b5485d"
+text = "Ráno: inspektor rozhoduje a vrah se přizná, nebo uteče."

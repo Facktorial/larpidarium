@@ -1,0 +1,7 @@
+# PLANTED ERROR (unreachable ending): the pilgrimage needs the forged key, which never exists,
+# so the ending "Konec: pouť" can never be reached. `build` refuses to generate this game.
+[action]
+title = "Pouť do Santiaga"
+owners = ["brother-tomas"]
+needs = ["forged-key"]
+gives = ["ending-pilgrimage"]

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>larpidarium</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <aside id="sidebar">
+    <button id="toggle-sidebar" aria-label="Menu">☰</button>
+    <div class="sidebar-content">
+      <h2 id="game-title"></h2>
+      <section id="details" class="hidden"></section>
+      <section id="edit-tools" class="hidden">
+        <h3 data-i18n="editing"></h3>
+        <div class="edit-buttons">
+          <button id="btn-new-action" data-i18n="newAction"></button>
+          <button id="btn-new-decision" data-i18n="newDecision"></button>
+          <button id="btn-new-thing" data-i18n="newThing"></button>
+          <button id="btn-new-segment" data-i18n="newSegment"></button>
+        </div>
+        <button id="btn-save-layout" data-i18n="saveLayout"></button>
+      </section>
+      <h3 data-i18n="health"></h3>
+      <div id="health"></div>
+      <section id="segment-section" class="hidden">
+        <h3 data-i18n="segments"></h3>
+        <ul id="segment-list" class="legend"></ul>
+      </section>
+      <h3 data-i18n="owners"></h3>
+      <ul id="owner-list" class="legend"></ul>
+      <h3 data-i18n="things"></h3>
+      <ul id="thing-list" class="legend"></ul>
+      <button id="btn-clear-filter" class="hidden" data-i18n="clearFilter"></button>
+      <hr class="divider">
+      <button id="theme-toggle"></button>
+      <button id="btn-export-layout" data-i18n="exportLayout"></button>
+      <button id="btn-reset-layout" data-i18n="resetLayout"></button>
+      <p class="hint" data-i18n="hint"></p>
+    </div>
+  </aside>
+  <main id="workspace-graph" class="workspace">
+    <div id="graph-transform-layer">
+      <div id="segments-layer"></div>
+      <svg id="connections-canvas"></svg>
+      <div id="nodes-container"></div>
+    </div>
+    <div id="graph-controls">
+      <button id="btn-zoom-in" aria-label="Zoom in">+</button>
+      <button id="btn-zoom-out" aria-label="Zoom out">−</button>
+      <button id="btn-center-fit" aria-label="Fit">⛶</button>
+    </div>
+  </main>
+  <div id="toast" class="hidden" role="status"></div>
+  <dialog id="editor"><form id="editor-form" method="dialog"></form></dialog>
+  <script src="graph-data.js"></script>
+  <script src="assets/graph.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[action]
+segment = "night"
+title = "Prozkoumat kosti"
+owners = ["inspector-hugo", "library"]
+needs = ["abbot-bones", "letter-shown"]
+gives = ["abbot-murdered"]
+text = "V knihovně, při svíčce, se z kostí a dopisu skládá pravda."
+brief = "S důkazy v rukou můžeš zjistit, co se opatovi skutečně stalo."

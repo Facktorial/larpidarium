@@ -1,0 +1,17 @@
+[person]
+name = "Inspektor Hugo"
+role = "player"
+color = "#27ae60"
+goals = ["Najít opata, živého nebo mrtvého", "Vrátit se k biskupovi s pravdou"]
+secrets = ["Biskup ti tajně slíbil místo opata, pokud případ uzavřeš rychle"]
+
+[person.sheet]
+appearance = "Promoklý plášť, biskupská pečeť na prstenu."
+whereabouts = "Na začátku hry stojíš v dešti u brány opatství."
+backstory = """
+Biskupův vyšetřovatel. Do opatství jsi dorazil za deště a nikdo tě nečekal.
+"""
+
+[[person.relation]]
+with = "novice-marta"
+text = "Jediná, kdo se zdá opata opravdu postrádat."

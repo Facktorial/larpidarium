@@ -1,0 +1,22 @@
+[decision]
+segment = "patro-5"
+title = "Marx, nebo Kramář?"
+owners = ["karel-marx", "karel-kramar"]
+brief = "Jeden Karel vám nabízí vlajky, druhý doporučení. Oba vás chtějí na své straně."
+text = """
+Marx dá týmu další rudé vlajky; tím jich má tým tři a Marx zažehne revoluci: znárodní měděný klíč
+(kov patří lidu). Tým si odnese rudou vlajku, se kterou může jít za Martelem. Kramář místo toho
+osobně doporučí tým Karlu IV. a ten mu otevře Karlštejn.
+Nemá-li tým měděný klíč, Marx vlajky nedá: „Bez majetku není co znárodnit, soudruzi.“
+"""
+
+[[decision.option]]
+label = "Vzít si od Marxe další vlajky"
+needs = ["marx-nabizi-vlajky", "marx-chysta-revoluci"]
+uses = ["medeny-klic"]
+gives = ["ruda-vlajka"]
+
+[[decision.option]]
+label = "Přidat se ke Kramářovi"
+needs = ["marx-nabizi-vlajky", "marx-chysta-revoluci"]
+gives = ["karlstejn-otevren"]

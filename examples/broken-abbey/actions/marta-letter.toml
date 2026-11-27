@@ -1,0 +1,15 @@
+[decision]
+title = "Co s dopisem?"
+owners = ["novice-marta"]
+text = "Marta zná obsah dopisu a musí se rozhodnout, komu věří."
+brief = "Víš, co je v dopise. Teď je na tobě, co s ním uděláš."
+
+[[decision.option]]
+label = "Ukázat inspektorovi"
+needs = ["letter-content", "sealed-letter"]
+gives = ["letter-shown"]
+
+[[decision.option]]
+label = "Spálit dopis"
+needs = ["letter-content"]
+uses = ["sealed-letter"]   # the letter is gone afterwards

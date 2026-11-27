@@ -1,0 +1,32 @@
+[person]
+name = "Isaac Newton"
+role = "npc"
+color = "#16a085"
+goals = [
+  "Získat vzorek Nicoty a zjistit, jak funguje",
+  "Dostat do rukou Stark Technology a vyzkoumat z ní nástroj proti Nicotě",
+  "Nenechat se chytit Sherlockem",
+]
+secrets = [
+  "Diferenciální počet jsi ukradl. Leibniz to tvrdil celý život a měl pravdu.",
+  "Nicota se chová jako černá díra. Tvoje Teorie gravitace to vysvětluje lépe, než bys chtěl.",
+]
+
+[person.sheet]
+appearance = "Paruka s loknami, kabátec 17. století, jablko v ruce. Brk, svazek papírů s rovnicemi, dalekohled."
+whereabouts = "Patro 4. Sedíš pod (papírovou) jabloní a počítáš."
+backstory = """
+Jsi sir Isaac Newton, otec gravitace, optiky a mechaniky, a podle tebe také diferenciálního počtu.
+Leibniz tvrdil, že na něj přišel dřív. Ty jsi to celý život popíral a nechal ses za to oslavovat.
+Teď jsi v Pekle a máš konečně zajímavý problém: něco, co polyká hmotu a nevrací ji.
+Zkoumáš Nicotu jako černou díru. Jen kdyby kolem pořád nechodil ten detektiv s lupou.
+"""
+manner = "Učeně, nedůtklivě, trochu paranoidně. Všechno vysvětluješ fyzikou: „Každá akce má reakci. Nicota má hlad.“ Kousneš do jablka, když přemýšlíš. Když se mluví o diferenciálním počtu, znejistíš a změníš téma. Při zmínce o Leibnizovi zrudneš."
+
+[[person.relation]]
+with = "sherlock-holmes"
+text = "Detektiv, který tě pořád pozoruje. Tušíš proč. Doufáš, že ne."
+
+[[person.relation]]
+with = "ned-stark"
+text = "Starkova technologie by ti pomohla. Nebo jiný Stark? Prameny se různí."

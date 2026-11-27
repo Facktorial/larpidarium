@@ -1,0 +1,145 @@
+{#- Player sheet. Copy this file to <game>/templates/player.html.j2 to customize it.
+    Available: game_title, language, t (labels), person (Part I), destiny (Part II). -#}
+{%- macro things(list) -%}
+  {%- for x in list -%}
+    <span class="thing" {% if x.text %}title="{{ x.text }}"{% endif %}>{{ x.name }}</span>
+    {%- if x.source %} <span class="src">({{ t["src_" ~ x.source] }})</span>{% endif -%}
+    {%- if not loop.last %}, {% endif -%}
+  {%- endfor -%}
+{%- endmacro -%}
+{%- macro flow(item) -%}
+  {%- if item.needs %}<p class="flow"><b>{{ t.needs }}:</b> {{ things(item.needs) }}</p>{% endif -%}
+  {%- if item.uses %}<p class="flow"><b>{{ t.uses }}:</b> {{ things(item.uses) }}</p>{% endif -%}
+  {%- if item.gives %}<p class="flow"><b>{{ t.gives }}:</b> {{ things(item.gives) }}</p>{% endif -%}
+{%- endmacro -%}
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ person.name }} · {{ game_title }}</title>
+<style>
+  :root { --ink: #22201c; --muted: #6b665d; --paper: #fffdf8; --line: #d9d3c7; --accent: {{ person.color or "#7a5c3e" }}; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e6df; color: var(--ink);
+    font: 16px/1.55 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+  nav { max-width: 820px; margin: 0 auto; padding: 14px 16px 0; font-family: system-ui, sans-serif; font-size: 14px; }
+  nav a { color: var(--muted); }
+  .sheet { max-width: 820px; margin: 12px auto 40px; background: var(--paper); padding: 48px 56px;
+    border-top: 8px solid var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 8px; }
+  .game { margin: 0; font: 600 12px/1 system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 6px 0 2px; font-size: 40px; line-height: 1.1; }
+  .role { margin: 0; color: var(--muted); font-style: italic; }
+  h2 { font: 700 22px/1.2 system-ui, sans-serif; margin: 34px 0 10px; display: flex; align-items: baseline; gap: 12px; }
+  h2 .num { color: var(--accent); font-family: Georgia, serif; font-size: 28px; }
+  h3 { font: 600 13px/1.3 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 20px 0 4px; }
+  p { margin: 4px 0 10px; }
+  .prose { white-space: pre-line; }
+  ul { margin: 4px 0 10px; padding-left: 20px; }
+  dl { margin: 4px 0 10px; } dt { font-weight: bold; } dd { margin: 0 0 8px 0; }
+  .thing { border-bottom: 1px dotted var(--muted); }
+  .src { color: var(--muted); font-size: .9em; font-style: italic; }
+  .intro { color: var(--muted); font-style: italic; }
+  figure { margin: 12px 0 18px; overflow-x: auto; }
+  figure svg { display: block; max-width: 100%; height: auto; font-family: system-ui, sans-serif; }
+  figcaption { font: 12px system-ui, sans-serif; color: var(--muted); display: flex; gap: 16px; margin-top: 6px; }
+  .key { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+  ol.timeline { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+  ol.timeline > li { position: relative; padding: 2px 0 14px 22px; }
+  ol.timeline > li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--paper); border: 2px solid var(--accent); }
+  ol.timeline > li.decision::before { border-radius: 2px; transform: rotate(45deg); background: var(--accent); }
+  ol.timeline h4 { margin: 0 0 2px; font-size: 18px; }
+  .tag { font: 600 11px/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .brief { font-style: italic; }
+  .flow { margin: 2px 0; font-size: 15px; }
+  .options { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 6px; }
+  .options li { border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 6px 10px; border-radius: 3px; }
+  .options .label { font-weight: bold; }
+  @media (max-width: 640px) { .sheet { padding: 28px 20px; } h1 { font-size: 30px; } }
+  @media print {
+    body { background: none; } nav { display: none; }
+    .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0; }
+    ol.timeline > li, .options li { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    .part + .part { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<nav><a href="../index.html">← {{ t.back }}</a></nav>
+<article class="sheet">
+  <header>
+    <p class="game">{{ game_title }}</p>
+    <h1>{{ person.name }}</h1>
+    <p class="role">{{ t[person.role] }}</p>
+  </header>
+
+  <section class="part">
+    <h2><span class="num">I</span> {{ t.part1 }}</h2>
+    {% if person.appearance %}<h3>{{ t.appearance }}</h3><p class="prose">{{ person.appearance | trim }}</p>{% endif %}
+    {% if person.whereabouts %}<h3>{{ t.whereabouts }}</h3><p class="prose">{{ person.whereabouts | trim }}</p>{% endif %}
+    {% if person.backstory %}<h3>{{ t.backstory }}</h3><p class="prose">{{ person.backstory | trim }}</p>{% endif %}
+    {% if person.goals %}<h3>{{ t.goals }}</h3><ul>{% for g in person.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+    {% if person.secrets %}<h3>{{ t.secrets }}</h3><ul>{% for s in person.secrets %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+    {% if person.relations %}<h3>{{ t.relations }}</h3>
+      <dl>{% for r in person.relations %}<dt>{{ r.name }}</dt><dd>{{ r.text }}</dd>{% endfor %}</dl>{% endif %}
+    {% if destiny.carries %}<h3>{{ t.carries }}</h3>
+      <ul>{% for x in destiny.carries %}<li><span class="thing">{{ x.name }}</span>{% if x.text %}: {{ x.text }}{% endif %}</li>{% endfor %}</ul>{% endif %}
+    {% for key, text in person.extra %}<h3>{{ key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
+  </section>
+
+  <section class="part">
+    <h2><span class="num">II</span> {{ t.part2 }}</h2>
+    {% if destiny.steps %}
+    <p class="intro">{{ t.destiny_intro }}</p>
+    {% set g = destiny.graph %}
+    <figure>
+      <svg viewBox="0 0 {{ g.width }} {{ g.height }}" width="{{ g.width }}" role="img" aria-label="{{ t.part2 }}">
+        <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#9a9488"/></marker></defs>
+        {% for e in g.edges %}
+        <path d="M{{ e.x1 }} {{ e.y1 }} C{{ e.x1 + 22 }} {{ e.y1 }} {{ e.x2 - 22 }} {{ e.y2 }} {{ e.x2 - 2 }} {{ e.y2 }}"
+              fill="none" stroke="#9a9488" stroke-width="1.5" marker-end="url(#arrow)"/>
+        {% endfor %}
+        {% for n in g.nodes %}
+        {% if n.own %}
+        <rect x="{{ n.x }}" y="{{ n.y }}" width="{{ n.w }}" height="{{ n.h }}" rx="{{ 2 if n.decision else 6 }}"
+              fill="var(--accent)" fill-opacity=".14" stroke="var(--accent)" stroke-width="2"/>
+        <text x="{{ n.x + n.w / 2 }}" y="{{ n.y + n.h / 2 + 4 }}" text-anchor="middle" font-size="11.5" font-weight="600" fill="#22201c">{{ n.label }}</text>
+        {% else %}
+        <rect x="{{ n.x }}" y="{{ n.y }}" width="{{ n.w }}" height="{{ n.h }}" rx="6"
+              fill="#f1eee7" stroke="#bdb6a8" stroke-dasharray="4 3"/>
+        <text x="{{ n.x + n.w / 2 }}" y="{{ n.y + n.h / 2 + 4 }}" text-anchor="middle" font-size="13" fill="#9a9488">?</text>
+        {% endif %}
+        {% endfor %}
+      </svg>
+      <figcaption>
+        <span><span class="key" style="background: var(--accent); opacity: .5"></span>{{ t.mini_own }}</span>
+        <span><span class="key" style="border: 1px dashed #bdb6a8; background: #f1eee7"></span>{{ t.mini_other }}</span>
+      </figcaption>
+    </figure>
+
+    <ol class="timeline">
+      {% for s in destiny.steps %}
+      <li class="{{ 'decision' if s.decision else 'action' }}">
+        {% if s.decision %}<span class="tag">{{ t.choice }}</span>{% endif %}
+        <h4>{{ s.title }}</h4>
+        {% if s.brief %}<p class="brief">{{ s.brief }}</p>{% endif %}
+        {{ flow(s) }}
+        {% if s.options %}
+        <ul class="options">
+          {% for o in s.options %}<li><span class="label">▶ {{ o.label }}</span>{{ flow(o) }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="intro">{{ t.no_destiny }}</p>
+    {% endif %}
+  </section>
+</article>
+</body>
+</html>

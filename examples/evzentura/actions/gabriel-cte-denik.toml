@@ -1,0 +1,11 @@
+[action]
+segment = "nebe"
+title = "Gabriel čte Rorschachův deník"
+owners = ["gabriel"]
+needs = ["gabriel-volny", "rorschachuv-denik"]
+gives = ["gabriel-vi-o-pekle"]
+brief = "Archanděl je dávno připraven na poslední bitvu. Jen neví, kde ji svést."
+text = """
+Gabriel chce, aby byla svedena poslední bitva, i když je teď mír. Týmu nevěří, Rorschachovu deníku ano.
+Po přečtení ví o Pekle i o Nicotě a rozhodne se tam sestoupit. Týmu řekne, ať jde napřed.
+"""

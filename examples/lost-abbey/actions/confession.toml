@@ -1,0 +1,16 @@
+[decision]
+segment = "verdict"
+title = "Přiznání"
+owners = ["brother-anselm"]
+text = "Anselm je obviněn před celým konventem."
+brief = "Přijde chvíle, kdy budeš muset před všemi odpovědět."
+
+[[decision.option]]
+label = "Přiznat se"
+needs = ["accusation"]
+gives = ["ending-confession"]
+
+[[decision.option]]
+label = "Uprchnout"
+needs = ["accusation"]
+gives = ["ending-escape"]

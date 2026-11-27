@@ -1,0 +1,11 @@
+[action]
+segment = "patro-2"
+title = "Obětovat beránka v Krbu"
+owners = ["krb"]
+uses = ["beranek"]
+gives = ["cesta-do-nebe"]
+brief = "Krb chce oběť. Tentokrát to prý myslí dobře."
+text = """
+Tým hodí beránka do Krbu jako oběť Strážcům. Krb ho spálí a otevře cestu nahoru, do Nebe.
+Pusť MefiKarlovo video pro patro 3.
+"""

@@ -1,0 +1,36 @@
+[person]
+name = "Prométheus"
+role = "npc"
+color = "#d35400"
+goals = [
+  "Zbavit se jater, protože mu dorůstají každý den znovu a nemá je kam dávat",
+  "Aby si týmy vážily ohně, který kdysi ukradl pro lidi",
+]
+secrets = [
+  "Játra máš neomezeně. Rozdáváš je komukoli a pořád jsou čerstvá.",
+  "Za krádež ohně tě bohové přikovali ke skále a orel ti každý den klove játra. V Pekle se ten trest nějak zvrhl a játra dorůstají v nadbytku.",
+]
+
+[person.sheet]
+appearance = "Titán v roztrhané tunice, řetězy na zápěstích (může být z papíru), obvaz přes bok. Vedle tebe bedýnka s „játry“ (červené houbičky, želé nebo karty)."
+whereabouts = "Patro 2. Jsi přikovaný ke skále uprostřed patra a nemůžeš se hnout."
+backstory = """
+Jsi Prométheus, titán, který ukradl bohům oheň a dal ho lidem.
+Zeus tě za to přikoval ke skále a každý den přilétal orel, aby ti vyklovával játra. Každou noc dorostla znovu.
+Orel už nelétá, ale játra rostou dál a ty nevíš, co s nimi.
+Rozdáváš je každému, kdo projde, jako přebytky ze zahrádky.
+Trpíš, ale už ses s tím smířil a máš z toho spíš suchý humor.
+"""
+manner = "Obřadně trpitelsky, ale s praktickým nadhledem: „Vezměte si. Ráno budou zase nová.“ Játra nabízíš jako babička řízky. Vzdycháš nad lidskou nevděčností: „Dal jsem vám oheň a vy s ním děláte tohle.“"
+
+[[person.relation]]
+with = "krb"
+text = "Tvůj oheň po tisících let. Zdegeneroval, ale pořád je to rodina."
+
+[[person.relation]]
+with = "william-blake"
+text = "Smutný básník od vedle. Jeho tygr se dívá na tvoje játra až nepříjemně hladově."
+
+[[person.relation]]
+with = "pandorra"
+text = "Bohové ji poslali, aby potrestali lidstvo za tvůj dar. Nezlobíš se na ni. Moc."

@@ -1,0 +1,18 @@
+[person]
+name = "Novicka Marta"
+role = "player"
+color = "#2980b9"
+goals = ["Zjistit, proč opat zmizel", "Doručit dopis tomu, komu patří"]
+secrets = ["Dopis jsi našla v opatově cele a nikomu jsi to neřekla"]
+
+[person.sheet]
+appearance = "Mladá, v novickém hábitu, inkoust na prstech."
+whereabouts = "Na začátku hry jsi v opatově cele a uklízíš jeho věci."
+backstory = """
+Opat tě přijal, když tě nikdo jiný nechtěl. Den před jeho zmizením ti řekl:
+„Kdyby se mi něco stalo, otevři ten dopis.“
+"""
+
+[[person.relation]]
+with = "brother-anselm"
+text = "Pokladník. Od opatova zmizení je nervózní."

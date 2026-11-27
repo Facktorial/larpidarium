@@ -1,0 +1,23 @@
+[files]
+extend-exclude = ["target/", "*.svg", "*.pdf"]
+
+[default]
+# Czech game content is not English; extend this list when typos flags real Czech words.
+extend-ignore-re = ["(?i)[a-z]*[áčďéěíňóřšťúůýž][a-z]*"]
+
+[default.extend-words]
+# Czech "dne" (of the day)
+dne = "dne"
+# Czech words without diacritics and character names from examples/evzentura
+tak = "tak"
+autor = "autor"
+triky = "triky"
+pach = "pach"
+mosty = "mosty"
+blok = "blok"
+monstrum = "monstrum"
+respektive = "respektive"
+mechanismus = "mechanismus"
+pandorra = "pandorra"
+ned = "ned"
+damon = "damon"

@@ -1,0 +1,11 @@
+[action]
+segment = "patro-2"
+title = "Prométheus daruje játra"
+owners = ["prometheus"]
+needs = ["cesta-do-patra-2"]
+gives = ["jatra"]
+brief = "Přikovaný titán má jater víc, než sám potřebuje."
+text = """
+Prométheus je tu za trest, že kdysi dal lidem oheň; orel mu denně vyklove játra a ona dorostou.
+Dá je každému, kdo si řekne, kolikrát chce. Na otázky po ohni odkáže na Krb: „Ten oheň Nicota neuhasí.“
+"""
