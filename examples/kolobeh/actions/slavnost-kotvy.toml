@@ -1,0 +1,8 @@
+[action]
+segment = "noc-3"
+title = "Slavnost kotvy"
+owners = ["don", "reditelka", "pristav"]
+needs = ["tajna-smlouva", "sudy-s-benzinem"]
+gives = ["pozar-zalozen"]
+brief = "Lampiony nad molem, dechovka, smažené ryby. Don a ředitelka si veřejně připíjejí na Nový přístav. Oba se dívají na hodinky."
+text = "Bossové na Slavnosti. Požár je připravený na půlnoc; rozhodne o něm taxikář v posledním kroku svého cyklu."

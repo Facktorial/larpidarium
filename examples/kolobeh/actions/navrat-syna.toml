@@ -1,0 +1,8 @@
+[action]
+segment = "noc-1"
+title = "Návrat syna"
+owners = ["syn-dona", "don", "bar"]
+needs = ["smrt-barmanky"]
+gives = ["dedic-baru"]
+brief = "Po deseti letech vystupuješ z vlaku v Rezově. Otec tě nečeká na nádraží, čeká v Kotvě, kde ještě nevyschla podlaha. Podá ti klíče od baru, jako by to byl dárek."
+text = "Syn dona přijíždí v noci, kdy umřela barmanka (týž hráč). Don mu daruje její bar. Za pultem syn později najde, co tam barmanka nechala."

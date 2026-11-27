@@ -1,0 +1,9 @@
+[action]
+cycle = "c-don"
+step = 8
+title = "Poslední káva"
+owners = ["don", "bar"]
+needs = ["dedictvi-rozhodnuto"]
+gives = ["smrt-dona"]
+brief = "Káva v šálku vystydla a v Kotvě hraje píseň, kterou zpívala zpěvačka. Dveře se otevřou a ty víš, kdo vchází, dřív než zvedneš oči."
+text = "Změna: don zemře ve svém boxu, ať je kniha kdekoli, jakmile je rozhodnuto o dědictví. Jeho smrt otevírá soud a teprve po ní se sestra odváží vypovídat."

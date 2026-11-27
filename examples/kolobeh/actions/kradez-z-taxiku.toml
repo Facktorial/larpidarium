@@ -1,0 +1,10 @@
+[action]
+cycle = "c-zlodejka"
+step = 3
+title = "Krádež z taxíku"
+owners = ["zlodejka", "taxikar"]
+needs = ["odmena-za-knihu", "smrt-komisare"]
+uses = ["kniha-u-taxikare"]
+gives = ["ucetni-kniha"]
+brief = "Taxík stojí před Kotvou a taxikář je uvnitř. Zámek dveří spolupracuje. Pod sedadlem řidiče nahmatáš gumičku."
+text = "Odchod (jen když dokař hodil knihu taxikáři a komisař ji neuložil do archivu). Taxikář může krádeži přihlížet, nebo ji nevidět."

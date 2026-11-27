@@ -143,3 +143,12 @@ fn evzentura_example_builds_and_lists_open_gaps() {
     assert!(stdout.contains("2 reachable ending(s)"), "{stdout}");
     assert!(stderr.contains("is never needed"), "{stderr}");
 }
+
+#[test]
+fn kolobeh_example_has_cycles_lives_and_three_endings() {
+    let (ok, stdout, stderr) = check("kolobeh");
+    assert!(ok, "{stderr}");
+    assert!(stdout.contains("15 people"), "{stdout}");
+    assert!(stdout.contains("0 warning(s)"), "{stdout}\n{stderr}");
+    assert!(stdout.contains("3 reachable ending(s)"), "{stdout}");
+}

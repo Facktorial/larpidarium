@@ -1,0 +1,9 @@
+[action]
+cycle = "c-uklizec"
+step = 8
+title = "Nová právnička"
+owners = ["pravnicka", "reditelka", "vez"]
+needs = ["smrt-uklizece"]
+gives = ["pravnicka-ve-vezi"]
+brief = "První den ve věži. Ředitelka ti dá klíč od komůrky na spisy, kde to ještě voní saponátem. Na zdi je něco přetřeného a tvoje ruka se sama zastaví u kbelíku."
+text = "Změna: do věže nastupuje právnička (další život uklízeče). Ještě slouží věži; ve 4. noci ji může donův syn získat proti otci."

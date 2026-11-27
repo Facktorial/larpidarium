@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 8
+title = "Věž kupuje město"
+owners = ["reditelka", "vez"]
+needs = ["kniha-ve-vezi"]
+gives = ["konec-vez"]
+brief = "Donova kniha leží v trezoru. Podepíšeš koupi přístavu, baru i hřbitova a pero odložíš u otevřeného okna."
+text = "Změna: s knihou má věž dona v hrsti a koupí Rezov."

@@ -44,6 +44,11 @@ pub(crate) struct NodeEdit {
     pub(crate) owners: Vec<String>,
     #[serde(default)]
     pub(crate) segment: String,
+    /// Cycle id; when set, `segment` is ignored and `step` places the node.
+    #[serde(default)]
+    pub(crate) cycle: String,
+    #[serde(default)]
+    pub(crate) step: Option<u8>,
     #[serde(default)]
     pub(crate) needs: Vec<String>,
     #[serde(default)]
@@ -232,10 +237,22 @@ pub(crate) fn node(current: Option<&str>, edit: &NodeEdit) -> EditResult<String>
 
     set(table, "title", Value::from(edit.title.trim()));
     set_list(table, "owners", &ids(&edit.owners)?);
-    if edit.segment.is_empty() {
-        table.remove("segment");
+    if edit.cycle.is_empty() {
+        table.remove("cycle");
+        table.remove("step");
+        if edit.segment.is_empty() {
+            table.remove("segment");
+        } else {
+            set(table, "segment", Value::from(id(&edit.segment)?.as_str()));
+        }
     } else {
-        set(table, "segment", Value::from(id(&edit.segment)?.as_str()));
+        table.remove("segment");
+        set(table, "cycle", Value::from(id(&edit.cycle)?.as_str()));
+        set(
+            table,
+            "step",
+            Value::from(i64::from(edit.step.unwrap_or(1).max(1))),
+        );
     }
     match edit.kind {
         NodeKind::Action => {
@@ -407,6 +424,106 @@ pub(crate) fn layout(current: Option<&str>, new: &str) -> EditResult<String> {
     Ok(doc.to_string())
 }
 
+/// The tile map as edited in the browser.
+#[derive(Debug, Deserialize)]
+pub(crate) struct MapEdit {
+    /// Grid rows: `.` empty, `=` corridor.
+    pub(crate) cells: Vec<String>,
+    /// Walls `[x1, y1, x2, y2]` along grid lines.
+    #[serde(default)]
+    pub(crate) walls: Vec<[u16; 4]>,
+    /// Room placements by room id; empty for a preset.
+    #[serde(default)]
+    pub(crate) rooms: std::collections::BTreeMap<String, MapRoomEdit>,
+}
+
+/// One room's placement, in cells.
+#[derive(Debug, Deserialize)]
+pub(crate) struct MapRoomEdit {
+    pub(crate) x: u16,
+    pub(crate) y: u16,
+    pub(crate) w: u16,
+    pub(crate) h: u16,
+}
+
+/// A floor plan saved under a name into `map-presets/<name>.toml`.
+#[derive(Debug, Deserialize)]
+pub(crate) struct PresetEdit {
+    /// Preset id (kebab-case), the file name.
+    pub(crate) name: String,
+    /// Walls and corridors; rooms are ignored.
+    #[serde(flatten)]
+    pub(crate) map: MapEdit,
+}
+
+impl PresetEdit {
+    /// The preset's file name, after checking the id.
+    pub(crate) fn file(&self) -> EditResult<String> {
+        Ok(format!("map-presets/{}.toml", id(&self.name)?))
+    }
+}
+
+/// New text of `map.toml` (the whole file is written by the browser's map editor).
+pub(crate) fn map(edit: &MapEdit) -> EditResult<String> {
+    use std::fmt::Write as _;
+    let mut out = shape(edit, "Tile map of the places")?;
+    out.push_str("\n[map.rooms]\n");
+    for (room, r) in &edit.rooms {
+        let room = id(room)?;
+        let _ = writeln!(
+            out,
+            "{room} = {{ x = {}, y = {}, w = {}, h = {} }}",
+            r.x,
+            r.y,
+            r.w.max(1),
+            r.h.max(1)
+        );
+    }
+    Ok(out)
+}
+
+/// New text of a preset file: the floor plan only.
+pub(crate) fn preset(edit: &PresetEdit) -> EditResult<String> {
+    shape(
+        &edit.map,
+        &format!("Floor plan preset `{}`", id(&edit.name)?),
+    )
+}
+
+/// `[map]` with `cells` and `walls`.
+fn shape(edit: &MapEdit, title: &str) -> EditResult<String> {
+    use std::fmt::Write as _;
+    if let Some(bad) = edit
+        .cells
+        .iter()
+        .flat_map(|r| r.chars())
+        .find(|c| !['.', '='].contains(c))
+    {
+        return refuse(format!("unknown tile `{bad}`"));
+    }
+    if edit
+        .walls
+        .iter()
+        .any(|[x1, y1, x2, y2]| (x1 != x2 && y1 != y2) || (x1 == x2 && y1 == y2))
+    {
+        return refuse("a wall must be a horizontal or vertical line");
+    }
+    let mut out = format!(
+        "# {title}, saved from the larpidarium map view.\n\
+         # cells: `.` empty, `=` corridor; walls: [x1, y1, x2, y2] along grid lines.\n\
+         [map]\ncells = [\n"
+    );
+    for row in &edit.cells {
+        let _ = writeln!(out, "  \"{row}\",");
+    }
+    out.push_str("]\nwalls = [\n");
+    for [x1, y1, x2, y2] in &edit.walls {
+        let _ = writeln!(out, "  [{x1}, {y1}, {x2}, {y2}],");
+    }
+    out.push_str("]\n");
+    Ok(out)
+}
+
 fn is_hex_color(s: &str) -> bool {
     s.len() == 7 && s.starts_with('#') && s[1..].chars().all(|c| c.is_ascii_hexdigit())
 }
@@ -422,6 +539,8 @@ mod tests {
             title: "Číst dopis".into(),
             owners: vec!["marta".into()],
             segment: String::new(),
+            cycle: String::new(),
+            step: None,
             needs: vec!["letter".into()],
             uses: Vec::new(),
             gives: vec!["secret".into()],
@@ -493,6 +612,24 @@ mod tests {
             !text.contains("needs = [\"letter\"]"),
             "decision-level needs are dropped"
         );
+    }
+
+    #[test]
+    fn cycle_replaces_segment() {
+        let mut e = action("go");
+        e.segment = "act-one".into();
+        let with_segment = node(None, &e).unwrap();
+        e.create = false;
+        e.cycle = "c-ana".into();
+        e.step = Some(4);
+        let text = node(Some(&with_segment), &e).unwrap();
+        assert!(text.contains("cycle = \"c-ana\""), "{text}");
+        assert!(text.contains("step = 4"), "{text}");
+        assert!(!text.contains("segment"), "{text}");
+        e.cycle.clear();
+        let back = node(Some(&text), &e).unwrap();
+        assert!(!back.contains("cycle") && !back.contains("step"), "{back}");
+        assert!(back.contains("segment = \"act-one\""), "{back}");
     }
 
     #[test]
@@ -616,5 +753,43 @@ mod tests {
         let err = thing(Some("[[info]\n"), &info("a", true)).unwrap_err();
         assert!(err.0.contains("fix it by hand"));
         assert!(layout(None, "x = ").is_err());
+    }
+
+    #[test]
+    fn map_writes_rooms_and_refuses_bad_ids() {
+        let ok: MapEdit = serde_json::from_str(
+            r#"{"cells":["=."],"walls":[[0,0,3,0]],"rooms":{"bar":{"x":1,"y":2,"w":0,"h":3}}}"#,
+        )
+        .unwrap();
+        let text = map(&ok).unwrap();
+        assert!(text.contains("  \"=.\","), "{text}");
+        assert!(text.contains("  [0, 0, 3, 0],"), "{text}");
+        assert!(
+            text.contains("bar = { x = 1, y = 2, w = 1, h = 3 }"),
+            "{text}"
+        );
+        let bad: MapEdit =
+            serde_json::from_str(r#"{"cells":[],"rooms":{"a\" = 1 #":{"x":0,"y":0,"w":1,"h":1}}}"#)
+                .unwrap();
+        assert!(map(&bad).is_err());
+        let diagonal: MapEdit =
+            serde_json::from_str(r#"{"cells":[],"walls":[[0,0,1,1]]}"#).unwrap();
+        assert!(map(&diagonal).is_err());
+    }
+
+    #[test]
+    fn preset_has_shape_but_no_rooms() {
+        let p: PresetEdit = serde_json::from_str(
+            r#"{"name":"sal-a","cells":["=="],"walls":[[0,1,2,1]],"rooms":{"bar":{"x":0,"y":0,"w":1,"h":1}}}"#,
+        )
+        .unwrap();
+        assert_eq!(p.file().unwrap(), "map-presets/sal-a.toml");
+        let text = preset(&p).unwrap();
+        assert!(
+            text.contains("[0, 1, 2, 1]") && !text.contains("bar"),
+            "{text}"
+        );
+        let bad: PresetEdit = serde_json::from_str(r#"{"name":"../x","cells":[]}"#).unwrap();
+        assert!(bad.file().is_err());
     }
 }

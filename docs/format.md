@@ -15,6 +15,10 @@ my-game/
 ├── rooms.toml
 ├── info.toml       pieces of information (rumors, secrets) that work like items
 ├── segments.toml   optional: acts, levels or side plots
+├── players.toml    optional: real participants, when they play several characters in turn
+├── cycles.toml     optional: hero cycles placed on the world timeline
+├── map.toml        optional: floor plan and room tiles, written by the browser's map view
+├── map-presets/    optional: saved floor plans, <id>.toml
 ├── layout.toml     optional, written by "Save layout" in the browser
 └── templates/      optional: player.html.j2 overrides the character sheet
 
@@ -85,6 +89,7 @@ id    = "arrival"
 name  = "I. Příjezd"
 color = "#5b8def"                # optional, #rrggbb
 text  = "Večer prvního dne."     # optional, for organizers
+group = "Cyklus 1"               # optional: segments with the same group belong together
 
 [[segment]]
 id   = "night"
@@ -131,6 +136,97 @@ text = "Bojíš se, co ví."
 
 Players need `backstory`, `whereabouts` and `goals`; `check` warns when one is missing.
 
+## Hero cycles, lives and reincarnation
+
+For games where small personal stories run inside a bigger world: the **world** is laid out on world
+segments (its time), and a **cycle** is one hero's journey through fixed **steps**, placed on the world
+timeline. Several cycles can run at the same time; other characters can join a cycle as helpers.
+
+```toml
+# game.toml
+[game]
+title = "Koloběh"
+language = "cs"
+steps = ["Ty", "Potřeba", "Odchod", "Hledání", "Nález", "Cena", "Návrat", "Změna"]
+```
+
+```toml
+# cycles.toml
+[[cycle]]
+id    = "c-dokar"
+name  = "Dokařův cyklus"
+hero  = "dokar"        # the character who goes through it
+from  = "noc-1"        # world segment where it starts
+to    = "noc-2"        # optional, where it ends (default: from)
+color = "#c0392b"      # optional, default: the hero's color
+text  = "…"            # optional, for organizers
+```
+
+```toml
+# actions/dokar-odchod.toml
+[action]
+cycle = "c-dokar"      # instead of `segment`
+step  = 3              # 1 … number of steps
+title = "Odchod z přístavu"
+owners = ["dokar", "don"]
+```
+
+A cycle spanning `n` world segments divides them evenly between its steps, so "step 6 of a cycle in
+night 2" is a definite moment on the world timeline.
+
+### Lives
+
+```toml
+# players.toml
+[[player]]
+id   = "hrac-4"
+name = "Hráč 4"
+```
+
+```toml
+# people/zlodejka.toml
+[person]
+name          = "Markéta „Kavka“ Šimková"
+role          = "player"
+played_by     = "hrac-4"
+after         = "dokar"     # starts when that character dies (reincarnation)
+# enters      = "noc-2"     # …or from the start of a world segment; omit both = from the start
+dies          = 6           # step of their own cycle; or a world segment id: dies = "noc-3"
+outside_cycle = false       # true: never a hero (a boss, a god)
+
+[[person.phase]]            # the sheet from this moment on
+step    = 4                 # a step of their own cycle, or: segment = "noc-2"
+goals   = ["Vrátit klíč"]   # optional, replaces goals
+secrets = ["…"]             # optional, replaces secrets
+[person.phase.sheet]        # optional, replaces or adds sheet sections
+whereabouts = "Schováváš se v přístavu."
+```
+
+Player and cycle ids share the id space with everything else. `check` reports:
+
+- errors: a cycle action without `step` or with both `segment` and `cycle`, a step that does not
+  exist, cycles without `steps`, `dies = <step>` for a character who is not a hero, a death before the
+  entry, both `enters` and `after`;
+- warnings: acting outside one's life, phases outside it or twice at one moment, a hero who does not
+  die in their cycle or is the hero of several, a player playing two characters at once or having no
+  character at some moment, a player who is never a hero (when the game has cycles), `after` someone
+  who never dies or is played by someone else.
+
+### How it is shown
+
+With cycles the graph switches to a **timeline layout**: world segments are columns left to right,
+world actions on top, and below them each cycle sits in a lane under the time it happens. A cycle is
+**collapsed** to a small story-circle icon (filled slices = steps with actions, † = the hero's death);
+its buttons open it as **step columns** (for editing, nodes can be dragged) or as a **story circle**
+(for presenting). Lines between a cycle and the world are merged at the cycle's frame; inside an open
+cycle, labelled stubs continue to the nodes. `#cycles=c-dokar:columns,c-don:ring` in the URL opens
+cycles directly.
+
+The **Hráči** tab shows a timeline: players × world time, a bar per character, the cycle as a block
+with one tick per step, † at the death. The **Cykly** tab lists cycles with hero, time, death and
+helpers. Sheets show who plays the character, when they enter and die, and Part III "How you change"
+with the phases in time order.
+
 ## Items, rooms, info
 
 ```toml
@@ -162,6 +258,47 @@ name   = "Konec: přiznání"
 text   = "Anselm se přizná a je předán biskupovi."
 ending = true
 ```
+
+## Map of the places
+
+`map.toml` is a floor plan on a square grid: **walls** along the grid lines, **corridor** tiles, and
+where each room sits. The **Mapa** tab draws it (black background, dotted grid, white walls, grey
+corridors) and edits it: drag rooms, drag a room's corner to resize it, draw walls by dragging along
+grid lines, paint corridors, erase both. With `serve` the map is saved into `map.toml` (the whole
+file is rewritten, so comments in it are not kept); the static site offers it as a download. Rooms
+that are not on the map yet are placed in a row below it.
+
+While you draw, the map is kept in the browser (per game title), so closing the tab loses nothing;
+"Zahodit rozkreslené" goes back to the game's `map.toml`. "Načíst ze souboru…" opens a downloaded
+`map.toml` or preset file, so on the static site you can store a map as a file and continue later.
+
+```toml
+# map.toml
+[map]
+cells = [               # rows top to bottom: `.` empty, `=` corridor
+  "",
+  ".....=",
+]
+walls = [               # [x1, y1, x2, y2] between grid points, horizontal or vertical
+  [1, 1, 13, 1],
+  [1, 1, 1, 6],
+]
+
+[map.rooms]             # x, y = top-left cell; w, h = size in cells (default 1)
+bar     = { x = 2, y = 2, w = 3, h = 2 }
+pristav = { x = 6, y = 2, w = 3, h = 2 }
+```
+
+### Floor plan presets
+
+A floor plan (walls and corridors, no rooms) can be saved as a preset and loaded again, e.g. the
+venue's layout. Presets are files in the game folder, `map-presets/<id>.toml`, with the same `[map]`
+table without `rooms`. "Uložit půdorys jako předlohu" in the Mapa tab writes one (with `serve`; the
+static site downloads it), "Načíst půdorys…" replaces the current walls and corridors with a preset
+and keeps the rooms. Copy the file to another game's `map-presets/` to reuse it.
+
+`check` reports unknown tiles, walls that are not horizontal or vertical (also in presets) and
+unknown rooms as errors, overlapping rooms as warnings.
 
 ## What `check` reports
 

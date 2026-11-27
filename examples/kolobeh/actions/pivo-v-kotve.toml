@@ -1,0 +1,9 @@
+[action]
+cycle = "c-taxikar"
+step = 5
+title = "Hodina požáru"
+owners = ["taxikar", "uklizec", "bar"]
+needs = ["kde-jsou-sudy", "rozkaz-z-veze"]
+gives = ["hodina-pozaru"]
+brief = "Uklízeč z věže si v Kotvě objedná pivo a nechá ho stát. Šeptem zopakuje, co slyšel ve třináctém patře. Teď víš, kde a kdy."
+text = "Nález: z cyklu uklízeče přijde rozkaz ředitelky. Taxikář ví, že doky mají hořet o půlnoci Slavnosti."

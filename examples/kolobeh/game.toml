@@ -1,0 +1,4 @@
+[game]
+title = "Koloběh"
+language = "cs"
+steps = ["Ty", "Potřeba", "Odchod", "Hledání", "Nález", "Cena", "Návrat", "Změna"]

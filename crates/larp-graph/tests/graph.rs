@@ -282,3 +282,261 @@ fn unknown_segments_count_as_no_segment() {
         "the raw id is kept for the editor"
     );
 }
+
+#[test]
+fn players_lives_and_segment_groups_are_exported() {
+    let mut files = chain();
+    files.push((
+        "segments.toml",
+        "[[segment]]\nid = \"one\"\nname = \"One\"\ngroup = \"Cycle 1\"\n\n[[segment]]\nid = \"two\"\nname = \"Two\"\n",
+    ));
+    files.push(("players.toml", "[[player]]\nid = \"p1\"\nname = \"Pat\"\n"));
+    files.push((
+        "people/ann.toml",
+        "[person]\nname = \"Ann\"\nrole = \"player\"\nplayed_by = \"p1\"\nenters = \"one\"\ndies = \"two\"\noutside_cycle = true\n",
+    ));
+    let data = build_game(&game(&files));
+    assert_eq!(data.players.len(), 1);
+    assert_eq!(data.players[0].id, "p1");
+    assert_eq!(data.players[0].name, "Pat");
+    assert_eq!(data.segments[0].group.as_deref(), Some("Cycle 1"));
+    assert_eq!(data.segments[1].group, None);
+    let ann = data.owners.iter().find(|o| o.id == "ann").unwrap();
+    assert_eq!(ann.played_by.as_deref(), Some("p1"));
+    assert_eq!(ann.enters.as_deref(), Some("one"));
+    assert_eq!(ann.dies.as_deref(), Some("two"));
+    assert!(ann.outside_cycle);
+}
+
+// ---------- hero cycles (timeline layout) ----------
+
+/// Three world segments, three steps (so 3 ticks per segment), and Ann's cycle over segments
+/// "two" and "three" (ticks 3..9, 2 ticks per step). Ann dies at step `dies`. File names are
+/// chosen so that alphabetical order differs from time order. `w-mid` starts at the same tick as
+/// step 1, so it has no owner and does not appear in Ann's destiny.
+fn cycled(dies: u8) -> Game {
+    let action = |title: &str, place: &str| {
+        format!("[action]\ntitle = \"{title}\"\nowners = [\"ann\"]\n{place}\n")
+    };
+    let files = [
+        (
+            "game.toml",
+            "[game]\ntitle = \"Koloběh\"\nlanguage = \"cs\"\nsteps = [\"Ty\", \"Potřeba\", \"Odchod\"]\n"
+                .to_owned(),
+        ),
+        (
+            "segments.toml",
+            "[[segment]]\nid = \"one\"\nname = \"Noc 1\"\n\n[[segment]]\nid = \"two\"\nname = \"Noc 2\"\n\n[[segment]]\nid = \"three\"\nname = \"Noc 3\"\n"
+                .to_owned(),
+        ),
+        (
+            "players.toml",
+            "[[player]]\nid = \"p1\"\nname = \"Pat\"\n".to_owned(),
+        ),
+        (
+            "cycles.toml",
+            "[[cycle]]\nid = \"c1\"\nname = \"Annin cyklus\"\nhero = \"ann\"\nfrom = \"two\"\nto = \"three\"\ncolor = \"#c0392b\"\n"
+                .to_owned(),
+        ),
+        (
+            "people/ann.toml",
+            format!(
+                "[person]\nname = \"Anna Řeháková\"\nrole = \"player\"\nplayed_by = \"p1\"\ndies = {dies}\n"
+            ),
+        ),
+        ("actions/w-late.toml", action("Svět 3", "segment = \"three\"")),
+        (
+            "actions/w-mid.toml",
+            "[action]\ntitle = \"Svět 2\"\nsegment = \"two\"\n".to_owned(),
+        ),
+        ("actions/w-early.toml", action("Svět 1", "segment = \"one\"")),
+        ("actions/a-step3.toml", action("Krok 3", "cycle = \"c1\"\nstep = 3")),
+        ("actions/b-step2.toml", action("Krok 2", "cycle = \"c1\"\nstep = 2")),
+        ("actions/c-step1.toml", action("Krok 1", "cycle = \"c1\"\nstep = 1")),
+    ];
+    let files: Vec<(&str, &str)> = files.iter().map(|(p, t)| (*p, t.as_str())).collect();
+    game(&files)
+}
+
+fn node<'a>(graph: &'a GraphData, id: &str) -> &'a larp_graph::NodeView {
+    graph.nodes.iter().find(|n| n.id == id).unwrap()
+}
+
+#[test]
+fn timeline_is_present_when_the_game_has_cycles() {
+    let graph = build_game(&cycled(3));
+    let t = graph.timeline.as_ref().unwrap();
+    assert_eq!((t.unit, t.total), (3, 9));
+    assert!(t.loose.is_none(), "every node has a segment or a cycle");
+    assert_eq!(graph.steps, ["Ty", "Potřeba", "Odchod"]);
+}
+
+#[test]
+fn timeline_is_absent_without_cycles() {
+    let graph = build_game(&segmented());
+    assert!(graph.timeline.is_none());
+    assert!(graph.cycles.is_empty());
+    assert!(
+        graph.segments.iter().all(|s| s.x == 0.0 && s.width == 0.0),
+        "band layout has no segment columns"
+    );
+}
+
+#[test]
+fn segment_columns_go_left_to_right_without_overlapping() {
+    let graph = build_game(&cycled(3));
+    let s = &graph.segments;
+    assert_eq!(s.len(), 3);
+    for pair in s.windows(2) {
+        assert!(pair[0].width > 0.0);
+        assert!(
+            pair[0].x + pair[0].width <= pair[1].x,
+            "{} must end before {} starts",
+            pair[0].name,
+            pair[1].name
+        );
+    }
+}
+
+#[test]
+fn world_nodes_lie_inside_their_segment_column() {
+    let graph = build_game(&cycled(3));
+    for (node_id, seg) in [("w-early", 0), ("w-mid", 1), ("w-late", 2)] {
+        let n = node(&graph, node_id);
+        let col = &graph.segments[seg];
+        assert_eq!(n.cycle, None);
+        assert!(
+            col.x <= n.x && n.x < col.x + col.width,
+            "{node_id} at x={} is outside column {}..{}",
+            n.x,
+            col.x,
+            col.x + col.width
+        );
+    }
+    assert!(node(&graph, "w-early").x < node(&graph, "w-mid").x);
+    assert!(node(&graph, "w-mid").x < node(&graph, "w-late").x);
+}
+
+#[test]
+fn cycle_nodes_carry_cycle_and_step() {
+    let graph = build_game(&cycled(3));
+    for (node_id, step) in [("c-step1", 1), ("b-step2", 2), ("a-step3", 3)] {
+        let n = node(&graph, node_id);
+        assert_eq!(n.cycle.as_deref(), Some("c1"), "{node_id}");
+        assert_eq!(n.step, Some(step), "{node_id}");
+        assert_eq!(n.segment, None, "{node_id}");
+    }
+}
+
+#[test]
+fn cycle_nodes_are_placed_in_their_step_column_relative_to_the_cycle() {
+    let graph = build_game(&cycled(3));
+    let c = &graph.cycles[0];
+    assert_eq!(c.step_columns.len(), 3);
+    for pair in c.step_columns.windows(2) {
+        assert!(pair[0].0 + pair[0].1 <= pair[1].0, "step columns overlap");
+    }
+    assert!(
+        c.step_columns[0].0.abs() < f64::EPSILON,
+        "relative to the cycle"
+    );
+    for (node_id, step) in [("c-step1", 0), ("b-step2", 1), ("a-step3", 2)] {
+        let n = node(&graph, node_id);
+        let (left, width) = c.step_columns[step];
+        assert!(
+            left <= n.x && n.x < left + width,
+            "{node_id} at x={} is outside step column {left}..{}",
+            n.x,
+            left + width
+        );
+        assert!(n.x < c.inner_width, "{node_id} is relative to the cycle");
+    }
+    assert!(node(&graph, "c-step1").x < node(&graph, "b-step2").x);
+    assert!(node(&graph, "b-step2").x < node(&graph, "a-step3").x);
+}
+
+#[test]
+fn cycle_view_spans_its_segment_columns() {
+    let graph = build_game(&cycled(3));
+    assert_eq!(graph.cycles.len(), 1);
+    let c = &graph.cycles[0];
+    let (two, three) = (&graph.segments[1], &graph.segments[2]);
+    assert_eq!(
+        (c.id.as_str(), c.name.as_str(), c.hero.as_str()),
+        ("c1", "Annin cyklus", "ann")
+    );
+    assert_eq!((c.from.as_str(), c.to.as_str()), ("two", "three"));
+    assert!((c.x0 - two.x).abs() < f64::EPSILON, "x0 = start of “two”");
+    assert!(
+        (c.x1 - (three.x + three.width)).abs() < f64::EPSILON,
+        "x1 = end of “three”"
+    );
+    assert_eq!(c.span, Some((3, 9)));
+    assert_eq!(c.death_step, Some(3));
+    assert_eq!(c.color, "#c0392b");
+}
+
+#[test]
+fn owner_view_has_life_hero_of_and_death_step() {
+    let graph = build_game(&cycled(3));
+    let ann = graph.owners.iter().find(|o| o.id == "ann").unwrap();
+    // step 3 of a cycle over ticks 3..9 is ticks 7..9
+    assert_eq!(ann.life, Some((0, 9)));
+    assert_eq!(ann.hero_of.as_deref(), Some("c1"));
+    assert_eq!(ann.dies_step, Some(3));
+    assert_eq!(ann.dies, None, "a step death is not a segment death");
+}
+
+#[test]
+fn owner_view_life_ends_at_an_earlier_death_step() {
+    let graph = build_game(&cycled(2));
+    let ann = graph.owners.iter().find(|o| o.id == "ann").unwrap();
+    // step 2 is ticks 5..7
+    assert_eq!(ann.life, Some((0, 7)));
+    assert_eq!(ann.dies_step, Some(2));
+    assert_eq!(graph.cycles[0].death_step, Some(2));
+}
+
+#[test]
+fn destiny_orders_cycle_steps_and_world_actions_by_time() {
+    let g = cycled(3);
+    let graph = build_game(&g);
+    let d = larp_graph::destiny(&g, &graph, &larp_model::Id::parse("ann").unwrap());
+    let ids: Vec<&str> = d.steps.iter().map(|s| s.id.as_str()).collect();
+    // ticks: w-early 0, step 1 at 3, step 2 at 5, w-late 6, step 3 at 7
+    assert_eq!(ids, ["w-early", "c-step1", "b-step2", "w-late", "a-step3"]);
+}
+
+#[test]
+fn destiny_labels_cycle_steps_with_cycle_and_step_name() {
+    let g = cycled(3);
+    let graph = build_game(&g);
+    let d = larp_graph::destiny(&g, &graph, &larp_model::Id::parse("ann").unwrap());
+    let step2 = d.steps.iter().find(|s| s.id == "b-step2").unwrap();
+    assert!(step2.segment.contains("Annin cyklus"), "{}", step2.segment);
+    assert!(step2.segment.contains("Potřeba"), "{}", step2.segment);
+    let world = d.steps.iter().find(|s| s.id == "w-late").unwrap();
+    assert_eq!(world.segment, "Noc 3");
+}
+
+#[test]
+fn map_is_exported() {
+    let rooms = "[[room]]\nid = \"bar\"\nname = \"Bar\"\n";
+    let map = "[map]\ncells = [\".=\"]\nwalls = [[0, 0, 4, 0]]\n\n[map.rooms]\nbar = { x = 2, y = 3, w = 4 }\n";
+    let preset = "[map]\nwalls = [[1, 1, 1, 5]]\n";
+    let g = game(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", map),
+        ("map-presets/sal.toml", preset),
+    ]);
+    let data = build_game(&g);
+    assert_eq!(data.map_presets["sal"].walls, vec![[1, 1, 1, 5]]);
+    assert!(data.map_presets["sal"].rooms.is_empty());
+    let view = data.map.unwrap();
+    assert_eq!(view.cells, vec![".=".to_owned()]);
+    assert_eq!(view.walls, vec![[0, 0, 4, 0]]);
+    assert_eq!(view.rooms["bar"], (2, 3, 4, 1));
+    let g = game(&[("game.toml", GAME), ("rooms.toml", rooms)]);
+    assert!(build_game(&g).map.is_none());
+}

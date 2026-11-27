@@ -1,0 +1,9 @@
+[action]
+cycle = "c-don"
+step = 7
+title = "Otcův trezor"
+owners = ["pravnicka", "don", "bar"]
+needs = ["donuv-trezor"]
+gives = ["pravnicka-ma-pripad"]
+brief = "Za obrazem kotvy v zadní místnosti je trezor. Kód sedí. Uvnitř směnky, dopisy a fotky, které by neměly existovat."
+text = "Návrat: don se vrací do zadní místnosti a najde trezor otevřený. Právnička má případ proti Marhoulům."

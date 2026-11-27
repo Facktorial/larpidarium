@@ -1,0 +1,377 @@
+[[info]]
+id = "plan-noveho-pristavu"
+name = "Plán Nového přístavu"
+text = "Věž chce staré doky skoupit a postavit na nich terminál. Don o tom ví víc, než říká."
+
+[[info]]
+id = "dluh-baru"
+name = "Dluh baru"
+text = "Bar U Kotvy dluží donovi výpalné."
+
+[[info]]
+id = "ultimatum-baru"
+name = "Ultimátum"
+text = "Barmanka musí zaplatit ještě tuto noc, jinak bar vyhoří."
+
+[[info]]
+id = "tajna-smlouva"
+name = "Tajná smlouva"
+text = "Don zapálí doky na Slavnost kotvy, věž mu zaplatí a pozemky koupí za babku."
+
+[[info]]
+id = "smrt-barmanky"
+name = "Smrt barmanky"
+text = "Barmanku zastřelili za pultem jejího baru."
+
+[[info]]
+id = "pristav-se-zavre"
+name = "Doky se zavřou"
+text = "Po Slavnosti kotvy nebude v docích práce. Mistr to řekl dokařům u jeřábu."
+
+[[info]]
+id = "sudy-s-benzinem"
+name = "Sudy s benzínem"
+text = "Donovi muži v noci skládají sudy s benzínem do skladu č. 7."
+
+[[info]]
+id = "cesta-do-skladu"
+name = "Cesta do skladu"
+text = "Dokař a taxikář jdou v noci do doků zjistit, co je ve skladu č. 7."
+
+[[info]]
+id = "sklad-sedm"
+name = "Sklad č. 7"
+text = "Zadní okno skladu č. 7 je rozbité. Uvnitř jsou sudy a něco dalšího."
+
+[[info]]
+id = "smrt-dockera"
+name = "Smrt dokaře"
+text = "Dokaře našli ráno ve vodě u skladu č. 7."
+
+[[info]]
+id = "dluh-zpevacky"
+name = "Zpěvaččin dluh"
+text = "Zpěvačka splácí donovi dluh písněmi. Don ji z Kotvy nepustí."
+
+[[info]]
+id = "slib-uteku"
+name = "Plán útěku"
+text = "Taxikář odveze zpěvačku po Slavnosti kotvy z města."
+
+[[info]]
+id = "slib-u-hrobu"
+name = "Slib u hrobu"
+text = "Zpěvačka a uklízeč si u hrobu barmanky slíbili, že další nebudou."
+
+[[info]]
+id = "don-hleda-knihu"
+name = "Don hledá knihu"
+text = "Don ví, že jeho účetní kniha zmizela, a hledá, s kým jezdil mrtvý dokař."
+
+[[info]]
+id = "taxikar-volny"
+name = "Taxikář je volný"
+text = "Don neví, že taxikář jezdil s dokařem. Taxikář se může v noci Slavnosti volně pohybovat."
+
+[[info]]
+id = "smrt-zpevacky"
+name = "Smrt zpěvačky"
+text = "Zpěvačka zemřela v baru U Kotvy po své poslední písni."
+
+[[info]]
+id = "dedic-baru"
+name = "Syn dědí bar"
+text = "Don daroval synovi bar po mrtvé barmance."
+
+[[info]]
+id = "syn-zna-pravdu"
+name = "Syn zná pravdu"
+text = "Donův syn našel pod pultem smlouvu s otcovým podpisem."
+
+[[info]]
+id = "komisar-podezira"
+name = "Komisař pochybuje"
+text = "Komisař ví, že smrt barmanky nebyla loupež."
+
+[[info]]
+id = "komisar-hleda"
+name = "Dva mrtví"
+text = "Barmanka za pultem, dokař ve vodě. Komisař hledá, co je spojuje."
+
+[[info]]
+id = "taxikar-mluvil"
+name = "Taxikář mluvil"
+text = "Taxikář řekl komisaři o skladu č. 7 a o tom, co v něm dokař našel."
+
+[[info]]
+id = "sestra-ve-meste"
+name = "Sestra ve městě"
+text = "Zpěvaččina sestra přijela na pohřeb a nastoupila na ošetřovnu."
+
+[[info]]
+id = "taxikar-prisahal"
+name = "Přísaha taxikáře"
+text = "Taxikář u hrobu zpěvačky přísahal, že doky neshoří."
+
+[[info]]
+id = "komisar-postrelen"
+name = "Komisař postřelen"
+text = "Na pohřbu zpěvačky někdo střelil komisaře. Sestra ho odvezla na ošetřovnu."
+
+[[info]]
+id = "komisar-cestny"
+name = "Komisařův poslední zápis"
+text = "Umírající komisař zapsal do složky Koloběh, kdo platí koho, a nechal ji nástupci."
+
+[[info]]
+id = "smrt-komisare"
+name = "Smrt komisaře"
+text = "Komisař zemřel na ošetřovně na střelné zranění."
+
+[[info]]
+id = "novy-komisar"
+name = "Nový komisař"
+text = "Mladý komisař složil přísahu u hrobu předchůdce."
+
+[[info]]
+id = "archiv-mrtvych"
+name = "Archiv mrtvých"
+text = "Ve třináctém patře věže přibývají karty: barmanka, dokař, zpěvačka, komisař. Na každé je datum smrti a jméno toho, kdo přišel po něm."
+
+[[info]]
+id = "slavnost-bude-horka"
+name = "„Slavnost bude horká“"
+text = "Donovi muži si v taxíku řekli, že letošní Slavnost kotvy bude horká."
+
+[[info]]
+id = "zlodejka-zna-pristav"
+name = "Zlodějka zná přístav"
+text = "Zlodějka ví, kde jsou díry v plotech, staré zámky a čerstvé hroby."
+
+[[info]]
+id = "kde-jsou-sudy"
+name = "Kde jsou sudy"
+text = "Sudy už nejsou ve skladu č. 7. Leží pod plachtou na molu sedm, u nádrží."
+
+[[info]]
+id = "uklizec-zna-archiv"
+name = "Uklízeč zná Archiv"
+text = "Uklízeč viděl ve třináctém patře kartotéku mrtvých."
+
+[[info]]
+id = "rozkaz-z-veze"
+name = "Rozkaz z věže"
+text = "Ředitelka do telefonu: ať to hoří o půlnoci, ne dřív."
+
+[[info]]
+id = "hodina-pozaru"
+name = "Hodina požáru"
+text = "Doky mají hořet o půlnoci Slavnosti."
+
+[[info]]
+id = "taxikar-v-baru"
+name = "Taxikář v baru"
+text = "Taxikář se v noci Slavnosti vrátil do baru U Kotvy."
+
+[[info]]
+id = "pozar-zalozen"
+name = "Požár je připraven"
+text = "Don a ředitelka si na Slavnosti připili. Donovi muži čekají u sudů na půlnoc."
+
+[[info]]
+id = "vlastni-karta"
+name = "Uklízečova karta"
+text = "V Archivu leží karta s uklízečovým jménem a dnešním datem."
+
+[[info]]
+id = "uklizec-dopaden"
+name = "Uklízeč dopaden"
+text = "Ochranka věže chytila uklízeče ve třináctém patře."
+
+[[info]]
+id = "vzkaz-o-utrzcich"
+name = "Vzkaz na zdi"
+text = "Na zdi uklízečovy komůrky stojí tužkou: Útržky jsou pod pultem u Kotvy."
+
+[[info]]
+id = "smrt-uklizece"
+name = "Smrt uklízeče"
+text = "Uklízeč zemřel v noci Slavnosti, sám ve své komůrce ve věži."
+
+[[info]]
+id = "pravnicka-ve-vezi"
+name = "Nová právnička"
+text = "Do věže nastoupila nová právnička. Dostala uklízečovu komůrku jako archiv spisů."
+
+[[info]]
+id = "duvod-k-odvaze"
+name = "Důvod k odvaze"
+text = "Ve městě je příklad, že se proti donovi i věži dá postavit."
+
+[[info]]
+id = "pristav-zachranen"
+name = "Doky zachráněny"
+text = "Taxikář odvezl sudy do moře. Doky přežily Slavnost kotvy."
+
+[[info]]
+id = "pristav-shorel"
+name = "Doky shořely"
+text = "Na Slavnost kotvy staré doky shořely."
+
+[[info]]
+id = "slavnost-skoncila"
+name = "Ráno po Slavnosti"
+text = "Slavnost kotvy skončila. Rezov se probouzí do nového rána."
+
+[[info]]
+id = "smrt-taxikare"
+name = "Smrt taxikáře"
+text = "Taxikář zemřel v noci Slavnosti kotvy."
+
+[[info]]
+id = "odmena-za-knihu"
+name = "Odměna za knihu"
+text = "Don zaplatí každému, kdo mu vrátí jeho účetní knihu."
+
+[[info]]
+id = "drazba-knihy"
+name = "Dražba"
+text = "Zlodějka má donovu knihu a ví, že ji chce don i věž."
+
+[[info]]
+id = "nabidka-veze"
+name = "Nabídka věže"
+text = "Věž má místa, peníze a beztrestnost pro každého, kdo se k ní přidá."
+
+[[info]]
+id = "vez-na-spalenisti"
+name = "Věž na spáleništi"
+text = "Na spáleništi doků stojí cedule Nový přístav. Věž má pozemky a peníze na rozdávání."
+
+[[info]]
+id = "policie-dona"
+name = "Policie patří donovi"
+text = "Nový komisař vzal donovu obálku."
+
+[[info]]
+id = "policie-zakon"
+name = "Policie za zákonem"
+text = "Nový komisař odmítl dona i věž."
+
+[[info]]
+id = "policie-rozhodla"
+name = "Policie se rozhodla"
+text = "Celé město ví, komu nový komisař slouží."
+
+[[info]]
+id = "kniha-u-dona"
+name = "Kniha u dona"
+text = "Donova účetní kniha je zpátky u dona."
+
+[[info]]
+id = "kniha-ve-vezi"
+name = "Kniha ve věži"
+text = "Donova účetní kniha leží v trezoru věže."
+
+[[info]]
+id = "kniha-u-policie"
+name = "Kniha u policie"
+text = "Donova účetní kniha leží na stole mladého komisaře a jde k soudu."
+
+[[info]]
+id = "smrt-zlodejky"
+name = "Smrt zlodějky"
+text = "Zlodějka zemřela s kulkou v zádech."
+
+[[info]]
+id = "syn-ma-prevzit"
+name = "Syn má převzít přístav"
+text = "Don oznámil, že syn do týdne převezme přístav."
+
+[[info]]
+id = "donuv-trezor"
+name = "Kód od trezoru"
+text = "Syn dal právničce kód od otcova trezoru."
+
+[[info]]
+id = "syn-prevzal"
+name = "Dědic přístavu"
+text = "Syn převzal přístav po otci."
+
+[[info]]
+id = "bez-dedice"
+name = "Bez dědice"
+text = "Rod Marhoulů nemá komu přístav předat."
+
+[[info]]
+id = "dedictvi-rozhodnuto"
+name = "Dědictví rozhodnuto"
+text = "Don ví, komu přístav připadne: synovi, věži, nebo nikomu."
+
+[[info]]
+id = "pravnicka-ma-pripad"
+name = "Právnička má případ"
+text = "V donově trezoru byly směnky a dopisy. Právnička má dost na obžalobu."
+
+[[info]]
+id = "hackerka-ma-propustku"
+name = "Hackerka má propustku"
+text = "Hackerka našla za pultem Kotvy uklízečovu propustku do věže."
+
+[[info]]
+id = "hackerka-ma-utrzky"
+name = "Hackerka má smlouvu"
+text = "Hackerka má slepenou smlouvu a na ní čísla účtů věže."
+
+[[info]]
+id = "data-z-veze"
+name = "Data z věže"
+text = "Smlouva mezi donem a věží a platby za požár, v digitální podobě."
+
+[[info]]
+id = "hackerka-rozhodla"
+name = "Hackerka se rozhodla"
+text = "Hackerka buď poslala data do světa, nebo přijala místo ve věži."
+
+[[info]]
+id = "data-venku"
+name = "Data venku"
+text = "Data z věže jsou zveřejněná a nejdou vzít zpátky."
+
+[[info]]
+id = "smrt-dona"
+name = "Smrt dona"
+text = "Don zemřel ve svém boxu v baru U Kotvy."
+
+[[info]]
+id = "smrt-reditelky"
+name = "Smrt ředitelky"
+text = "Ředitelka zemřela pod okny nejvyššího patra věže."
+
+[[info]]
+id = "lekar-ve-sluzbe"
+name = "Lékař ve službě"
+text = "Nový lékař drží noční službu na ošetřovně u přístavu."
+
+[[info]]
+id = "svedectvi-sestry"
+name = "Svědectví sestry"
+text = "Nahraná výpověď sestry: kdo zabil zpěvačku a co jí řekl umírající komisař."
+
+[[info]]
+id = "konec-don"
+name = "Konec: město patří donovi"
+text = "Kniha shořela v krbu, svědci mlčí. Don je mrtvý, ale přístav, bar i obálky převzal jeho syn. Koloběh se točí dál a v baru U Kotvy se dál platí výpalné."
+ending = true
+
+[[info]]
+id = "konec-vez"
+name = "Konec: město koupila věž"
+text = "Rod Marhoulů padl, ale jen proto, že ho věž koupila i s městem. Na místě doků, baru i hřbitova vyroste Nový přístav. Platí se jinak, ale platí se dál."
+ending = true
+
+[[info]]
+id = "konec-svobodne-mesto"
+name = "Konec: Rezov je svobodný"
+text = "Rod Marhoulů i Vertikála stojí před soudem. Mrtví ze všech čtyř nocí se dočkali spravedlnosti. Koloběh se zastavil, aspoň na jednu generaci."
+ending = true

@@ -1,0 +1,8 @@
+[action]
+segment = "noc-4"
+title = "Legenda o taxikáři"
+owners = ["syn-dona", "bar"]
+needs = ["pristav-zachranen"]
+gives = ["duvod-k-odvaze"]
+brief = "V Kotvě se nemluví o ničem jiném: taxík, sudy, moře. Nalíváš zadarmo každému, kdo tu historku řekne ještě jednou. Otec se při ní nesměje."
+text = "Doky přežily a bar z taxikáře udělá legendu. Je to důvod k odvaze pro nového komisaře."

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-uklizec"
+step = 6
+title = "Ochranka věže"
+owners = ["uklizec", "reditelka", "vez"]
+needs = ["vlastni-karta"]
+gives = ["uklizec-dopaden"]
+brief = "Ve výtahu tě čekají dva muži v šedém. Ředitelka stojí za nimi a ptá se, co jsi ve třináctém patře hledal."
+text = "Cena: ředitelka uklízeče chytí. Než ho odvedou, zbývá mu jedna noc v komůrce."

@@ -1,0 +1,23 @@
+[[segment]]
+id = "noc-1"
+name = "1. noc"
+color = "#9cc3ec"
+text = "Rezov, jak ho všichni znají. Don vybírá výpalné, věž kreslí Nový přístav, policie dělá, že nevidí. Uklízeč vynese z věže pytel skartovaných papírů a barmanka z nich slepí smlouvu o požáru doků. Běží cykly barmanky, dokaře a zpěvačky. Do rána zemřou barmanka a dokař a ve městě se objeví donův syn a zlodějka."
+
+[[segment]]
+id = "noc-2"
+name = "2. noc"
+color = "#6ca0d8"
+text = "Don hledá svou účetní knihu. Zpěvačka platí za útěk, který nestihla, a na hřbitov přijíždí její sestra. Komisař jde po stopě dvou mrtvých a zemře; jeho místo zaujme mladý komisař. Ve třináctém patře věže přibývají karty v Archivu. Začíná cyklus taxikáře."
+
+[[segment]]
+id = "noc-3"
+name = "3. noc"
+color = "#36689f"
+text = "Noc Slavnosti kotvy. Don a věž zakládají požár doků. Uklízeč najde ve věži vlastní kartu a zemře, do věže nastupuje nová právnička. Zlodějka vyzvedne donovu knihu tam, kde ji nechaly předchozí noci. Taxikář na konci noci rozhodne, jestli doky shoří."
+
+[[segment]]
+id = "noc-4"
+name = "4. noc"
+color = "#20416a"
+text = "Ráno po Slavnosti. Kniha jde do dražby, nový komisař volí pána, hackerka se dostane do serveru věže, sestra může vypovídat. Don i ředitelka procházejí svými posledními cykly a zemřou. Rezov připadne donovu rodu, věži, nebo sám sobě."

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-dokar"
+step = 3
+title = "Odchod do noci"
+owners = ["dokar", "taxikar", "pristav"]
+needs = ["sudy-s-benzinem", "tajna-smlouva"]
+gives = ["cesta-do-skladu"]
+brief = "V Kotvě se šeptá o smlouvě slepené izolepou. Sudy na molu a doky, které mají shořet: to do sebe zapadá až moc. Taxikář nechá motor běžet."
+text = "Odchod: dokař se rozhodne jít do skladu č. 7. Spojuje to, co viděl, s tím, co slepila barmanka."

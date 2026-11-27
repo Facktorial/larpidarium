@@ -1,0 +1,17 @@
+[decision]
+cycle = "c-reditelka"
+step = 7
+title = "Server věže"
+owners = ["hackerka", "reditelka", "vez"]
+brief = "Ředitelka ti zavolá sama. Ví, co umíš, a možná i co máš. Nabízí místo ve věži, peníze a mlčení. Stačí jedno kliknutí, ať tak, nebo tak."
+text = "Návrat: ředitelka se vrací k tomu, co ji může srazit. Má-li hackerka data z věže (přes propustku nebo slepenou smlouvu), může je zveřejnit; data venku jsou podmínkou svobodného města. Vždy může přijmout ředitelčinu nabídku. Ředitelka volá až ve chvíli, kdy ví, komu připadne přístav."
+
+[[decision.option]]
+label = "Poslat data do světa"
+needs = ["dedictvi-rozhodnuto", "data-z-veze"]
+gives = ["data-venku", "hackerka-rozhodla"]
+
+[[decision.option]]
+label = "Přijmout místo ve věži a mlčet"
+needs = ["dedictvi-rozhodnuto"]
+gives = ["hackerka-rozhodla"]

@@ -1,0 +1,8 @@
+[action]
+segment = "noc-2"
+title = "Archiv ve třináctém patře"
+owners = ["reditelka", "vez"]
+needs = ["smrt-barmanky", "smrt-dockera", "smrt-komisare"]
+gives = ["archiv-mrtvych"]
+brief = "Ve třináctém patře se svítí i v noci. Do kartotéky přibyly nové karty a ty k nim píšeš jména nováčků, kteří se po mrtvých objevili ve městě. Vzorec drží."
+text = "Ředitelčin projekt Archiv: kartotéka mrtvých a těch, kdo přišli po nich. Uklízeč ho ve 3. noci najde; ředitelka z něj ve 4. noci ví, koho kupovat."

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-don"
+step = 8
+title = "Kniha v krbu"
+owners = ["don", "syn-dona", "bar"]
+needs = ["kniha-u-dona", "syn-prevzal"]
+gives = ["konec-don"]
+brief = "Kniha je zpátky. Hodíš ji do krbu v zadní místnosti a díváš se, jak hoří dvacet let. Syn stojí vedle tebe s klíči od přístavu."
+text = "Změna: don má knihu i dědice. Spálí ji a město zůstane Marhoulům."

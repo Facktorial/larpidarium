@@ -1,0 +1,9 @@
+[action]
+cycle = "c-komisar"
+step = 5
+title = "Výstřel na pohřbu"
+owners = ["komisar", "sestra", "hrbitov"]
+needs = ["taxikar-mluvil", "sestra-ve-meste"]
+gives = ["komisar-postrelen"]
+brief = "Na pohřbu zpěvačky prší. Komisař stojí u brány a ví, kdo za tím vším je. Pak práskne výstřel. Sestra zesnulé klečí v blátě a tlačí mu ránu."
+text = "Nález: komisař ví všechno, a proto ho postřelí. Sestra ho odveze na ošetřovnu; bude u jeho smrti."

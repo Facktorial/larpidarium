@@ -473,3 +473,101 @@ fn valid_games_have_no_draft() {
     assert!(checked.game.is_some());
     assert!(checked.draft.is_none());
 }
+
+#[test]
+fn map_is_loaded_and_checked() {
+    let rooms =
+        "[[room]]\nid = \"bar\"\nname = \"Bar\"\n\n[[room]]\nid = \"dock\"\nname = \"Dock\"\n";
+    let ok = "[map]\ncells = [\"...=\", \"....\"]\nwalls = [[0, 0, 4, 0], [0, 0, 0, 2]]\n\n[map.rooms]\nbar = { x = 0, y = 0, w = 2, h = 2 }\ndock = { x = 2, y = 0 }\n";
+    let checked = run(&[("game.toml", GAME), ("rooms.toml", rooms), ("map.toml", ok)]);
+    assert!(checked.diagnostics.is_empty(), "{:?}", checked.diagnostics);
+    let map = checked.game.unwrap().map.unwrap();
+    assert_eq!(map.cells.len(), 2);
+    assert_eq!(map.rooms.len(), 2);
+
+    let bad = "[map]\ncells = [\".x\"]\n\n[map.rooms]\nbar = { x = 0, y = 0, w = 2 }\ndock = { x = 1, y = 0 }\nghost = { x = 5, y = 5 }\n";
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", bad),
+    ]);
+    let errors = messages(&checked, Severity::Error);
+    assert!(
+        errors.iter().any(|m| m.contains("unknown tile `x`")),
+        "{errors:?}"
+    );
+    assert!(
+        errors.iter().any(|m| m.contains("unknown room `ghost`")),
+        "{errors:?}"
+    );
+    let warnings = messages(&checked, Severity::Warning);
+    assert!(
+        warnings.iter().any(|m| m.contains("overlap")),
+        "{warnings:?}"
+    );
+}
+
+#[test]
+fn map_far_away_rooms_do_not_overflow() {
+    let rooms =
+        "[[room]]\nid = \"bar\"\nname = \"Bar\"\n\n[[room]]\nid = \"dock\"\nname = \"Dock\"\n";
+    let map = "[map]\n[map.rooms]\nbar = { x = 65535, y = 65535, w = 65535, h = 65535 }\ndock = { x = 0, y = 0 }\n";
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", map),
+    ]);
+    assert!(checked.diagnostics.is_empty(), "{:?}", checked.diagnostics);
+}
+
+#[test]
+fn map_diagnostics_point_at_the_line() {
+    let rooms = "[[room]]\nid = \"bar\"\nname = \"Bar\"\n";
+    let map = "[map]\ncells = [\"..\"]\n\n[map.rooms]\nghost = { x = 5, y = 5 }\n";
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", map),
+    ]);
+    let ghost = checked
+        .diagnostics
+        .iter()
+        .find(|d| d.message.contains("ghost"))
+        .expect("unknown room reported");
+    let span = ghost.span.clone().expect("has a location");
+    assert!(map[span].contains("x = 5"));
+}
+
+#[test]
+fn map_walls_and_presets_are_checked() {
+    let rooms = "[[room]]\nid = \"bar\"\nname = \"Bar\"\n";
+    let map = "[map]\ncells = [\"#\"]\nwalls = [[0, 0, 2, 2]]\n";
+    let preset = "[map]\nwalls = [[3, 3, 3, 3]]\n";
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", map),
+        ("map-presets/sal.toml", preset),
+    ]);
+    let errors: Vec<_> = checked
+        .diagnostics
+        .iter()
+        .filter(|d| d.severity == Severity::Error)
+        .map(|d| (d.file.as_str(), d.message.as_str()))
+        .collect();
+    assert!(
+        errors.contains(&("map.toml", "row 1: unknown tile `#`")),
+        "{errors:?}"
+    );
+    assert!(
+        errors.contains(&("map.toml", "a wall must be a horizontal or vertical line")),
+        "{errors:?}"
+    );
+    assert!(
+        errors.contains(&(
+            "map-presets/sal.toml",
+            "a wall must be a horizontal or vertical line"
+        )),
+        "{errors:?}"
+    );
+}

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-zpevacka"
+step = 3
+title = "Pohřeb barmanky"
+owners = ["zpevacka", "uklizec", "syn-dona", "hrbitov"]
+needs = ["smrt-barmanky"]
+gives = ["slib-u-hrobu"]
+brief = "Na hřbitově křupe mokrý štěrk. U hrobu stojí jen pár lidí a jeden cizí muž v dobrém kabátě, který prý zdědil bar. Uklízeč ti podá deštník a zeptá se, kdo bude další."
+text = "Odchod: zpěvačka a uklízeč si u hrobu slíbí, že další nebudou. Donův syn je tu poprvé mezi lidmi z Kotvy. Slib je podmínkou zpěvaččina rozhodnutí v kroku Cena."

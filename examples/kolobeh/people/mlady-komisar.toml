@@ -1,0 +1,71 @@
+[person]
+name = "Komisař Filip Vondra"
+role = "player"
+color = "#81c784"
+played_by = "hrac-3"
+after = "komisar"
+outside_cycle = true
+goals = [
+  "Zjistit, kdo v Rezově doopravdy vládne",
+  "Nevzít první obálku",
+  "Pochopit, proč ti stanice připadá jako domov, ačkoli jsi tu první den",
+]
+secrets = ["Do Rezova tě přeložili na doporučení věže. Nevíš, co za to budou chtít."]
+
+[person.sheet]
+appearance = "Pětadvacet let, nová uniforma, která ještě nepáchne kouřem. Všechno si píše do notesu."
+whereabouts = "Na začátku hry sedíš poprvé za stolem po předchůdci. V šuplíku je popel a stůl voní levným doutníkem."
+backstory = """
+Policejní akademii jsi dokončil jako nejlepší v ročníku a čekal jsi místo v hlavním městě. Místo toho přišel rozkaz do Rezova, podepsaný někým, koho neznáš. Po předchůdci tu zůstal prázdný stůl, popel v šuplíku a pověst, o které nikdo nechce mluvit. Lidé se na tebe dívají, jako by tě odněkud znali. Máš pocit, že někomu dlužíš odpověď, a nevíš na jakou otázku.
+"""
+echo = "Píšeš těsnopisem, který tě nikdo neučil, a na déšť tě bolí pravá noha, ačkoli sis ji nikdy nezranil. Ruka ti sama sahá do kapsy pro doutník. Když jdeš kolem hřbitova, zpomalíš u čerstvého hrobu a nevíš proč."
+
+[[person.phase]]
+segment = "noc-3"
+[person.phase.sheet]
+whereabouts = "Třetí noc. Znáš už jména, ještě ne ceny. Na stole ti leží první obálka; nikdo ji nepřinesl, prostě tam je."
+
+[[person.phase]]
+segment = "noc-4"
+[person.phase.sheet]
+whereabouts = "Čtvrtá noc. Rezov se láme a ty jsi poprvé ten, kdo rozhoduje, co se zapíše do protokolu. Pero máš v ruce; nikdo ti neřekl, co napsat."
+
+[[person.relation]]
+with = "don"
+text = "Starý pán z Kotvy, kterému všichni ustupují z cesty. Díval se na tebe, jako by tě poznal."
+
+[[person.relation]]
+with = "reditelka"
+text = "Ředitelka věže. Podepsala tvé přeložení, nebo aspoň ví, kdo ho podepsal."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Leon Marhoul. Jeho rejstřík leží na tvém stole a někdo do něj vpisoval poznámky tužkou."
+
+[[person.relation]]
+with = "taxikar"
+text = "Taxikář od Kotvy. Vezl tě z nádraží a celou cestu mlčel, jako by tě znal."
+
+[[person.relation]]
+with = "uklizec"
+text = "Uklízeč z věže. Pozdravil tě jménem, které nebylo tvoje, a pak se omluvil."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kavka. Na stanici na ni mají tlustou složku a nikdo ji nikdy nezatkl."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny vidí rány dřív než policie. Mluví s tebou, jen když nikdo neposlouchá."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička věže. Kdybys někoho zatkl, bude stát proti tobě."
+
+[[person.relation]]
+with = "hackerka"
+text = "Holka s notebookem. Její jméno je ve třech oznámeních a pokaždé ho někdo stáhl."
+
+[[person.relation]]
+with = "lekar"
+text = "Nový doktor v přístavu. Ptáš se ho na rány a on odpovídá jako svědek, který se bojí."

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-don"
+step = 1
+title = "Ráno po Slavnosti"
+owners = ["don", "syn-dona", "bar"]
+needs = ["slavnost-skoncila", "policie-rozhodla"]
+gives = ["syn-ma-prevzit"]
+brief = "Sedíš v zadním boxu Kotvy, zády ke zdi, nad kávou, která dávno vystydla. Přes okno je cítit kouř, nebo moře. Řekneš synovi, že do týdne převezme přístav."
+text = "Ty: don začíná svůj cyklus. Po Slavnosti chce předat přístav synovi."

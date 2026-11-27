@@ -9,7 +9,8 @@ pub use destiny::{
 
 use std::collections::BTreeMap;
 
-use larp_model::model::{Node, Point, Ref, Role, Thing};
+use larp_model::model::{Death, Node, Point, Ref, Role, Thing};
+use larp_model::time;
 use larp_model::{Diagnostic, Game, Id, Playthroughs, Severity};
 use serde::Serialize;
 
@@ -24,6 +25,18 @@ pub struct GraphData {
     pub segments: Vec<SegmentView>,
     /// Item category ids, for the editor.
     pub categories: Vec<String>,
+    /// Real participants from `players.toml`.
+    pub players: Vec<PlayerView>,
+    /// Names of the cycle steps.
+    pub steps: Vec<String>,
+    /// Hero cycles.
+    pub cycles: Vec<CycleView>,
+    /// Time axis and lane geometry; present when the game has cycles (timeline layout).
+    pub timeline: Option<TimelineView>,
+    /// Tile map of the places from `map.toml`.
+    pub map: Option<MapView>,
+    /// Saved floor plans by preset id (rooms left out).
+    pub map_presets: BTreeMap<String, MapView>,
     /// People and rooms that can own nodes.
     pub owners: Vec<OwnerView>,
     /// Items and info that flow along the edges.
@@ -79,6 +92,132 @@ pub struct SegmentView {
     pub color: String,
     /// Description for organizers.
     pub text: String,
+    /// Display group (e.g. a cycle), if any.
+    pub group: Option<String>,
+    /// Timeline layout: left edge of the segment's column.
+    pub x: f64,
+    /// Timeline layout: width of the segment's column.
+    pub width: f64,
+}
+
+/// The tile map: grid rows and room placements.
+#[derive(Debug, Clone, Serialize)]
+pub struct MapView {
+    /// Grid rows: `.` empty, `=` corridor.
+    pub cells: Vec<String>,
+    /// Walls `[x1, y1, x2, y2]` along grid lines.
+    pub walls: Vec<[u16; 4]>,
+    /// Room id → (x, y, w, h) in cells.
+    pub rooms: BTreeMap<String, (u16, u16, u16, u16)>,
+}
+
+/// Geometry and time axis of the timeline layout.
+#[derive(Debug, Clone, Serialize)]
+pub struct TimelineView {
+    /// Ticks per world segment.
+    pub unit: u32,
+    /// Ticks in the whole game.
+    pub total: u32,
+    /// Height of the world area; cycle lanes start below it.
+    pub world_height: f64,
+    /// Column of nodes without a segment or cycle, as (left, width).
+    pub loose: Option<(f64, f64)>,
+}
+
+/// One hero cycle.
+#[derive(Debug, Clone, Serialize)]
+pub struct CycleView {
+    /// Id.
+    pub id: String,
+    /// Display name.
+    pub name: String,
+    /// Hero's person id.
+    pub hero: String,
+    /// `#rrggbb` (the cycle's color, else the hero's).
+    pub color: String,
+    /// Description for organizers.
+    pub text: String,
+    /// First world segment id.
+    pub from: String,
+    /// Last world segment id.
+    pub to: String,
+    /// Time range in ticks, as (start, end); `None` if its segments do not resolve.
+    pub span: Option<(u32, u32)>,
+    /// Step at which the hero dies, if they do.
+    pub death_step: Option<u8>,
+    /// Left and right edge of the cycle's time range on the canvas.
+    pub x0: f64,
+    /// Right edge of the cycle's time range on the canvas.
+    pub x1: f64,
+    /// Size of the expanded content (step columns), node positions are relative to it.
+    pub inner_width: f64,
+    /// Height of the expanded content.
+    pub inner_height: f64,
+    /// Left edge and width of each step column, relative to the content.
+    pub step_columns: Vec<(f64, f64)>,
+}
+
+/// Canvas position of a node with every cycle expanded in one lane below the world; cycle node
+/// positions are stored relative to their cycle.
+pub(crate) fn canvas_xy(graph: &GraphData, n: &NodeView) -> (f64, f64) {
+    let Some(cid) = &n.cycle else {
+        return (n.x, n.y);
+    };
+    let top = graph
+        .timeline
+        .as_ref()
+        .map_or(0.0, |t| t.world_height + 200.0);
+    let left = graph
+        .cycles
+        .iter()
+        .find(|c| &c.id == cid)
+        .map_or(0.0, |c| c.x0);
+    (left + n.x, top + n.y)
+}
+
+/// Builds the cycle views, with geometry from the timeline layout.
+fn cycles(game: &Game, timeline: Option<&layout::Timeline<'_>>) -> Vec<CycleView> {
+    game.cycles
+        .iter()
+        .map(|c| {
+            let id = c.id.get_ref();
+            let geometry = timeline
+                .and_then(|t| t.cycles.get(id))
+                .copied()
+                .unwrap_or_default();
+            let hero = game.people.get(c.hero.get_ref());
+            CycleView {
+                id: id.to_string(),
+                name: c.name.clone(),
+                hero: c.hero.get_ref().to_string(),
+                color: c
+                    .color
+                    .as_ref()
+                    .map(|x| safe_color(x.get_ref()))
+                    .or_else(|| {
+                        hero.and_then(|h| h.color.as_ref())
+                            .map(|x| safe_color(x.get_ref()))
+                    })
+                    .unwrap_or_else(|| DEFAULT_COLOR.to_owned()),
+                text: c.text.clone(),
+                from: c.from.get_ref().to_string(),
+                to: c.to.as_ref().unwrap_or(&c.from).get_ref().to_string(),
+                span: time::cycle(game, c).map(|s| (s.start, s.end)),
+                death_step: hero.and_then(|h| match h.death() {
+                    Some(Death::Step(k)) => Some(*k),
+                    _ => None,
+                }),
+                x0: geometry.x0,
+                x1: geometry.x1,
+                inner_width: geometry.inner_width,
+                inner_height: geometry.inner_height,
+                step_columns: timeline
+                    .and_then(|t| t.steps.get(id))
+                    .cloned()
+                    .unwrap_or_default(),
+            }
+        })
+        .collect()
 }
 
 /// A person or room.
@@ -94,6 +233,29 @@ pub struct OwnerView {
     pub role: Option<&'static str>,
     /// `#rrggbb`.
     pub color: String,
+    /// Player id who plays this character.
+    pub played_by: Option<String>,
+    /// Segment id of the first segment of the character's life.
+    pub enters: Option<String>,
+    /// Segment id in which the character dies.
+    pub dies: Option<String>,
+    /// Step of their own cycle at which the character dies.
+    pub dies_step: Option<u8>,
+    /// When the character is alive, in ticks (start, end).
+    pub life: Option<(u32, u32)>,
+    /// Id of the cycle this character is the hero of.
+    pub hero_of: Option<String>,
+    /// Works outside the hero's cycle.
+    pub outside_cycle: bool,
+}
+
+/// A real participant.
+#[derive(Debug, Clone, Serialize)]
+pub struct PlayerView {
+    /// Id.
+    pub id: String,
+    /// Name.
+    pub name: String,
 }
 
 /// An item or a piece of info.
@@ -136,6 +298,10 @@ pub struct NodeView {
     pub owners: Vec<String>,
     /// Segment id, if the node belongs to one.
     pub segment: Option<String>,
+    /// Cycle id, if the node belongs to a cycle; then `x`/`y` are relative to the cycle.
+    pub cycle: Option<String>,
+    /// Cycle step (1-based).
+    pub step: Option<u8>,
     /// Needed thing ids (actions only).
     pub needs: Vec<String>,
     /// Used-up thing ids (actions only).
@@ -197,7 +363,11 @@ pub fn build(
     playthroughs: Option<&Playthroughs>,
 ) -> GraphData {
     let edges = edges(game);
-    let positions = layout::positions(game, &edges);
+    let timeline = (!game.cycles.is_empty()).then(|| layout::timeline(game, &edges));
+    let positions = match &timeline {
+        Some(t) => t.positions.clone(),
+        None => layout::positions(game, &edges),
+    };
     let nodes = game
         .nodes
         .iter()
@@ -222,7 +392,8 @@ pub fn build(
         segments: game
             .segments
             .iter()
-            .map(|s| SegmentView {
+            .enumerate()
+            .map(|(i, s)| SegmentView {
                 id: s.id.get_ref().to_string(),
                 name: s.name.clone(),
                 color: s
@@ -231,12 +402,39 @@ pub fn build(
                     .map(|c| safe_color(c.get_ref()))
                     .unwrap_or_default(),
                 text: s.text.clone(),
+                group: s.group.clone(),
+                x: timeline
+                    .as_ref()
+                    .and_then(|t| t.columns.get(i))
+                    .map_or(0.0, |c| c.0),
+                width: timeline
+                    .as_ref()
+                    .and_then(|t| t.columns.get(i))
+                    .map_or(0.0, |c| c.1),
             })
             .collect(),
+        steps: game.meta.steps.clone(),
+        map: game.map.as_ref().map(map_view),
+        map_presets: map_presets(game),
+        cycles: cycles(game, timeline.as_ref()),
+        timeline: timeline.as_ref().map(|t| TimelineView {
+            unit: time::unit(game),
+            total: time::total(game),
+            world_height: t.world_height,
+            loose: t.loose,
+        }),
         categories: game
             .categories
             .iter()
             .map(|c| c.id.get_ref().to_string())
+            .collect(),
+        players: game
+            .players
+            .iter()
+            .map(|p| PlayerView {
+                id: p.id.get_ref().to_string(),
+                name: p.name.clone(),
+            })
             .collect(),
         owners: owners(game),
         things: things(game),
@@ -298,12 +496,50 @@ pub fn edges(game: &Game) -> Vec<Edge> {
                     to: t.node.to_string(),
                     to_port: t.index,
                     items,
-                    cross: segment_of(game, s.node) != segment_of(game, t.node),
+                    cross: time_key(game, s.node) != time_key(game, t.node),
                 });
             }
         }
     }
     edges
+}
+
+/// Saved floor plans, without rooms.
+fn map_presets(game: &Game) -> BTreeMap<String, MapView> {
+    game.map_presets
+        .iter()
+        .map(|(id, m)| {
+            let view = MapView {
+                rooms: BTreeMap::new(),
+                ..map_view(m)
+            };
+            (id.to_string(), view)
+        })
+        .collect()
+}
+
+fn map_view(m: &larp_model::model::Map) -> MapView {
+    MapView {
+        cells: m.cells.iter().map(|c| c.get_ref().clone()).collect(),
+        walls: m.walls.iter().map(|w| *w.get_ref()).collect(),
+        rooms: m
+            .rooms
+            .iter()
+            .map(|(id, r)| {
+                let r = r.get_ref();
+                (id.to_string(), (r.x, r.y, r.w, r.h))
+            })
+            .collect(),
+    }
+}
+
+/// Where in time a node sits: its cycle if it has one, else its declared segment.
+fn time_key<'a>(game: &'a Game, node: &Id) -> Option<&'a Id> {
+    game.nodes
+        .get(node)
+        .and_then(Node::cycle)
+        .map(|(c, _)| c.get_ref())
+        .or_else(|| segment_of(game, node))
 }
 
 /// The node's segment if it is a declared one; unknown ids count as no segment, like in the
@@ -399,6 +635,8 @@ fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
         brief: node.brief().to_owned(),
         owners: ids(node.owners()),
         segment: node.segment().map(|r| r.get_ref().to_string()),
+        cycle: node.cycle().map(|(c, _)| c.get_ref().to_string()),
+        step: node.cycle().and_then(|(_, s)| s.map(|s| *s.get_ref())),
         needs,
         uses,
         gives,
@@ -437,6 +675,22 @@ fn owners(game: &Game) -> Vec<OwnerView> {
             .color
             .as_ref()
             .map_or(DEFAULT_COLOR.to_owned(), |c| safe_color(c.get_ref())),
+        played_by: p.played_by.as_ref().map(|r| r.get_ref().to_string()),
+        enters: p.enters.as_ref().map(|r| r.get_ref().to_string()),
+        dies: match p.death() {
+            Some(Death::Segment(s)) => Some(s.to_string()),
+            _ => None,
+        },
+        dies_step: match p.death() {
+            Some(Death::Step(k)) => Some(*k),
+            _ => None,
+        },
+        life: (!game.segments.is_empty())
+            .then(|| time::life(game, id, p))
+            .flatten()
+            .map(|s| (s.start, s.end)),
+        hero_of: time::hero_cycle(game, id).map(|c| c.id.get_ref().to_string()),
+        outside_cycle: p.outside_cycle,
     });
     let rooms = game.rooms.iter().map(|r| OwnerView {
         id: r.id.get_ref().to_string(),
@@ -447,6 +701,13 @@ fn owners(game: &Game) -> Vec<OwnerView> {
             .color
             .as_ref()
             .map_or(DEFAULT_COLOR.to_owned(), |c| safe_color(c.get_ref())),
+        played_by: None,
+        enters: None,
+        dies: None,
+        dies_step: None,
+        life: None,
+        hero_of: None,
+        outside_cycle: false,
     });
     people.chain(rooms).collect()
 }

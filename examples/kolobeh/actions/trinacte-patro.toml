@@ -1,0 +1,9 @@
+[action]
+cycle = "c-uklizec"
+step = 1
+title = "Třinácté patro"
+owners = ["uklizec", "vez"]
+needs = ["propustka", "archiv-mrtvych"]
+gives = ["uklizec-zna-archiv"]
+brief = "Klimatizace hučí, mop klouže po mramoru. Dveře, které se nikdy neotvíraly, jsou dnes pootevřené. Uvnitř kartotéka a na kartách jména lidí, které jsi znal."
+text = "Ty: noční úklid ve věži, jenže tentokrát uklízeč vstoupí do Archivu."

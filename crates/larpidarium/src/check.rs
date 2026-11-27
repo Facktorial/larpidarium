@@ -59,7 +59,7 @@ pub(crate) fn read_game_dir(dir: &Path) -> Result<Vec<SourceFile>> {
         return Err(miette!("{} is not a folder", dir.display()));
     }
     let mut files = Vec::new();
-    for sub in ["", "actions", "people"] {
+    for sub in ["", "actions", "people", "map-presets"] {
         let folder = dir.join(sub);
         if !folder.is_dir() {
             continue;

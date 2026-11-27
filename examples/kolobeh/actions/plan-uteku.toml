@@ -1,0 +1,9 @@
+[action]
+cycle = "c-zpevacka"
+step = 2
+title = "Plán útěku"
+owners = ["zpevacka", "taxikar"]
+gives = ["slib-uteku"]
+needs = ["dluh-zpevacky"]
+brief = "Taxikář tě veze domů delší cestou. Na semaforu řekne, že po Slavnosti kotvy má plnou nádrž a nikoho, koho by musel vézt zpátky."
+text = "Potřeba: zpěvačka chce pryč a taxikář slíbí, že ji po Slavnosti odveze."

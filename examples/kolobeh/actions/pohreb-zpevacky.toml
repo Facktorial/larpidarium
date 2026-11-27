@@ -1,0 +1,9 @@
+[action]
+cycle = "c-taxikar"
+step = 3
+title = "Pohřeb zpěvačky"
+owners = ["taxikar", "sestra", "hrbitov"]
+needs = ["smrt-zpevacky"]
+gives = ["sestra-ve-meste", "taxikar-prisahal"]
+brief = "Nádrž máš plnou a nikoho, koho bys vezl. U hrobu stojí cizí žena se zpěvaččinýma očima a ptá se, kdo jí sestru vzal. Slíbíš jí něco, co nemůžeš splnit."
+text = "Odchod: taxikář přestane mlčet a přísahá, že doky neshoří. Sestra (další život zpěvačky) přijíždí do města a nastupuje na ošetřovnu."

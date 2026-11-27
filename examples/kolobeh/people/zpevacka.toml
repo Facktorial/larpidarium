@@ -1,0 +1,77 @@
+[person]
+name = "Stela „Vrána“ Vránová"
+role = "player"
+color = "#ad1457"
+played_by = "hrac-8"
+dies = 6
+goals = ["Dostat se z Kotvy na velké pódium", "Získat od věže slíbenou nahrávací smlouvu"]
+secrets = ["Donášíš ředitelce věže, co se šeptá v Kotvě. Slíbila ti za to smlouvu a velké město."]
+
+[person.sheet]
+appearance = "Dlouhé černé šaty, rudá rtěnka, hlas jako kouř. Na zápěstí stříbrný náramek s rozbitým zapínáním."
+whereabouts = "Na začátku hry sedíš v šatně za pódiem Kotvy, malíš si rty a posloucháš přes zeď, o čem se mluví v zadním boxu."
+backstory = """
+Zpívat jsi začala v kostele a skončila v Kotvě, kde se tleská jen opilcům a donovi. Šest let zpíváš stejné písně stejným lidem a každý večer si slibuješ, že tahle sezóna je poslední. Pak tě po vystoupení oslovila elegantní žena z věže a řekla ti, že máš hlas pro velká města. Od té doby jí nosíš útržky rozhovorů a ona tobě naději. Róza tě má jako dceru a ty ji máš ráda. To je na tom nejhorší.
+"""
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Ředitelka chce víc než drby: jména a čísla. Potřebuješ jí přinést něco velkého, jinak se smlouva rozplyne jako kouř nad pódiem."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Opouštíš bezpečí pódia. Dnes neposloucháš přes zeď, ale přímo u stolu, a tvůj úsměv je jen kostým."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Hledáš, komu ještě věřit. Kotva je najednou cizí a písně, které zpíváš, znějí jako na pohřbu."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Máš, co ředitelka chtěla. Držíš to v ruce a najednou nevíš, jestli to chceš prodat."
+
+[[person.phase]]
+step = 6
+goals = ["Dozpívat svou píseň až do konce"]
+[person.phase.sheet]
+whereabouts = "Dnes večer zpíváš poslední číslo programu, tu píseň, kterou máš nejradši. Sál je plný a v první řadě sedí lidé, kteří nikdy netleskají."
+
+[[person.relation]]
+with = "don"
+text = "Don tleská jako první a odchází jako poslední. Kdyby věděl, kam chodíš po vystoupení, netleskal by."
+
+[[person.relation]]
+with = "reditelka"
+text = "Žena z věže, která ti slíbila velké město. Voní jako budoucnost a mluví jako smlouva."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza. Jediný člověk, kterému nelžeš, jen mu neříkáš všechno."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák z přístavu chodí na každé vystoupení a nikdy nic neřekne. Kdyby řekl, možná bys zůstala."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza tě vozí domů a nikdy se neptá, proč někdy ne domů."
+
+[[person.relation]]
+with = "komisar"
+text = "Komisař chodí do Kotvy mimo službu a sedá si blízko pódia. Neruší, jen poslouchá."
+
+[[person.relation]]
+with = "uklizec"
+text = "Starý uklízeč z věže. Potkáváš ho u zadního vchodu a oba děláte, že se nevidíte."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Leon Marhoul. Když ti bylo dvacet, chodil na tvoje vystoupení s kytkou. Teď nosí drahý kabát a stojí za pultem."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Holka v kšiltovce se ti v šatně ztratila z očí a s ní tvoje rtěnka. Nemáš to srdce ji honit."

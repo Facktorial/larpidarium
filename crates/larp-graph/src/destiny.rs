@@ -165,7 +165,7 @@ pub fn destiny(game: &Game, graph: &GraphData, person: &Id) -> Destiny {
     let position: HashMap<&str, (f64, f64)> = graph
         .nodes
         .iter()
-        .map(|n| (n.id.as_str(), (n.x, n.y)))
+        .map(|n| (n.id.as_str(), crate::canvas_xy(graph, n)))
         .collect();
     let at = |id: &Id| position.get(id.as_str()).copied().unwrap_or((0.0, 0.0));
     let mut own: Vec<(&Id, &Node)> = game
@@ -173,9 +173,14 @@ pub fn destiny(game: &Game, graph: &GraphData, person: &Id) -> Destiny {
         .iter()
         .filter(|(_, n)| owns(n.owners()))
         .collect();
+    // Time first (world segment or cycle step), then the position in the graph.
+    let tick = |n: &Node| larp_model::time::node(game, n).map_or(u32::MAX, |s| s.start);
     own.sort_by(|a, b| {
         let (pa, pb) = (at(a.0), at(b.0));
-        pa.0.total_cmp(&pb.0).then(pa.1.total_cmp(&pb.1))
+        tick(a.1)
+            .cmp(&tick(b.1))
+            .then(pa.0.total_cmp(&pb.0))
+            .then(pa.1.total_cmp(&pb.1))
     });
 
     let own_ids: HashSet<&str> = own.iter().map(|(id, _)| id.as_str()).collect();
@@ -266,6 +271,17 @@ fn timeline<'a>(
 }
 
 fn segment_name(game: &Game, node: &Node) -> String {
+    if let Some((c, step)) = node.cycle() {
+        let cycle = larp_model::time::find_cycle(game, c.get_ref())
+            .map_or_else(|| c.get_ref().to_string(), |c| c.name.clone());
+        let step = step.map(|s| *s.get_ref()).map_or_else(String::new, |k| {
+            game.meta
+                .steps
+                .get(usize::from(k).saturating_sub(1))
+                .map_or_else(|| format!(" · {k}"), |s| format!(" · {k}. {s}"))
+        });
+        return format!("{cycle}{step}");
+    }
     node.segment()
         .and_then(|r| game.segments.iter().find(|s| s.id.get_ref() == r.get_ref()))
         .map(|s| s.name.clone())
@@ -299,15 +315,20 @@ fn mini_graph(game: &Game, graph: &GraphData, own: &HashSet<&str>) -> MiniGraph 
         .iter()
         .filter(|n| included.contains(n.id.as_str()))
         .collect();
-    nodes.sort_by(|a, b| a.x.total_cmp(&b.x).then(a.y.total_cmp(&b.y)));
+    let xy = |n: &crate::NodeView| crate::canvas_xy(graph, n);
+    nodes.sort_by(|a, b| {
+        let (pa, pb) = (xy(a), xy(b));
+        pa.0.total_cmp(&pb.0).then(pa.1.total_cmp(&pb.1))
+    });
 
     // Group by original column (x), keep vertical order inside a column.
     let mut columns: Vec<Vec<&crate::NodeView>> = Vec::new();
     let mut last_x = f64::NAN;
     for n in nodes {
-        if columns.is_empty() || (n.x - last_x).abs() > 1.0 {
+        let x = xy(n).0;
+        if columns.is_empty() || (x - last_x).abs() > 1.0 {
             columns.push(Vec::new());
-            last_x = n.x;
+            last_x = x;
         }
         if let Some(col) = columns.last_mut() {
             col.push(n);

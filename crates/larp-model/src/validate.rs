@@ -10,6 +10,9 @@ use crate::model::{Game, Node, Ref, Role, Thing};
 use crate::playthrough::{self, Playthroughs};
 use crate::{Diagnostic, Id, Severity};
 
+mod lives;
+mod map;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Kind {
     Action,
@@ -17,6 +20,8 @@ enum Kind {
     Room,
     Category,
     Segment,
+    Cycle,
+    Player,
     Item,
     Info,
 }
@@ -29,6 +34,8 @@ impl fmt::Display for Kind {
             Self::Room => "a room",
             Self::Category => "a category",
             Self::Segment => "a segment",
+            Self::Cycle => "a cycle",
+            Self::Player => "a player",
             Self::Item => "an item",
             Self::Info => "an info",
         })
@@ -69,6 +76,16 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
                 diags,
             );
         }
+        if let Some((cycle, _)) = node.cycle() {
+            check_refs(
+                std::slice::from_ref(cycle),
+                &file,
+                &[Kind::Cycle],
+                "cycle",
+                &registry,
+                diags,
+            );
+        }
     }
     for step in &steps {
         check_refs(step.needs, &step.file, THING, "need", &registry, diags);
@@ -82,17 +99,7 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
         );
         check_refs(step.gives, &step.file, THING, "gift", &registry, diags);
     }
-    for (id, person) in &game.people {
-        let relations: Vec<Ref> = person.relations.iter().map(|r| r.with.clone()).collect();
-        check_refs(
-            &relations,
-            &person_file(id),
-            &[Kind::Person],
-            "relation",
-            &registry,
-            diags,
-        );
-    }
+    check_person_refs(game, &registry, diags);
     for (thing, file) in things(game) {
         check_refs(&thing.owners, file, OWNER, "owner", &registry, diags);
         if let Some(category) = &thing.category {
@@ -107,9 +114,13 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
         }
     }
 
+    check_cycle_refs(game, &registry, diags);
+
     check_flow(game, &steps, diags);
     check_colors(game, diags);
     check_people(game, diags);
+    lives::check(game, diags);
+    map::check(game, diags);
     for id in game
         .layout
         .node
@@ -212,6 +223,71 @@ fn steps(game: &Game) -> Vec<Step<'_>> {
     steps
 }
 
+/// Relations, players and segments named by people.
+fn check_person_refs(game: &Game, registry: &HashMap<Id, Entry>, diags: &mut Vec<Diagnostic>) {
+    for (id, person) in &game.people {
+        let file = person_file(id);
+        let relations: Vec<Ref> = person.relations.iter().map(|r| r.with.clone()).collect();
+        check_refs(
+            &relations,
+            &file,
+            &[Kind::Person],
+            "relation",
+            registry,
+            diags,
+        );
+        let after: Vec<Ref> = person.after.iter().cloned().collect();
+        check_refs(
+            &after,
+            &file,
+            &[Kind::Person],
+            "predecessor",
+            registry,
+            diags,
+        );
+        let player: Vec<Ref> = person.played_by.iter().cloned().collect();
+        check_refs(&player, &file, &[Kind::Player], "player", registry, diags);
+        let dies_in = person.dies.as_ref().and_then(|d| match d.get_ref() {
+            crate::model::Death::Segment(id) => Some(Spanned::new(d.span(), id.clone())),
+            crate::model::Death::Step(_) => None,
+        });
+        let segments: Vec<Ref> = person
+            .enters
+            .iter()
+            .cloned()
+            .chain(dies_in)
+            .chain(person.phases.iter().filter_map(|p| p.segment.clone()))
+            .collect();
+        check_refs(
+            &segments,
+            &file,
+            &[Kind::Segment],
+            "segment",
+            registry,
+            diags,
+        );
+    }
+}
+
+/// Heroes and time ranges of cycles.
+fn check_cycle_refs(game: &Game, registry: &HashMap<Id, Entry>, diags: &mut Vec<Diagnostic>) {
+    for cycle in &game.cycles {
+        let file = "cycles.toml";
+        check_refs(
+            std::slice::from_ref(&cycle.hero),
+            file,
+            &[Kind::Person],
+            "hero",
+            registry,
+            diags,
+        );
+        let when: Vec<Ref> = std::iter::once(cycle.from.clone())
+            .chain(cycle.to.clone())
+            .collect();
+        check_refs(&when, file, &[Kind::Segment], "segment", registry, diags);
+    }
+}
+
 fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> {
     let mut registry: HashMap<Id, Entry> = HashMap::new();
     let mut add = |id: &Id, kind: Kind, file: String, span: Option<Range<usize>>| {
@@ -244,6 +320,22 @@ fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> 
             Kind::Room,
             "rooms.toml".into(),
             Some(room.id.span()),
+        );
+    }
+    for cycle in &game.cycles {
+        add(
+            cycle.id.get_ref(),
+            Kind::Cycle,
+            "cycles.toml".into(),
+            Some(cycle.id.span()),
+        );
+    }
+    for player in &game.players {
+        add(
+            player.id.get_ref(),
+            Kind::Player,
+            "players.toml".into(),
+            Some(player.id.span()),
         );
     }
     for segment in &game.segments {
@@ -398,6 +490,9 @@ fn check_colors(game: &Game, diags: &mut Vec<Diagnostic>) {
     }
     for segment in &game.segments {
         check(segment.color.as_ref(), "segments.toml");
+    }
+    for cycle in &game.cycles {
+        check(cycle.color.as_ref(), "cycles.toml");
     }
 }
 

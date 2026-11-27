@@ -1,0 +1,85 @@
+[person]
+name = "Leon Marhoul"
+role = "player"
+color = "#26a69a"
+played_by = "hrac-6"
+after = "barmanka"
+goals = ["Převzít po otci přístav, ale po svém", "Udržet Kotvu otevřenou"]
+secrets = [
+  "V cizině jsi nestudoval, ale seděl. Kauci za tebe zaplatila Vertikála a ty víš, že takový dluh se jednou splácí.",
+]
+
+[person.sheet]
+appearance = "Třicet let, drahý kabát z ciziny, otcův nos, jizva přes obočí. Usmívá se víc, než by měl."
+whereabouts = "Na začátku hry vcházíš po deseti letech do Kotvy. Ruce ti samy sáhnou za pult pro sklenici, jako bys tu celý život naléval."
+backstory = """
+Otec tě v osmnácti poslal do ciziny, aby z tebe byl gentleman, a ne gangster. Gentleman z tebe nebyl: po třech letech tě zavřeli za podvod a zbytek času jsi proseděl. Kauci za tebe zaplatil někdo, koho jsi nikdy neviděl, a obálka s propouštěcím papírem nesla razítko skleněné věže. Teď ses vrátil domů, do města, které se zmenšilo, k otci, který zestárl. Všichni čekají, že budeš jako on. Sám nevíš, jaký jsi.
+"""
+echo = "V Kotvě víš, kde stojí která láhev a které prkno za pultem se dá nadzvednout. Hosté ti připadají povědomí, jako bys jim léta nalévala."
+
+[[person.phase]]
+segment = "noc-2"
+[person.phase.sheet]
+whereabouts = "Druhá noc. Stojíš za pultem Kotvy, protože tam nikdo jiný stát nechce, a otec ti poprvé svěřil kus přístavu. Čísla v knihách nesedí a ty tušíš, že je to zkouška."
+
+[[person.phase]]
+segment = "noc-3"
+goals = [
+  "Převzít po otci přístav, ale po svém",
+  "Zbavit se dluhu u věže dřív, než ho začne vymáhat",
+]
+[person.phase.sheet]
+whereabouts = "Třetí noc. Věž si připomněla dluh za kauci. Máš svůj stůl v Kotvě, svoje lidi v přístavu a dopis z věže, na který jsi ještě neodpověděl."
+
+[[person.phase]]
+segment = "noc-4"
+[person.phase.sheet]
+whereabouts = "Čtvrtá noc. Otec se zvedl ze zadního boxu a odešel do deště. Nevíš, jestli máš jít za ním, nebo si konečně sednout na jeho místo."
+
+[[person.relation]]
+with = "don"
+text = "Otec. Bojíš se ho, miluješ ho a nevíš, v jakém pořadí."
+
+[[person.relation]]
+with = "reditelka"
+text = "Zaplatila tvou kauci a zatím nic nechtěla. To je horší, než kdyby chtěla."
+
+[[person.relation]]
+with = "komisar"
+text = "Kulhavý komisař tě vítal na nádraží. Měl v ruce tvůj rejstřík a doutník."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Mladší než ty a už se na tebe dívá jako na podezřelého."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza tě vozil do školy, když ti bylo deset. Pořád jezdí tím samým autem."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána. Zpívala v Kotvě, když ti bylo osmnáct, a zpívá pořád stejně dobře."
+
+[[person.relation]]
+with = "uklizec"
+text = "Mlíčko z věže nosí otci papíry. Teď by je mohl nosit tobě."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kavka z přístavu. Nosí na krku prsten, který znáš. Ještě jsi nic neřekl."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny ti zašila obočí a nezeptala se, kdo ti ho rozbil."
+
+[[person.relation]]
+with = "hackerka"
+text = "Jiskra z rohu Kotvy. Otec s ní mluvil za zavřenými dveřmi a tobě neřekl o čem."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička z věže ti přinesla návrh smlouvy na přístav. Byl napsaný až příliš dobře."
+
+[[person.relation]]
+with = "lekar"
+text = "Nový doktor v přístavu. Jeho klidné ruce se ti nelíbí; takové ruce mají lidé, kteří něco tají."

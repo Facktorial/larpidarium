@@ -163,3 +163,149 @@ fn estimate_height(node: &Node) -> f64 {
 fn as_f64(n: usize) -> f64 {
     f64::from(u32::try_from(n).unwrap_or(u32::MAX))
 }
+
+/// Width of an action card in the viewer.
+const NODE_W: f64 = 200.0;
+/// Horizontal gap between world-segment columns.
+const SEGMENT_GAP: f64 = 120.0;
+/// Narrowest world-segment column.
+const MIN_SEGMENT_W: f64 = 360.0;
+/// Gap between the step columns inside a cycle.
+const STEP_GAP: f64 = 50.0;
+
+/// Positions for a game with cycles: world segments as columns left to right (time), and every
+/// cycle laid out on its own in step columns, relative to the cycle's top-left corner.
+#[derive(Debug, Default)]
+pub(crate) struct Timeline<'a> {
+    /// World nodes: absolute; cycle nodes: relative to their cycle.
+    pub positions: HashMap<&'a Id, Point>,
+    /// Per world segment (file order): left edge and width of its column.
+    pub columns: Vec<(f64, f64)>,
+    /// Column for nodes without a segment or cycle, if there are any.
+    pub loose: Option<(f64, f64)>,
+    /// Height of the world area (above the cycle lanes).
+    pub world_height: f64,
+    /// Per cycle id: left edge of its time range, right edge, inner width and height.
+    pub cycles: HashMap<&'a Id, CycleBox>,
+    /// Per cycle id: left edge and width of each step column, relative to the cycle.
+    pub steps: HashMap<&'a Id, Vec<(f64, f64)>>,
+}
+
+/// Where a cycle sits on the time axis and how big its expanded content is.
+#[derive(Debug, Clone, Copy, Default)]
+pub(crate) struct CycleBox {
+    pub x0: f64,
+    pub x1: f64,
+    pub inner_width: f64,
+    pub inner_height: f64,
+}
+
+/// Width of a band laid out by [`band`].
+fn band_width(placed: &[(&Id, Point)]) -> f64 {
+    placed.iter().map(|(_, p)| p.x + NODE_W).fold(0.0, f64::max)
+}
+
+pub(crate) fn timeline<'a>(game: &'a Game, edges: &[Edge]) -> Timeline<'a> {
+    let mut out = Timeline::default();
+    let mut world: BTreeMap<usize, Vec<&Id>> = BTreeMap::new();
+    let mut in_cycle: HashMap<&Id, BTreeMap<u8, Vec<&Id>>> = HashMap::new();
+    let loose_key = game.segments.len();
+    for (id, node) in &game.nodes {
+        if let Some((c, step)) = node.cycle()
+            && game.cycles.iter().any(|x| x.id.get_ref() == c.get_ref())
+        {
+            let step = step.map_or(1, |s| *s.get_ref());
+            in_cycle
+                .entry(c.get_ref())
+                .or_default()
+                .entry(step)
+                .or_default()
+                .push(id);
+            continue;
+        }
+        let key = node
+            .segment()
+            .and_then(|r| {
+                game.segments
+                    .iter()
+                    .position(|s| s.id.get_ref() == r.get_ref())
+            })
+            .unwrap_or(loose_key);
+        world.entry(key).or_default().push(id);
+    }
+
+    let mut x = 0.0;
+    for i in 0..=game.segments.len() {
+        let ids = world.get(&i).map(Vec::as_slice).unwrap_or_default();
+        if i == loose_key && ids.is_empty() {
+            break;
+        }
+        let (placed, height) = band(game, ids, edges);
+        let width = band_width(&placed).max(MIN_SEGMENT_W);
+        let offset = (width - band_width(&placed)) / 2.0;
+        for (id, p) in placed {
+            out.positions.insert(
+                id,
+                Point {
+                    x: x + offset + p.x,
+                    y: p.y,
+                },
+            );
+        }
+        out.world_height = out.world_height.max(height);
+        if i == loose_key {
+            out.loose = Some((x, width));
+        } else {
+            out.columns.push((x, width));
+        }
+        x += width + SEGMENT_GAP;
+    }
+
+    for cycle in &game.cycles {
+        let id = cycle.id.get_ref();
+        let column = |r: &Id| {
+            game.segments
+                .iter()
+                .position(|s| s.id.get_ref() == r)
+                .and_then(|i| out.columns.get(i).copied())
+        };
+        let from = column(cycle.from.get_ref()).unwrap_or((0.0, MIN_SEGMENT_W));
+        let to = cycle
+            .to
+            .as_ref()
+            .and_then(|t| column(t.get_ref()))
+            .unwrap_or(from);
+        let steps = in_cycle.remove(id).unwrap_or_default();
+        let mut sx = 0.0;
+        let mut height: f64 = 0.0;
+        let mut cols = Vec::new();
+        for k in 1..=u8::try_from(game.meta.steps.len().max(1)).unwrap_or(u8::MAX) {
+            let ids = steps.get(&k).map(Vec::as_slice).unwrap_or_default();
+            let (placed, h) = band(game, ids, edges);
+            let w = band_width(&placed).max(NODE_W);
+            for (nid, p) in placed {
+                out.positions.insert(
+                    nid,
+                    Point {
+                        x: sx + p.x,
+                        y: p.y,
+                    },
+                );
+            }
+            cols.push((sx, w));
+            height = height.max(h);
+            sx += w + STEP_GAP;
+        }
+        out.steps.insert(id, cols);
+        out.cycles.insert(
+            id,
+            CycleBox {
+                x0: from.0,
+                x1: to.0 + to.1,
+                inner_width: (sx - STEP_GAP).max(0.0),
+                inner_height: height,
+            },
+        );
+    }
+    out
+}

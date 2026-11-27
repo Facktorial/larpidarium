@@ -1,0 +1,22 @@
+[decision]
+cycle = "c-don"
+step = 6
+title = "Syn a otec"
+owners = ["syn-dona", "don", "pravnicka"]
+brief = "Otec ti podává klíče od přístavu. Právnička věže ti podává vizitku. Jeden z vás tří dnes zavře dveře, které už nikdo neotevře."
+text = "Cena: don ví, kde skončila kniha, a teď platí za dědictví. Syn může otce zradit jen tehdy, když našel smlouvu pod pultem a právnička už je ve věži. Převezme-li přístav, je dědicem a kniha v krbu dá konec rodu. Don může přístav prodat věži a syna poslat pryč; pak je rod bez dědice."
+
+[[decision.option]]
+label = "Syn dá právničce kód od otcova trezoru"
+needs = ["syn-ma-prevzit", "smrt-zlodejky", "syn-zna-pravdu", "pravnicka-ve-vezi"]
+gives = ["donuv-trezor", "bez-dedice", "dedictvi-rozhodnuto"]
+
+[[decision.option]]
+label = "Syn převezme přístav po otci"
+needs = ["syn-ma-prevzit", "smrt-zlodejky"]
+gives = ["syn-prevzal", "dedictvi-rozhodnuto"]
+
+[[decision.option]]
+label = "Don prodá přístav věži a syna pošle pryč"
+needs = ["syn-ma-prevzit", "smrt-zlodejky"]
+gives = ["bez-dedice", "dedictvi-rozhodnuto"]

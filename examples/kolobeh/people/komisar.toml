@@ -1,0 +1,88 @@
+[person]
+name = "Komisař Arnošt Hrubý"
+role = "player"
+color = "#1b5e20"
+played_by = "hrac-3"
+dies = 6
+goals = [
+  "Udržet v Rezově klid, ať to stojí cokoli",
+  "Dotáhnout to do penze bez kulky v zádech",
+  "Uzavřít složku Koloběh",
+]
+secrets = [
+  "Bereš obálky od Marhoula i od věže, od obou stejně tlusté.",
+  "V šuplíku máš složku Koloběh: třicet let vražd, které se opakují, jen oběti mají pokaždé jinou tvář.",
+]
+
+[person.sheet]
+appearance = "Padesátník v promoklém baloňáku, odznak v kapse, levný doutník v koutku úst. Kulhá na pravou nohu."
+whereabouts = "Na začátku hry stojíš pod stříškou u vchodu do Kotvy a sleduješ, kdo vchází a kdo odchází."
+backstory = """
+Na stanici jsi přišel jako mladý idealista a idealismus ti vydržel přesně do první obálky. Od té doby držíš v Rezově rovnováhu: don má přístav, věž má výhled a ty máš klid. Před lety jsi začal sbírat spisy, které do sebe zapadají až moc: stejné rány, stejná místa, stejné věty u výslechů, jen tváře se mění. Založil jsi na ně složku a nikomu jsi ji neukázal. Noha tě bolí na déšť a v Rezově prší pořád. Do penze ti zbývá rok a půl.
+"""
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Do složky Koloběh ti přibyly nové listy a některé nesou včerejší datum. Potřebuješ vědět, kdo je na řadě, dřív než to za tebe zapíše někdo jiný."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Necháváš odznak v šuplíku a jdeš do přístavu jako soukromá osoba. Noha bolí, doutník ti v dešti zhasíná a ty ho pořád znovu zapaluješ."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Obcházíš Kotvu, molo sedm a hřbitov a ptáš se lidí na věci, na které by neměli znát odpověď. Někteří ji znají a říkají ji slovy, která jsi už jednou zapsal."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Máš poslední list složky: jméno, místo, hodinu. Ruka se ti chvěje, když ho zakládáš, a ne zimou."
+
+[[person.phase]]
+step = 6
+goals = ["Předat složku Koloběh někomu, kdo ji dočte"]
+[person.phase.sheet]
+whereabouts = "Obcházíš místa, kde to všechno začalo, se složkou pod kabátem. Doutník ti nechce hořet. Poprvé za třicet let ti nezáleží na tom, kolik zbývá do penze."
+
+[[person.relation]]
+with = "don"
+text = "Marhoul platí včas a nikdy nekřičí. Proto se ho bojíš víc než ostatních."
+
+[[person.relation]]
+with = "reditelka"
+text = "Šebestová platí víc než don. Nevíš, za co přesně."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza ví všechno a neřekne nic. Kdybys měl přítele, byla by to ona."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák se v poslední době v noci potuluje u mola sedm. Zapsal sis to."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza vozí celé město. Kdyby chtěl mluvit, uzavřel bys polovinu spisů."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána. Hlas, kvůli kterému chodíš do Kotvy i mimo službu."
+
+[[person.relation]]
+with = "uklizec"
+text = "Uklízeč z věže. Nenápadný. Nenápadní lidé ve tvých spisech končí nejčastěji."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Leon Marhoul se vrátil z ciziny. Jeho trestní rejstřík ti přišel dřív než on."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Nová tvář v přístavu, prsty rychlejší než oči. Už jsi ji jednou skoro chytil a pak jsi ji nechal jít."
+
+[[person.relation]]
+with = "sestra"
+text = "Nová sestra z ošetřovny. Zašila ti ránu, kterou jsi nechtěl zapsat, a nezeptala se proč."

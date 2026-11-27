@@ -1,0 +1,8 @@
+[action]
+segment = "noc-1"
+title = "Noční úklid"
+owners = ["uklizec", "vez"]
+needs = ["propustka", "plan-noveho-pristavu"]
+gives = ["utrzky-smlouvy"]
+brief = "Po půlnoci vysypáváš koše ve třináctém patře. V ředitelčině skartovačce je víc papíru než obvykle a na jednom proužku stojí jméno, které znáš z přístavu."
+text = "Uklízeč vynese z věže pytel útržků. Sám je skládat nebude; ví ale, kdo v Kotvě má trpělivost. Útržky donese barmance (akce Slepená smlouva v cyklu barmanky)."

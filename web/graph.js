@@ -54,6 +54,27 @@
       layoutSaved: 'Rozložení uloženo do layout.toml', idHelp: 'malá písmena bez diakritiky, číslice a pomlčky',
       editThing: 'Upravit předmět nebo informaci', editSegment: 'Upravit segment',
       briefHelp: 'hráči uvidí v listu postavy', textHelp: 'jen pro organizátory',
+      tabGraph: 'Graf', tabPlaces: 'Místa', tabPeople: 'Postavy', tabPlayers: 'Hráči', tabThings: 'Předměty a info',
+      tabSegments: 'Segmenty', tabProblems: 'Problémy', filter: 'Filtrovat…', what: 'Co se tu děje', who: 'Kdo tu je',
+      startsHere: 'Na začátku tu je', role: 'Role', playedBy: 'Hraje', life: 'Život', acts: 'Kde jedná',
+      actions: 'Akce', holds: 'Má u sebe', wholeGame: 'celou hru', outside: 'mimo cyklus', givenBy: 'Kdo dává',
+      neededBy: 'Kdo potřebuje', usedBy: 'Kdo spotřebuje', startsAt: 'Na začátku u', group: 'Skupina',
+      present: 'Přítomné postavy', links: 'Přechody', severity: 'Závažnost', message: 'Problém', file: 'Soubor',
+      help: 'Rada', noPlayers: 'Hra nemá players.toml: přidejte hráče a u postav `played_by`.', idle: 'nehraje',
+      noRows: 'Nic tu není.', error: 'chyba', warning: 'varování', dies: '† umírá',
+      collapse: 'Sbalit', columns: 'Kroky ve sloupcích', ring: 'Kruh příběhu', expand: 'Rozbalit cyklus',
+tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocníci',
+      fromWorld: 'ze světa', toWorld: 'do světa', inCycle: 'Cyklus', step: 'Krok', world: 'Svět',
+      stateConflict: 'Rozpor s už zvolenou možností; volba zůstává.', stateTitle: 'Stav hry', stateDone: 'proběhlo', stateOpen: 'ještě možné', stateClosed: 'uzavřené',
+      stateAhead: 'Co ještě čeká', stateNothing: 'nic', stateReset: 'Zrušit stav', stateHappened: 'Stalo se',
+      stateFromHere: 'Odsud dál (označ, co už proběhlo):',
+      tabMap: 'Mapa', mapMove: 'Přesun', mapWall: 'Zeď', mapCorridor: 'Chodba', mapErase: 'Guma',
+      mapHintWall: 'Táhni po čarách mřížky.', mapLoadFile: 'Načíst ze souboru…', mapDiscard: 'Zahodit rozkreslené',
+      mapDraftNote: 'Mapa se průběžně ukládá v tomto prohlížeči; tímto se vrátíš k mapě ze hry.', mapFileLoaded: 'Načteno', mapFileBad: 'V souboru není mapa (cells, walls ani [map.rooms]).', mapHintErase: 'Táhni přes zdi nebo chodby.',
+      mapPresetLoad: 'Načíst půdorys…', mapPresetSave: 'Uložit půdorys jako předlohu', mapPresetDownload: 'Stáhnout půdorys',
+      mapPresetName: 'Název předlohy (malá písmena, pomlčky):', mapPresetBadName: 'Název: malá písmena bez diakritiky, číslice a pomlčky.',
+      mapSave: 'Uložit mapu', mapDownload: 'Stáhnout map.toml',
+      mapHintMove: 'Táhni místa, roh mění velikost, dvojklik ukáže jeho akce.', mapHintPaint: 'Kresli tažením myši.',
       hint: 'Tažení pozadí: posun. Kolečko: přiblížení. Tažení uzlu: přesun (Shift+klik vybere více). ' +
         'Shift+klik na čáru: ohyb, Shift+klik na ohyb: smazat. Klik na uzel: detail. ' +
         'Klik na postavu nebo předmět: zvýraznit jeho linku.',
@@ -77,6 +98,27 @@
       layoutSaved: 'Layout saved to layout.toml', idHelp: 'lowercase ASCII letters, digits and dashes',
       editThing: 'Edit item or info', editSegment: 'Edit segment',
       briefHelp: 'players see this on their character sheet', textHelp: 'organizers only',
+      tabGraph: 'Graph', tabPlaces: 'Places', tabPeople: 'Characters', tabPlayers: 'Players', tabThings: 'Items & info',
+      tabSegments: 'Segments', tabProblems: 'Problems', filter: 'Filter…', what: 'What happens here', who: 'Who is here',
+      startsHere: 'Here at the start', role: 'Role', playedBy: 'Played by', life: 'Life', acts: 'Acts in',
+      actions: 'Actions', holds: 'Carries', wholeGame: 'whole game', outside: 'outside the cycle', givenBy: 'Given by',
+      neededBy: 'Needed by', usedBy: 'Used up by', startsAt: 'At start with', group: 'Group',
+      present: 'Characters present', links: 'Links', severity: 'Severity', message: 'Problem', file: 'File',
+      help: 'Help', noPlayers: 'The game has no players.toml: add players and `played_by` on characters.', idle: 'idle',
+      noRows: 'Nothing here.', error: 'error', warning: 'warning', dies: '† dies',
+      collapse: 'Collapse', columns: 'Steps in columns', ring: 'Story circle', expand: 'Expand cycle',
+tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpers',
+      fromWorld: 'from the world', toWorld: 'to the world', inCycle: 'Cycle', step: 'Step', world: 'World',
+      stateConflict: 'Conflicts with an option already chosen; keeping it.', stateTitle: 'Game state', stateDone: 'happened', stateOpen: 'still possible', stateClosed: 'closed',
+      stateAhead: 'Still ahead', stateNothing: 'nothing', stateReset: 'Reset state', stateHappened: 'It happened',
+      stateFromHere: 'From here on (mark what already happened):',
+      tabMap: 'Map', mapMove: 'Move', mapWall: 'Wall', mapCorridor: 'Corridor', mapErase: 'Erase',
+      mapHintWall: 'Drag along the grid lines.', mapLoadFile: 'Load from file…', mapDiscard: 'Discard drawing',
+      mapDraftNote: 'The map is kept in this browser as you draw; this goes back to the map in the game.', mapFileLoaded: 'Loaded', mapFileBad: 'No map in the file (cells, walls or [map.rooms]).', mapHintErase: 'Drag over walls or corridors.',
+      mapPresetLoad: 'Load floor plan…', mapPresetSave: 'Save floor plan as preset', mapPresetDownload: 'Download floor plan',
+      mapPresetName: 'Preset name (lowercase, dashes):', mapPresetBadName: 'Name: lowercase ASCII letters, digits and dashes.',
+      mapSave: 'Save map', mapDownload: 'Download map.toml',
+      mapHintMove: 'Drag places, the corner resizes, double-click shows its actions.', mapHintPaint: 'Paint by dragging.',
       hint: 'Drag background: pan. Wheel: zoom. Drag node: move (Shift+click selects several). ' +
         'Shift+click a line: add bend, Shift+click a bend: remove. Click node: details. ' +
         'Click a person or item: highlight its storyline.',
@@ -104,7 +146,7 @@
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch { return null; }
     },
     save() {
-      const pos = Object.fromEntries(nodes.map((n) => [n.id, { x: n.x, y: n.y }]));
+      const pos = Object.fromEntries(nodes.map((n) => [n.id, n.cycle ? { rx: n.rx, ry: n.ry } : { x: n.x, y: n.y }]));
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pos, knees })); } catch { /* private mode */ }
     },
     clear() {
@@ -131,6 +173,10 @@
     return e;
   };
   const ownerName = (id) => owners.get(id)?.name ?? id;
+  /** "1 akce", "3 akce", "5 akcí" / "1 action", "5 actions". */
+  const actionCount = (n) => (G.language === 'cs'
+    ? `${n} ${n === 1 || (n >= 2 && n <= 4) ? 'akce' : 'akcí'}`
+    : `${n} ${n === 1 ? 'action' : 'actions'}`);
   const thingName = (id) => things.get(id)?.name ?? id;
   const allThings = (n) => [...n.needs, ...n.uses, ...n.gives,
     ...n.options.flatMap((o) => [...o.needs, ...o.uses, ...o.gives])];
@@ -180,11 +226,15 @@
     const container = $('nodes-container');
     container.replaceChildren();
     for (const n of nodes) {
+      if (hiddenNode(n)) continue;
       const node = el('div', `node ${n.kind}`);
       node.id = `node-${n.id}`;
       if (selected.has(n.id)) node.classList.add('selected');
       if (!nodeMatches(n)) node.classList.add('faded');
       if (flagged.has(n.id)) node.classList.add('flagged');
+      if (doneSet.has(n.id)) node.classList.add('done');
+      if (closedSet.has(n.id)) node.classList.add('closed');
+      if (happened.size && openSet.has(n.id)) node.classList.add('open');
       node.style.left = `${n.x}px`;
       node.style.top = `${n.y}px`;
 
@@ -241,8 +291,26 @@
     return Math.hypot(p.x - (v.x + k * (w.x - v.x)), p.y - (v.y + k * (w.y - v.y)));
   }
 
+  /**
+   * Where an edge's bends are measured from: the open cycle's inner origin for edges inside one
+   * cycle (so bends move with it), the canvas for world edges, null when bends are not shown
+   * (edges touching a collapsed or ring cycle, or crossing a cycle frame).
+   */
+  function kneeOrigin(edge) {
+    const a = cycleOf(byId.get(edge.from));
+    const b = cycleOf(byId.get(edge.to));
+    if (!a && !b) return { x: 0, y: 0 };
+    if (a !== b) return null;
+    const box = cycleBoxes.get(a);
+    if (!box || box.mode !== 'columns') return null;
+    const offset = (box.w - box.c.inner_width - 2 * CYCLE_PAD) / 2;
+    return { x: box.x + CYCLE_PAD + offset, y: box.y + CYCLE_HEAD + CYCLE_PAD + 24 };
+  }
+
   function drawLine(svg, edge, start, end) {
-    const bends = knees[edge.id] || [];
+    const origin = kneeOrigin(edge);
+    const stored = origin ? knees[edge.id] || [] : [];
+    const bends = stored.map((k) => ({ x: k.x + origin.x, y: k.y + origin.y }));
     const points = [start, ...bends, end];
     const d = points.map((p, i) => `${i ? 'L' : 'M'} ${p.x} ${p.y}`).join(' ');
     const group = svgEl('g');
@@ -265,8 +333,9 @@
         const dist = distanceToSegment(click, points[i], points[i + 1]);
         if (dist < bestDist) { bestDist = dist; best = i; }
       }
-      knees[edge.id] = [...bends];
-      knees[edge.id].splice(best, 0, click);
+      if (!origin) return;
+      knees[edge.id] = [...stored];
+      knees[edge.id].splice(best, 0, { x: click.x - origin.x, y: click.y - origin.y });
       storage.save();
       renderConnections();
     });
@@ -308,19 +377,87 @@
     defs.append(marker);
     svg.append(defs);
 
+    // Edges inside one place (the world, or one opened cycle) are drawn as they are. Edges that
+    // cross a cycle's frame end at the frame, merged per pair of ends; inside an opened cycle a
+    // short labelled stub continues from the frame to the node.
+    const merged = new Map();
+    const stubs = new Map();
     for (const e of G.edges) {
       const from = byId.get(e.from);
       const to = byId.get(e.to);
       if (!from || !to) continue;
-      const start = { x: from.x + NODE_W, y: from.y + portY(from.id, e.from_port, 40) };
-      const end = { x: to.x - 5, y: to.y + portY(to.id, e.to_port, 40) };
-      drawLine(svg, e, start, end);
+      const fc = cycleOf(from);
+      const tc = cycleOf(to);
+      if (fc === tc) {
+        if (fc && viewOf(fc) === 'collapsed') continue;
+        const start = { x: from.x + NODE_W, y: from.y + portY(from.id, e.from_port, 40) };
+        const end = { x: to.x - 5, y: to.y + portY(to.id, e.to_port, 40) };
+        drawLine(svg, e, start, end);
+        continue;
+      }
+      const fb = fc && cycleBoxes.get(fc);
+      const tb = tc && cycleBoxes.get(tc);
+      const nodeOut = { x: from.x + NODE_W, y: from.y + portY(from.id, e.from_port, 40) };
+      const nodeIn = { x: to.x - 5, y: to.y + portY(to.id, e.to_port, 40) };
+      const start = fb ? frameAnchor(fb, tb ? { x: tb.x, y: tb.y } : nodeIn, true) : nodeOut;
+      const end = tb ? frameAnchor(tb, fb ? { x: fb.x + fb.w, y: fb.y } : nodeOut, false) : nodeIn;
+      const key = `${fc ? `c:${fc}` : `n:${e.from}:${e.from_port ?? ''}`}>${tc ? `c:${tc}` : `n:${e.to}:${e.to_port ?? ''}`}`;
+      const m = merged.get(key) ?? { id: key, from: e.from, to: e.to, items: [], cross: e.cross, start, end, count: 0 };
+      m.items.push(...e.items.filter((i) => !m.items.includes(i)));
+      m.count += 1;
+      merged.set(key, m);
+      if (fb && viewOf(fc) !== 'collapsed') {
+        const k = `out:${e.from}:${e.from_port ?? ''}`;
+        const st = stubs.get(k) ?? { start: { x: from.x + NODE_W, y: from.y + portY(from.id, e.from_port, 40) }, end: { x: fb.x + fb.w - 4, y: from.y + portY(from.id, e.from_port, 40) }, items: [], out: true };
+        st.items.push(...e.items.filter((i) => !st.items.includes(i)));
+        stubs.set(k, st);
+      }
+      if (tb && viewOf(tc) !== 'collapsed') {
+        const k = `in:${e.to}:${e.to_port ?? ''}`;
+        const y = to.y + portY(to.id, e.to_port, 40);
+        const st = stubs.get(k) ?? { start: { x: tb.x + 4, y }, end: { x: to.x - 5, y }, items: [], out: false };
+        st.items.push(...e.items.filter((i) => !st.items.includes(i)));
+        stubs.set(k, st);
+      }
+    }
+    for (const m of merged.values()) {
+      const group = svgEl('g', { class: 'merged' });
+      const edge = { ...m, items: m.items };
+      if (!edgeMatches(edge)) group.classList.add('faded');
+      const vertical = Math.abs(m.end.y - m.start.y) > Math.abs(m.end.x - m.start.x);
+      const d = vertical
+        ? `M ${m.start.x} ${m.start.y} C ${m.start.x} ${(m.start.y + m.end.y) / 2}, ${m.end.x} ${(m.start.y + m.end.y) / 2}, ${m.end.x} ${m.end.y}`
+        : `M ${m.start.x} ${m.start.y} C ${m.start.x + 80} ${m.start.y}, ${m.end.x - 80} ${m.end.y}, ${m.end.x} ${m.end.y}`;
+      group.append(svgEl('path', { d, class: 'connection-path merged-path', 'marker-end': 'url(#arrowhead)', 'stroke-width': Math.min(1.5 + m.count * 0.6, 5) }));
+      const hit = svgEl('path', { d, class: 'connection-hitbox' });
+      const tip = svgEl('title');
+      tip.textContent = m.items.map(thingName).join(', ');
+      hit.append(tip);
+      group.append(hit);
+      svg.append(group);
+    }
+    for (const st of stubs.values()) {
+      const group = svgEl('g', { class: 'stub' });
+      if (filter && !st.items.some((i) => filter.kind === 'thing' && filter.id === i) && filter.kind === 'thing') group.classList.add('faded');
+      const left = Math.min(st.start.x, st.end.x);
+      const right = Math.max(st.start.x, st.end.x);
+      if (right - left < 10) continue;
+      group.append(svgEl('path', { d: `M ${st.start.x} ${st.start.y} L ${st.end.x} ${st.end.y}`, class: 'connection-path stub-path', 'marker-end': st.out ? '' : 'url(#arrowhead)' }));
+      const label = svgEl('text', { x: st.out ? st.end.x - 6 : st.start.x + 6, y: st.start.y - 5, class: 'stub-label', 'text-anchor': st.out ? 'end' : 'start' });
+      label.textContent = `${st.out ? '' : '← '}${st.items.map(thingName).join(', ')}${st.out ? ' →' : ''}`;
+      group.append(label);
+      svg.append(group);
     }
   }
 
   // ---------- segments ----------
   /** Bounding box of the nodes of one segment ('' = nodes without a segment). */
   function segmentBox(id) {
+    if (TL) {
+      const s = segments.get(id) ?? (id === '' && TL.loose ? { x: TL.loose[0], width: TL.loose[1] } : null);
+      const box = contentBox();
+      return s && box ? { minX: s.x - 40, minY: box.minY - 60, maxX: s.x + s.width + 40, maxY: box.maxY } : null;
+    }
     let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
     for (const n of nodes) {
       if (segKey(n) !== id) continue;
@@ -334,14 +471,42 @@
   /** Segments in display order, plus a pseudo-segment for unsorted nodes when there are any. */
   function segmentRows() {
     const rows = G.segments.map((s) => ({ ...s, color: segColor(s), count: nodes.filter((n) => segKey(n) === s.id).length }));
-    const loose = nodes.filter((n) => segKey(n) === '').length;
+    const loose = nodes.filter((n) => segKey(n) === '' && !cycleOf(n)).length;
     if (rows.length && loose) rows.push({ id: '', name: t.noSegment, color: '#888888', text: '', count: loose });
     return rows;
+  }
+
+  /** Timeline layout: full-height columns, one per world segment (time runs left to right). */
+  function renderTimeColumns(layerEl) {
+    const box = contentBox() ?? { minY: 0, maxY: 400 };
+    const top = Math.min(box.minY, 0) - 70;
+    const bottom = box.maxY + 40;
+    const cols = G.segments.map((s) => ({ ...s, color: segColor(s) }));
+    if (TL.loose) cols.push({ id: '', name: t.noSegment, color: '#888888', text: '', x: TL.loose[0], width: TL.loose[1] });
+    for (const s of cols) {
+      const area = el('div', 'segment-area time-column');
+      if (filter?.kind === 'segment' && filter.id !== s.id) area.classList.add('faded');
+      Object.assign(area.style, {
+        left: `${s.x - 40}px`, top: `${top}px`, width: `${s.width + 80}px`, height: `${bottom - top}px`,
+        background: `${s.color}14`, borderColor: `${s.color}55`,
+      });
+      const title = el('div', 'segment-title', s.name);
+      title.style.color = s.color;
+      if (s.text) title.title = s.text;
+      title.addEventListener('mousedown', (e) => e.stopPropagation());
+      title.addEventListener('click', () => focusSegment(s.id));
+      area.append(title);
+      layerEl.append(area);
+    }
+    const label = el('div', 'world-label', t.world);
+    Object.assign(label.style, { left: `${(cols[0]?.x ?? 0) - 36}px`, top: `${top + 34}px` });
+    layerEl.append(label);
   }
 
   function renderSegments() {
     const layerEl = $('segments-layer');
     layerEl.replaceChildren();
+    if (TL) { renderTimeColumns(layerEl); return; }
     if (!G.segments.length) return;
     const PAD = 28;
     for (const s of segmentRows()) {
@@ -370,10 +535,24 @@
     if (!same) fitTo(segmentBox(id));
   }
 
+  function focusCycle(id) {
+    if (viewOf(id) === 'collapsed') setCycleView(id, 'columns');
+    const b = cycleBoxes.get(id);
+    if (b) fitTo({ minX: b.x, minY: b.y, maxX: b.x + b.w, maxY: b.y + b.h });
+  }
+
   function renderSegmentList() {
     const section = $('segment-section');
     const list = $('segment-list');
     list.replaceChildren();
+    for (const c of G.cycles) {
+      const li = el('li', 'cycle-item');
+      li.append(wheel(c, 14), el('span', null, `${c.name} · ${ownerName(c.hero)}`),
+        el('span', 'tag', String(nodes.filter((n) => n.cycle === c.id).length)));
+      if (c.text) li.title = c.text;
+      li.addEventListener('click', () => focusCycle(c.id));
+      list.append(li);
+    }
     section.classList.toggle('hidden', !G.segments.length && !EDIT);
     for (const s of segmentRows()) {
       const li = el('li');
@@ -389,8 +568,348 @@
     }
   }
 
+  // ---------- cycles (timeline layout) ----------
+  // Cycle nodes keep positions relative to their cycle in rx/ry (that is what layout.toml stores);
+  // x/y are computed by placeCycles() from the cycle's box, which depends on its view.
+  const TL = G.timeline;
+  const cycles = new Map(G.cycles.map((c) => [c.id, c]));
+  const CYCLE_HEAD = 58;
+  const CYCLE_PAD = 24;
+  const COLLAPSED_H = 132;
+  const LANE_GAP = 36;
+  const STEP_COUNT = Math.max(G.steps.length, 1);
+  for (const n of nodes) if (n.cycle) { n.rx ??= n.x; n.ry ??= n.y; }
+  const cycleView = new Map();
+  try {
+    const v = JSON.parse(sessionStorage.getItem(`${STORAGE_KEY}:cycles`) || '{}');
+    for (const [k, mode] of Object.entries(v)) if (cycles.has(k)) cycleView.set(k, mode);
+  } catch { /* private mode */ }
+  for (const part of (new URLSearchParams(location.hash.slice(1)).get('cycles') || '').split(',')) {
+    const [id, mode] = part.split(':');
+    if (cycles.has(id) && ['columns', 'ring', 'collapsed'].includes(mode)) cycleView.set(id, mode);
+  }
+  const viewOf = (id) => cycleView.get(id) || 'collapsed';
+  const cycleOf = (n) => (n?.cycle && cycles.has(n.cycle) ? n.cycle : null);
+  const hiddenNode = (n) => cycleOf(n) !== null && viewOf(n.cycle) === 'collapsed';
+  const cycleBoxes = new Map();
+
+  function setCycleView(id, mode) {
+    if (mode === 'collapsed') cycleView.delete(id); else cycleView.set(id, mode);
+    try { sessionStorage.setItem(`${STORAGE_KEY}:cycles`, JSON.stringify(Object.fromEntries(cycleView))); } catch { /* private mode */ }
+    renderAll();
+  }
+
+  /** Ring diameter for a cycle: big enough that neighbouring steps' cards do not collide. */
+  function ringDiameter(c) {
+    const perStep = Math.max(1, ...Array.from({ length: STEP_COUNT }, (_, i) => nodes.filter((n) => n.cycle === c.id && n.step === i + 1).length));
+    return Math.max(620, STEP_COUNT * 95 + perStep * 60);
+  }
+
+  /** Computes every cycle's box (lanes below the world) and the absolute positions of its nodes. */
+  function placeCycles() {
+    if (!TL) return;
+    cycleBoxes.clear();
+    const sized = G.cycles.map((c) => {
+      const mode = viewOf(c.id);
+      const span = Math.max(c.x1 - c.x0, 240);
+      let w = span;
+      let h = COLLAPSED_H;
+      if (mode === 'columns') {
+        w = Math.max(span, c.inner_width + 2 * CYCLE_PAD);
+        h = CYCLE_HEAD + 2 * CYCLE_PAD + c.inner_height + 60;
+      } else if (mode === 'ring') {
+        const d = ringDiameter(c);
+        w = Math.max(span, d + NODE_W + 2 * CYCLE_PAD);
+        h = CYCLE_HEAD + d + 200;
+      }
+      return { c, mode, x: c.x0, w, h };
+    });
+    // Greedy lanes: a cycle goes into the first lane whose last box ends before it starts.
+    const lanes = [];
+    for (const b of [...sized].sort((a, z) => a.x - z.x || a.c.id.localeCompare(z.c.id))) {
+      let lane = lanes.find((l) => l.end + 40 <= b.x);
+      if (!lane) { lane = { end: -Infinity, items: [] }; lanes.push(lane); }
+      lane.items.push(b);
+      lane.end = b.x + b.w;
+    }
+    let y = TL.world_height + 140;
+    for (const lane of lanes) {
+      const h = Math.max(...lane.items.map((b) => b.h));
+      for (const b of lane.items) { b.y = y; cycleBoxes.set(b.c.id, b); }
+      y += h + LANE_GAP;
+    }
+    for (const n of nodes) {
+      const b = cycleBoxes.get(cycleOf(n));
+      if (!b) continue;
+      if (b.mode === 'columns') {
+        const offset = (b.w - b.c.inner_width - 2 * CYCLE_PAD) / 2;
+        n.x = b.x + CYCLE_PAD + offset + n.rx;
+        n.y = b.y + CYCLE_HEAD + CYCLE_PAD + 24 + n.ry;
+      } else if (b.mode === 'ring') {
+        const d = ringDiameter(b.c);
+        const cx = b.x + b.w / 2;
+        const cy = b.y + CYCLE_HEAD + 100 + d / 2;
+        const same = nodes.filter((m) => m.cycle === n.cycle && m.step === n.step).sort((a, z) => a.ry - z.ry);
+        const j = same.indexOf(n);
+        const angle = -Math.PI / 2 + ((n.step ?? 1) - 0.5) * (2 * Math.PI / STEP_COUNT);
+        n.x = cx + (d / 2) * Math.cos(angle) - NODE_W / 2;
+        n.y = cy + (d / 2) * Math.sin(angle) - 45 + (j - (same.length - 1) / 2) * 120;
+      } else {
+        n.x = b.x + b.w / 2 - NODE_W / 2;
+        n.y = b.y + COLLAPSED_H / 2;
+      }
+    }
+  }
+
+  /** Small story-circle icon: one slice per step, filled when the step has actions, † at death. */
+  function wheel(c, size) {
+    const svg = svgEl('svg', { width: size, height: size, viewBox: '-1 -1 2 2', class: 'cycle-wheel' });
+    for (let k = 1; k <= STEP_COUNT; k++) {
+      const a0 = -Math.PI / 2 + (k - 1) * (2 * Math.PI / STEP_COUNT);
+      const a1 = a0 + 2 * Math.PI / STEP_COUNT;
+      const p = (a, r) => `${(r * Math.cos(a)).toFixed(3)} ${(r * Math.sin(a)).toFixed(3)}`;
+      const used = nodes.some((n) => n.cycle === c.id && n.step === k);
+      const slice = svgEl('path', {
+        d: `M ${p(a0, 0.35)} L ${p(a0, 0.95)} A 0.95 0.95 0 0 1 ${p(a1, 0.95)} L ${p(a1, 0.35)} A 0.35 0.35 0 0 0 ${p(a0, 0.35)} Z`,
+        class: `wheel-slice${used ? ' used' : ''}${c.death_step === k ? ' death' : ''}`,
+      });
+      if (used) slice.style.fill = c.color;
+      const tip = svgEl('title');
+      tip.textContent = `${k}. ${G.steps[k - 1] ?? ''}${c.death_step === k ? ' †' : ''}`;
+      slice.append(tip);
+      svg.append(slice);
+    }
+    return svg;
+  }
+
+  function renderCycles() {
+    const layerEl = $('cycles-layer');
+    layerEl.replaceChildren();
+    if (!TL) return;
+    for (const b of cycleBoxes.values()) {
+      const { c, mode } = b;
+      const frame = el('div', `cycle-frame ${mode}`);
+      Object.assign(frame.style, { left: `${b.x}px`, top: `${b.y}px`, width: `${b.w}px`, height: `${b.h}px`, borderColor: c.color });
+      if (filter && !nodes.some((n) => n.cycle === c.id && nodeMatches(n))) frame.classList.add('faded');
+      const head = el('div', 'cycle-head');
+      head.style.background = `${c.color}33`;
+      const title = el('div', 'cycle-title');
+      title.append(el('b', null, c.name), el('span', 'cycle-hero', ` · ${ownerName(c.hero)}`));
+      if (c.death_step) title.append(el('span', 'cycle-death', ` † ${c.death_step}. ${G.steps[c.death_step - 1] ?? ''}`));
+      if (c.text) title.title = c.text;
+      const tools = el('div', 'cycle-tools');
+      for (const [m, icon, label] of [['collapsed', '—', t.collapse], ['columns', '▦', t.columns], ['ring', '◯', t.ring]]) {
+        const btn = el('button', `cycle-btn${mode === m ? ' active' : ''}`, icon);
+        btn.title = label;
+        btn.addEventListener('mousedown', (e) => e.stopPropagation());
+        btn.addEventListener('click', () => setCycleView(c.id, m));
+        tools.append(btn);
+      }
+      head.append(title, tools);
+      frame.append(head);
+      if (mode === 'collapsed') {
+        const body = el('div', 'cycle-body');
+        const count = nodes.filter((n) => n.cycle === c.id).length;
+        body.append(wheel(c, 64), el('span', 'cycle-count', actionCount(count)));
+        body.title = t.expand;
+        body.addEventListener('mousedown', (e) => e.stopPropagation());
+        body.addEventListener('click', () => setCycleView(c.id, 'columns'));
+        frame.append(body);
+      } else if (mode === 'columns') {
+        const offset = (b.w - c.inner_width - 2 * CYCLE_PAD) / 2;
+        c.step_columns.forEach(([x, w], i) => {
+          const col = el('div', `step-col${c.death_step === i + 1 ? ' death' : ''}`, `${i + 1}. ${G.steps[i] ?? ''}${c.death_step === i + 1 ? ' †' : ''}`);
+          Object.assign(col.style, { left: `${CYCLE_PAD + offset + x}px`, top: `${CYCLE_HEAD + 6}px`, width: `${w}px`, height: `${b.h - CYCLE_HEAD - 12}px` });
+          frame.append(col);
+        });
+      } else {
+        const d = ringDiameter(c);
+        const ring = svgEl('svg', { class: 'cycle-ring', width: b.w, height: b.h - CYCLE_HEAD });
+        const cx = b.w / 2;
+        const cy = 100 + d / 2;
+        ring.append(svgEl('circle', { cx, cy, r: d / 2, class: 'ring-line' }));
+        for (let k = 0; k < STEP_COUNT; k++) {
+          const a = -Math.PI / 2 + k * (2 * Math.PI / STEP_COUNT);
+          ring.append(svgEl('line', { x1: cx, y1: cy, x2: cx + (d / 2 - 40) * Math.cos(a), y2: cy + (d / 2 - 40) * Math.sin(a), class: 'ring-spoke' }));
+          const mid = a + Math.PI / STEP_COUNT;
+          const label = svgEl('text', { x: cx + d * 0.27 * Math.cos(mid), y: cy + d * 0.27 * Math.sin(mid), class: `ring-label${c.death_step === k + 1 ? ' death' : ''}`, 'text-anchor': 'middle' });
+          label.textContent = `${k + 1}. ${G.steps[k] ?? ''}${c.death_step === k + 1 ? ' †' : ''}`;
+          ring.append(label);
+        }
+        ring.style.top = `${CYCLE_HEAD}px`;
+        frame.append(ring);
+      }
+      layerEl.append(frame);
+    }
+  }
+
+  /**
+   * Where a line meets a cycle frame: the top edge (above the other end's x) when the other end is
+   * above the frame, otherwise the right edge for lines leaving and the left edge for lines entering.
+   */
+  function frameAnchor(b, other, leaving) {
+    if (other.y < b.y) {
+      return { x: Math.max(b.x + 24, Math.min(b.x + b.w - 24, other.x)), y: b.y - (leaving ? 0 : 6) };
+    }
+    return leaving ? { x: b.x + b.w, y: b.y + Math.min(b.h / 2, 80) } : { x: b.x - 5, y: b.y + Math.min(b.h / 2, 80) };
+  }
+
+  /** Bounding box of everything drawn, for fitting the view. */
+  function contentBox() {
+    let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
+    for (const n of nodes) {
+      if (hiddenNode(n)) continue;
+      const h = $(`node-${n.id}`)?.offsetHeight ?? 100;
+      minX = Math.min(minX, n.x); minY = Math.min(minY, n.y);
+      maxX = Math.max(maxX, n.x + NODE_W); maxY = Math.max(maxY, n.y + h);
+    }
+    for (const b of cycleBoxes.values()) {
+      minX = Math.min(minX, b.x); minY = Math.min(minY, b.y);
+      maxX = Math.max(maxX, b.x + b.w); maxY = Math.max(maxY, b.y + b.h);
+    }
+    return minX === Infinity ? null : { minX, minY, maxX, maxY };
+  }
+
+  // ---------- "from here on": what is still possible after chosen moments ----------
+  // happened: node id → chosen option index (decisions) or null. Choosing a moment also marks what
+  // it needed as happened (the earliest producer of each need, recursively).
+  const happened = new Map();
+  let doneSet = new Set();
+  let openSet = new Set();
+  let closedSet = new Set();
+  const optionsOf = (n, opt) => (n.kind === 'decision' ? (opt === null || opt === undefined ? n.options : [n.options[opt]]) : [n]);
+  const needsOf = (n, opt) => [...n.needs, ...optionsOf(n, opt).flatMap((o) => (o === n ? [] : o.needs))];
+  const usesOf = (n, opt) => [...n.uses, ...optionsOf(n, opt).flatMap((o) => (o === n ? [] : o.uses))];
+  const givesOf = (n, opt) => [...n.gives, ...optionsOf(n, opt).flatMap((o) => (o === n ? [] : o.gives))];
+  const startingThings = new Set(G.things.filter((x) => x.starting).map((x) => x.id));
+  const nodeTime = (n) => (tickSpan(n)?.[0] ?? 0) * 1e6 + n.x;
+
+  function markHappened(id, opt) {
+    const stack = [[id, opt]];
+    while (stack.length) {
+      const [nid, o] = stack.pop();
+      if (happened.has(nid) && (o === null || happened.get(nid) === o)) continue;
+      if (happened.has(nid) && happened.get(nid) !== null && nid !== id) { toast(t.stateConflict); continue; }
+      const n = byId.get(nid);
+      if (!n) continue;
+      happened.set(nid, o);
+      for (const thing of [...needsOf(n, o), ...usesOf(n, o)]) {
+        if (startingThings.has(thing)) continue;
+        if ([...happened].some(([hid, ho]) => givesOf(byId.get(hid), ho).includes(thing))) continue;
+        const producers = [];
+        for (const m of nodes) {
+          if (m.id === nid) continue;
+          if (m.kind === 'decision') {
+            m.options.forEach((op, i) => { if ([...m.gives, ...op.gives].includes(thing)) producers.push([m, i]); });
+          } else if (m.gives.includes(thing)) producers.push([m, null]);
+        }
+        producers.sort((a, b) => nodeTime(a[0]) - nodeTime(b[0]));
+        if (producers.length) stack.push([producers[0][0].id, producers[0][1]]);
+      }
+    }
+    computeState();
+    renderAll();
+    renderStateBar();
+  }
+
+  /** When a node happens, in ticks [start, end); null when the game has no time axis. */
+  function tickSpan(n) {
+    const unit = TL?.unit ?? 1;
+    if (n.cycle && cycles.get(n.cycle)?.span) {
+      const [a, b] = cycles.get(n.cycle).span;
+      const len = (b - a) / STEP_COUNT;
+      return [a + ((n.step ?? 1) - 1) * len, a + (n.step ?? 1) * len];
+    }
+    const i = segIndex.get(n.segment);
+    return i === undefined ? null : [i * unit, (i + 1) * unit];
+  }
+
+  function computeState() {
+    doneSet = new Set(happened.keys());
+    openSet = new Set();
+    closedSet = new Set();
+    if (!happened.size) return;
+    const have = new Set(startingThings);
+    for (const [id, o] of happened) for (const x of givesOf(byId.get(id), o)) have.add(x);
+    for (const [id, o] of happened) for (const x of usesOf(byId.get(id), o)) have.delete(x);
+    // Time: whatever ended before the latest marked moment started is in the past.
+    const now = Math.max(...[...happened.keys()].map((id) => tickSpan(byId.get(id))?.[0] ?? -Infinity));
+    // Past nodes are over either way. Whether they happened is unknown, so their results count as
+    // possible (reach), and only if their needs could have been met; in time order.
+    const reach = new Set(have);
+    const past = nodes
+      .filter((n) => !doneSet.has(n.id) && tickSpan(n) && tickSpan(n)[1] <= now)
+      .sort((a, b) => nodeTime(a) - nodeTime(b));
+    for (const n of past) {
+      doneSet.add(n.id);
+      const opts = n.kind === 'decision' ? n.options.map((_, i) => i) : [null];
+      for (const i of opts) {
+        if ([...needsOf(n, i), ...usesOf(n, i)].every((x) => reach.has(x))) for (const x of givesOf(n, i)) reach.add(x);
+      }
+    }
+    // Optimistic forward closure: a node is open when its needs can still come about.
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const n of nodes) {
+        if (doneSet.has(n.id) || openSet.has(n.id)) continue;
+        const ok = (n.kind === 'decision' ? n.options.map((_, i) => i) : [null])
+          .some((i) => [...needsOf(n, i), ...usesOf(n, i)].every((x) => reach.has(x)));
+        if (!ok) continue;
+        openSet.add(n.id);
+        for (const x of givesOf(n, null)) reach.add(x);
+        changed = true;
+      }
+    }
+    for (const n of nodes) if (!doneSet.has(n.id) && !openSet.has(n.id)) closedSet.add(n.id);
+  }
+
+  function renderStateBar() {
+    let bar = $('state-bar');
+    if (!bar) {
+      bar = el('div');
+      bar.id = 'state-bar';
+      $('workspace-graph').append(bar);
+    }
+    bar.replaceChildren();
+    bar.classList.toggle('hidden', !happened.size);
+    if (!happened.size) return;
+    const names = [...happened].map(([id, o]) => {
+      const n = byId.get(id);
+      return o === null || o === undefined ? n.title : `${n.title} → ${n.options[o].label}`;
+    });
+    bar.append(el('b', null, `${t.stateTitle}: `), el('span', null, `${t.stateDone} ${doneSet.size} · ${t.stateOpen} ${openSet.size} · ${t.stateClosed} ${closedSet.size}`));
+    const list = el('div', 'state-list', names.slice(-3).join(' · ') + (names.length > 3 ? ` (+${names.length - 3})` : ''));
+    bar.append(list);
+    if (filter?.kind === 'owner') {
+      const ahead = nodes.filter((n) => openSet.has(n.id) && n.owners.includes(filter.id)).sort((a, b) => nodeTime(a) - nodeTime(b));
+      const line = el('div', 'state-ahead');
+      line.append(el('b', null, `${t.stateAhead} (${ownerName(filter.id)}): `));
+      if (ahead.length) line.append(joinNodes(ahead)); else line.append(t.stateNothing);
+      bar.append(line);
+    }
+    const reset = el('button', 'state-reset', t.stateReset);
+    reset.addEventListener('click', () => { happened.clear(); computeState(); renderAll(); renderStateBar(); });
+    bar.append(reset);
+  }
+
+  /** "It happened" buttons for the details panel. */
+  function happenedButtons(n) {
+    const box = el('div', 'happened-box');
+    const add = (label, opt) => {
+      const b = el('button', 'happened-btn', label);
+      b.addEventListener('click', () => markHappened(n.id, opt));
+      box.append(b);
+    };
+    if (n.kind === 'decision') n.options.forEach((o, i) => add(`✓ ${o.label}`, i));
+    else add(`✓ ${t.stateHappened}`, null);
+    return box;
+  }
+
   function renderAll() {
+    placeCycles();
     renderNodes();
+    renderCycles();
     renderSegments();
     renderConnections();
   }
@@ -411,6 +930,13 @@
       const seg = el('div', 'segment-chip', segments.get(n.segment)?.name ?? n.segment);
       seg.style.borderColor = segColor(segments.get(n.segment));
       box.append(seg);
+    }
+    box.append(el('div', 'happened-title', t.stateFromHere), happenedButtons(n));
+    if (n.cycle) {
+      const c = cycles.get(n.cycle);
+      const chip = el('div', 'segment-chip', `${c?.name ?? n.cycle} · ${n.step ?? '?'}. ${G.steps[(n.step ?? 1) - 1] ?? ''}`);
+      chip.style.borderColor = c?.color ?? '#888';
+      box.append(chip);
     }
 
     if (n.owners.length) {
@@ -462,6 +988,7 @@
 
   // ---------- legend & filter ----------
   function setFilter(next) {
+    queueMicrotask(renderStateBar);
     filter = filter && next && filter.kind === next.kind && filter.id === next.id ? null : next;
     $('btn-clear-filter').classList.toggle('hidden', !filter);
     renderLegend();
@@ -569,7 +1096,13 @@
     const dy = e.movementY / scale;
     if (dragging.type === 'node') {
       const ids = selected.has(dragging.id) ? [...selected] : [dragging.id];
-      for (const id of ids) { const n = byId.get(id); n.x += dx; n.y += dy; }
+      for (const id of ids) {
+        const n = byId.get(id);
+        if (cycleOf(n)) {
+          if (viewOf(n.cycle) !== 'columns') continue;
+          n.rx += dx; n.ry += dy;
+        } else { n.x += dx; n.y += dy; }
+      }
       renderAll();
     } else {
       const k = knees[dragging.edge][dragging.index];
@@ -598,6 +1131,7 @@
   }, { passive: false });
 
   function centerAndFit() {
+    if (TL) { const box = contentBox(); if (box) fitTo({ ...box, minY: box.minY - 60 }); return; }
     if (!nodes.length) return;
     let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
     for (const n of nodes) {
@@ -634,11 +1168,13 @@
     ];
     const moved = (n) => {
       const o = byIdOriginal.get(n.id);
-      return !o || r(o.x) !== r(n.x) || r(o.y) !== r(n.y);
+      const [x, y] = n.cycle ? [n.rx, n.ry] : [n.x, n.y];
+      return !o || r(o.x) !== r(x) || r(o.y) !== r(y);
     };
     for (const n of [...nodes].sort((a, b) => a.id.localeCompare(b.id))) {
       if (onlyMoved && !moved(n)) continue;
-      out.push(`[node.${n.id}]`, `x = ${r(n.x)}`, `y = ${r(n.y)}`, '');
+      const [x, y] = n.cycle ? [n.rx, n.ry] : [n.x, n.y];
+      out.push(`[node.${n.id}]`, `x = ${r(x)}`, `y = ${r(y)}`, '');
     }
     const edges = Object.keys(knees).filter((k) => knees[k].length).sort();
     if (edges.length) {
@@ -663,7 +1199,10 @@
 
   $('btn-reset-layout').addEventListener('click', () => {
     storage.clear();
-    for (const n of nodes) Object.assign(n, { x: byIdOriginal.get(n.id).x, y: byIdOriginal.get(n.id).y });
+    for (const n of nodes) {
+      const o = byIdOriginal.get(n.id);
+      if (n.cycle) Object.assign(n, { rx: o.x, ry: o.y }); else Object.assign(n, { x: o.x, y: o.y });
+    }
     knees = structuredClone(G.knees || {});
     renderAll();
     centerAndFit();
@@ -816,6 +1355,14 @@
         ? [...G.segments, { id: segDefault, name: `${segDefault} (?)` }] : G.segments;
       const seg = selectInput(segChoices, segDefault);
       field(form, t.segment, seg);
+      let cyc = null;
+      let stepSel = null;
+      if (G.cycles.length) {
+        cyc = selectInput(G.cycles, n?.cycle ?? '');
+        field(form, t.inCycle, cyc);
+        stepSel = selectInput(G.steps.map((name, i) => ({ id: String(i + 1), name: `${i + 1}. ${name}` })), String(n?.step ?? 1));
+        field(form, t.step, stepSel);
+      }
 
       const actionBox = el('div', 'kind-box');
       const needs = picker(thingChoices(), n?.needs ?? []);
@@ -865,7 +1412,8 @@
       const text = field(form, t.orgText, textInput(n?.text, true), t.textHelp);
       return () => ({
         create, id: id.value.trim(), kind: kindSel.value, title: title.value, owners: who.value(),
-        segment: seg.value, needs: needs.value(), uses: uses.value(), gives: gives.value(),
+        segment: seg.value, cycle: cyc?.value ?? '', step: stepSel ? Number(stepSel.value) : null,
+        needs: needs.value(), uses: uses.value(), gives: gives.value(),
         brief: brief.value, text: text.value,
         options: kindSel.value === 'decision'
           ? optionEditors.map((o) => ({ label: o.label.value, needs: o.on.value(), uses: o.ou.value(), gives: o.og.value() }))
@@ -979,6 +1527,685 @@
     pollForChanges();
   }
 
+  // ---------- summary tables (tabs) ----------
+  const segIndex = new Map(G.segments.map((s, i) => [s.id, i]));
+  const segName = (id) => segments.get(id)?.name ?? (id || t.noSegment);
+  const playerName = (id) => G.players.find((p) => p.id === id)?.name ?? id;
+  const people = G.owners.filter((o) => o.kind === 'person');
+  const rooms = G.owners.filter((o) => o.kind === 'room');
+  /** Index range of segments a character lives in. */
+  const lifeRange = (o) => [o.enters ? segIndex.get(o.enters) ?? 0 : 0,
+    o.dies ? segIndex.get(o.dies) ?? G.segments.length - 1 : G.segments.length - 1];
+  const hasLives = G.players.length > 0 || people.some((o) => o.enters || o.dies || o.played_by);
+  const nodeThings = (n, key) => [...n[key], ...n.options.flatMap((o) => o[key])];
+
+  /** A clickable chip that shows a node in the graph. */
+  function nodeLink(n) {
+    const a = el('a', 'chip-link', n.title);
+    a.href = '#';
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      showTab('graph');
+      selected.clear();
+      selected.add(n.id);
+      renderNodes();
+      showDetails(n.id);
+    });
+    return a;
+  }
+  const joinNodes = (list) => {
+    const span = el('span');
+    list.forEach((n, i) => { if (i) span.append(', '); span.append(nodeLink(n)); });
+    return span;
+  };
+  const dot = (color) => { const d = el('span', 'dot'); d.style.background = color; return d; };
+
+  /**
+   * Builds a sortable, filterable table. `columns` are { label, cell(row) → string | Node,
+   * sort?(row) → string | number }.
+   */
+  function dataTable(rows, columns) {
+    const wrap = el('div', 'table-wrap');
+    const search = el('input', 'table-filter');
+    search.placeholder = t.filter;
+    const table = el('table', 'data');
+    let sortBy = null;
+    let desc = false;
+    const draw = () => {
+      table.replaceChildren();
+      const head = el('tr');
+      columns.forEach((c, i) => {
+        const th = el('th', null, c.label + (sortBy === i ? (desc ? ' ▼' : ' ▲') : ''));
+        th.addEventListener('click', () => { desc = sortBy === i ? !desc : false; sortBy = i; draw(); });
+        head.append(th);
+      });
+      table.append(head);
+      const q = search.value.trim().toLowerCase();
+      let list = rows.map((r) => ({ r, cells: columns.map((c) => c.cell(r)) }));
+      if (q) list = list.filter((x) => x.cells.some((c) => (typeof c === 'string' ? c : c?.textContent ?? '').toLowerCase().includes(q)));
+      if (sortBy !== null) {
+        const key = (x) => {
+          const c = columns[sortBy];
+          const v = c.sort ? c.sort(x.r) : x.cells[sortBy];
+          return typeof v === 'number' ? v : (typeof v === 'string' ? v : v?.textContent ?? '');
+        };
+        list.sort((a, b) => {
+          const ka = key(a); const kb = key(b);
+          const cmp = typeof ka === 'number' && typeof kb === 'number' ? ka - kb : String(ka).localeCompare(String(kb));
+          return desc ? -cmp : cmp;
+        });
+      }
+      if (!list.length) {
+        const tr = el('tr');
+        const td = el('td', 'empty', t.noRows);
+        td.colSpan = columns.length;
+        tr.append(td);
+        table.append(tr);
+      }
+      for (const x of list) {
+        const tr = el('tr');
+        for (const c of x.cells) { const td = el('td'); td.append(c ?? ''); tr.append(td); }
+        table.append(tr);
+      }
+    };
+    search.addEventListener('input', draw);
+    draw();
+    wrap.append(search, table);
+    return wrap;
+  }
+
+  function placesTable() {
+    return dataTable(rooms, [
+      { label: t.room, cell: (r) => { const s = el('span'); s.append(dot(r.color), ` ${r.name}`); return s; }, sort: (r) => r.name },
+      { label: t.what, cell: (r) => {
+        const box = el('div');
+        const here = nodes.filter((n) => n.owners.includes(r.id));
+        const bySeg = new Map();
+        for (const n of here) { const k = segKey(n); if (!bySeg.has(k)) bySeg.set(k, []); bySeg.get(k).push(n); }
+        for (const [k, list] of [...bySeg].sort((a, b) => (segIndex.get(a[0]) ?? 1e9) - (segIndex.get(b[0]) ?? 1e9))) {
+          const line = el('div', 'seg-line');
+          if (G.segments.length) line.append(el('span', 'seg-name', `${segName(k)}: `));
+          line.append(joinNodes(list));
+          box.append(line);
+        }
+        return box;
+      }, sort: (r) => nodes.filter((n) => n.owners.includes(r.id)).length },
+      { label: t.who, cell: (r) => [...new Set(nodes.filter((n) => n.owners.includes(r.id)).flatMap((n) => n.owners))]
+        .filter((id) => id !== r.id).map(ownerName).join(', ') },
+      { label: t.startsHere, cell: (r) => G.things.filter((x) => x.starting && x.owners.includes(r.id)).map((x) => x.name).join(', ') },
+    ]);
+  }
+
+  function lifeText(o) {
+    if (o.dies_step) {
+      const c = cycles.get(o.hero_of);
+      return `${o.enters ? segName(o.enters) : t.starting} → ${c?.name ?? ''} ${o.dies_step}. ${G.steps[o.dies_step - 1] ?? ''} †`;
+    }
+    if (!o.enters && !o.dies) return t.wholeGame;
+    return `${o.enters ? segName(o.enters) : t.starting} → ${o.dies ? `${segName(o.dies)} †` : '…'}`;
+  }
+
+  function peopleTable() {
+    return dataTable(people, [
+      { label: t.name, cell: (o) => {
+        const s = el('span');
+        s.append(dot(o.color), ` ${o.name}`);
+        if (o.role === 'player') {
+          const a = el('a', 'sheet-link', ' 📄');
+          a.href = `players/${encodeURIComponent(o.id)}.html`;
+          a.title = t.sheet;
+          s.append(a);
+        }
+        return s;
+      }, sort: (o) => o.name },
+      { label: t.role, cell: (o) => [t[o.role], o.outside_cycle ? t.outside : null].filter(Boolean).join(' · ') },
+      ...(hasLives ? [
+        { label: t.playedBy, cell: (o) => (o.played_by ? playerName(o.played_by) : '') },
+        { label: t.life, cell: lifeText, sort: (o) => lifeRange(o)[0] * 1000 + lifeRange(o)[1] },
+      ] : []),
+      { label: t.acts, cell: (o) => [...new Set(nodes.filter((n) => n.owners.includes(o.id)).map(segKey))]
+        .sort((a, b) => (segIndex.get(a) ?? 1e9) - (segIndex.get(b) ?? 1e9)).map(segName).join(', ') },
+      { label: t.actions, cell: (o) => joinNodes(nodes.filter((n) => n.owners.includes(o.id))), sort: (o) => nodes.filter((n) => n.owners.includes(o.id)).length },
+      { label: t.holds, cell: (o) => G.things.filter((x) => x.starting && x.owners.includes(o.id)).map((x) => x.name).join(', ') },
+    ]);
+  }
+
+  /**
+   * Timeline layout: one row per player, world time left to right; each character is a bar over
+   * their life, their cycle is a block with one tick per step, † marks the death.
+   */
+  function playersTimeline() {
+    if (!G.players.length) return el('p', 'hint', t.noPlayers);
+    const total = TL.total || 1;
+    const pct = (tick) => `${(tick / total) * 100}%`;
+    const wrap = el('div', 'timeline-wrap');
+    const head = el('div', 'tl-row tl-head');
+    head.append(el('div', 'tl-name'));
+    const track = el('div', 'tl-track');
+    G.segments.forEach((s, i) => {
+      const cell = el('div', 'tl-seg', s.name);
+      Object.assign(cell.style, { left: pct(i * TL.unit), width: pct(TL.unit), borderColor: segColor(s) });
+      track.append(cell);
+    });
+    head.append(track);
+    wrap.append(head);
+    for (const p of G.players) {
+      const row = el('div', 'tl-row');
+      row.append(el('div', 'tl-name', p.name));
+      const lane = el('div', 'tl-track');
+      G.segments.forEach((_, i) => {
+        const line = el('div', 'tl-grid');
+        line.style.left = pct(i * TL.unit);
+        lane.append(line);
+      });
+      const mine = people.filter((o) => o.played_by === p.id && o.life).sort((a, b) => a.life[0] - b.life[0]);
+      // Overlapping lives (a warning) go into extra sub-rows so both stay visible.
+      const ends = [];
+      const sub = mine.map((o) => {
+        let k = ends.findIndex((e) => e <= o.life[0]);
+        if (k < 0) { k = ends.length; ends.push(0); }
+        ends[k] = o.life[1];
+        return k;
+      });
+      row.style.minHeight = `${12 + Math.max(1, ends.length) * 36}px`;
+      mine.forEach((o, i) => {
+        const [a, b] = o.life;
+        const bar = el('div', `tl-bar${o.outside_cycle ? ' outside' : ''}`);
+        Object.assign(bar.style, { left: pct(a), width: pct(b - a), top: `${6 + sub[i] * 36}px`, height: '32px', background: `${o.color}55`, borderColor: o.color });
+        if (mine.some((x, j) => j !== i && x.life[0] < b && a < x.life[1])) bar.classList.add('clash');
+        bar.title = `${o.name}: ${lifeText(o)}`;
+        bar.append(el('span', 'tl-label', o.name));
+        const c = o.hero_of && cycles.get(o.hero_of);
+        if (c?.span) {
+          const block = el('div', 'tl-cycle');
+          const [cs, ce] = c.span;
+          Object.assign(block.style, { left: `${((cs - a) / (b - a)) * 100}%`, width: `${((ce - cs) / (b - a)) * 100}%`, borderColor: c.color });
+          for (let k = 1; k < STEP_COUNT; k++) {
+            const tick = el('div', 'tl-tick');
+            tick.style.left = `${(k / STEP_COUNT) * 100}%`;
+            block.append(tick);
+          }
+          block.title = `${c.name}${c.death_step ? ` † ${c.death_step}. ${G.steps[c.death_step - 1] ?? ''}` : ''}`;
+          block.addEventListener('click', () => { showTab('graph'); focusCycle(c.id); });
+          bar.append(block);
+        }
+        if (o.dies || o.dies_step) bar.append(el('span', 'tl-death', '†'));
+        lane.append(bar);
+      });
+      row.append(lane);
+      wrap.append(row);
+    }
+    return wrap;
+  }
+
+  function cyclesTable() {
+    if (!G.cycles.length) return el('p', 'hint', t.noRows);
+    return dataTable(G.cycles, [
+      { label: t.inCycle, cell: (c) => { const x = el('span'); x.append(wheel(c, 18), ` ${c.name}`); return x; }, sort: (c) => c.span?.[0] ?? 1e9 },
+      { label: t.hero, cell: (c) => ownerName(c.hero) },
+      { label: t.playedBy, cell: (c) => { const h = owners.get(c.hero); return h?.played_by ? playerName(h.played_by) : ''; } },
+      { label: t.when, cell: (c) => (c.from === c.to ? segName(c.from) : `${segName(c.from)} – ${segName(c.to)}`), sort: (c) => c.span?.[0] ?? 1e9 },
+      { label: t.death, cell: (c) => (c.death_step ? `† ${c.death_step}. ${G.steps[c.death_step - 1] ?? ''}` : '') },
+      { label: t.helpers, cell: (c) => [...new Set(nodes.filter((n) => n.cycle === c.id).flatMap((n) => n.owners))].filter((id) => id !== c.hero).map(ownerName).join(', ') },
+      { label: t.actions, cell: (c) => joinNodes(nodes.filter((n) => n.cycle === c.id).sort((a, b) => (a.step ?? 0) - (b.step ?? 0))), sort: (c) => nodes.filter((n) => n.cycle === c.id).length },
+    ]);
+  }
+
+  /** Grid: one row per player, one column per segment, the character they play in each cell. */
+  function playersGrid() {
+    if (TL) return playersTimeline();
+    if (!G.players.length) return el('p', 'hint', t.noPlayers);
+    const wrap = el('div', 'table-wrap');
+    const table = el('table', 'data grid');
+    const head = el('tr');
+    head.append(el('th', null, t.tabPlayers));
+    const groupStart = new Set(G.segments.map((s, i) => (i && s.group && s.group !== G.segments[i - 1].group ? i : -1)));
+    G.segments.forEach((s, i) => {
+      const th = el('th', 'seg-col', s.name);
+      if (groupStart.has(i)) th.classList.add('group-start');
+      if (s.group) th.title = s.group;
+      head.append(th);
+    });
+    table.append(head);
+    for (const p of G.players) {
+      const tr = el('tr');
+      tr.append(el('th', null, p.name));
+      const mine = people.filter((o) => o.played_by === p.id);
+      G.segments.forEach((s, i) => {
+        const alive = mine.filter((o) => { const [a, b] = lifeRange(o); return a <= i && i <= b; });
+        const td = el('td', 'cell');
+        if (groupStart.has(i)) td.classList.add('group-start');
+        if (!alive.length) { td.classList.add('idle'); td.textContent = t.idle; }
+        for (const o of alive) {
+          const chip = el('div', 'life-chip', o.name);
+          chip.style.borderLeftColor = o.color;
+          if (o.outside_cycle) chip.classList.add('outside');
+          if (alive.length > 1) chip.classList.add('clash');
+          if (o.dies === s.id) chip.append(el('span', 'death', ' †'));
+          chip.title = `${o.name}: ${lifeText(o)}`;
+          td.append(chip);
+        }
+        tr.append(td);
+      });
+      table.append(tr);
+    }
+    wrap.append(table);
+    return wrap;
+  }
+
+  function thingsTable() {
+    const by = (key, id) => nodes.filter((n) => nodeThings(n, key).includes(id));
+    return dataTable(G.things, [
+      { label: t.name, cell: (x) => { const s = el('span'); s.append(dot(x.color ?? 'transparent'), ` ${x.name}`); return s; }, sort: (x) => x.name },
+      { label: t.kind, cell: (x) => [t[x.kind], x.ending ? t.ending : null].filter(Boolean).join(' · ') },
+      { label: t.givenBy, cell: (x) => joinNodes(by('gives', x.id)) },
+      { label: t.neededBy, cell: (x) => joinNodes(by('needs', x.id)) },
+      { label: t.usedBy, cell: (x) => joinNodes(by('uses', x.id)) },
+      { label: t.startsAt, cell: (x) => (x.starting ? (x.owners.map(ownerName).join(', ') || t.starting) : '') },
+    ]);
+  }
+
+  function segmentsTable() {
+    const rows = segmentRows();
+    if (!rows.length) return el('p', 'hint', t.noRows);
+    return dataTable(rows, [
+      { label: t.segment, cell: (s) => { const x = el('span'); x.append(dot(s.color), ` ${s.name}`); return x; }, sort: (s) => segIndex.get(s.id) ?? 1e9 },
+      { label: t.group, cell: (s) => s.group ?? '' },
+      { label: t.actions, cell: (s) => joinNodes(nodes.filter((n) => segKey(n) === s.id)), sort: (s) => s.count },
+      { label: t.present, cell: (s) => {
+        const i = segIndex.get(s.id);
+        if (i === undefined) return '';
+        return people.filter((o) => { const [a, b] = lifeRange(o); return a <= i && i <= b; })
+          .map((o) => o.name + (o.dies === s.id ? ' †' : '')).join(', ');
+      } },
+      { label: t.links, cell: (s) => {
+        const inn = G.edges.filter((e) => e.cross && segKey(byId.get(e.to)) === s.id).length;
+        const out = G.edges.filter((e) => e.cross && segKey(byId.get(e.from)) === s.id).length;
+        return `← ${inn} · ${out} →`;
+      } },
+    ]);
+  }
+
+  function problemsTable() {
+    return dataTable(G.findings, [
+      { label: t.severity, cell: (f) => (f.severity === 'error' ? `✖ ${t.error}` : `⚠ ${t.warning}`) },
+      { label: t.message, cell: (f) => {
+        if (!f.node || !byId.get(f.node)) return f.message;
+        const s = el('span');
+        s.append(f.message, ' ', nodeLink(byId.get(f.node)));
+        return s;
+      } },
+      { label: t.file, cell: (f) => f.file },
+      { label: t.help, cell: (f) => f.help ?? '' },
+    ]);
+  }
+
+  // ---------- tile map of the places ----------
+  // Floor plan: walls along grid lines (unit edges "h:x,y" = (x,y)→(x+1,y), "v:x,y" = (x,y)→(x,y+1)),
+  // corridor tiles, and rooms as draggable tiles. Presets are saved floor plans (no rooms).
+  const CELL = 40;
+  const wallKeys = (walls) => {
+    const set = new Set();
+    for (const [x1, y1, x2, y2] of walls ?? []) {
+      if (y1 === y2) for (let x = Math.min(x1, x2); x < Math.max(x1, x2); x++) set.add(`h:${x},${y1}`);
+      else if (x1 === x2) for (let y = Math.min(y1, y2); y < Math.max(y1, y2); y++) set.add(`v:${x1},${y}`);
+    }
+    return set;
+  };
+  /** Unit edges merged into straight runs. */
+  function wallRuns(set) {
+    const runs = [];
+    const keys = [...set].map((k) => { const [d, xy] = k.split(':'); const [x, y] = xy.split(',').map(Number); return { d, x, y }; });
+    for (const d of ['h', 'v']) {
+      const along = keys.filter((k) => k.d === d).sort((a, z) => (d === 'h' ? a.y - z.y || a.x - z.x : a.x - z.x || a.y - z.y));
+      let run = null;
+      for (const k of along) {
+        const [line, pos] = d === 'h' ? [k.y, k.x] : [k.x, k.y];
+        if (run && run.line === line && run.end === pos) run.end = pos + 1;
+        else { if (run) runs.push(run); run = { d, line, start: pos, end: pos + 1 }; }
+      }
+      if (run) runs.push(run);
+    }
+    return runs.map((r) => (r.d === 'h' ? [r.start, r.line, r.end, r.line] : [r.line, r.start, r.line, r.end]));
+  }
+  // The map being drawn is kept in the browser after every change, so nothing is lost before it is
+  // saved into the game (serve) or downloaded (static site).
+  const MAP_KEY = `larpidarium-map:${G.title}`;
+  const mapDraft = {
+    load() { try { return JSON.parse(localStorage.getItem(MAP_KEY) || 'null'); } catch { return null; } },
+    save(m) { try { localStorage.setItem(MAP_KEY, JSON.stringify(m)); } catch { /* private mode */ } },
+    clear() { try { localStorage.removeItem(MAP_KEY); } catch { /* private mode */ } },
+  };
+  /** Puts a {cells, walls, rooms?} map into the state; rooms only when given (a preset has none). */
+  function applyMap(state, m, fromDraft) {
+    state.cells = (m.cells ?? []).map((r) => [...r]);
+    state.walls = wallKeys(m.walls);
+    for (const [id, r] of Object.entries(m.rooms ?? {})) {
+      if (!rooms.some((x) => x.id === id)) continue;
+      state.rooms[id] = Array.isArray(r) ? { x: r[0], y: r[1], w: r[2], h: r[3] } : { x: r.x, y: r.y, w: r.w ?? 1, h: r.h ?? 1 };
+    }
+    state.dirty = true;
+    state.draft = fromDraft;
+  }
+
+  /** Reads a map.toml or preset file as written by this page (cells, walls, [map.rooms]). */
+  function parseMapToml(text) {
+    const strip = text.split('\n').map((l) => l.replace(/#(?![^"]*"[^"]*$).*$/, '')).join('\n');
+    const block = (key) => strip.match(new RegExp(`^${key}\\s*=\\s*\\[([\\s\\S]*?)^\\]`, 'm'))?.[1]
+      ?? strip.match(new RegExp(`^${key}\\s*=\\s*\\[(.*)\\]\\s*$`, 'm'))?.[1] ?? '';
+    const cells = [...block('cells').matchAll(/"([.=]*)"/g)].map((m) => m[1]);
+    const walls = [...block('walls').matchAll(/\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]/g)].map((m) => m.slice(1, 5).map(Number));
+    const rooms = {};
+    const roomPart = strip.split(/^\[map\.rooms\]/m)[1] ?? '';
+    for (const m of roomPart.matchAll(/^([a-z0-9-]+)\s*=\s*\{([^}]*)\}/gm)) {
+      const get = (k) => Number(m[2].match(new RegExp(`\\b${k}\\s*=\\s*(\\d+)`))?.[1] ?? 1);
+      rooms[m[1]] = { x: get('x'), y: get('y'), w: get('w'), h: get('h') };
+    }
+    if (!cells.length && !walls.length && !Object.keys(rooms).length) throw new Error(t.mapFileBad);
+    return { cells, walls, rooms };
+  }
+
+  function loadMapFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.toml,text/plain';
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        applyMap(mapState, parseMapToml(await file.text()), true);
+        toast(`${t.mapFileLoaded}: ${file.name}`);
+        showTab('map');
+      } catch (err) { toast(err.message); }
+    });
+    input.click();
+  }
+
+  const mapState = (() => {
+    const cells = (G.map?.cells ?? []).map((r) => [...r]);
+    const placed = {};
+    for (const [id, [x, y, w, h]] of Object.entries(G.map?.rooms ?? {})) if (rooms.some((r) => r.id === id)) placed[id] = { x, y, w, h };
+    const bottom = Math.max(0, cells.length, ...Object.values(placed).map((r) => r.y + r.h));
+    let x = 1;
+    for (const r of rooms) {
+      if (placed[r.id]) continue;
+      placed[r.id] = { x, y: bottom + 1, w: 3, h: 2 };
+      x += 4;
+    }
+    const state = { cells, walls: wallKeys(G.map?.walls), rooms: placed, tool: 'move', dirty: !G.map, draft: false };
+    const draft = mapDraft.load();
+    if (draft) applyMap(state, draft, true);
+    return state;
+  })();
+
+  function mapSize() {
+    const wallMax = [...mapState.walls].map((k) => k.split(':')[1].split(',').map(Number));
+    const w = Math.max(20, ...mapState.cells.map((r) => r.length), ...Object.values(mapState.rooms).map((r) => r.x + r.w), ...wallMax.map((p) => p[0] + 1)) + 2;
+    const h = Math.max(12, mapState.cells.length, ...Object.values(mapState.rooms).map((r) => r.y + r.h), ...wallMax.map((p) => p[1] + 1)) + 2;
+    return { w, h };
+  }
+  function setTile(x, y, c) {
+    while (mapState.cells.length <= y) mapState.cells.push([]);
+    const row = mapState.cells[y];
+    while (row.length <= x) row.push('.');
+    if (row[x] !== c) { row[x] = c; mapState.dirty = true; }
+  }
+
+  /** The floor plan as sent to the server: trimmed rows and merged walls. */
+  function shapePayload() {
+    const cells = mapState.cells.map((r) => r.join('').replace(/\.+$/, ''));
+    while (cells.length && !cells[cells.length - 1]) cells.pop();
+    return { cells, walls: wallRuns(mapState.walls) };
+  }
+  function shapeToml(title) {
+    const { cells, walls } = shapePayload();
+    const lines = [`# ${title}, saved from the larpidarium map view.`, '# cells: `.` empty, `=` corridor; walls: [x1, y1, x2, y2] along grid lines.', '[map]', 'cells = ['];
+    for (const r of cells) lines.push(`  "${r}",`);
+    lines.push(']', 'walls = [');
+    for (const w of walls) lines.push(`  [${w.join(', ')}],`);
+    lines.push(']');
+    return lines;
+  }
+  function download(name, text) {
+    const blob = new Blob([text], { type: 'application/toml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  async function saveMap() {
+    if (!EDIT) {
+      const lines = shapeToml('Tile map of the places');
+      lines.push('', '[map.rooms]');
+      for (const [id, r] of Object.entries(mapState.rooms).sort()) lines.push(`${id} = { x = ${r.x}, y = ${r.y}, w = ${r.w}, h = ${r.h} }`);
+      download('map.toml', `${lines.join('\n')}\n`);
+      return;
+    }
+    try {
+      const data = await post('/api/map', { ...shapePayload(), rooms: mapState.rooms });
+      mapState.dirty = false;
+      mapDraft.clear();
+      reloadWith(summary(data));
+    } catch (err) { toast(err.message); }
+  }
+
+  async function savePreset() {
+    const name = prompt(t.mapPresetName, Object.keys(G.map_presets ?? {})[0] ?? 'pudorys');
+    if (!name) return;
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) { toast(t.mapPresetBadName); return; }
+    if (!EDIT) { download(`${name}.toml`, `${shapeToml(`Floor plan preset \`${name}\``).join('\n')}\n`); return; }
+    try {
+      const data = await post('/api/map-preset', { name, ...shapePayload() });
+      reloadWith(summary(data));
+    } catch (err) { toast(err.message); }
+  }
+
+  function loadPreset(id) {
+    const p = G.map_presets?.[id];
+    if (!p) return;
+    mapState.cells = p.cells.map((r) => [...r]);
+    mapState.walls = wallKeys(p.walls);
+    mapState.dirty = true;
+    showTab('map');
+  }
+
+  /** Nearest wall edge to a point in px, or null when farther than 10 px from any grid line. */
+  function edgeAt(px, py) {
+    const gx = px / CELL; const gy = py / CELL;
+    const dh = Math.abs(gy - Math.round(gy)) * CELL;
+    const dv = Math.abs(gx - Math.round(gx)) * CELL;
+    if (Math.min(dh, dv) > 10) return null;
+    return dh <= dv ? `h:${Math.floor(gx)},${Math.round(gy)}` : `v:${Math.round(gx)},${Math.floor(gy)}`;
+  }
+
+  function mapView() {
+    if (mapState.dirty) {
+      mapDraft.save({ ...shapePayload(), rooms: mapState.rooms });
+      mapState.draft = true;
+    }
+    const wrap = el('div', 'map-wrap');
+    const bar = el('div', 'map-toolbar');
+    const tools = [['move', '✋', t.mapMove], ['wall', '│', t.mapWall], ['=', '▒', t.mapCorridor], ['.', '⌫', t.mapErase]];
+    for (const [tool, icon, label] of tools) {
+      const b = el('button', `map-tool${mapState.tool === tool ? ' active' : ''}`, `${icon} ${label}`);
+      b.addEventListener('click', () => { mapState.tool = tool; showTab('map'); });
+      bar.append(b);
+    }
+    const hints = { move: t.mapHintMove, wall: t.mapHintWall, '=': t.mapHintPaint, '.': t.mapHintErase };
+    bar.append(el('span', 'map-hint', hints[mapState.tool]));
+    const presets = Object.keys(G.map_presets ?? {});
+    if (presets.length) {
+      const pick = el('select', 'map-preset');
+      pick.append(new Option(t.mapPresetLoad, ''));
+      for (const id of presets) pick.append(new Option(id, id));
+      pick.addEventListener('change', () => { if (pick.value) loadPreset(pick.value); });
+      bar.append(pick);
+    }
+    const fromFile = el('button', 'map-tool', t.mapLoadFile);
+    fromFile.addEventListener('click', loadMapFile);
+    bar.append(fromFile);
+    if (mapState.draft) {
+      const discard = el('button', 'map-tool', t.mapDiscard);
+      discard.title = t.mapDraftNote;
+      discard.addEventListener('click', () => { mapDraft.clear(); location.reload(); });
+      bar.append(discard);
+    }
+    const asPreset = el('button', 'map-tool', EDIT ? t.mapPresetSave : t.mapPresetDownload);
+    asPreset.addEventListener('click', savePreset);
+    const save = el('button', 'map-save', EDIT ? t.mapSave : t.mapDownload);
+    if (mapState.dirty) save.classList.add('dirty');
+    save.addEventListener('click', saveMap);
+    bar.append(asPreset, save);
+    wrap.append(bar);
+
+    const { w, h } = mapSize();
+    const board = el('div', `map-board tool-${mapState.tool === '.' ? 'erase' : mapState.tool === '=' ? 'paint' : mapState.tool}`);
+    Object.assign(board.style, { width: `${w * CELL}px`, height: `${h * CELL}px` });
+    const grid = svgEl('svg', { width: w * CELL, height: h * CELL, class: 'map-grid' });
+    for (let i = 0; i <= w; i++) grid.append(svgEl('line', { x1: i * CELL, y1: 0, x2: i * CELL, y2: h * CELL }));
+    for (let j = 0; j <= h; j++) grid.append(svgEl('line', { x1: 0, y1: j * CELL, x2: w * CELL, y2: j * CELL }));
+    board.append(grid);
+    const tileEl = (x, y) => {
+      const tile = el('div', 'map-tile corridor');
+      tile.dataset.cell = `${x},${y}`;
+      Object.assign(tile.style, { left: `${x * CELL}px`, top: `${y * CELL}px`, width: `${CELL}px`, height: `${CELL}px` });
+      return tile;
+    };
+    for (let y = 0; y < mapState.cells.length; y++) {
+      for (let x = 0; x < mapState.cells[y].length; x++) if (mapState.cells[y][x] === '=') board.append(tileEl(x, y));
+    }
+    const wallsSvg = svgEl('svg', { width: w * CELL, height: h * CELL, class: 'map-walls' });
+    const drawWalls = () => {
+      wallsSvg.replaceChildren();
+      for (const [x1, y1, x2, y2] of wallRuns(mapState.walls)) {
+        wallsSvg.append(svgEl('line', { x1: x1 * CELL, y1: y1 * CELL, x2: x2 * CELL, y2: y2 * CELL }));
+      }
+    };
+    drawWalls();
+
+    const local = (e) => { const r = board.getBoundingClientRect(); return { px: e.clientX - r.left, py: e.clientY - r.top }; };
+    const cellOf = (e) => { const { px, py } = local(e); return { x: Math.floor(px / CELL), y: Math.floor(py / CELL) }; };
+    const pointOf = (e) => { const { px, py } = local(e); return { x: Math.round(px / CELL), y: Math.round(py / CELL) }; };
+
+    for (const r of rooms) {
+      const p = mapState.rooms[r.id];
+      if (!p) continue;
+      const tile = el('div', 'map-room');
+      Object.assign(tile.style, { left: `${p.x * CELL}px`, top: `${p.y * CELL}px`, width: `${p.w * CELL}px`, height: `${p.h * CELL}px`, borderColor: r.color, background: `${r.color}33` });
+      const here = nodes.filter((n) => n.owners.includes(r.id)).length;
+      tile.append(el('div', 'map-room-name', r.name), el('div', 'map-room-count', here ? actionCount(here) : ''));
+      tile.title = r.name;
+      const handle = el('div', 'map-resize');
+      tile.append(handle);
+      tile.addEventListener('mousedown', (e) => {
+        if (mapState.tool !== 'move' || e.button !== 0) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const start = cellOf(e);
+        const orig = { ...p };
+        const resize = e.target === handle;
+        const move = (ev) => {
+          const c = cellOf(ev);
+          if (resize) {
+            p.w = Math.max(1, orig.w + c.x - start.x);
+            p.h = Math.max(1, orig.h + c.y - start.y);
+          } else {
+            p.x = Math.max(0, orig.x + c.x - start.x);
+            p.y = Math.max(0, orig.y + c.y - start.y);
+          }
+          Object.assign(tile.style, { left: `${p.x * CELL}px`, top: `${p.y * CELL}px`, width: `${p.w * CELL}px`, height: `${p.h * CELL}px` });
+        };
+        const up = () => {
+          window.removeEventListener('mousemove', move);
+          window.removeEventListener('mouseup', up);
+          if (p.x !== orig.x || p.y !== orig.y || p.w !== orig.w || p.h !== orig.h) { mapState.dirty = true; showTab('map'); }
+        };
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', up);
+      });
+      tile.addEventListener('dblclick', () => { setFilter({ kind: 'owner', id: r.id }); showTab('graph'); });
+      board.append(tile);
+    }
+    board.append(wallsSvg);
+
+    board.addEventListener('mousedown', (e) => {
+      if (mapState.tool === 'move' || e.button !== 0) return;
+      e.preventDefault();
+      let step;
+      if (mapState.tool === 'wall') {
+        // Walls: from grid point to grid point, straight along the axis the mouse moves more on.
+        let last = pointOf(e);
+        step = (ev) => {
+          const p = pointOf(ev);
+          while (last.x !== p.x || last.y !== p.y) {
+            const dx = Math.sign(p.x - last.x); const dy = Math.sign(p.y - last.y);
+            if (dx && (!dy || Math.abs(p.x - last.x) >= Math.abs(p.y - last.y))) {
+              mapState.walls.add(`h:${Math.min(last.x, last.x + dx)},${last.y}`);
+              last = { x: last.x + dx, y: last.y };
+            } else {
+              mapState.walls.add(`v:${last.x},${Math.min(last.y, last.y + dy)}`);
+              last = { x: last.x, y: last.y + dy };
+            }
+            mapState.dirty = true;
+          }
+          drawWalls();
+        };
+      } else {
+        step = (ev) => {
+          const c = cellOf(ev);
+          if (c.x < 0 || c.y < 0) return;
+          if (mapState.tool === '.') {
+            const { px, py } = local(ev);
+            const edge = edgeAt(px, py);
+            if (edge && mapState.walls.delete(edge)) { mapState.dirty = true; drawWalls(); return; }
+          }
+          setTile(c.x, c.y, mapState.tool);
+          board.querySelector(`[data-cell="${c.x},${c.y}"]`)?.remove();
+          if (mapState.tool === '=') board.insertBefore(tileEl(c.x, c.y), board.querySelector('.map-room'));
+        };
+        step(e);
+      }
+      const up = () => {
+        window.removeEventListener('mousemove', step);
+        window.removeEventListener('mouseup', up);
+        showTab('map');
+      };
+      window.addEventListener('mousemove', step);
+      window.addEventListener('mouseup', up);
+    });
+    const scroller = el('div', 'map-scroller');
+    scroller.append(board);
+    wrap.append(scroller);
+    return wrap;
+  }
+
+  const TABS = [
+    ['graph', t.tabGraph, null], ['places', t.tabPlaces, placesTable],
+    ...(rooms.length ? [['map', t.tabMap, mapView]] : []), ['people', t.tabPeople, peopleTable],
+    ['players', t.tabPlayers, playersGrid], ...(G.cycles.length ? [['cycles', t.tabCycles, cyclesTable]] : []),
+    ['things', t.tabThings, thingsTable],
+    ['segments', t.tabSegments, segmentsTable], ['problems', `${t.tabProblems} (${G.findings.length})`, problemsTable],
+  ];
+  function showTab(name) {
+    const tab = TABS.find((x) => x[0] === name) ?? TABS[0];
+    for (const b of $('tabs').children) b.classList.toggle('active', b.dataset.tab === tab[0]);
+    const graphView = tab[0] === 'graph';
+    $('workspace-graph').classList.toggle('hidden', !graphView);
+    $('workspace-tables').classList.toggle('hidden', graphView);
+    if (!graphView) $('workspace-tables').replaceChildren(el('h2', null, tab[1]), tab[2]());
+    try { sessionStorage.setItem('larpidarium-tab', tab[0]); } catch { /* private mode */ }
+    history.replaceState(null, '', tab[0] === 'graph' ? location.pathname + location.search : `#tab=${tab[0]}`);
+  }
+  for (const [name, label] of TABS) {
+    const b = el('button', 'tab', label);
+    b.dataset.tab = name;
+    b.setAttribute('role', 'tab');
+    b.addEventListener('click', () => showTab(name));
+    $('tabs').append(b);
+  }
+
   // ---------- chrome ----------
   function setTheme(theme) {
     document.documentElement.dataset.theme = theme;
@@ -1006,4 +2233,10 @@
   renderAll();
   centerAndFit();
   if (detailsId) showDetails(detailsId);
+  let startTab = new URLSearchParams(location.hash.slice(1)).get('tab');
+  if (!startTab) {
+    try { startTab = sessionStorage.getItem('larpidarium-tab'); } catch { /* private mode */ }
+  }
+  startTab ||= 'graph';
+  showTab(startTab);
 })();

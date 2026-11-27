@@ -1,0 +1,9 @@
+[action]
+cycle = "c-komisar"
+step = 4
+title = "Výslech taxikáře"
+owners = ["komisar", "taxikar", "bar"]
+needs = ["komisar-hleda"]
+gives = ["taxikar-mluvil"]
+brief = "Komisař si přisedne do taxíku a řekne jen: k molu sedm. Celou cestu se dívá do zrcátka. Taxikář mlčí třicet let; dnes možná promluví."
+text = "Hledání: taxikář řekne komisaři o skladu a o knize. Má-li knihu v taxíku, může ji komisaři dát; o tom rozhodne komisař v kroku Cena."

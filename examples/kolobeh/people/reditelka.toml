@@ -1,0 +1,124 @@
+[person]
+name = "Ing. Viktorie Šebestová"
+role = "player"
+color = "#3f5f8a"
+played_by = "hrac-2"
+dies = 8
+goals = [
+  "Koupit přístav, po dobrém, nebo po zlém",
+  "Dokončit projekt Archiv ve třináctém patře",
+  "Zbavit Rezov Marhoulů tak, aby to vypadalo jako pokrok",
+]
+secrets = [
+  "Projekt Archiv je kartotéka mrtvých a těch, kdo se po nich objevili. Chceš pochopit, jak koloběh funguje, a pak ho vlastnit.",
+  "Držíš Marhoulovy staré směnky. Kdybys je předložila, přístav je tvůj, jenže don by pak neměl co ztratit.",
+]
+
+[person.sheet]
+appearance = "Čtyřicet let, šedý kostým bez jediné vrásky, vlasy stažené, v ruce vždycky tablet. Voní drahým parfémem a ozonem z klimatizace."
+whereabouts = "Na začátku hry stojíš u okna v nejvyšším patře věže a díváš se dolů na přístav, kde v dešti bliká neon Kotvy."
+backstory = """
+Vyrostla jsi v dělnické čtvrti pod jeřáby, kde se splátky platily Marhoulům a mlčení bylo zadarmo. Tvůj otec vedl donovi účty, až jednou v noci odešel do přístavu a nevrátil se. Odjela jsi studovat, vystoupala po firemních schodech a vrátila ses s penězi, jaké Rezov nikdy neviděl. Postavila jsi věž ze skla a oceli, nejvyšší budovu na sto kilometrů. Ve statistikách úmrtí a příjezdů jsi pak našla vzorec, který nedává smysl: kdo tu zemře, za tím přijde někdo nový a ví věci, které vědět nemůže. Vzorce se dají vlastnit, stačí je pochopit první.
+"""
+
+[[person.phase]]
+segment = "noc-2"
+[person.phase.sheet]
+whereabouts = "Druhá noc. V Archivu přibyly první karty a ty už víš, podle čeho nováčky poznat: zvyk, píseň, bolest, která nepatří jejich tělu."
+
+[[person.phase]]
+segment = "noc-3"
+[person.phase.sheet]
+whereabouts = "Třetí noc. Věž je tišší než dřív, jako by čekala. Z třináctého patra mizí papíry a ostraha nedokáže říct kudy."
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Archivu chybí poslední karta: důkaz, že se koloběh dá řídit. Potřebuješ ho dnes v noci, než se Rezov zase otočí."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Sjíždíš výtahem dolů a vycházíš z věže, poprvé bez ochranky. Déšť ti promáčí kostým a pach nafty z přístavu přebije parfém."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Hledáš v přístavu a v Kotvě ty, kdo se vrátili. Díváš se lidem na ruce a posloucháš, co si pobrukují, jako by tě to někdo naučil."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Máš, co jsi chtěla: vzorec, jméno, klíč. Tablet ti v ruce bliká a ty poprvé nevíš, co do něj napsat."
+
+[[person.phase]]
+step = 6
+[person.phase.sheet]
+whereabouts = "Vlastnit znamená platit. Dnes ti vystavují účet, který nejde převést na nikoho jiného, ani na firmu."
+
+[[person.phase]]
+step = 7
+[person.phase.sheet]
+whereabouts = "Vracíš se do třináctého patra. Kartotéka Archivu je otevřená a na posledním lístku stojí jméno, které znáš z dětství."
+
+[[person.phase]]
+step = 8
+goals = ["Zapsat do Archivu poslední kartu, ať na ní stojí cokoli"]
+[person.phase.sheet]
+whereabouts = "Stojíš u okna v nejvyšším patře a díváš se dolů na přístav, kde v dešti bliká neon Kotvy. Klimatizace utichla. V tom tichu poprvé slyšíš, jak prší na sklo."
+
+[[person.relation]]
+with = "don"
+text = "Starý Marhoul. Drží přístav silou zvyku. Jeho směnky máš v trezoru."
+
+[[person.relation]]
+with = "komisar"
+text = "Hrubý bere od tebe i od dona. Užitečný, dokud nezačne přemýšlet."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Vondra. Jeho přeložení do Rezova jsi doporučila ty. Ještě ti nepoděkoval."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza Kotvová. Kotva je jediný bar v Rezově, kde ti nikdo nenalije zadarmo."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána zpívala na firemním večírku. Slíbila jsi jí smlouvu a ona ti za to nosí, co se šeptá v Kotvě."
+
+[[person.relation]]
+with = "dokar"
+text = "Jeden z dokařů na molu sedm. Tvoji lidé ho platí. Jméno sis nezapamatovala."
+
+[[person.relation]]
+with = "uklizec"
+text = "Uklízí ve třináctém patře. Neviditelný člověk; právě proto mu nevěříš."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Donův dědic. Zaplatila jsi jeho kauci. Kdybys ho získala, nemusela bys bojovat."
+
+[[person.relation]]
+with = "taxikar"
+text = "Taxikář od Kotvy. Tvoji lidé s ním jezdí čím dál častěji a on čím dál méně mluví."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kamery v přízemí věže zachytily drobnou postavu v kšiltovce. Pokaždé o patro výš."
+
+[[person.relation]]
+with = "hackerka"
+text = "Holka s fialovými vlasy, co vysedává v Kotvě. Tvoji technici ji znají z hlášení."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Klára Zídková, tvoje nejlepší akvizice. Po jednom dni zná věž lépe, než by měla."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z přístavní ošetřovny píše stížnosti na ceny léků. Pečlivě, krasopisem."
+
+[[person.relation]]
+with = "lekar"
+text = "Doktor Šustr. Víš, proč odešel z hlavního města. On ví, že to víš."

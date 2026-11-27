@@ -1,0 +1,8 @@
+[action]
+cycle = "c-barmanka"
+step = 1
+title = "Výpalné U Kotvy"
+owners = ["barmanka", "don", "bar"]
+gives = ["dluh-baru"]
+brief = "Je pátek a don si přichází pro své. Bar U Kotvy platí každý týden, jenže tentokrát v kase nic není."
+text = "Ty: status quo barmanky. Vzniká dluh, který se v dalším kroku změní v ultimátum."

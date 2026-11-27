@@ -1,0 +1,8 @@
+[action]
+cycle = "c-komisar"
+step = 1
+title = "Komisařova obálka"
+owners = ["komisar", "don"]
+gives = ["obalka"]
+brief = "Obálka je tlustší než minule. To nikdy neznamená nic dobrého. Don se usmívá a ptá se, jak ti slouží noha."
+text = "Ty: komisař bere od dona měsíční plat za klid. Obálku může v kroku Cena přijmout naposledy."

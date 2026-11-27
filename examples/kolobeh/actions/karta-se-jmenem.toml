@@ -1,0 +1,9 @@
+[action]
+cycle = "c-uklizec"
+step = 5
+title = "Vlastní karta"
+owners = ["uklizec", "vez"]
+needs = ["rozkaz-z-veze"]
+gives = ["vlastni-karta"]
+brief = "Vrátíš se do Archivu. Mezi kartami najdeš jednu se svým jménem. Datum je dnešní. Kolonka Kdo přišel po něm je zatím prázdná."
+text = "Nález: uklízeč pochopí, že je na řadě. Je to i nápověda pro hráče: koloběh existuje a věž ho zapisuje."

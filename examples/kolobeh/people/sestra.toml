@@ -1,0 +1,75 @@
+[person]
+name = "Sestra Hana Lucká"
+role = "player"
+color = "#e05592"
+played_by = "hrac-8"
+after = "zpevacka"
+goals = [
+  "Udržet naživu každého, kdo přijde do ošetřovny",
+  "Zjistit, odkud znáš melodii, kterou si pořád zpíváš",
+]
+secrets = [
+  "Léky z ošetřovny prodáváš Marhoulovým lidem, abys zaplatila nájem. Don o tom ví, věž zatím ne.",
+]
+
+[person.sheet]
+appearance = "Bílá zástěra přes svetr, vlasy pod šátkem, na hrudi připnuté hodinky ciferníkem dolů."
+whereabouts = "Na začátku hry stojíš v přístavní ošetřovně, vyvařuješ nástroje a pobrukuješ si píseň, jejíž slova neznáš."
+backstory = """
+Zdravotní sestrou jsi dvacet let: v nemocnici, na frontě a teď v přístavní ošetřovně, kam nikdo jiný nechce. Šiješ rány od nožů a nikdy se neptáš, kdo je udělal. Do Rezova jsi přišla, protože ti stará přítelkyně napsala, že tu chybějí ruce. Když jsi přijela, přítelkyně tu nebyla a nikdo o ní nevěděl. Večer, když je ticho, si zpíváš píseň, kterou jsi nikdy neslyšela, a kolem Kotvy chodíš rychleji.
+"""
+echo = "Znáš slova písní, které se zpívají v Kotvě, i těch, které tam už nikdo nezpívá. Rtěnku nenosíš, a přesto ti ráno v zrcadle něco chybí."
+
+[[person.phase]]
+segment = "noc-3"
+[person.phase.sheet]
+whereabouts = "Třetí noc. Lidé ti už říkají jménem a nosí ti rány i tajemství. Léky docházejí a věž zdražila dodávky; brzy budeš vybírat, koho ošetříš."
+
+[[person.phase]]
+segment = "noc-4"
+[person.phase.sheet]
+whereabouts = "Čtvrtá noc. Ošetřovna je plná a za oknem prší na přístav. Poprvé si tu píseň zpíváš celou, až do posledního verše, a slova přicházejí sama."
+
+[[person.relation]]
+with = "don"
+text = "Don ví, komu prodáváš léky. Mlčí. Jednou si to vybere."
+
+[[person.relation]]
+with = "reditelka"
+text = "Věž dodává léky do přístavu a každý měsíc je zdražuje. Ředitelku jsi nikdy neviděla, jen její podpis."
+
+[[person.relation]]
+with = "komisar"
+text = "Kulhavý komisař ti přinesl na ošetření ránu, kterou nechtěl zapsat."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Ptá se tě na rány a poslouchá odpovědi, i když je nezapisuje."
+
+[[person.relation]]
+with = "taxikar"
+text = "Taxikář od Kotvy. Když si v autě zpíváš, ztiší rádio a poslouchá."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kavka. Zašila jsi jí ruku a nic jsi nehlásila. Od té doby ti nosí čokoládu."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Mladý Marhoul. Zašila jsi mu obočí. Díval se na tebe, jako by tě znal ze starých časů."
+
+[[person.relation]]
+with = "uklizec"
+text = "Pan Mlíčko z věže chodí pro mast na záda. Nikdy si nestěžuje, jen se omlouvá."
+
+[[person.relation]]
+with = "hackerka"
+text = "Holka s popálenou rukou. Obvázala jsi ji a ona ti opravila rádio."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička věže má na stole tvoji stížnost na ceny léků. Byla zdvořilá, a o to horší."
+
+[[person.relation]]
+with = "lekar"
+text = "Nový doktor. Zaučuješ ho a on se dívá na dveřní zámky, jako by je chtěl otevřít bez klíče."

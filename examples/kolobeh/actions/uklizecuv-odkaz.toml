@@ -1,0 +1,18 @@
+[decision]
+cycle = "c-uklizec"
+step = 7
+title = "Uklízečův odkaz"
+owners = ["uklizec", "vez"]
+brief = "Zamkli tě v komůrce mezi kbelíky. V kapse máš propustku, v ruce tužku. Do rána něco z toho, co víš, musí ven. Stihneš jen jedno."
+text = "Návrat: uklízeč v tomto kroku zemře. Propustka za pultem Kotvy vede hackerku do serveru vždy. Vzkaz o útržcích je sázka: pomůže jen tehdy, pokud barmanka smlouvu schovala; to uklízeč neví."
+
+[[decision.option]]
+label = "Poslat propustku do Kotvy za pult"
+needs = ["uklizec-dopaden"]
+uses = ["propustka"]
+gives = ["propustka-v-baru", "smrt-uklizece"]
+
+[[decision.option]]
+label = "Napsat na zeď, kde jsou útržky smlouvy"
+needs = ["uklizec-dopaden"]
+gives = ["vzkaz-o-utrzcich", "smrt-uklizece"]

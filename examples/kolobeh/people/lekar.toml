@@ -1,0 +1,49 @@
+[person]
+name = "MUDr. Oskar Šustr"
+role = "player"
+color = "#f0b46c"
+played_by = "hrac-4"
+after = "zlodejka"
+goals = [
+  "Udržet přístavní ošetřovnu otevřenou",
+  "Nikomu neprozradit, proč jsi odešel z hlavního města",
+]
+secrets = [
+  "Z nemocnice v hlavním městě tě vyhodili kvůli chybě, kterou jsi zamlčel. Tady o tom neví nikdo, kromě věže.",
+]
+
+[person.sheet]
+appearance = "Čtyřicátník v obnošeném svetru pod bílým pláštěm, klidné ruce, kruhy pod očima."
+whereabouts = "Na začátku hry přicházíš první den do přístavní ošetřovny. Zámek povolí dřív, než stihneš otočit klíčem."
+backstory = """
+Kdysi jsi operoval v nejlepší nemocnici v zemi. Pak se ti jedné noci třásla ruka a ráno jsi podepsal protokol, který lhal. Do Rezova jsi utekl, protože tady se nikdo neptá na minulost, jen na cenu. Šiješ dokaře, děvčata z přístavu a kluky s ranami od nože a nikdo z nich ti neplatí penězi. Ruce se ti od té doby už nikdy netřásly. Jen se ti v noci zdá, že stoupáš po služebním schodišti a otvíráš cizí zámky.
+"""
+echo = "Tvoje prsty umějí víc než šít: zámky povolují, ještě než se jich pořádně dotkneš. Když jdeš kolem mola sedm, zabolí tě levé rameno, a když vidíš prsten s kotvou, sevře se ti žaludek."
+
+[[person.relation]]
+with = "don"
+text = "Don ti poslal košík ovoce a vzkaz: Moji lidé mají přednost. Ovoce bylo čerstvé."
+
+[[person.relation]]
+with = "reditelka"
+text = "Věž ví, proč jsi odešel z hlavního města. Zatím za to nic nechce."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra Lucká tě první den zaučuje. Má klidnější ruce než ty a nikdy se neptá, odkud jsi přišel."
+
+[[person.relation]]
+with = "hackerka"
+text = "Holka, co nespí. Přišla s popálenou dlaní od zdroje a odešla s tvým heslem k wifi."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Mladý Marhoul ti přišel ukázat jizvu přes obočí. Ne kvůli jizvě, ale aby si tě prohlédl."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička věže se u tebe zastavila s nabídkou: věž ošetřovnu koupí, ty zůstaneš."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Ptá se na rány, které jsi ošetřil, a na ty, které jsi nezapsal."

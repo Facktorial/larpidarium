@@ -1,0 +1,56 @@
+[person]
+name = "Rozálie „Róza“ Kotvová"
+role = "player"
+color = "#00695c"
+played_by = "hrac-6"
+dies = 3
+goals = ["Udržet Kotvu otevřenou a neutrální", "Nedopustit, aby se v baru střílelo"]
+secrets = [
+  "Pod pultem máš krabici s nahrávkami rozhovorů ze zadního boxu. Kdyby se o nich don dozvěděl, Kotva by do rána hořela.",
+]
+
+[person.sheet]
+appearance = "Padesátnice s rukávy vyhrnutými nad lokty, šedivé vlasy stažené tužkou, hlas jako štěrk."
+whereabouts = "Na začátku hry stojíš za pultem Kotvy, leštíš sklenice a v zrcadle za lahvemi sleduješ celý bar."
+backstory = """
+Kotvu ti nechal otec a ty ji držíš třicet let, přes dvě války gangů a jednu povodeň. Platíš donovi za klid a věži zatím ničím. U tebe se pije a nestřílí; to je jediné pravidlo a znají ho všichni. Každý tvůj host ti někdy řekl něco, co neměl. Pamatuješ si všechno, a co si nezapamatuješ, to nahráváš.
+"""
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Do Kotvy chodí lidé z věže a sedají si k donovým stolům. Potřebuješ udržet mír, jinak tvůj bar rozdrtí mezi sebou."
+
+[[person.phase]]
+step = 3
+goals = ["Dostat krabici s nahrávkami z Kotvy do bezpečí"]
+[person.phase.sheet]
+whereabouts = "Poprvé po letech zamykáš Kotvu dřív a vycházíš do deště s krabicí pod paží. Za zády máš rozsvícený bar a nedokážeš se přestat ohlížet."
+
+[[person.relation]]
+with = "don"
+text = "Marhoul sedí v zadním boxu od doby, kdy jsi nosila copánky. Platí za klid a ty mu ho dáváš."
+
+[[person.relation]]
+with = "reditelka"
+text = "Malá Viki od účetního Šebesty. Teď má věž a dívá se na Kotvu jako na položku v rozpočtu."
+
+[[person.relation]]
+with = "komisar"
+text = "Hrubý pije u pultu černou kávu a platí přesně. Jediný polda, kterého sneseš."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák pije málo a dívá se na pódium hodně. Dobrý kluk ve špatné práci."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza. Třicet let mu schováváš kávu v termosce. Je to nejdelší vztah, jaký jsi kdy měla."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána zpívá v Kotvě šest let. Je ti jako dcera a lže ti jako dcera."
+
+[[person.relation]]
+with = "uklizec"
+text = "Mlíčko hraje v Kotvě mariáš a prohrává schválně, aby měl s kým mluvit."

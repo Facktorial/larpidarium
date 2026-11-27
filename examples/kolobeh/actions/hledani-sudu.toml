@@ -1,0 +1,9 @@
+[action]
+cycle = "c-taxikar"
+step = 4
+title = "Hledání sudů"
+owners = ["taxikar", "zlodejka", "pristav"]
+needs = ["taxikar-prisahal", "sudy-s-benzinem", "slavnost-bude-horka", "zlodejka-zna-pristav"]
+gives = ["kde-jsou-sudy"]
+brief = "Sklad č. 7 je prázdný a voní benzínem. Zlodějka ví o díře v plotě u nádrží, o které nemůže vědět nikdo, kdo tu nedělal. Pod plachtou na molu sedm něco leží."
+text = "Hledání: taxikář a zlodějka najdou, kam don sudy přestěhoval."

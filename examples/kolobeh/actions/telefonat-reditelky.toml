@@ -1,0 +1,9 @@
+[action]
+cycle = "c-uklizec"
+step = 2
+title = "Rozkaz z věže"
+owners = ["uklizec", "reditelka", "vez"]
+needs = ["uklizec-zna-archiv"]
+gives = ["rozkaz-z-veze"]
+brief = "Utíráš prach za dveřmi ředitelčiny kanceláře. Ona telefonuje a neví, že tam jsi: Ať to hoří o půlnoci, ne dřív."
+text = "Potřeba: uklízeč ví, kdy doky shoří. Informaci donese taxikáři (Hodina požáru v cyklu taxikáře)."

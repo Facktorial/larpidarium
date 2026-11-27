@@ -6,6 +6,7 @@ extend-exclude = ["target/", "*.svg", "*.pdf"]
 extend-ignore-re = ["(?i)[a-z]*[áčďéěíňóřšťúůýž][a-z]*"]
 
 [default.extend-words]
+sudu = "sudu" # Czech: "of a barrel"
 # Czech "dne" (of the day)
 dne = "dne"
 # Czech words without diacritics and character names from examples/evzentura
@@ -21,3 +22,10 @@ mechanismus = "mechanismus"
 pandorra = "pandorra"
 ned = "ned"
 damon = "damon"
+# Czech words without diacritics from examples/kolobeh
+archiv = "archiv"
+byt = "byt"
+daty = "daty"
+musel = "musel"
+policie = "policie"
+tlak = "tlak"

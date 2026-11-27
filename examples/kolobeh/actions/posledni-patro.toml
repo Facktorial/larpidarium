@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 8
+title = "Poslední patro"
+owners = ["reditelka", "vez"]
+needs = ["hackerka-rozhodla"]
+gives = ["smrt-reditelky"]
+brief = "Okno nejvyššího patra je otevřené a déšť zalévá koberec. V Archivu leží karta s tvým jménem a dnešním datem. Kolonka Kdo přišel po ní je prázdná."
+text = "Změna: ředitelka zemře, ať je kniha kdekoli, jakmile se rozhodla hackerka. Její smrt otevírá soud."

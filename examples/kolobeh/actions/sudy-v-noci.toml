@@ -1,0 +1,9 @@
+[action]
+cycle = "c-dokar"
+step = 2
+title = "Sudy v noci"
+owners = ["dokar", "taxikar", "pristav"]
+needs = ["pristav-se-zavre"]
+gives = ["sudy-s-benzinem"]
+brief = "Taxikář tě veze z hospody kolem mola sedm. Ve tmě tam donovi muži skládají sudy do skladu. Z oken auta je cítit benzín."
+text = "Potřeba: dokař a taxikář vidí sudy s benzínem. Proč by někdo vozil benzín do doků, které se mají zavřít?"

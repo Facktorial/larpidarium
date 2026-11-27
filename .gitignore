@@ -11,3 +11,5 @@
 # Private design notes and writers-room drafts (spoilers); kept local
 /EVŽENTURA.md
 /drafts/
+# World canon lives in its own private repo (Facktorial/karlopolis-svet), cloned here
+/world/

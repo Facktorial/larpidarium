@@ -57,6 +57,8 @@
   .options { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 6px; }
   .options li { border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 6px 10px; border-radius: 3px; }
   .options .label { font-weight: bold; }
+  .life { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font: 14px system-ui, sans-serif; color: var(--muted); }
+  .life b { color: var(--ink); font-weight: 600; }
   @media (max-width: 640px) { .sheet { padding: 28px 20px; } h1 { font-size: 30px; } }
   @media print {
     body { background: none; } nav { display: none; }
@@ -73,13 +75,22 @@
   <header>
     <p class="game">{{ game_title }}</p>
     <h1>{{ person.name }}</h1>
-    <p class="role">{{ t[person.role] }}</p>
+    <p class="role">{{ t[person.role] }}{% if person.outside_cycle %} · {{ t.outside_cycle }}{% endif %}</p>
+    {% if person.played_by or person.enters or person.dies %}
+    <p class="life">
+      {% if person.played_by %}<span><b>{{ t.played_by }}:</b> {{ person.played_by }}</span>{% endif %}
+      {% if person.enters or person.dies %}
+      <span><b>{{ t.enters }}:</b> {{ person.enters or t.from_start }}</span>
+      <span><b>{{ t.dies }}:</b> {{ person.dies or t.to_end }}</span>
+      {% endif %}
+    </p>
+    {% endif %}
   </header>
 
   <section class="part">
     <h2><span class="num">I</span> {{ t.part1 }}</h2>
     {% if person.appearance %}<h3>{{ t.appearance }}</h3><p class="prose">{{ person.appearance | trim }}</p>{% endif %}
-    {% if person.whereabouts %}<h3>{{ t.whereabouts }}</h3><p class="prose">{{ person.whereabouts | trim }}</p>{% endif %}
+    {% if person.whereabouts %}<h3>{{ t.whereabouts_enter if person.enters else t.whereabouts }}</h3><p class="prose">{{ person.whereabouts | trim }}</p>{% endif %}
     {% if person.backstory %}<h3>{{ t.backstory }}</h3><p class="prose">{{ person.backstory | trim }}</p>{% endif %}
     {% if person.goals %}<h3>{{ t.goals }}</h3><ul>{% for g in person.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
     {% if person.secrets %}<h3>{{ t.secrets }}</h3><ul>{% for s in person.secrets %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
@@ -87,7 +98,7 @@
       <dl>{% for r in person.relations %}<dt>{{ r.name }}</dt><dd>{{ r.text }}</dd>{% endfor %}</dl>{% endif %}
     {% if destiny.carries %}<h3>{{ t.carries }}</h3>
       <ul>{% for x in destiny.carries %}<li><span class="thing">{{ x.name }}</span>{% if x.text %}: {{ x.text }}{% endif %}</li>{% endfor %}</ul>{% endif %}
-    {% for key, text in person.extra %}<h3>{{ key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
+    {% for key, text in person.extra %}<h3>{{ t["sheet_" ~ key] or key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
   </section>
 
   <section class="part">
@@ -140,6 +151,22 @@
     <p class="intro">{{ t.no_destiny }}</p>
     {% endif %}
   </section>
+
+  {% if person.phases %}
+  <section class="part">
+    <h2><span class="num">III</span> {{ t.part3 }}</h2>
+    <ol class="timeline phases">
+      {% for ph in person.phases %}
+      <li class="action">
+        <span class="tag">{{ t.from_segment }}: {{ ph.segment }}</span>
+        {% for key, text in ph.sections %}<h3>{{ t["sheet_" ~ key] or key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
+        {% if ph.goals %}<h3>{{ t.goals }}</h3><ul>{% for g in ph.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+        {% if ph.secrets %}<h3>{{ t.secrets }}</h3><ul>{% for s in ph.secrets %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
 </article>
 </body>
 </html>

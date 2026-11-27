@@ -60,6 +60,13 @@ only into `drafts/`, and the main session applies drafts to game files (see `/wr
 `examples/lost-abbey` must stay warning-free; `flawed-abbey` and `broken-abbey` contain planted
 issues on purpose and are test fixtures.
 
+## World canon
+
+`world/` is the Karlopolis world canon: a separate **private** repo (Facktorial/karlopolis-svet),
+ignored by this repo. Never copy its content into tracked files, issues or commits here (spoilers).
+`lore-keeper` keeps it, checks texts against it and files questions for the author as issues in the
+private repo. Clone it with `gh repo clone Facktorial/karlopolis-svet world`.
+
 ## Third-party code
 
 `web/` will contain code adapted from taraxaplan (MIT, © 2026 Karlord19). Keep its license file

@@ -1,0 +1,9 @@
+[action]
+cycle = "c-zlodejka"
+step = 1
+title = "Donova odměna"
+owners = ["zlodejka", "don", "pristav"]
+needs = ["zlodejka-zna-pristav", "don-hleda-knihu"]
+gives = ["odmena-za-knihu"]
+brief = "Don tě nechá přivést na molo. Nechce vědět, co kradeš; chce, abys ukradla jednu věc pro něj: černou knihu s gumičkou. Zaplatí hotově."
+text = "Ty: zlodějka dostane zakázku. Kde kniha je, záleží na dokařovi a komisaři."

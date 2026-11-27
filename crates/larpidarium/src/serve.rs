@@ -158,6 +158,8 @@ pub(crate) fn handle(dir: &Path, req: &Request) -> Response {
         ("POST", "/api/thing") => write_thing(dir, &req.body),
         ("POST", "/api/segment") => write_segment(dir, &req.body),
         ("POST", "/api/layout") => write_layout(dir, &req.body),
+        ("POST", "/api/map") => write_map(dir, &req.body),
+        ("POST", "/api/map-preset") => write_preset(dir, &req.body),
         _ => Response::text(404, "not found"),
     }
 }
@@ -418,6 +420,29 @@ fn write_layout(dir: &Path, raw: &str) -> Response {
     })
 }
 
+fn write_map(dir: &Path, raw: &str) -> Response {
+    let m: edit::MapEdit = match body(raw) {
+        Ok(m) => m,
+        Err(response) => return response,
+    };
+    update(dir, &dir.join("map.toml"), |_| edit::map(&m))
+}
+
+fn write_preset(dir: &Path, raw: &str) -> Response {
+    let p: edit::PresetEdit = match body(raw) {
+        Ok(p) => p,
+        Err(response) => return response,
+    };
+    let file = match p.file() {
+        Ok(f) => f,
+        Err(e) => return Response::refused(e),
+    };
+    if let Err(e) = fs::create_dir_all(dir.join("map-presets")) {
+        return Response::text(500, format!("cannot create map-presets: {e}"));
+    }
+    update(dir, &dir.join(file), |_| edit::preset(&p))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -631,5 +656,26 @@ mod tests {
         let r = post(&dir, "/api/layout", r#"{"text":"x = "}"#);
         assert_eq!(r.status, 400);
         fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn map_is_saved_and_checked() {
+        let dir = game_dir("map");
+        let ok = r#"{"cells":["=..","=.."],"walls":[[0,0,0,2]],"rooms":{"crypt":{"x":1,"y":0,"w":2,"h":2}}}"#;
+        let r = post(&dir, "/api/map", ok);
+        assert_eq!(r.status, 200, "{}", String::from_utf8_lossy(&r.body));
+        let text = fs::read_to_string(dir.join("map.toml")).unwrap();
+        assert!(
+            text.contains("crypt = { x = 1, y = 0, w = 2, h = 2 }"),
+            "{text}"
+        );
+        let bad = r##"{"cells":["#x"],"rooms":{}}"##;
+        assert_eq!(post(&dir, "/api/map", bad).status, 400);
+        let preset = r#"{"name":"sal","cells":["="],"walls":[[0,0,1,0]]}"#;
+        let r = post(&dir, "/api/map-preset", preset);
+        assert_eq!(r.status, 200, "{}", String::from_utf8_lossy(&r.body));
+        assert!(dir.join("map-presets/sal.toml").is_file());
+        assert_eq!(post(&dir, "/api/map", bad).status, 400);
+        let _ = fs::remove_dir_all(&dir);
     }
 }

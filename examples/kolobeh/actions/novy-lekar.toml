@@ -1,0 +1,8 @@
+[action]
+segment = "noc-4"
+title = "Nový lékař"
+owners = ["lekar", "pristav"]
+needs = ["smrt-zlodejky"]
+gives = ["lekar-ve-sluzbe"]
+brief = "První pacientka na ošetřovně u přístavu je mrtvá žena s kulkou v zádech. Rameno tě zabolí, když jí zavíráš oči. Zámek na skříňce s léky povolí dřív, než do něj strčíš klíč."
+text = "Lékař (další život zlodějky) nastupuje na ošetřovnu. Bez něj sestra nemá komu svěřit výpověď."

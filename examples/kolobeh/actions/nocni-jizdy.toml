@@ -1,0 +1,8 @@
+[action]
+cycle = "c-taxikar"
+step = 1
+title = "Noční jízdy"
+owners = ["taxikar", "bar"]
+gives = ["slavnost-bude-horka"]
+brief = "Stojíš v dešti před Kotvou. Taxík čeká. Vzadu sedí dva donovi muži a smějí se, že letošní Slavnost bude horká. Nedíváš se do zrcátka."
+text = "Ty: taxikář vozí celé město a mlčí. Zaslechne, že Slavnost bude horká."

@@ -1,0 +1,17 @@
+[decision]
+cycle = "c-dokar"
+step = 5
+title = "Nález ve skladu"
+owners = ["dokar", "taxikar", "pristav"]
+brief = "Ve skladu č. 7 najdeš mezi sudy donovu účetní knihu: kdo komu kolik zaplatil, včetně věže. Venku se rozsvítí baterky. Ven se dostaneš, ale dlouho nebudeš žít."
+text = "Nález: dokař v tomto kroku zemře. Hodí-li knihu taxikáři, zůstane v taxíku; komisař ji ve 2. noci může uložit do archivu, jinak ji zlodějka ukradne z taxíku. Zakope-li ji, vykope ji ve 3. noci zlodějka, další život téhož hráče."
+
+[[decision.option]]
+label = "Hodit knihu taxikáři a zdržet stráže"
+needs = ["sklad-sedm"]
+gives = ["kniha-u-taxikare", "smrt-dockera"]
+
+[[decision.option]]
+label = "Utéct s knihou na hřbitov a zakopat ji"
+needs = ["sklad-sedm"]
+gives = ["kniha-v-hrobe", "smrt-dockera"]

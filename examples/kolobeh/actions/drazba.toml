@@ -1,0 +1,9 @@
+[action]
+cycle = "c-zlodejka"
+step = 5
+title = "Dražba"
+owners = ["zlodejka", "don", "reditelka", "bar"]
+needs = ["ucetni-kniha"]
+gives = ["drazba-knihy"]
+brief = "Ráno po Slavnosti sedíš v Kotvě a kniha leží pod tvým kabátem. Don platí hotově, věž převodem. Obojí se dá vrátit, jen ne stejně."
+text = "Nález: zlodějka zjistí, jakou cenu kniha má. Don i ředitelka přihazují."

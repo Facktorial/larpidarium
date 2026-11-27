@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 4
+title = "Čísla účtů"
+owners = ["hackerka", "bar"]
+needs = ["hackerka-ma-utrzky"]
+gives = ["data-z-veze"]
+brief = "Sedíš v zadní místnosti Kotvy nad slepenou smlouvou. Čísla účtů věže jsou klíč. Za hodinu jsi uvnitř jejich systému, aniž by ses pohnula ze židle."
+text = "Hledání v cyklu ředitelky: hackerka vnikne do systému věže přes čísla účtů ze slepené smlouvy."

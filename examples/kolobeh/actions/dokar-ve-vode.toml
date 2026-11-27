@@ -1,0 +1,9 @@
+[action]
+cycle = "c-komisar"
+step = 2
+title = "Dokař ve vodě"
+owners = ["komisar", "pristav"]
+needs = ["komisar-podezira", "smrt-dockera"]
+gives = ["komisar-hleda"]
+brief = "Dokaře vytáhli u mola sedm. Racci křičí a diesel z remorkéru přebíjí všechno ostatní. Barmanka za pultem, dokař ve vodě. Dvě rány, jeden rukopis."
+text = "Potřeba: komisař chce vědět, co spojuje dvě smrti. Poprvé po letech má chuť něco dotáhnout."

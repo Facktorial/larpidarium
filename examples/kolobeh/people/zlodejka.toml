@@ -1,0 +1,98 @@
+[person]
+name = "Markéta „Kavka“ Šimková"
+role = "player"
+color = "#d9822b"
+played_by = "hrac-4"
+after = "dokar"
+dies = 6
+goals = [
+  "Ukrást v Rezově něco, za co tě budou znát celým jménem",
+  "Zjistit, proč tě to pořád táhne na molo sedm",
+]
+secrets = [
+  "Prsten, který nosíš na řetízku pod tričkem, jsi první den ukradla z kabátu, který visel v Kotvě. Patří donovi.",
+]
+
+[person.sheet]
+appearance = "Drobná, v tmavé kšiltovce, rukavice bez prstů, kapsy plné cizích věcí."
+whereabouts = "Na začátku hry se v přístavu schováváš za kontejnery a počítáš kroky hlídače. Rameno tě bolí, jako bys celý život nosila bedny."
+backstory = """
+Do Rezova jsi přijela stopem, s batohem a padělanou občankou. Kradeš od dvanácti: nejdřív jídlo, pak peněženky, teď zámky, které stojí za to. Říkají ti Kavka, protože nedokážeš nechat ležet nic, co se leskne. Hned první noc tě nohy zavedly do přístavu, k molu, které jsi nikdy neviděla, a přesto jsi věděla, která prkna vržou. Na duchy nevěříš. Věříš na kliky, panty a lidi, kteří se nedívají.
+"""
+echo = "Víš, kde v přístavu prosakuje voda pod molem a který jeřáb skřípe. Rameno tě bolí jako po letech nošení beden a nevíš, kde ses k tomu přišla."
+
+[[person.phase]]
+segment = "noc-2"
+[person.phase.sheet]
+whereabouts = "Druhá noc. Znáš už každý zámek v Kotvě a každou kameru v přízemí věže; chybí ti jen vyšší patra. Prsten na řetízku nosíš pořád, i když víš, že bys neměla."
+
+[[person.phase]]
+step = 2
+goals = ["Dostat se do třináctého patra věže", "Prodat, co tam najdeš, tomu, kdo nabídne víc"]
+[person.phase.sheet]
+whereabouts = "Potřebuješ velkou věc, ne další peněženku. Ve třináctém patře věže je něco, za co by don i ředitelka dali cokoli."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Nechala jsi za sebou bezpečí drobných krádeží. Dnes jdeš tam, kam se nechodí, a ruce máš klidnější než hlavu."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Hledáš cestu nahoru: služební schodiště, kódy na lístečcích pod klávesnicí, lidi s klíči na opasku. Někteří už vědí, kdo jsi."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Jsi uvnitř. Ve třináctém patře voní papír a ozon a v kartotéce leží víc, než se dá unést v kapsách."
+
+[[person.phase]]
+step = 6
+goals = ["Dostat lup z věže ven, ať to stojí cokoli"]
+[person.phase.sheet]
+whereabouts = "Rameno tě bolí víc než kdy dřív a déšť na schodišti zní jako kroky za tebou. Prsten na řetízku je najednou studený."
+
+[[person.relation]]
+with = "don"
+text = "Starý pán z Kotvy. Jeho prsten máš na krku. Zatím si toho nevšiml, nebo dělá, že ne."
+
+[[person.relation]]
+with = "reditelka"
+text = "Žena z věže. Všechno, co nosí, by šlo prodat. Nejvíc to, co nosí v hlavě."
+
+[[person.relation]]
+with = "komisar"
+text = "Kulhavý polda. Jednou tě skoro chytil a pak tě nechal jít. Nevíš proč."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový polda si píše do notesu těsnopisem. Jednou tě viděl a nic nezapsal. To je horší."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Zpěvačka z Kotvy nosí stříbrný náramek s rozbitým zapínáním. Stačilo by do ní jednou vrazit."
+
+[[person.relation]]
+with = "taxikar"
+text = "Taxikář od Kotvy. Svezl tě zadarmo a řekl: Vypadáš jako někdo, koho jsem vozil."
+
+[[person.relation]]
+with = "uklizec"
+text = "Uklízeč z věže má na opasku víc klíčů než hlídač. Stálo by za to se s ním spřátelit."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Donův syn. Hezký úsměv, drahý kabát, tenké alibi. Dívá se ti na krk."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny ti zašila ruku a nic nehlásila. Dlužíš jí."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Nová právnička z věže chodí služebním schodištěm. Proč by to dělala?"
+
+[[person.relation]]
+with = "hackerka"
+text = "Holka s notebookem otevře dveře, na které ty nedosáhneš. Spolupráce, nebo konkurence."

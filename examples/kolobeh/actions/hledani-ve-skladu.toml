@@ -1,0 +1,9 @@
+[action]
+cycle = "c-dokar"
+step = 4
+title = "Hledání ve skladu"
+owners = ["dokar", "pristav"]
+needs = ["cesta-do-skladu", "smrt-barmanky"]
+gives = ["sklad-sedm"]
+brief = "Zprávu o barmance ti řekl taxikář cestou. Teď lezeš zadním oknem skladu č. 7. Mezi sudy svítíš baterkou a pod molem šplouchá voda, která tam nemá co dělat."
+text = "Hledání: smrt barmanky ukáže, že don to myslí vážně. Dokař spěchá."

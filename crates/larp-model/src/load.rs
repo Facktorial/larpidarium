@@ -6,7 +6,8 @@ use serde::Deserialize;
 use serde::de::DeserializeOwned;
 
 use crate::model::{
-    Action, Category, Decision, Game, GameMeta, Layout, Node, Person, Room, Segment, Thing,
+    Action, Category, Cycle, Decision, Game, GameMeta, Layout, Map, Node, Person, Player, Room,
+    Segment, Thing,
 };
 use crate::playthrough::Playthroughs;
 use crate::validate::validate;
@@ -86,6 +87,26 @@ struct RoomsFile {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct MapFile {
+    map: Map,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct CyclesFile {
+    #[serde(default)]
+    cycle: Vec<Cycle>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PlayersFile {
+    #[serde(default)]
+    player: Vec<Player>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct SegmentsFile {
     #[serde(default)]
     segment: Vec<Segment>,
@@ -100,7 +121,7 @@ struct InfoFile {
 
 /// Parses and validates all files of a game folder.
 ///
-/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`, `segments.toml`,
+/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`, `segments.toml`, `players.toml`, `cycles.toml`, `map.toml`,
 /// `actions/<id>.toml`, `people/<id>.toml` and `layout.toml`.
 /// Any other path produces a warning.
 #[must_use]
@@ -115,6 +136,10 @@ pub fn load(files: &[SourceFile]) -> Checked {
     let mut info = Vec::new();
     let mut layout = Layout::default();
     let mut segments = Vec::new();
+    let mut players = Vec::new();
+    let mut cycles = Vec::new();
+    let mut map = None;
+    let mut map_presets = BTreeMap::new();
 
     for file in files {
         match file.path.as_str() {
@@ -133,6 +158,21 @@ pub fn load(files: &[SourceFile]) -> Checked {
             "info.toml" => {
                 if let Some(f) = parse::<InfoFile>(file, &mut diags) {
                     info = f.info;
+                }
+            }
+            "map.toml" => {
+                if let Some(f) = parse::<MapFile>(file, &mut diags) {
+                    map = Some(f.map);
+                }
+            }
+            "cycles.toml" => {
+                if let Some(f) = parse::<CyclesFile>(file, &mut diags) {
+                    cycles = f.cycle;
+                }
+            }
+            "players.toml" => {
+                if let Some(f) = parse::<PlayersFile>(file, &mut diags) {
+                    players = f.player;
                 }
             }
             "segments.toml" => {
@@ -154,6 +194,14 @@ pub fn load(files: &[SourceFile]) -> Checked {
                         nodes.extend([node]);
                     }
                 } else if let Some(stem) = path
+                    .strip_prefix("map-presets/")
+                    .and_then(|p| p.strip_suffix(".toml"))
+                {
+                    let id = file_id(file, stem, &mut diags);
+                    if let (Some(id), Some(f)) = (id, parse::<MapFile>(file, &mut diags)) {
+                        map_presets.insert(id, f.map);
+                    }
+                } else if let Some(stem) = path
                     .strip_prefix("people/")
                     .and_then(|p| p.strip_suffix(".toml"))
                 {
@@ -165,7 +213,7 @@ pub fn load(files: &[SourceFile]) -> Checked {
                 } else {
                     diags.push(
                         Diagnostic::warning(path, None, "unknown file, ignored")
-                            .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, actions/*.toml and people/*.toml"),
+                            .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, players.toml, cycles.toml, map.toml, map-presets/*.toml, actions/*.toml and people/*.toml"),
                     );
                 }
             }
@@ -189,6 +237,10 @@ pub fn load(files: &[SourceFile]) -> Checked {
                 people,
                 rooms,
                 segments,
+                players,
+                cycles,
+                map,
+                map_presets,
                 categories,
                 items,
                 info,

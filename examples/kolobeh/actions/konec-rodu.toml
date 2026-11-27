@@ -1,0 +1,9 @@
+[action]
+cycle = "c-don"
+step = 8
+title = "Konec rodu"
+owners = ["don", "reditelka", "bar"]
+needs = ["kniha-u-dona", "bez-dedice"]
+gives = ["konec-vez"]
+brief = "Kniha hoří v krbu, ale nikdo nestojí vedle tebe. Ředitelka už posílá zástupce, aby změřili bar."
+text = "Změna: don má knihu, ale ne dědice. Knihu spálí, a město stejně koupí věž."

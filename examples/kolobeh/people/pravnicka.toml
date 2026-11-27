@@ -1,0 +1,60 @@
+[person]
+name = "JUDr. Klára Zídková"
+role = "player"
+color = "#d4b03a"
+played_by = "hrac-7"
+after = "uklizec"
+goals = [
+  "Stát se partnerkou ve Vertikále do pětatřiceti",
+  "Zjistit, proč znáš věž lépe než lidé, kteří v ní pracují roky",
+]
+secrets = ["Tvůj bratr dluží Marhoulům. Ředitelka to ví a drží to nad tebou."]
+
+[person.sheet]
+appearance = "Třicet let, tmavý kostým, podpatky, které nikdy nezakopnou, aktovka s kódovým zámkem."
+whereabouts = "Na začátku hry vystupuješ ve třináctém patře věže z výtahu, první den v nové práci, a nohy tě samy vedou ke služebnímu schodišti."
+backstory = """
+Práva jsi vystudovala s vyznamenáním a vybrala sis firmu, která platí nejvíc. Vertikála tě přetáhla z hlavního města nabídkou, která se neodmítá. Smlouvy píšeš tak, aby v nich nebyla jediná díra, kromě té, o které víš jen ty. Bratr žije v Rezově a jeho dluhy chodí i za tebou. Věř papíru, ne lidem, říkal otec, a zatím to fungovalo.
+"""
+echo = "Ve věži víš, kde jsou služební schodiště, kterým kamerám chybí kabel a které dveře vržou. Když uvidíš kbelík s mopem, zastavíš se."
+
+[[person.phase]]
+segment = "noc-4"
+goals = [
+  "Stát se partnerkou ve Vertikále do pětatřiceti",
+  "Rozhodnout, komu patří Rezov, dokud ještě držíš pero",
+]
+[person.phase.sheet]
+whereabouts = "Čtvrtá noc. Teprve druhý den v práci a věž ti už svěřuje papíry, které by nováček neměl vidět. Kódový zámek aktovky ti cvaká pod prsty jako odpočítávání."
+
+[[person.relation]]
+with = "don"
+text = "Marhoul. Tvůj bratr mu dluží a don se na tebe dívá, jako by věděl, kolik přesně."
+
+[[person.relation]]
+with = "reditelka"
+text = "Šebestová tě přivedla do Rezova. Obdivuješ ji a bojíš se jí, v tom pořadí."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Leon Marhoul. Poslala jsi mu návrh smlouvy na přístav. Usmál se, jako by věděl něco, co ty ne."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Holka v kšiltovce, kterou jsi potkala na služebním schodišti. Neměla tam co dělat. Ty taky ne."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z přístavu podala na věž stížnost kvůli lékům. Máš ji odmítnout."
+
+[[person.relation]]
+with = "hackerka"
+text = "Ostraha věže hledá někoho v síti. Ty jsi viděla holku s notebookem u služebního vchodu."
+
+[[person.relation]]
+with = "lekar"
+text = "Doktor z přístavu. Věž chce jeho ošetřovnu a ty máš napsat smlouvu."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Ředitelka říká, že je náš. Ty si tím nejsi jistá."

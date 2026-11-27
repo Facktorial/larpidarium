@@ -1,0 +1,15 @@
+[decision]
+segment = "noc-4"
+title = "Sestřina výpověď"
+owners = ["sestra", "lekar"]
+brief = "Sestra ví, kdo zabil její sestru a co řekl umírající komisař. Nový lékař má magnetofon a noční službu. Výpověď může jít k soudu, nebo zůstat zamčená v šuplíku."
+text = "Jen když kniha jde k soudu, policie slouží zákonu a don je mrtvý; jinak se sestra neodváží. Svědectví je podmínkou svobodného města. Lékař ho může nahrát pro soud; když se sestra bojí, nebo lékař bere od dona, nahrávka zůstane v šuplíku."
+
+[[decision.option]]
+label = "Nahrát výpověď pro soud"
+needs = ["lekar-ve-sluzbe", "sestra-ve-meste", "kniha-u-policie", "policie-zakon", "smrt-dona"]
+gives = ["svedectvi-sestry"]
+
+[[decision.option]]
+label = "Zamknout nahrávku do šuplíku"
+needs = ["lekar-ve-sluzbe", "sestra-ve-meste", "kniha-u-policie", "policie-zakon", "smrt-dona"]

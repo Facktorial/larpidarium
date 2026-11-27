@@ -1,0 +1,8 @@
+[action]
+cycle = "c-zpevacka"
+step = 1
+title = "Píseň U Kotvy"
+owners = ["zpevacka", "don", "bar"]
+gives = ["dluh-zpevacky"]
+brief = "Zpíváš donovu oblíbenou. On sedí v zadním boxu a počítá, kolik písní ještě dlužíš. Kouř stoupá k neonu a nikdo netleská dřív než don."
+text = "Ty: zpěvačka splácí donovi dluh písněmi. Don ji z Kotvy nepustí."

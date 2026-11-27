@@ -1,0 +1,129 @@
+[person]
+name = "Don Vincenc Marhoul"
+role = "player"
+color = "#8b1a1a"
+played_by = "hrac-1"
+dies = 8
+goals = [
+  "Udržet přístav v rukou rodiny",
+  "Nepustit věž do starého města",
+  "Dostat zpátky směnky, které drží Vertikála",
+]
+secrets = [
+  "Víš, že Rezov vrací své mrtvé v cizích tvářích. Poznáváš je podle drobností: písnička, gesto, zlozvyk.",
+  "Polovina tvého jmění patří přes staré směnky Vertikále. Kdyby to rodina zjistila, sesadila by tě.",
+]
+
+[person.sheet]
+appearance = "Šedesát let, těžký kabát s kožešinovým límcem, na malíčku pečetní prsten s kotvou. Mluví tiše a nikdy nezvýší hlas."
+whereabouts = "Na začátku hry sedíš v zadním boxu baru U Kotvy, zády ke zdi, nad kávou, která dávno vystydla."
+backstory = """
+Přístav jsi zdědil po otci a otec po dědovi. Rezov znáš jako vlastní dlaň: kdo komu dluží, kdo komu lže, kde pod molem prosakuje voda. Babička říkávala, že tohle město si své mrtvé nenechá, že je vrací v cizích tvářích. Smál ses tomu, dokud jsi v očích jednoho nováčka nepoznal svého zastřeleného bratra. Od té doby se lidem díváš na ruce a posloucháš, co si pobrukují. Teď nad starým městem vyrostla skleněná věž a její stín každé ráno dosáhne až k tvému molu.
+"""
+
+[[person.phase]]
+segment = "noc-2"
+goals = [
+  "Udržet přístav v rukou rodiny",
+  "Poznat mezi nováčky ty, kdo se vrátili, dřív než je najde věž",
+  "Dostat zpátky směnky, které drží Vertikála",
+]
+[person.phase.sheet]
+whereabouts = "Druhá noc. Sedíš v témž boxu U Kotvy a díváš se lidem na ruce. Za pultem stojí tvůj syn a nalévá, jako by to dělal celý život."
+
+[[person.phase]]
+segment = "noc-3"
+[person.phase.sheet]
+whereabouts = "Třetí noc. Ve třináctém patře věže se svítí i ve dne a tvoji lidé se v přístavu ptají, kdy konečně něco uděláš. Na stanici sedí nová tvář a obálku zatím nevzala."
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Rodina se šeptem ptá, kdo vlastně vládne přístavu. Potřebuješ dnes v noci ukázat sílu, nebo aspoň přesvědčivě předstírat, že ji pořád máš."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Poprvé po letech vstáváš ze zadního boxu a jdeš do deště sám, bez šoféra. Kožešinový límec nasákne vodou, ale ty se neotočíš."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Obcházíš přístav, hřbitov i stíny pod věží a hledáš, komu se ještě dá věřit. Mezi svými lidmi poznáváš tváře, které by tu neměly být, a gesta, která patřila mrtvým."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Máš v ruce, co jsi hledal: páku na věž, nebo aspoň jméno. Prsten s kotvou tě na malíčku tíží víc než kdy dřív."
+
+[[person.phase]]
+step = 6
+[person.phase.sheet]
+whereabouts = "Všechno má svou cenu a ty ji znáš přesně, jako vždycky. Tentokrát ji ale nezaplatí nikdo jiný než ty."
+
+[[person.phase]]
+step = 7
+[person.phase.sheet]
+whereabouts = "Vracíš se do Kotvy, do zadního boxu, ke studené kávě. Když procházíš sálem, hosté u pultu ztiší hlas a někdo sundá klobouk."
+
+[[person.phase]]
+step = 8
+goals = ["Rozhodnout, komu po tobě zůstane přístav"]
+[person.phase.sheet]
+whereabouts = "Rezov se láme a ty sedíš tam, kde jsi seděl vždycky, zády ke zdi. Babička říkávala, že tohle město si své mrtvé nenechá. Poprvé ti ta věta zní jako útěcha."
+
+[[person.relation]]
+with = "reditelka"
+text = "Viktorie Šebestová. Usmívá se jako bankéř a kouše jako přístavní krysa. Drží tvoje směnky a ví to."
+
+[[person.relation]]
+with = "komisar"
+text = "Hrubý bere tvoje obálky. Nejsi si jistý, jestli jen tvoje."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Obálku zatím nevzal. Píše si tvoje věty do notesu a kulhá, když prší."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza ti nalévá třicet let. Ví o tobě víc než tvoje žena."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Leon, tvůj jediný syn. Deset let byl pryč a vrátil se jiný, než odjel."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána zpívá v Kotvě tvoje oblíbené písně. Tvoji lidé říkají, že ji viděli vcházet do věže."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák dělá na tvém molu a splácí ti dluh. Silný, poctivý, skoro až hloupě."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza tě vozí, když nechceš jet vlastním autem. Mlčí. To se cení."
+
+[[person.relation]]
+with = "uklizec"
+text = "Mlíčko uklízí ve věži a jednou týdně ti nosí, co najde v koších."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Holka v kšiltovce, co se motá kolem mola sedm. Chodí po prknech, jako by je sama přibíjela."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny prodává tvým lidem léky. Víš o tom a mlčíš. Jednou si to vybereš."
+
+[[person.relation]]
+with = "hackerka"
+text = "Jiskra. Zaplatil jsi jí zálohu. Ještě nevíš, jestli to byla investice, nebo chyba."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička z věže. Její bratr ti dluží; ona to ví a ty víš, že to ví."
+
+[[person.relation]]
+with = "lekar"
+text = "Nový doktor v přístavu. Poslal jsi mu košík ovoce a vzkaz: Moji lidé mají přednost."

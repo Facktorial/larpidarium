@@ -1,0 +1,8 @@
+[action]
+segment = "noc-1"
+title = "Zlodějka v přístavu"
+owners = ["zlodejka", "pristav"]
+needs = ["smrt-dockera"]
+gives = ["zlodejka-zna-pristav"]
+brief = "Do Rezova jsi přišla za prací, která se nedělá ve dne. Ruce samy vědí, kde je v plotě díra a která prkna na molu vržou. Ráno vylovili z vody dokaře a ty víš, kudy šel."
+text = "Zlodějka (další život dokaře) přichází do přístavu. Zná místa, kde nikdy nebyla. Její znalost přístavu potřebuje taxikář při hledání sudů i don, když vypíše odměnu."

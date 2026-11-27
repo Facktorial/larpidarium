@@ -1,0 +1,53 @@
+[person]
+name = "Barbora „Jiskra“ Holá"
+role = "player"
+color = "#9575cd"
+played_by = "hrac-5"
+after = "taxikar"
+goals = [
+  "Prolomit síť věže a zjistit, co se skrývá ve třináctém patře",
+  "Najít v Rezově místo, kde se dá zůstat",
+]
+secrets = [
+  "Do Rezova tě pozval don Marhoul. Chce, abys mu otevřela věž. Zálohu máš v kapse a ještě ses nerozhodla, komu budeš věrná.",
+]
+
+[person.sheet]
+appearance = "Dvacet let, fialově obarvené vlasy, mikina s kapucí, notebook polepený samolepkami. Nespí."
+whereabouts = "Na začátku hry sedíš v rohu Kotvy u zásuvky, notebook otevřený, a na obrazovce se ti skládá mapa Rezova, kterou jsi nikdy nekreslila."
+backstory = """
+Vyrostla jsi po internátech a nejlíp ti bylo s počítači, protože ty nelžou. Ve čtrnácti ses poprvé dostala do školní sítě, v sedmnácti do bankovní. Do Rezova jsi přijela s jedinou taškou a nabídkou práce, o které nikomu neříkáš. Město znáš, ačkoli jsi tu nikdy nebyla: víš, kudy se dostaneš z přístavu ke hřbitovu bez jediného semaforu. V noci se ti zdá o stěračích a o rádiu, které chytá jen jednu stanici.
+"""
+echo = "Znáš ulice Rezova, jako bys jimi jezdila třicet let. Všechno si zapisuješ ručně do sešitu, i když máš počítač: kdo, kam, kdy."
+
+[[person.relation]]
+with = "don"
+text = "Starý Marhoul ti zaplatil zálohu a podíval se na tebe, jako by tě znal z dřívějška. Nelíbilo se ti to."
+
+[[person.relation]]
+with = "reditelka"
+text = "Žena, která postavila věž. Její síť je chladná a dokonalá. Chceš vidět, co skrývá."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kavka otvírá zámky rukama, ty kódem. Spolu byste se dostaly kamkoli. Nebo by jedna prodala druhou."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Donův syn ti nabídl drink a kus přístavu. Nevíš, jestli ví, kdo tě sem pozval."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny ti obvázala ruku, když tě kopl zdroj. Zpívala si přitom."
+
+[[person.relation]]
+with = "pravnicka"
+text = "Právnička věže. Kdyby tě chytili, ona napíše obžalobu. Nebo ti nabídne smlouvu."
+
+[[person.relation]]
+with = "lekar"
+text = "Doktor z ošetřovny. Klidné ruce a oči, které utíkají."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Zatím ti nic nedokázal, a to se snaží."

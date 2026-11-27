@@ -1,0 +1,74 @@
+[[cycle]]
+id = "c-dokar"
+name = "Dokař: Sklad č. 7"
+hero = "dokar"
+from = "noc-1"
+color = "#c0392b"
+text = "Dokař se dozví, že doky se po Slavnosti zavřou, uvidí v noci sudy s benzínem a s taxikářem se vloupá do skladu č. 7. Najde donovu účetní knihu a v kroku Nález zemře. Rozhodne, jestli knihu hodí taxikáři, nebo ji zakope na hřbitově. Hráč se vrací jako zlodějka."
+
+[[cycle]]
+id = "c-barmanka"
+name = "Barmanka: Poslední nalévání"
+hero = "barmanka"
+from = "noc-1"
+color = "#e67e22"
+text = "Bar dluží donovi výpalné a don dá ultimátum. Uklízeč přinese barmance pytel útržků z věže a ona z nich slepí tajnou smlouvu o požáru doků. V kroku Odchod zemře za pultem a rozhodne, jestli smlouvu prodá donovi, nebo ji schová pod pult. Hráč se vrací jako donův syn, který bar zdědí."
+
+[[cycle]]
+id = "c-zpevacka"
+name = "Zpěvačka: Lístek z města"
+hero = "zpevacka"
+from = "noc-1"
+to = "noc-2"
+color = "#d81b60"
+text = "Zpěvačka splácí donovi dluh písněmi a s taxikářem plánuje útěk. Na pohřbu barmanky si s uklízečem slíbí, že další nebudou. Ve 2. noci se jí don zeptá, s kým jezdil mrtvý dokař, a nabídne lístek z města. V kroku Cena zemře: buď taxikáře zachrání, nebo ho prodá. Hráčka se vrací jako její sestra."
+
+[[cycle]]
+id = "c-komisar"
+name = "Komisař: Složka Koloběh"
+hero = "komisar"
+from = "noc-2"
+color = "#2e7d32"
+text = "Komisař bere obálky, ale dvě mrtvá těla mu nedají spát. Vyslechne taxikáře, na pohřbu zpěvačky ho postřelí a v nemocnici, za přítomnosti sestry, rozhodne, co s pravdou: uloží knihu do archivu (má-li ji taxikář), zapíše pravdu do složky, nebo vezme obálku. Hráč se vrací jako mladý komisař."
+
+[[cycle]]
+id = "c-taxikar"
+name = "Taxikář: Poslední jízda"
+hero = "taxikar"
+from = "noc-2"
+to = "noc-3"
+color = "#8e44ad"
+text = "Taxikář ví o městě všechno a nic neřekne. Po smrti zpěvačky přísahá u jejího hrobu, se zlodějkou najde sudy, od uklízeče se dozví hodinu požáru a v noci Slavnosti se vrátí do Kotvy. V kroku Změna zemře: odveze sudy do moře (jen když ho zpěvačka nezradila), nebo vytahuje lidi z hořícího přístavu. Hráč se vrací jako hackerka."
+
+[[cycle]]
+id = "c-uklizec"
+name = "Uklízeč: Třinácté patro"
+hero = "uklizec"
+from = "noc-3"
+color = "#b7950b"
+text = "Uklízeč najde ve třináctém patře Archiv mrtvých, zaslechne rozkaz k požáru a mezi kartami najde i tu svou. Ochranka ho chytí. V kroku Návrat zemře a vsadí: nechá propustku za pultem Kotvy, nebo napíše na zeď, kde jsou útržky smlouvy (neví, jestli je barmanka schovala). Hráč se vrací jako nová právnička věže."
+
+[[cycle]]
+id = "c-zlodejka"
+name = "Zlodějka: Poslední lup"
+hero = "zlodejka"
+from = "noc-3"
+to = "noc-4"
+color = "#f39c12"
+text = "Don vypíše odměnu za svou knihu. Zlodějka ji vyzvedne tam, kde ji nechaly předchozí cykly: v hrobě, v policejním archivu, nebo v taxíku. Ráno po Slavnosti ji vydraží a v kroku Cena zemře: prodá ji donovi, věži (jen když doky shořely), nebo ji dá mladému komisaři. Hráč se vrací jako lékař."
+
+[[cycle]]
+id = "c-don"
+name = "Don: Dědictví"
+hero = "don"
+from = "noc-4"
+color = "#8b1a1a"
+text = "Ráno po Slavnosti (až se nový komisař rozhodne) don oznámí, že přístav převezme syn. Když zlodějka rozdá knihu, v kroku Cena se syn rozhodne: zradí otce právničce, převezme přístav, nebo ho otec prodá věži a pošle pryč. V kroku Změna don zemře. Má-li knihu, spálí ji: se synem jako dědicem je město jeho, bez dědice ho koupí věž."
+
+[[cycle]]
+id = "c-reditelka"
+name = "Ředitelka: Poslední patro"
+hero = "reditelka"
+from = "noc-4"
+color = "#3f5f8a"
+text = "Ředitelka chystá nabídky pro město po Slavnosti a na spáleništi staví. Hackerka se mezitím dostane do systému věže (propustkou nebo přes slepenou smlouvu); v kroku Návrat jí ředitelka nabídne místo a mlčení. V kroku Změna zemře v nejvyšším patře. Má-li věž donovu knihu, podepíše koupi Rezova."

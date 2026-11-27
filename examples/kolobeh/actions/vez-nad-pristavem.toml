@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 1
+title = "Věž nad přístavem"
+owners = ["reditelka", "vez"]
+needs = ["slavnost-skoncila", "archiv-mrtvych"]
+gives = ["nabidka-veze"]
+brief = "Stojíš u okna nejvyššího patra. Dole se po Slavnosti probouzí Rezov a v Archivu máš seznam nováčků, které je třeba koupit dřív než don."
+text = "Ty: ředitelka připraví nabídky: místo pro nového komisaře, peníze pro každého, kdo se přidá."

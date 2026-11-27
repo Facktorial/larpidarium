@@ -1,0 +1,9 @@
+[action]
+cycle = "c-barmanka"
+step = 2
+title = "Slepená smlouva"
+owners = ["barmanka", "uklizec", "bar"]
+needs = ["utrzky-smlouvy"]
+gives = ["tajna-smlouva"]
+brief = "Uklízeč ti vysype na pult pytel papírových nudlí. Po zavíračce je skládáš izolepou a z proužků vystupuje podpis, který znáš z účtenek za výpalné."
+text = "Potřeba: barmanka slepí tajnou smlouvu. Ví teď, že don zapálí doky a věž zaplatí. Informaci šíří dál do cyklu dokaře (proč jít do skladu) a do přípravy požáru."

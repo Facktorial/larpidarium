@@ -1,0 +1,9 @@
+[action]
+cycle = "c-zpevacka"
+step = 5
+title = "Lístek z města"
+owners = ["zpevacka", "don", "bar"]
+needs = ["smrt-dockera"]
+gives = ["don-hleda-knihu"]
+brief = "Don tě po vystoupení zavolá do boxu. Na stole leží lístek na ranní vlak a vedle fotka dokaře, kterého vylovili z vody. Chce jen jméno: s kým ten dokař jezdil."
+text = "Nález: zpěvačka zjistí, co don hledá (svou knihu) a co za to nabízí (svobodu). Don od té chvíle hledá knihu po celém městě; to otevírá i cyklus zlodějky."

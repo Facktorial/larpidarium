@@ -1,0 +1,97 @@
+[person]
+name = "Alois „Lojza“ Brabec"
+role = "player"
+color = "#5e35b1"
+played_by = "hrac-5"
+dies = 8
+goals = ["Našetřit dost, abys mohl z Rezova odjet natrvalo", "Nikdy se nedívat, co vozíš v kufru"]
+secrets = [
+  "Každou jízdu si zapisuješ do sešitu v přihrádce: kdo, kam, kdy. Ten sešit má větší cenu než tvoje auto.",
+]
+
+[person.sheet]
+appearance = "Šedesátník v kožené bundě a čepici s kšiltem, v koutku úst párátko. Taxík má promáčklý blatník a rádio, které chytá jen jednu stanici."
+whereabouts = "Na začátku hry stojíš s taxíkem před Kotvou, stěrače tlučou do rytmu a ty čekáš, kdo vyjde ze dveří."
+backstory = """
+Taxíkem jezdíš po Rezově třicet let a znáš každou díru v silnici i každou ulici, kde se nezastavuje. Vozil jsi nevěsty, opilce i lidi, které pak už nikdo neviděl. Naučil ses neptat a nedívat se do zpětného zrcátka déle, než je nutné. Do sešitu v přihrádce si ale zapisuješ všechno, protože paměť už není, co bývala. Žena ti umřela před pěti lety a od té doby mluvíš jen s rádiem.
+"""
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Najednou tě chtějí všichni: don, lidé z věže i policie. Potřebuješ vědět, s kým se ještě dá jezdit a s kým už ne."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Vyjíždíš z obvyklých tras. Někdo ti zaplatil za cestu, na kterou se nesmíš ptát, a sešit v přihrádce pálí jako uhlík."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Kroužíš městem a hledáš, komu se dá věřit. Každé auto ve zpětném zrcátku vypadá, že tě sleduje."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Došlo ti, co vlastně máš v ruce: celé město zapsané tvým písmem. Je to tvoje pojistka, nebo tvoje oprátka."
+
+[[person.phase]]
+step = 6
+[person.phase.sheet]
+whereabouts = "Všechno zdražuje: benzín, mlčení, každá jízda. Někdo chce tvůj sešit a nabízí víc, než stojí tvůj život."
+
+[[person.phase]]
+step = 7
+[person.phase.sheet]
+whereabouts = "Vracíš se tam, kde jsi začínal, na stanoviště před Kotvou. Všichni se tváří, jako by se nic nestalo, a ty víš, že stalo."
+
+[[person.phase]]
+step = 8
+goals = ["Předat sešit někomu, komu věříš"]
+[person.phase.sheet]
+whereabouts = "Poslední jízda dne. Motor zní unaveně a ty se poprvé za třicet let nebojíš. Rádio hraje píseň, kterou jsi slyšel na své svatbě."
+
+[[person.relation]]
+with = "don"
+text = "Don sedí vždycky vzadu vpravo. Platí dvakrát víc, než ukáže taxametr, a chce za to slepotu."
+
+[[person.relation]]
+with = "reditelka"
+text = "Lidi z věže si tě objednávají čím dál častěji. Šebestová nikdy, ta jezdí v černém autě se šoférem."
+
+[[person.relation]]
+with = "komisar"
+text = "Hrubý tě dvakrát zastavil a dvakrát pustil. Potřetí bude chtít něco za to."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Vezl jsi ho z nádraží a on si na zadním sedadle mnul pravé koleno, jako by ho bolelo na déšť."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák z mola sedm. Vozíš ho po noční a bereš od něj jen úsměv. Poslední dobou se usmívá míň."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza ti schovává kávu v termosce. Jediná, kdo si pamatuje, jak ji piješ."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vozíš Vránu z Kotvy domů. Občas ne domů, ale k věži, a to si nezapisuješ."
+
+[[person.relation]]
+with = "uklizec"
+text = "Mlíčko jezdí z věže poslední tramvají. Když prší, vezmeš ho zadarmo."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Mladý Marhoul si sedá dopředu, vedle tebe. Otec by si nikdy nesedl."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Kavka. Svezl jsi ji zadarmo, protože ti připomněla někoho, koho jsi vozil."
+
+[[person.relation]]
+with = "sestra"
+text = "Nová sestra z ošetřovny si v autě zpívá. Znáš tu písničku odněkud z Kotvy."

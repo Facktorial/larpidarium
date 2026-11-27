@@ -1,0 +1,10 @@
+[action]
+cycle = "c-zlodejka"
+step = 3
+title = "Exhumace"
+owners = ["zlodejka", "hrbitov"]
+needs = ["odmena-za-knihu"]
+uses = ["kniha-v-hrobe"]
+gives = ["ucetni-kniha"]
+brief = "Zdá se ti o hrobě na kraji hřbitova, který nikdo nenavštěvuje. Rameno tě bolí, jako bys tu jámu kopala sama. Bereš lopatu."
+text = "Odchod (jen když dokař knihu zakopal): ozvěna dokaře; jeho další život vykope, co zakopal."

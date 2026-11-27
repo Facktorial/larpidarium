@@ -27,6 +27,13 @@ parallel), each with:
 
 Wait until both finish. Tell the user in one line each what the two proposals are.
 
+## 1b. Lore check (games set in Karlopolis)
+
+If the game is set in the Karlopolis world (it uses `world/`), run the `lore-keeper` agent on both
+fresh drafts: "Check `<drafts>/plot-r<N>.md` and `voice-r<N>.md` against canon and Czech; answer
+their `Questions for the lore keeper`; file author questions as issues where canon is missing." Pass
+its notes to both writers in the next round (or apply them in the merge if it was the last round).
+
 ## 2. Rounds 2..N: each responds to the other, in parallel
 
 Again start both agents in one message:
@@ -43,10 +50,12 @@ Stop early when both drafts say `Converged: yes`.
    and the voice draft's texts (`brief`, `text`, backstories, names). Where they disagree and the
    drafts give no answer, ask the user.
 2. Apply the merged TOML to the game folder.
-3. Run `cargo run -q -- check <game folder>`. Fix errors yourself. If new warnings appear, fix them
+3. For Karlopolis games, run `lore-keeper` once more on the merged game folder and fix canon and
+   language findings.
+4. Run `cargo run -q -- check <game folder>`. Fix errors yourself. If new warnings appear, fix them
    or explain why they are intended.
-4. Run `cargo run -q -- build <game folder>` so the sheets are regenerated.
-5. Show the user: what changed (files), the warning count before and after, and the sheet(s) to look
+5. Run `cargo run -q -- build <game folder>` so the sheets are regenerated.
+6. Show the user: what changed (files), the warning count before and after, and the sheet(s) to look
    at (`dist/players/<id>.html`). Do not commit.
 
 ## Rules

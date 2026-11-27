@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 2
+title = "Stavba na spáleništi"
+owners = ["reditelka", "vez", "pristav"]
+needs = ["pristav-shorel"]
+gives = ["vez-na-spalenisti"]
+brief = "Spáleniště ještě kouří a tvoji lidé už zatloukají ceduli Nový přístav. Pozemky jsou za babku. Peníze, které zbyly, můžeš rozdávat."
+text = "Potřeba (jen když doky shořely): věž má pozemky a hotovost. Jen tehdy může koupit donovu knihu od zlodějky."

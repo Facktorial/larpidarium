@@ -1,0 +1,8 @@
+[action]
+segment = "noc-1"
+title = "Komisař u mrtvé barmanky"
+owners = ["komisar", "bar"]
+needs = ["smrt-barmanky"]
+gives = ["komisar-podezira"]
+brief = "V Kotvě je ticho, jaké tam nikdy nebývá. Kasa je plná, a přesto to má být loupež. Zapisuješ si, kdo dnes seděl u baru."
+text = "Komisař ohledá místo činu. Ví, že to nebyla loupež, ale nahlas to neřekne. Otevírá tím svůj cyklus ve 2. noci."

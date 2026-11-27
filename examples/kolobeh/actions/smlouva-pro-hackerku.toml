@@ -1,0 +1,8 @@
+[action]
+segment = "noc-4"
+title = "Smlouva pro hackerku"
+owners = ["hackerka", "syn-dona", "bar"]
+needs = ["smrt-taxikare", "vzkaz-o-utrzcich", "utrzky-pod-pultem"]
+gives = ["hackerka-ma-utrzky"]
+brief = "Ve věži se šeptá o vzkazu na zdi uklízečovy komůrky: pod pultem u Kotvy. Za pultem stojí donův syn. Buď ti ten papír dá, nebo ho budeš muset vzít."
+text = "Jen když uklízeč napsal vzkaz a barmanka smlouvu schovala. Na smlouvě jsou čísla účtů věže, přes která se hackerka dostane do systému."

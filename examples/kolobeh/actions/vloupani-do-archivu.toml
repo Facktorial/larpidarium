@@ -1,0 +1,10 @@
+[action]
+cycle = "c-zlodejka"
+step = 3
+title = "Vloupání do archivu"
+owners = ["zlodejka"]
+needs = ["odmena-za-knihu"]
+uses = ["kniha-v-archivu"]
+gives = ["ucetni-kniha"]
+brief = "Policejní archiv má staré zámky a nový komisař chodí domů brzy. V krabici se jménem mrtvého komisaře je něco těžšího než papír."
+text = "Odchod (jen když komisař knihu uložil do archivu)."

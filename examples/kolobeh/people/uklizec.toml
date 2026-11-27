@@ -1,0 +1,95 @@
+[person]
+name = "Václav Mlíčko"
+role = "player"
+color = "#9e7d0a"
+played_by = "hrac-7"
+dies = 7
+goals = ["Dostat syna na dobrou školu", "Zůstat neviditelný"]
+secrets = ["Jednou týdně nosíš donovi, co najdeš v koších třináctého patra. Platí málo, ale včas."]
+
+[person.sheet]
+appearance = "Šedesátník v modré kombinéze s logem Vertikály, vozík s kbelíkem, tichý krok gumových bot."
+whereabouts = "Na začátku hry vytíráš chodbu ve třináctém patře věže. Za matným sklem svítí jediná kancelář."
+backstory = """
+Ve věži uklízíš od prvního dne, kdy ji otevřeli. Znáš každou chodbu, každé služební schodiště a každý kód, který si někdo napsal na lísteček pod klávesnici. Lidé v oblecích kolem tebe chodí, jako bys byl kus nábytku, a mluví před tebou o všem. Syn chodí na průmyslovku a chce být inženýrem, a ty chceš, aby nikdy nemusel držet v ruce mop. Proto bereš peníze odkudkoli.
+"""
+
+[[person.phase]]
+segment = "noc-2"
+[person.phase.sheet]
+whereabouts = "Druhá noc. Ve třináctém patře se svítí i v noci a do košů padá víc papírů než dřív. Don chce víc a platí pořád stejně."
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Ze synovy školy přišel dopis: školné se zvedá. Potřebuješ peníze, jaké se v koších nenajdou."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Poprvé si z věže odnášíš víc než obsah košů. Kapsa kombinézy je těžká a výtah jede dolů nekonečně dlouho."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Mezi papíry hledáš něco, co by stálo za synovu školu. Mezi fakturami jsou seznamy jmen, kterým nerozumíš, a u některých stojí dvě data."
+
+[[person.phase]]
+step = 5
+[person.phase.sheet]
+whereabouts = "Víš, kde ve věži leží něco, co nikdo nesmí vidět. Teď se musíš rozhodnout, komu to říct."
+
+[[person.phase]]
+step = 6
+[person.phase.sheet]
+whereabouts = "Ostraha si tě začala všímat. Tvoje jediná ochrana, neviditelnost, se rozpouští jako mýdlo v kbelíku."
+
+[[person.phase]]
+step = 7
+goals = ["Zajistit syna, kdyby se ti něco stalo"]
+[person.phase.sheet]
+whereabouts = "Vracíš se do věže na noční, s vozíkem a kbelíkem, jako každý večer. Výtah stojí ve třináctém patře a ty myslíš na syna víc než jindy. Dopis od něj máš v kapse kombinézy mezi klíči."
+
+[[person.relation]]
+with = "don"
+text = "Don platí za koše z věže. Málo, ale včas. Kdyby přestal, nevíš, co bys dělal."
+
+[[person.relation]]
+with = "reditelka"
+text = "Paní ředitelka. Za osm let se ti ani jednou nepodívala do očí. Tím líp."
+
+[[person.relation]]
+with = "komisar"
+text = "Komisař Hrubý. Jednou tě vyslýchal kvůli krádeži ve věži a byl překvapivě slušný."
+
+[[person.relation]]
+with = "mlady-komisar"
+text = "Nový komisař. Oslovil jsi ho omylem jménem toho starého. Neopravil tě."
+
+[[person.relation]]
+with = "dokar"
+text = "Hák. Hrajete spolu v Kotvě mariáš a nikdy se nebavíte o práci. Proto je to přátelství."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza tě v dešti sveze zadarmo. Říká, že mu připomínáš jeho tátu."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza ví, že prohráváš v mariáši schválně. Nikdy to neřekla nahlas."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána chodí do věže zadním vchodem. Viděl jsi ji. Ona tebe ne."
+
+[[person.relation]]
+with = "syn-dona"
+text = "Mladý Marhoul. Jestli převezme otcovy obchody, bude chtít i tvoje koše."
+
+[[person.relation]]
+with = "zlodejka"
+text = "Holka v kšiltovce se ti motá kolem vozíku a dívá se na tvoje klíče. Všiml sis."
+
+[[person.relation]]
+with = "sestra"
+text = "Sestra z ošetřovny ti maže záda mastí a neptá se, proč tě bolí."

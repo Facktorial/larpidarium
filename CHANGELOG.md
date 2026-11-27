@@ -4,8 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ## Unreleased
 
+## phase-4 - 2026-11-27
+
 ### Added
 
+- "From here on" in the graph: mark actions or decision options as happened (✓ in the details
+  panel); what they needed and everything earlier in time is marked as past, impossible actions are
+  greyed out, and with a character selected the bar lists what still awaits them.
+- Map of the places (`map.toml`, **Mapa** tab): a floor plan with walls drawn along the grid lines
+  and corridor tiles, rooms as draggable, resizable tiles; saved by `serve`, downloadable from the
+  static site. Floor plans can be saved as presets (`map-presets/<id>.toml`) and loaded again. The drawing is
+  kept in the browser until saved, and maps or presets can be loaded from a file.
+- Viewer tabs: Places, Characters, Players (players × segments grid), Items & info, Segments and
+  Problems tables next to the graph, sortable and filterable; rows link back into the graph.
+- Hero cycles: `steps` in game.toml, `cycles.toml`, `cycle` + `step` on actions. A cycle is one
+  hero's journey placed on the world timeline; several can overlap.
+- Lives and reincarnation: `players.toml`, `played_by`, `enters`, `after`, `dies` (world segment
+  or step of the hero's cycle), `outside_cycle` and `[[person.phase]]` (by segment or step) on
+  people. `check` warns about acting outside a life, overlapping or missing characters of a player,
+  heroes who do not die in their cycle and players who are never a hero; sheets show the life and a
+  Part III with phases.
+- Timeline layout for games with cycles: world segments as columns, cycles in lanes below,
+  collapsible to a story-circle icon or opened as step columns or a story circle; merged lines with
+  stubs between cycles and the world. Players tab as a timeline, new Cycles tab.
 - `examples/evzentura`: transcript of the Evžentura design notes (five floors, characters and the interactions the notes describe); warnings mark what is still to be designed.
 - Segments (`segments.toml`, `segment = "…"` on actions): acts, levels or loosely connected side
   plots. Each segment gets its own band and colored area in the graph, a filter in the sidebar

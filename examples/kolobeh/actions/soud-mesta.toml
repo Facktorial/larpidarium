@@ -1,0 +1,29 @@
+[decision]
+segment = "noc-4"
+title = "Soud města"
+owners = ["pravnicka", "mlady-komisar"]
+brief = "Ráno po té noci leží donova kniha na stole soudu. Právnička rozhodne, koho obžaluje, a komisař, koho zatkne."
+text = "Jen když zlodějka dala knihu komisaři. Obžalovat oba lze jen s případem (synova zrada), daty venku, svědectvím sestry a policií za zákonem. Obžalovat jen Marhouly lze vždy: věž koupí, co po nich zbude. Stáhnout žalobu lze, když policie patří donovi."
+
+[[decision.option]]
+label = "Obžalovat Marhouly i věž"
+needs = [
+  "kniha-u-policie",
+  "smrt-dona",
+  "smrt-reditelky",
+  "pravnicka-ma-pripad",
+  "data-venku",
+  "svedectvi-sestry",
+  "policie-zakon",
+]
+gives = ["konec-svobodne-mesto"]
+
+[[decision.option]]
+label = "Obžalovat jen Marhouly"
+needs = ["kniha-u-policie", "smrt-dona", "smrt-reditelky"]
+gives = ["konec-vez"]
+
+[[decision.option]]
+label = "Stáhnout žalobu a ustoupit Marhoulům"
+needs = ["kniha-u-policie", "smrt-dona", "smrt-reditelky", "policie-dona"]
+gives = ["konec-don"]

@@ -5,6 +5,7 @@ mod id;
 mod load;
 pub mod model;
 mod playthrough;
+pub mod time;
 mod validate;
 
 pub use diagnostic::{Diagnostic, Severity};

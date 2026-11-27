@@ -1,0 +1,19 @@
+[decision]
+cycle = "c-barmanka"
+step = 3
+title = "Poslední nalévání"
+owners = ["barmanka", "don", "bar"]
+brief = "Lhůta vypršela. Pod pultem máš smlouvu, která může srazit dona i věž, a u baru sedí don. Co s ní uděláš?"
+text = "Odchod: barmanka v tomto kroku zemře, ať zvolí cokoli; don nenechává svědky. Prodá-li smlouvu, don ji spálí. Schová-li ji, najde ji její další život (donův syn) a může s ní ve 4. noci zradit otce; podle uklízečova vzkazu ji může najít i hackerka."
+
+[[decision.option]]
+label = "Prodat smlouvu donovi za smazání dluhu"
+needs = ["ultimatum-baru", "tajna-smlouva"]
+uses = ["utrzky-smlouvy"]
+gives = ["smrt-barmanky"]
+
+[[decision.option]]
+label = "Schovat smlouvu pod pult a mlčet"
+needs = ["ultimatum-baru", "tajna-smlouva"]
+uses = ["utrzky-smlouvy"]
+gives = ["utrzky-pod-pultem", "smrt-barmanky"]

@@ -68,10 +68,10 @@ AI-assisted workflow works is in [`docs/workflow.md`](docs/workflow.md).
 | Phase | Content                                                                          |
 | ----- | -------------------------------------------------------------------------------- |
 | 0 ✅  | Skeleton, checkers, CI, AI agent setup, docs                                     |
-| 1 🚧  | TOML format ✅, segments ✅, logic levels 1–2 ✅, example game ✅, `serve` + browser editing ✅, JSON Schema |
-| 2 🚧  | Graph: item edges ✅, auto layout ✅, viewer ✅, `build` ✅, `import`                 |
-| 3 🚧  | Game logic: playthroughs ✅, endings ✅, people ✅, "Game health" panel ✅; idle time, load ([spec](docs/game-logic.md)) |
-| 4 ✅  | Character sheets in HTML: Part I who you are, Part II destiny from the graph ([spec](docs/sheets.md)) |
+| 1 🚧  | TOML format ✅, segments ✅, logic levels 1–2 ✅, example games ✅, `serve` + browser editing ✅, JSON Schema |
+| 2 🚧  | Graph: item edges ✅, auto layout ✅, viewer ✅, `build` ✅, summary tabs ✅, hero cycles + timeline ✅, map of the places ✅, "from here on" ✅, `import` |
+| 3 🚧  | Game logic: playthroughs ✅, endings ✅, people ✅, lives ✅, "Game health" panel ✅; load per organizer and room ([spec](docs/game-logic.md)) |
+| 4 ✅  | Character sheets in HTML: Part I who you are, Part II destiny from the graph, Part III how you change ([spec](docs/sheets.md)) |
 | 5     | PDF: LaTeX templates, TikZ destiny graph, tectonic                               |
 | 6     | Organizer sheets, mutation-testing cleanup, releases                             |
 

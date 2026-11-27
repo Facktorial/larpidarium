@@ -1,0 +1,8 @@
+[action]
+segment = "noc-2"
+title = "Syn za pultem"
+owners = ["syn-dona", "bar"]
+needs = ["dedic-baru", "utrzky-pod-pultem"]
+gives = ["syn-zna-pravdu"]
+brief = "Ruka ti sama sáhne pod pult, kde nikdy nebyla tvoje sklenice. Nahmatáš papír slepený izolepou."
+text = "Ozvěna: barmanka schovala smlouvu a její další život ji najde. Syn ví, že otec podepsal požár. Jen s tímhle může ve 4. noci otce zradit."

@@ -1,0 +1,17 @@
+[decision]
+cycle = "c-zpevacka"
+step = 6
+title = "Poslední píseň"
+owners = ["zpevacka", "don", "bar"]
+brief = "Don čeká na jméno. Na stole leží lístek z města. Venku v dešti stojí taxík s nastartovaným motorem."
+text = "Cena: zpěvačka v tomto kroku zemře. Obětuje-li se, taxikář zůstane volný a v noci Slavnosti může odvézt sudy. Zradí-li ho, don ji stejně nechá zabít (nechce svědky) a taxikář se k sudům už nedostane."
+
+[[decision.option]]
+label = "Zpívat donovi do rána, aby taxikář stihl zmizet"
+needs = ["slib-uteku", "slib-u-hrobu", "don-hleda-knihu"]
+gives = ["taxikar-volny", "smrt-zpevacky"]
+
+[[decision.option]]
+label = "Prozradit donovi taxikáře za lístek z města"
+needs = ["slib-uteku", "slib-u-hrobu", "don-hleda-knihu"]
+gives = ["smrt-zpevacky"]

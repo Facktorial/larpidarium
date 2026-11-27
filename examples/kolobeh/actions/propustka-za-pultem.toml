@@ -1,0 +1,9 @@
+[action]
+segment = "noc-4"
+title = "Propustka za pultem"
+owners = ["hackerka", "syn-dona", "bar"]
+needs = ["smrt-taxikare"]
+uses = ["propustka-v-baru"]
+gives = ["hackerka-ma-propustku"]
+brief = "Do Rezova jsi přijela ráno a ulice znáš, jako bys je léta projížděla. V Kotvě sáhneš za lahve, kam bys sahat neměla, a vytáhneš ošoupanou kartu z věže."
+text = "Hackerka (další život taxikáře) najde uklízečovu propustku. Jen když ji uklízeč poslal do Kotvy."

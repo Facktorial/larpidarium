@@ -1,0 +1,8 @@
+[action]
+segment = "noc-3"
+title = "Spis předchůdce"
+owners = ["mlady-komisar"]
+needs = ["novy-komisar", "komisar-cestny"]
+gives = ["duvod-k-odvaze"]
+brief = "V šuplíku po předchůdci leží složka s nápisem Koloběh. Těsnopis, který ses nikdy neučil, čteš bez zaváhání. Na poslední stránce je tvoje jméno."
+text = "Ozvěna: komisař nechal pravdu (ve složce nebo v archivu). Mladý komisař z ní má odvahu odmítnout dona i věž."

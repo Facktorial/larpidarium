@@ -1,0 +1,19 @@
+[[room]]
+id = "bar"
+name = "Bar U Kotvy"
+color = "#b5651d"
+
+[[room]]
+id = "vez"
+name = "Vertikála"
+color = "#5d6d7e"
+
+[[room]]
+id = "pristav"
+name = "Přístav"
+color = "#1f618d"
+
+[[room]]
+id = "hrbitov"
+name = "Hřbitov"
+color = "#4d4d4d"

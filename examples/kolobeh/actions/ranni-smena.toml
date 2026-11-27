@@ -1,0 +1,8 @@
+[action]
+cycle = "c-dokar"
+step = 1
+title = "Ranní směna"
+owners = ["dokar", "pristav"]
+gives = ["pristav-se-zavre"]
+brief = "Z jeřábu kape rez a mistr u buňky čte jména. Po Slavnosti kotvy prý nebude co nakládat. Máš dluh u dona a doma nikoho, kdo by ho splatil za tebe."
+text = "Ty: obyčejný den dokaře. Dozví se, že doky se po Slavnosti zavřou."

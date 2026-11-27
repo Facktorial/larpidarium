@@ -1,0 +1,8 @@
+[action]
+segment = "noc-2"
+title = "Přísaha u hrobu"
+owners = ["mlady-komisar", "sestra", "hrbitov"]
+needs = ["smrt-komisare"]
+gives = ["novy-komisar"]
+brief = "Odznak je studený a ještě voní cizím doutníkem. Stojíš u čerstvého hrobu a sestra z ošetřovny ti řekne, jaká byla jeho poslední slova. Zpomalíš, aniž víš proč."
+text = "Mladý komisař (další život komisaře) složí přísahu. Sestra byla u komisařovy smrti."

@@ -46,6 +46,28 @@ const LABELS: &[(&str, &str, &str)] = &[
     ("choice", "Tvé rozhodnutí", "Your decision"),
     ("mini_own", "tvé činy", "your actions"),
     ("mini_other", "jiní", "others"),
+    ("played_by", "Hraje", "Played by"),
+    (
+        "whereabouts_enter",
+        "Kde jsi, když vstupuješ do příběhu",
+        "Where you are when you enter the story",
+    ),
+    // Section headings for `[person.sheet]` keys in Part I extras and phases (`sheet_<key>`).
+    (
+        "sheet_echo",
+        "Ozvěna minulého života",
+        "Echo of a past life",
+    ),
+    ("sheet_appearance", "Vzhled", "Appearance"),
+    ("sheet_whereabouts", "Kde jsi", "Where you are"),
+    ("sheet_backstory", "Tvůj příběh", "Your story"),
+    ("enters", "Vstupuješ do příběhu", "You enter the story"),
+    ("dies", "Umíráš", "You die"),
+    ("from_start", "od začátku", "from the start"),
+    ("to_end", "dožiješ konce", "you live to the end"),
+    ("outside_cycle", "mimo cyklus", "outside the cycle"),
+    ("part3", "Jak se měníš", "How you change"),
+    ("from_segment", "Od", "From"),
 ];
 
 /// Labels for `language`, keyed by the first column of the table above.

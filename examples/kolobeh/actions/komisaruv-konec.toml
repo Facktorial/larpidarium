@@ -1,0 +1,24 @@
+[decision]
+cycle = "c-komisar"
+step = 6
+title = "Komisařova poslední noc"
+owners = ["komisar", "sestra"]
+brief = "Ošetřovna, kapačka, déšť na okně. Sestra ti drží ruku. Co víš, může zemřít s tebou, nebo přežít v krabici, ve složce, nebo v obálce."
+text = "Cena: komisař v tomto kroku zemře. Uložit knihu do archivu může, jen když ji taxikář má (dokař ji hodil jemu). Zápis do složky Koloběh i archiv dají nástupci důvod k odvaze. Obálka nedá nic a kniha zůstane v taxíku."
+
+[[decision.option]]
+label = "Nechat taxikáře přivézt knihu a uložit ji do archivu"
+needs = ["komisar-postrelen"]
+uses = ["kniha-u-taxikare"]
+gives = ["kniha-v-archivu", "komisar-cestny", "smrt-komisare"]
+
+[[decision.option]]
+label = "Nadiktovat sestře pravdu do složky Koloběh"
+needs = ["komisar-postrelen"]
+gives = ["komisar-cestny", "smrt-komisare"]
+
+[[decision.option]]
+label = "Vzít donovu obálku a mlčet"
+needs = ["komisar-postrelen"]
+uses = ["obalka"]
+gives = ["smrt-komisare"]

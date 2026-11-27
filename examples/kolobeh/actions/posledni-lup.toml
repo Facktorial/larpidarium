@@ -1,0 +1,25 @@
+[decision]
+cycle = "c-zlodejka"
+step = 6
+title = "Poslední lup"
+owners = ["zlodejka", "don", "reditelka"]
+brief = "Kniha je tvoje ještě hodinu. Don, věž, nebo komisař, který si právě vybral pána. Kdo knihu dostane, nemusí platit tobě; zaplatit můžeš ty."
+text = "Cena: zlodějka v tomto kroku zemře, ať knihu dá komukoli. Věži ji prodat může jen tehdy, když doky shořely (věž má spáleniště a peníze). Kniha u dona vede ke konci rodu, kniha ve věži ke konci věže, kniha u komisaře k soudu."
+
+[[decision.option]]
+label = "Prodat knihu donovi"
+needs = ["drazba-knihy", "policie-rozhodla"]
+uses = ["ucetni-kniha"]
+gives = ["kniha-u-dona", "smrt-zlodejky"]
+
+[[decision.option]]
+label = "Prodat knihu věži"
+needs = ["drazba-knihy", "policie-rozhodla", "vez-na-spalenisti"]
+uses = ["ucetni-kniha"]
+gives = ["kniha-ve-vezi", "smrt-zlodejky"]
+
+[[decision.option]]
+label = "Dát knihu mladému komisaři"
+needs = ["drazba-knihy", "policie-rozhodla"]
+uses = ["ucetni-kniha"]
+gives = ["kniha-u-policie", "smrt-zlodejky"]

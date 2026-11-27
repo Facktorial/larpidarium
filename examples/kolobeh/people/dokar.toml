@@ -1,0 +1,66 @@
+[person]
+name = "František „Hák“ Kubíček"
+role = "player"
+color = "#8d4e1a"
+played_by = "hrac-4"
+dies = 5
+goals = ["Splatit Marhoulům dluh za bratrovu operaci", "Zjistit, co vlastně v noci vykládáš"]
+secrets = [
+  "Na molu sedm v noci vykládáš bedny, které nejsou v žádném seznamu. Platí ti za to věž, ne don.",
+]
+
+[person.sheet]
+appearance = "Ramena jako skříň, předloktí plná vybledlých tetování, na krku háček z jeřábu na řetízku."
+whereabouts = "Na začátku hry stojíš v přístavu na molu sedm, mokrý od mrholení, a kouříš poslední cigaretu před noční."
+backstory = """
+V přístavu děláš od patnácti, jako táta a děda. Když bratr potřeboval operaci, půjčil sis od Marhoulů a od té doby jim patříš i s rukama. Pak přišel muž v šedém obleku z věže a nabídl dvojnásobek za noční práci bez otázek. Vzal jsi to. Každou noc teď vykládáš bedny, které nikdo nezapisuje, a každé ráno nosíš donovi úsměv a splátku. Nejsi hloupý, jen unavený.
+"""
+
+[[person.phase]]
+step = 2
+[person.phase.sheet]
+whereabouts = "Bedny na molu sedm jsou čím dál těžší a čím dál víc se o ně zajímají cizí lidé. Potřebuješ vědět, co neseš, dřív než to zjistí někdo jiný."
+
+[[person.phase]]
+step = 3
+[person.phase.sheet]
+whereabouts = "Vyrážíš do přístavu mimo směnu, s baterkou a bez svědků. Poprvé jdeš na molo jako zloděj, ne jako dělník."
+
+[[person.phase]]
+step = 4
+[person.phase.sheet]
+whereabouts = "Mezi kontejnery hledáš ten správný. Kdekdo se tě ptá, co tu v noci děláš, a tvoje lži jsou každou hodinu horší."
+
+[[person.phase]]
+step = 5
+goals = ["Odnést, co jsi našel, dřív než se rozední"]
+[person.phase.sheet]
+whereabouts = "Víš, kde to je. Ruce se ti klepou, a ne zimou. V přístavu je nezvyklé ticho a jeřáby stojí proti nebi jako šibenice."
+
+[[person.relation]]
+with = "don"
+text = "Starý Marhoul. Dlužíš mu bratrův život a splácíš ho po kouscích."
+
+[[person.relation]]
+with = "reditelka"
+text = "Ženu z věže jsi nikdy neviděl, ale víš, že peníze za noční jsou její."
+
+[[person.relation]]
+with = "taxikar"
+text = "Lojza tě vozí domů po noční a nebere si za to. Jediný, komu bys svěřil bratra."
+
+[[person.relation]]
+with = "barmanka"
+text = "Róza ti nalije na dluh a nikdy se nezeptá, kde jsi byl."
+
+[[person.relation]]
+with = "zpevacka"
+text = "Vrána. Kvůli ní chodíš do Kotvy, ne kvůli pivu. Nikdy jsi jí to neřekl."
+
+[[person.relation]]
+with = "komisar"
+text = "Kulhavý komisař se poslední dobou objevuje v přístavu. Jednou ti nabídl doutník. Nevzal sis."
+
+[[person.relation]]
+with = "uklizec"
+text = "Mlíčko z věže. Hráváte spolu v Kotvě mariáš a o práci nemluvíte."

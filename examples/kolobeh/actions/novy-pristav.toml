@@ -1,0 +1,7 @@
+[action]
+segment = "noc-1"
+title = "Nový přístav"
+owners = ["reditelka", "don", "vez"]
+gives = ["plan-noveho-pristavu"]
+brief = "Ve třináctém patře voní káva a ozon z klimatizace. Na stole leží plán terminálu přes celé staré doky. Jeden z vás ho chce postavit, druhý tam má svoje molo. Dnes večer se domluvíte, kolik to bude stát."
+text = "Status quo světa. Ředitelka a don se tajně dohodnou: don na Slavnost kotvy zapálí doky, věž zaplatí a pozemky koupí za babku. Smlouvu ředitelka po podpisu skartuje. Hráči mají v tajemstvích, že dohodu podepsali; veřejně se mluví jen o plánu terminálu."

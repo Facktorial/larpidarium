@@ -1,0 +1,73 @@
+[[category]]
+id = "dukaz"
+color = "#8e44ad"
+
+[[category]]
+id = "pristup"
+color = "#d4a017"
+
+[[category]]
+id = "penize"
+color = "#27ae60"
+
+[[item]]
+id = "propustka"
+name = "Propustka do věže"
+category = "pristup"
+owners = ["uklizec"]
+starting = true
+text = "Ošoupaná karta, která otevře každé dveře věže včetně třináctého patra. Uklízeč ji má třicet let a nikdo ji nikdy nezrušil."
+
+[[item]]
+id = "propustka-v-baru"
+name = "Propustka za pultem"
+category = "pristup"
+owners = ["bar"]
+text = "Uklízečova propustka, zastrčená za lahvemi v baru U Kotvy. Najde ji ten, kdo sáhne tam, kam sahala barmanka."
+
+[[item]]
+id = "obalka"
+name = "Donova obálka"
+category = "penize"
+owners = ["komisar"]
+text = "Měsíční plat od dona za klid v přístavu. Kdo ji přijme, mlčí."
+
+[[item]]
+id = "utrzky-smlouvy"
+name = "Útržky smlouvy"
+category = "dukaz"
+owners = ["uklizec"]
+text = "Pytel skartovaných papírků z koše ředitelky. Slepené dávají smlouvu: don zapálí doky na Slavnost kotvy, věž zaplatí a pozemky koupí za babku."
+
+[[item]]
+id = "utrzky-pod-pultem"
+name = "Slepená smlouva pod pultem"
+category = "dukaz"
+owners = ["bar"]
+text = "Smlouva slepená izolepou, schovaná pod pultem baru U Kotvy. Je na ní donův podpis i čísla účtů věže."
+
+[[item]]
+id = "kniha-u-taxikare"
+name = "Kniha v taxíku"
+category = "dukaz"
+owners = ["taxikar"]
+text = "Donova účetní kniha pod sedadlem taxíku, kam ji hodil umírající dokař."
+
+[[item]]
+id = "kniha-v-hrobe"
+name = "Kniha v hrobě"
+category = "dukaz"
+owners = ["hrbitov"]
+text = "Donova účetní kniha zabalená v igelitu, zakopaná na kraji hřbitova."
+
+[[item]]
+id = "kniha-v-archivu"
+name = "Kniha v policejním archivu"
+category = "dukaz"
+text = "Donova účetní kniha v krabici se spisy mrtvého komisaře. Archiv má staré zámky."
+
+[[item]]
+id = "ucetni-kniha"
+name = "Donova účetní kniha"
+category = "dukaz"
+text = "Černá kniha s gumičkou. Kdo komu kolik zaplatil za posledních dvacet let, včetně plateb z věže. Hlavní důkaz celé hry."

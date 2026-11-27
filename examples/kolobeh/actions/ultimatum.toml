@@ -1,0 +1,9 @@
+[action]
+cycle = "c-barmanka"
+step = 2
+title = "Ultimátum"
+owners = ["don", "barmanka", "bar"]
+needs = ["dluh-baru"]
+gives = ["ultimatum-baru"]
+brief = "Don položí na pult zapalovač a nechá ho tam ležet. Do rána. Jinak bar shoří."
+text = "Potřeba: barmanka potřebuje peníze, které nemá. Don dává lhůtu do konce noci."

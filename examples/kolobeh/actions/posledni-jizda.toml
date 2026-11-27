@@ -1,0 +1,17 @@
+[decision]
+cycle = "c-taxikar"
+step = 8
+title = "Poslední jízda"
+owners = ["taxikar", "zlodejka", "pristav"]
+brief = "Půlnoc Slavnosti. Na molu sedm čekají sudy a donovi muži se zápalkami. Můžeš je odvézt do moře, nebo zůstat u lidí, až to začne hořet. Rána se nedočkáš."
+text = "Změna: taxikář v tomto kroku zemře. Odvézt sudy může, jen když je volný (zpěvačka ho neprozradila). Zachráněné doky dají ve 4. noci legendu a důvod k odvaze. Spálené doky dají věži spáleniště, a tím možnost koupit donovu knihu."
+
+[[decision.option]]
+label = "Odvézt sudy do moře"
+needs = ["taxikar-v-baru", "pozar-zalozen", "smrt-uklizece", "taxikar-volny"]
+gives = ["pristav-zachranen", "slavnost-skoncila", "smrt-taxikare"]
+
+[[decision.option]]
+label = "Vytahovat lidi z hořícího přístavu"
+needs = ["taxikar-v-baru", "pozar-zalozen", "smrt-uklizece"]
+gives = ["pristav-shorel", "slavnost-skoncila", "smrt-taxikare"]

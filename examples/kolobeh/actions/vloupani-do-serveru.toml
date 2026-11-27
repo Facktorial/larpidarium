@@ -1,0 +1,9 @@
+[action]
+cycle = "c-reditelka"
+step = 4
+title = "Vloupání do serveru"
+owners = ["hackerka", "vez"]
+needs = ["hackerka-ma-propustku"]
+gives = ["data-z-veze"]
+brief = "Propustka otevře služební vchod, služební schody a nakonec i serverovnu. Klimatizace hučí jako moře. Kopíruješ, co stihneš."
+text = "Hledání v cyklu ředitelky: hackerka vnikne do věže uklízečovou propustkou."

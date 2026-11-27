@@ -1,0 +1,9 @@
+[action]
+cycle = "c-taxikar"
+step = 7
+title = "Návrat do baru"
+owners = ["taxikar", "syn-dona", "bar"]
+needs = ["hodina-pozaru"]
+gives = ["taxikar-v-baru"]
+brief = "Kotva je plná lidí ze Slavnosti. Za pultem stojí donův syn a nalévá, jako by to dělal celý život. Do půlnoci zbývá hodina."
+text = "Návrat: taxikář se vrací tam, kde to začalo. Syn mu může půjčit dodávku od pivovaru; hráči si to domluví sami."

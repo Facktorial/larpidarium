@@ -1,0 +1,21 @@
+[decision]
+segment = "noc-4"
+title = "Komu slouží policie"
+owners = ["mlady-komisar", "don", "reditelka"]
+brief = "Don nabízí obálku, jako kdysi tvému předchůdci. Ředitelka nabízí místo šéfa bezpečnosti věže. Můžeš vzít jedno, nebo nic."
+text = "Hlavní scéna bossů. Odmítnout oba může komisař jen s důvodem k odvaze (zápis předchůdce, nebo legenda o taxikáři). Obálka umožní na konci stáhnout žalobu ve prospěch dona. Zákon je podmínkou svobodného města."
+
+[[decision.option]]
+label = "Vzít donovu obálku"
+needs = ["novy-komisar", "nabidka-veze"]
+gives = ["policie-dona", "policie-rozhodla"]
+
+[[decision.option]]
+label = "Přijmout místo ve věži"
+needs = ["novy-komisar", "nabidka-veze"]
+gives = ["policie-rozhodla"]
+
+[[decision.option]]
+label = "Odmítnout oba"
+needs = ["novy-komisar", "nabidka-veze", "duvod-k-odvaze"]
+gives = ["policie-zakon", "policie-rozhodla"]

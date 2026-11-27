@@ -30,6 +30,9 @@ within two seconds.
   step. Only an unreadable `game.toml` shows a plain list of problems.
 - "Save layout into the game" merges the nodes you moved into `layout.toml`; the rest keep the
   automatic layout.
+- "Save map" in the **Mapa** tab writes `map.toml` as a whole: hand-written comments in that file
+  are not kept. "Save floor plan as preset" writes `map-presets/<name>.toml`. In the static site
+  both buttons download the file instead.
 - Character sheets need a game without errors; while there are errors they show a message.
 - Other web pages can neither change nor read your game while `serve` runs.
 - People, rooms and categories are still edited in the TOML files. Ids cannot be renamed in the
