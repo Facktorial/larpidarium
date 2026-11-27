@@ -20,9 +20,10 @@ my-game/
 ├── map.toml        optional: floor plan and room tiles, written by the browser's map view
 ├── map-presets/    optional: saved floor plans, <id>.toml
 ├── layout.toml     optional, written by "Save layout" in the browser
-└── templates/      optional: player.html.j2 overrides the character sheet
+└── templates/      optional: player.html.j2, organizer.html.j2, player.tex.j2, organizer.tex.j2
 
-All files can also be edited from the browser with `larpidarium serve` (see below).
+All files can also be edited from the browser with `larpidarium serve` (see below). Hidden files
+(`.taplo.toml`, `.schemas/`) are ignored; `larpidarium schema` writes them for editor autocomplete.
 ```
 
 ## game.toml

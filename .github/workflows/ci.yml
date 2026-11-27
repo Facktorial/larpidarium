@@ -23,6 +23,7 @@ jobs:
         with: { tool: taplo-cli }
       - run: cargo fmt --all --check
       - run: taplo fmt --check
+      - run: taplo check "examples/*/*.toml" "examples/*/*/*.toml"
 
   typos:
     runs-on: ubuntu-latest
@@ -46,6 +47,28 @@ jobs:
         with: { tool: cargo-nextest }
       - run: cargo nextest run --workspace --all-features --locked --no-tests=pass
       - run: cargo test --doc --workspace --all-features --locked
+
+  pdf:
+    # Compiles the example sheets with tectonic, so LaTeX errors in the template fail CI.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Install tectonic
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release download tectonic@0.17.0 --repo tectonic-typesetting/tectonic \
+            -p 'tectonic-0.17.0-x86_64-unknown-linux-musl.tar.gz' -D /tmp/tectonic
+          tar xzf /tmp/tectonic/*.tar.gz -C /tmp/tectonic
+          sudo install -m755 /tmp/tectonic/tectonic /usr/local/bin/tectonic
+      - uses: actions/cache@v4
+        with: { path: ~/.cache/Tectonic, key: tectonic-${{ hashFiles('crates/larp-render/templates/tex/**') }}, restore-keys: tectonic- }
+      - shell: bash # -eo pipefail: a failed `pdf` fails the step despite `tee`
+        run: |
+          for game in lost-abbey kolobeh; do
+            cargo run --locked -q -- pdf examples/$game --out target/pdf/$game | tee target/pdf-$game.log
+            if grep -q "no glyph" target/pdf-$game.log; then exit 1; fi
+          done
 
   coverage:
     runs-on: ubuntu-latest

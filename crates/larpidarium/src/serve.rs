@@ -152,6 +152,7 @@ pub(crate) fn handle(dir: &Path, req: &Request) -> Response {
         ("GET", "/api/version") => version(dir),
         ("GET", p) if p.starts_with("/assets/") => asset(&p[1..]),
         ("GET", p) if p.starts_with("/players/") => sheet(dir, p),
+        ("GET", p) if p.starts_with("/organizers/") => organizer_sheet(dir, p),
         ("POST", _) if !req.token => Response::text(403, "missing X-Larpidarium header"),
         ("POST", "/api/node") => write_node(dir, &req.body),
         ("POST", "/api/node/delete") => delete_node(dir, &req.body),
@@ -272,6 +273,38 @@ fn sheet(dir: &Path, path: &str) -> Response {
     match larp_render::player_sheet_html(game, &id, &destiny, template.as_deref()) {
         Ok(html) => Response::new(200, "text/html; charset=utf-8", html),
         Err(larp_render::RenderError::UnknownPerson(_)) => Response::text(404, "no such person"),
+        Err(e) => Response::text(500, e.to_string()),
+    }
+}
+
+fn organizer_sheet(dir: &Path, path: &str) -> Response {
+    let Some(id) = path
+        .strip_prefix("/organizers/")
+        .and_then(|p| p.strip_suffix(".html"))
+        .and_then(|raw| edit::id(raw).ok())
+    else {
+        return Response::text(404, "not found");
+    };
+    let (_, checked) = match read(dir) {
+        Ok(r) => r,
+        Err(response) => return response,
+    };
+    let Some(game) = checked.game.as_ref() else {
+        return Response::text(
+            409,
+            "the game has errors; fix them (see Game health on the graph page) to see the sheet",
+        );
+    };
+    if !larp_graph::schedule_owners(game).contains(&&id) {
+        return Response::text(404, "no organizer sheet for this id");
+    }
+    let template = match crate::build::read_named_template(dir, crate::build::ORGANIZER_TEMPLATE) {
+        Ok(t) => t,
+        Err(e) => return Response::text(500, format!("{e:?}")),
+    };
+    let schedule = larp_graph::schedule(game, &id);
+    match larp_render::organizer_sheet_html(game, &schedule, template.as_deref()) {
+        Ok(html) => Response::new(200, "text/html; charset=utf-8", html),
         Err(e) => Response::text(500, e.to_string()),
     }
 }
@@ -506,6 +539,10 @@ mod tests {
         assert_eq!(get(&dir, "/players/inspector-hugo.html").status, 200);
         assert_eq!(get(&dir, "/players/nobody.html").status, 404);
         assert_eq!(get(&dir, "/players/../game.toml").status, 404);
+        assert_eq!(get(&dir, "/organizers/org-petra.html").status, 200);
+        assert_eq!(get(&dir, "/organizers/crypt.html").status, 200);
+        assert_eq!(get(&dir, "/organizers/inspector-hugo.html").status, 404);
+        assert_eq!(get(&dir, "/organizers/../game.toml").status, 404);
         assert_eq!(get(&dir, "/nope").status, 404);
         fs::remove_dir_all(dir).unwrap();
     }

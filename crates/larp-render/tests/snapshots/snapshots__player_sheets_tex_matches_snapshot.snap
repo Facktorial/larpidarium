@@ -1,0 +1,157 @@
+---
+source: crates/larp-render/tests/snapshots.rs
+expression: "player_sheets_tex(&g, &people, None).unwrap()"
+---
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[czech]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2 % log missing glyphs (larpidarium reports them)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\newcommand{\sheetpart}[2]{\par\needspace{5\baselineskip}\vspace{12pt}%
+  {\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\quad #2\par}\vspace{2pt}}
+\newcommand{\subhead}[1]{\par\needspace{3\baselineskip}\vspace{6pt}%
+  {\sffamily\bfseries\small\textcolor{muted}{\MakeUppercase{\relax#1}}}\par}
+\newcommand{\steptag}[1]{\begingroup\sffamily\scriptsize\bfseries\textcolor{accent}{\MakeUppercase{\relax#1}}\endgroup}
+\newcommand{\flowline}[2]{\par{\small\textbf{\relax#1:} #2}}
+\begin{document}
+
+\definecolor{accent}{HTML}{C0392B}
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{Řád \& Kříž}}}\par\vspace{2pt}
+{\fontsize{28}{32}\selectfont\bfseries Anna <Nováková> \#1\par}\vspace{2pt}
+{\itshape\textcolor{muted}{hráčská postava}}\par
+{\sffamily\small\textcolor{muted}{\textbf{Hraje:} Petra Ůlehlová\quad \textbf{Vstupuješ do příběhu:} od začátku\quad \textbf{Umíráš:} 2. Potřeba (Anin cyklus)}}\par
+
+\sheetpart{I}{Kdo jsi}
+\subhead{Vzhled}
+Černý plášť
+\subhead{Kde jsi na začátku hry}
+V kapli
+\subhead{Tvůj příběh}
+Kuchařka.
+
+Druhý odstavec \textasciitilde{} \textasciicircum{}
+\subhead{Co chceš}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item Přežít \{noc\}
+\end{itemize}
+\subhead{Co skrýváš}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item Ukradla \$5 \& lhala
+\end{itemize}
+\subhead{Koho znáš}
+\begin{description}[nosep,style=nextline,font=\normalfont\bfseries]
+\item[{Bob Čech}] Bratr \textquotedbl{}Bob\textquotedbl{} {[}starší{]}
+\end{description}
+\subhead{Co máš u sebe}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item {\bfseries Klíč \{starý\}}: Rezavý <těžký>
+\end{itemize}
+\subhead{vůně}
+Česnek
+
+
+\sheetpart{II}{Tvůj osud}
+{\itshape\textcolor{muted}{Takto se tvá cesta proplétá s hrou. Pořadí je přibližné; jak a kdy přesně, záleží na hře.}}\par
+\begin{center}
+
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=0.75pt,y=-0.75pt]
+\path (0,0) rectangle (322.0,50.0);
+\draw[-latex,muted!70,line width=0.8pt] (138.0,25.0) .. controls (160.0,25.0) and (162.0,25.0) .. (184.0,25.0);
+\draw[accent,line width=1.2pt,fill=accent!14,rounded corners=4pt] (8.0,8.0) rectangle ++(130.0,34.0);
+\node[font=\sffamily\scriptsize\bfseries,text width=91.5pt,align=center] at (73.0,25.0) {Hledání v kapli};
+\draw[accent,line width=1.2pt,fill=accent!14,rounded corners=1pt] (184.0,8.0) rectangle ++(130.0,34.0);
+\node[font=\sffamily\scriptsize\bfseries,text width=91.5pt,align=center] at (249.0,25.0) {Velmi dlouhé rozh…};
+
+\end{tikzpicture}
+\end{adjustbox}\\[6pt]
+
+{\sffamily\scriptsize\textcolor{accent}{\rule{8pt}{8pt}} tvé činy\qquad \textcolor{muted!60}{\rule{8pt}{8pt}} jiní}
+\end{center}
+\begin{itemize}[leftmargin=1.4em,itemsep=8pt]
+\needspace{4\baselineskip}\item[\textcolor{accent}{$\circ$}]
+{\large\bfseries Hledání v kapli\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{Anin cyklus · 1. Ty}}\par}
+{\itshape Hledáš světlo.\par}
+\flowline{Budeš potřebovat}{Klíč \{starý\} \textit{(máš u sebe)}}\flowline{Výsledek}{Svíce}
+\needspace{4\baselineskip}\item[\textcolor{accent}{$\blacklozenge$}] \steptag{Tvé rozhodnutí}\par
+{\large\bfseries Velmi dlouhé rozhodnutí o osudu\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{Anin cyklus · 2. Potřeba}}\par}
+{\itshape Co uděláš?\par}
+
+\begin{itemize}[nosep,leftmargin=1.2em,label=\textcolor{accent}{$\triangleright$}]
+\needspace{3\baselineskip}\item {\bfseries Zůstat}\flowline{Přijdeš o}{Svíce \textit{(získáš dříve)}}\flowline{Výsledek}{Konec}
+\needspace{3\baselineskip}\item {\bfseries Odejít\_hned}\flowline{Výsledek}{Konec}
+\end{itemize}
+\end{itemize}
+
+
+\sheetpart{III}{Jak se měníš}
+\begin{itemize}[leftmargin=1.4em,itemsep=8pt,label=\textcolor{accent}{$\circ$}]
+\item \steptag{Od: 2. Potřeba (Anin cyklus)}\par
+\subhead{Kde jsi}
+U brány
+\subhead{Co chceš}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item Utéct
+\end{itemize}
+
+\end{itemize}
+\clearpage\ifodd\value{page}\else\hbox{}\thispagestyle{empty}\clearpage\fi\setcounter{page}{1}
+
+\definecolor{accent}{HTML}{7A5C3E}
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{Řád \& Kříž}}}\par\vspace{2pt}
+{\fontsize{28}{32}\selectfont\bfseries Bob Čech\par}\vspace{2pt}
+{\itshape\textcolor{muted}{hráčská postava}}\par
+
+\sheetpart{I}{Kdo jsi}
+\subhead{Co chceš}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item Najít klíč
+\end{itemize}
+
+
+\sheetpart{II}{Tvůj osud}
+{\itshape\textcolor{muted}{Takto se tvá cesta proplétá s hrou. Pořadí je přibližné; jak a kdy přesně, záleží na hře.}}\par
+\begin{center}
+
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=0.75pt,y=-0.75pt]
+\path (0,0) rectangle (322.0,50.0);
+\draw[-latex,muted!70,line width=0.8pt] (138.0,25.0) .. controls (160.0,25.0) and (162.0,25.0) .. (184.0,25.0);
+\draw[muted!60,dashed,fill=muted!8,rounded corners=4pt] (8.0,8.0) rectangle ++(130.0,34.0);
+\node[font=\sffamily\small,text=muted] at (73.0,25.0) {?};
+\draw[accent,line width=1.2pt,fill=accent!14,rounded corners=1pt] (184.0,8.0) rectangle ++(130.0,34.0);
+\node[font=\sffamily\scriptsize\bfseries,text width=91.5pt,align=center] at (249.0,25.0) {Velmi dlouhé rozh…};
+
+\end{tikzpicture}
+\end{adjustbox}\\[6pt]
+
+{\sffamily\scriptsize\textcolor{accent}{\rule{8pt}{8pt}} tvé činy\qquad \textcolor{muted!60}{\rule{8pt}{8pt}} jiní}
+\end{center}
+\begin{itemize}[leftmargin=1.4em,itemsep=8pt]
+\needspace{4\baselineskip}\item[\textcolor{accent}{$\blacklozenge$}] \steptag{Tvé rozhodnutí}\par
+{\large\bfseries Velmi dlouhé rozhodnutí o osudu\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{Anin cyklus · 2. Potřeba}}\par}
+{\itshape Co uděláš?\par}
+
+\begin{itemize}[nosep,leftmargin=1.2em,label=\textcolor{accent}{$\triangleright$}]
+\needspace{3\baselineskip}\item {\bfseries Zůstat}\flowline{Přijdeš o}{Svíce \textit{(dostaneš nebo se dozvíš)}}\flowline{Výsledek}{Konec}
+\needspace{3\baselineskip}\item {\bfseries Odejít\_hned}\flowline{Výsledek}{Konec}
+\end{itemize}
+\end{itemize}
+
+
+
+\end{document}

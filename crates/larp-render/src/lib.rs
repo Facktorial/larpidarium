@@ -2,16 +2,25 @@
 
 mod labels;
 
-use larp_graph::Destiny;
+use larp_graph::{Destiny, Schedule};
 use larp_model::model::{Death, Language, Role};
 use larp_model::{Game, Id};
-use minijinja::{AutoEscape, Environment};
+use minijinja::{AutoEscape, Environment, Error, ErrorKind, Value};
 use serde::Serialize;
 
 pub use labels::labels;
 
 /// The built-in player sheet template (minijinja, HTML).
 pub const PLAYER_SHEET_HTML: &str = include_str!("../templates/html/player.html.j2");
+
+/// The built-in player sheet template for PDFs (minijinja, LaTeX for tectonic/XeLaTeX).
+pub const PLAYER_SHEET_TEX: &str = include_str!("../templates/tex/player.tex.j2");
+
+/// The built-in organizer sheet template (minijinja, HTML).
+pub const ORGANIZER_SHEET_HTML: &str = include_str!("../templates/html/organizer.html.j2");
+
+/// The built-in organizer sheet template for PDFs (minijinja, LaTeX).
+pub const ORGANIZER_SHEET_TEX: &str = include_str!("../templates/tex/organizer.tex.j2");
 
 /// Why a sheet could not be rendered.
 #[derive(Debug, thiserror::Error)]
@@ -24,8 +33,8 @@ pub enum RenderError {
     Template(String),
 }
 
-impl From<minijinja::Error> for RenderError {
-    fn from(e: minijinja::Error) -> Self {
+impl From<Error> for RenderError {
+    fn from(e: Error) -> Self {
         let mut msg = e.to_string();
         if let Some(detail) = e.detail() {
             msg.push_str(": ");
@@ -123,6 +132,21 @@ pub fn player_sheet_html(
     destiny: &Destiny,
     template: Option<&str>,
 ) -> Result<String, RenderError> {
+    let ctx = SheetContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        person: person_view(game, person)?,
+        destiny,
+    };
+    let mut env = Environment::new();
+    env.set_auto_escape_callback(|_| AutoEscape::Html);
+    env.add_template("player.html", template.unwrap_or(PLAYER_SHEET_HTML))?;
+    Ok(env.get_template("player.html")?.render(&ctx)?)
+}
+
+/// Part I and the life of `person`, ready for a template.
+fn person_view(game: &Game, person: &Id) -> Result<PersonView, RenderError> {
     let p = game
         .people
         .get(person)
@@ -169,23 +193,222 @@ pub fn player_sheet_html(
         outside_cycle: false,
         phases: Vec::new(),
     };
-    let view = with_life(game, person, p, view);
-    let language = match game.meta.language {
+    Ok(with_life(game, person, p, view))
+}
+
+fn language(game: &Game) -> &'static str {
+    match game.meta.language {
         Language::Cs => "cs",
         Language::En => "en",
-    };
-    let ctx = SheetContext {
-        game_title: &game.meta.title,
-        language,
-        t: labels(game.meta.language),
-        person: view,
-        destiny,
-    };
+    }
+}
 
+/// One person's sheet inside a LaTeX document.
+#[derive(Debug, Serialize)]
+pub struct TexSheet<'a> {
+    /// Part I.
+    pub person: PersonView,
+    /// Part II.
+    pub destiny: &'a Destiny,
+    /// The person's color as `RRGGBB` for `\definecolor{accent}{HTML}{…}`.
+    pub accent: String,
+}
+
+/// Everything the LaTeX template can use.
+#[derive(Debug, Serialize)]
+pub struct TexContext<'a> {
+    /// Game title.
+    pub game_title: &'a str,
+    /// `"cs"` or `"en"`.
+    pub language: &'static str,
+    /// Translated labels, see [`labels`].
+    pub t: std::collections::BTreeMap<&'static str, &'static str>,
+    /// The sheets, one per page group, in the given order.
+    pub sheets: Vec<TexSheet<'a>>,
+}
+
+/// Renders one LaTeX document with the sheets of `people` (each with its destiny), one after
+/// another on new pages. `template` overrides [`PLAYER_SHEET_TEX`]. All values printed by the
+/// template are escaped with [`tex_escape`].
+///
+/// # Errors
+///
+/// [`RenderError::UnknownPerson`] if a person is not in `game`, [`RenderError::Template`] if the
+/// template is invalid.
+pub fn player_sheets_tex(
+    game: &Game,
+    people: &[(&Id, &Destiny)],
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let mut sheets = Vec::with_capacity(people.len());
+    for (id, destiny) in people {
+        let person = person_view(game, id)?;
+        let accent = accent(&person.color, "7a5c3e");
+        sheets.push(TexSheet {
+            person,
+            destiny,
+            accent,
+        });
+    }
+    let ctx = TexContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        sheets,
+    };
+    let mut env = tex_env();
+    env.add_template("player.tex", template.unwrap_or(PLAYER_SHEET_TEX))?;
+    Ok(env.get_template("player.tex")?.render(&ctx)?)
+}
+
+/// A template engine that escapes every printed value with [`tex_escape`].
+fn tex_env() -> Environment<'static> {
+    let mut env = Environment::new();
+    env.set_auto_escape_callback(|_| AutoEscape::Custom("tex"));
+    env.set_formatter(|out, state, value| {
+        let text = if value.is_undefined() || value.is_none() {
+            String::new()
+        } else if value.is_safe() || state.auto_escape() == AutoEscape::None {
+            value.to_string()
+        } else {
+            tex_escape(&value_text(value))
+        };
+        out.write_str(&text)
+            .map_err(|e| Error::new(ErrorKind::WriteFailure, e.to_string()))
+    });
+    env
+}
+
+/// `RRGGBB` from a `#rrggbb` color, or the default accent.
+fn accent(color: &str, default: &str) -> String {
+    color
+        .strip_prefix('#')
+        .filter(|h| h.len() == 6 && h.chars().all(|c| c.is_ascii_hexdigit()))
+        .unwrap_or(default)
+        .to_ascii_uppercase()
+}
+
+/// Everything an organizer sheet template can use.
+#[derive(Debug, Serialize)]
+pub struct OrganizerContext<'a> {
+    /// Game title.
+    pub game_title: &'a str,
+    /// `"cs"` or `"en"`.
+    pub language: &'static str,
+    /// Translated labels, see [`labels`].
+    pub t: std::collections::BTreeMap<&'static str, &'static str>,
+    /// The schedule.
+    pub s: &'a Schedule,
+}
+
+/// Renders the organizer sheet for `schedule`. `template` overrides [`ORGANIZER_SHEET_HTML`].
+///
+/// # Errors
+///
+/// [`RenderError::Template`] if the template is invalid.
+pub fn organizer_sheet_html(
+    game: &Game,
+    schedule: &Schedule,
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let ctx = OrganizerContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        s: schedule,
+    };
     let mut env = Environment::new();
     env.set_auto_escape_callback(|_| AutoEscape::Html);
-    env.add_template("player.html", template.unwrap_or(PLAYER_SHEET_HTML))?;
-    Ok(env.get_template("player.html")?.render(&ctx)?)
+    env.add_template("organizer.html", template.unwrap_or(ORGANIZER_SHEET_HTML))?;
+    Ok(env.get_template("organizer.html")?.render(&ctx)?)
+}
+
+/// One organizer sheet inside a LaTeX document.
+#[derive(Debug, Serialize)]
+pub struct TexSchedule<'a> {
+    /// The schedule.
+    pub schedule: &'a Schedule,
+    /// Color as `RRGGBB`.
+    pub accent: String,
+}
+
+/// Everything the organizer LaTeX template can use.
+#[derive(Debug, Serialize)]
+pub struct TexOrganizerContext<'a> {
+    /// Game title.
+    pub game_title: &'a str,
+    /// `"cs"` or `"en"`.
+    pub language: &'static str,
+    /// Translated labels, see [`labels`].
+    pub t: std::collections::BTreeMap<&'static str, &'static str>,
+    /// The sheets in the given order.
+    pub sheets: Vec<TexSchedule<'a>>,
+}
+
+/// Renders one LaTeX document with the organizer sheets of `schedules`, each starting on a new
+/// front page. `template` overrides [`ORGANIZER_SHEET_TEX`]; values are escaped as in
+/// [`player_sheets_tex`].
+///
+/// # Errors
+///
+/// [`RenderError::Template`] if the template is invalid.
+pub fn organizer_sheets_tex(
+    game: &Game,
+    schedules: &[&Schedule],
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let ctx = TexOrganizerContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        sheets: schedules
+            .iter()
+            .map(|s| TexSchedule {
+                schedule: s,
+                accent: accent(&s.color, "3e5c7a"),
+            })
+            .collect(),
+    };
+    let mut env = tex_env();
+    env.add_template("organizer.tex", template.unwrap_or(ORGANIZER_SHEET_TEX))?;
+    Ok(env.get_template("organizer.tex")?.render(&ctx)?)
+}
+
+fn value_text(value: &Value) -> String {
+    value
+        .as_str()
+        .map_or_else(|| value.to_string(), str::to_owned)
+}
+
+/// Escapes text for LaTeX: the ten special characters, `"` (active in Czech babel) and square
+/// brackets (so text can follow `\item`). Line breaks and tabs are kept (a blank line starts a
+/// paragraph); other control characters, which `XeTeX` rejects, are dropped.
+///
+/// ```
+/// assert_eq!(larp_render::tex_escape("50 % & $5_a"), r"50 \% \& \$5\_a");
+/// assert_eq!(larp_render::tex_escape("„Ř“ {x}"), r"„Ř“ \{x\}");
+/// ```
+#[must_use]
+pub fn tex_escape(text: &str) -> String {
+    let mut out = String::with_capacity(text.len() + 8);
+    for c in text.chars() {
+        match c {
+            '\\' => out.push_str(r"\textbackslash{}"),
+            '{' | '}' | '$' | '&' | '#' | '%' | '_' => {
+                out.push('\\');
+                out.push(c);
+            }
+            '^' => out.push_str(r"\textasciicircum{}"),
+            '~' => out.push_str(r"\textasciitilde{}"),
+            '"' => out.push_str(r"\textquotedbl{}"),
+            '[' => out.push_str("{[}"),
+            ']' => out.push_str("{]}"),
+            '\n' | '\t' => out.push(c),
+            c if c.is_control() => {}
+            _ => out.push(c),
+        }
+    }
+    out
 }
 
 /// Adds the character's life (player, entry, death) and sheet phases to `view`.

@@ -4,8 +4,8 @@ Write your LARP as a folder of TOML files. larpidarium checks it, draws the plot
 graph in the browser, and prints character sheets for players and schedules for organizers as
 HTML and LaTeX PDFs. Czech and English.
 
-> **Status:** `check`, `build` and `serve` (editing in the browser) work; `pdf`, `import` and
-> `schema` are not implemented yet. See the roadmap.
+> **Status:** `check`, `build`, `serve` (editing in the browser), `pdf` (player and organizer
+> sheets) and `schema` (editor autocomplete) work; `import` is not implemented yet. See the roadmap.
 
 ## Try it
 
@@ -68,12 +68,12 @@ AI-assisted workflow works is in [`docs/workflow.md`](docs/workflow.md).
 | Phase | Content                                                                          |
 | ----- | -------------------------------------------------------------------------------- |
 | 0 ✅  | Skeleton, checkers, CI, AI agent setup, docs                                     |
-| 1 🚧  | TOML format ✅, segments ✅, logic levels 1–2 ✅, example games ✅, `serve` + browser editing ✅, JSON Schema |
+| 1 ✅  | TOML format, segments, logic levels 1–2, example games, `serve` + browser editing, JSON Schema |
 | 2 🚧  | Graph: item edges ✅, auto layout ✅, viewer ✅, `build` ✅, summary tabs ✅, hero cycles + timeline ✅, map of the places ✅, "from here on" ✅, `import` |
-| 3 🚧  | Game logic: playthroughs ✅, endings ✅, people ✅, lives ✅, "Game health" panel ✅; load per organizer and room ([spec](docs/game-logic.md)) |
+| 3 ✅  | Game logic: playthroughs, endings, people, lives, "Game health" panel, load per organizer and room ([spec](docs/game-logic.md)) |
 | 4 ✅  | Character sheets in HTML: Part I who you are, Part II destiny from the graph, Part III how you change ([spec](docs/sheets.md)) |
-| 5     | PDF: LaTeX templates, TikZ destiny graph, tectonic                               |
-| 6     | Organizer sheets, mutation-testing cleanup, releases                             |
+| 5 ✅  | PDF: LaTeX player sheets, TikZ destiny graph, `pdf` command with tectonic, CI compiles the examples |
+| 6 🚧  | Organizer sheets ✅, mutation-testing cleanup, releases                          |
 
 ## License
 

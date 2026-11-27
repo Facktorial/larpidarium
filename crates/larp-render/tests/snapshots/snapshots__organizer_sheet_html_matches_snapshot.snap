@@ -1,0 +1,79 @@
+---
+source: crates/larp-render/tests/snapshots.rs
+expression: "organizer_sheet_html(&g, &s[0], None).unwrap()"
+---
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozpis: Organizátor_ka · Řád &amp; Kříž</title>
+<style>
+  :root { --ink: #22201c; --muted: #6b665d; --paper: #fffdf8; --line: #d9d3c7; --accent: #2e86c1; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e6df; color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+  nav { max-width: 900px; margin: 0 auto; padding: 14px 16px 0; font-size: 14px; }
+  nav a { color: var(--muted); }
+  .sheet { max-width: 900px; margin: 12px auto 40px; background: var(--paper); padding: 40px 48px;
+    border-top: 8px solid var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+  .game { margin: 0; font-weight: 600; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 6px 0 2px; font-size: 34px; line-height: 1.1; }
+  .role { margin: 0; color: var(--muted); font-style: italic; }
+  h2 { font-size: 20px; margin: 28px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  p { margin: 3px 0 8px; }
+  table.load { border-collapse: collapse; margin: 6px 0; }
+  table.load td, table.load th { border: 1px solid var(--line); padding: 3px 10px; text-align: center; font-size: 13px; }
+  table.load .peak { background: color-mix(in srgb, var(--accent) 25%, transparent); font-weight: 700; }
+  .thing { border-bottom: 1px dotted var(--muted); }
+  .src { color: var(--muted); font-size: .9em; font-style: italic; }
+  .step { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; margin: 10px 0 14px; break-inside: avoid; }
+  .step h4 { margin: 0 0 2px; font-size: 17px; }
+  .step .when, .step .with { color: var(--muted); font-size: 13px; margin: 0 0 4px; }
+  .tag { font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .text { white-space: pre-line; }
+  .brief { font-style: italic; color: var(--muted); }
+  .flow { margin: 1px 0; font-size: 14px; }
+  .options { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; }
+  .options li { border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 4px 10px; border-radius: 3px; }
+  @media print { body { background: none; } nav { display: none; } .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0; } }
+</style>
+</head>
+<body>
+<nav><a href="../index.html">← Zpět na graf</a></nav>
+<article class="sheet">
+  <p class="game">Řád &amp; Kříž · Rozpis</p>
+  <h1>Organizátor_ka</h1>
+  <p class="role">organizátor</p>
+
+  <h2>Vytížení</h2>
+  <p>1 akcí, 0 rozhodnutí · nejvíc: Noc_1 (1)</p>
+  
+  <table class="load"><tr><th>Noc_1</th><th>Ráno 50 %</th></tr>
+    <tr><td class="peak">1</td><td>0</td></tr></table>
+  
+
+  
+  <h2>Připrav si</h2>
+  <ul><li><b>Svíce</b>: Hoří</li></ul>
+  
+
+  <h2>Průběh</h2>
+  
+  <h3>Noc_1</h3>
+  
+  <div class="step">
+    
+    <h4>Hledání v kapli</h4>
+    <p class="when">Anin cyklus · 1. Ty</p>
+    <p class="with"><b>S kým:</b> Anna &lt;Nováková&gt; #1, Kaple</p>
+    <p class="text">Org: schovej svíci &amp; čekej.</p>
+    <p class="brief">Hráči čtou: Hledáš světlo.</p>
+    <p class="flow"><b>Potřebuje:</b> <span class="thing" title="Rezavý &lt;těžký&gt;">Klíč {starý}</span> <span class="src">od Anna &lt;Nováková&gt; #1</span></p><p class="flow"><b>Dává:</b> <span class="thing" title="Hoří">Svíce</span></p>
+    
+  </div>
+  
+  
+</article>
+</body>
+</html>

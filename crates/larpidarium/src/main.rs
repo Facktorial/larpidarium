@@ -3,6 +3,8 @@
 mod build;
 mod check;
 mod edit;
+mod pdf;
+mod schema;
 mod serve;
 
 use std::path::PathBuf;
@@ -25,8 +27,12 @@ enum Command {
         /// Folder containing `game.toml`.
         dir: PathBuf,
     },
-    /// Print the JSON Schema of the game format.
-    Schema,
+    /// Set up editor autocomplete for a game: JSON Schemas in `.schemas/` and a `.taplo.toml`.
+    Schema {
+        /// Folder containing `game.toml`.
+        #[arg(default_value = ".")]
+        dir: PathBuf,
+    },
     /// Generate the static site into `dist/`.
     Build {
         /// Folder containing `game.toml`.
@@ -54,10 +60,16 @@ enum Command {
         /// The taraxaplan `.json` file.
         file: PathBuf,
     },
-    /// Generate player and organizer PDFs.
+    /// Generate player and organizer sheets as PDF (LaTeX compiled by tectonic).
     Pdf {
         /// Folder containing `game.toml`.
         dir: PathBuf,
+        /// Output folder.
+        #[arg(short, long, default_value = "dist/pdf")]
+        out: PathBuf,
+        /// Only write the `.tex` files, do not run tectonic.
+        #[arg(long)]
+        tex_only: bool,
     },
 }
 
@@ -65,11 +77,11 @@ fn main() -> Result<()> {
     let cli = Cli::parse();
     let (name, phase) = match cli.command {
         Command::Check { dir } => return check::run(&dir),
-        Command::Schema => ("schema", 1),
+        Command::Schema { dir } => return schema::run(&dir),
         Command::Build { dir, out, open } => return build::run(&dir, &out, open),
         Command::Serve { dir, port, open } => return serve::run(&dir, port, open),
         Command::Import { .. } => ("import", 2),
-        Command::Pdf { .. } => ("pdf", 4),
+        Command::Pdf { dir, out, tex_only } => return pdf::run(&dir, &out, tex_only),
     };
     Err(miette!(
         "`{name}` is not implemented yet (planned for phase {phase})"

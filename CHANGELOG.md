@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ## Unreleased
 
+### Added
+
+- `larpidarium schema DIR`: JSON Schemas of every game file and a `.taplo.toml`, so editors with
+  Taplo (VS Code: Even Better TOML) autocomplete keys and underline mistakes. The schemas are also
+  in `schemas/`, applied to the examples, checked in CI (`just schemas`).
+- Organizer sheets for every organizer, non-player character and room: load per segment, items to
+  have ready, and the running order with who takes part, organizer text, what players read and who
+  provides each needed thing. As HTML (`organizers/<id>.html`, 📋 in the viewer) and PDF
+  (`pdf/organizers/`, `_all-organizers.pdf`). `check` prints the load of each.
+- `larpidarium pdf`: player sheets as LaTeX documents (one per player and `_all-players`), compiled
+  to PDF with tectonic; `--tex-only` writes just the `.tex`. Same three parts as the HTML sheet,
+  with the destiny mini graph in TikZ (wide graphs split into rows); customizable with
+  `<game>/templates/player.tex.j2`. In `_all-players.pdf` every sheet starts on a front page with
+  page 1, for duplex printing. Missing glyphs are reported; CI compiles the example sheets.
+
 ## phase-4 - 2026-11-27
 
 ### Added

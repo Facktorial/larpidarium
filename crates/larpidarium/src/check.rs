@@ -11,7 +11,9 @@ use miette::{
 
 /// Runs the `check` command on `dir`.
 pub(crate) fn run(dir: &Path) -> Result<()> {
-    load_game(dir).map(|_| ())
+    let loaded = load_game(dir)?;
+    print_loads(&loaded.game);
+    Ok(())
 }
 
 /// A valid game with everything `check` found out about it.
@@ -69,7 +71,11 @@ pub(crate) fn read_game_dir(dir: &Path) -> Result<Vec<SourceFile>> {
             .wrap_err_with(|| format!("cannot list {}", folder.display()))?;
         for entry in entries {
             let path = entry.into_diagnostic()?.path();
-            if path.is_file() && path.extension().is_some_and(|e| e == "toml") {
+            // Hidden files (`.taplo.toml` from `larpidarium schema`) are editor settings, not game.
+            let hidden = path
+                .file_name()
+                .is_some_and(|n| n.to_string_lossy().starts_with('.'));
+            if path.is_file() && !hidden && path.extension().is_some_and(|e| e == "toml") {
                 let text = fs::read_to_string(&path)
                     .into_diagnostic()
                     .wrap_err_with(|| format!("cannot read {}", path.display()))?;
@@ -110,6 +116,23 @@ fn to_report(d: &Diagnostic, files: &[SourceFile]) -> Report {
             report.with_source_code(NamedSource::new(&f.path, f.text.clone()).with_language("toml"))
         }
         _ => report,
+    }
+}
+
+/// One line per organizer, NPC and room that runs something: total and busiest segment.
+fn print_loads(game: &Game) {
+    let lines: Vec<String> = larp_graph::loads(game)
+        .into_iter()
+        .filter(|(_, l)| l.total > 0)
+        .map(|(name, l)| match l.peak {
+            Some((seg, n)) if game.segments.len() > 1 && n > 1 => {
+                format!("{name} {} (peak {seg}: {n})", l.total)
+            }
+            _ => format!("{name} {}", l.total),
+        })
+        .collect();
+    if !lines.is_empty() {
+        println!("  load: {}", lines.join(" · "));
     }
 }
 

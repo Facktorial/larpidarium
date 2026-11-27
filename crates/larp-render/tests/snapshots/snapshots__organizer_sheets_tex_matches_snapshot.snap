@@ -1,0 +1,93 @@
+---
+source: crates/larp-render/tests/snapshots.rs
+expression: "organizer_sheets_tex(&g, &refs, None).unwrap()"
+---
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[czech]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2 % log missing glyphs (larpidarium reports them)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\newcommand{\sheetpart}[2]{\par\needspace{5\baselineskip}\vspace{12pt}%
+  {\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\quad #2\par}\vspace{2pt}}
+\newcommand{\subhead}[1]{\par\needspace{3\baselineskip}\vspace{6pt}%
+  {\sffamily\bfseries\small\textcolor{muted}{\MakeUppercase{\relax#1}}}\par}
+\newcommand{\steptag}[1]{\begingroup\sffamily\scriptsize\bfseries\textcolor{accent}{\MakeUppercase{\relax#1}}\endgroup}
+\newcommand{\flowline}[2]{\par{\small\textbf{\relax#1:} #2}}
+\newcommand{\orgpart}[1]{\par\needspace{4\baselineskip}\vspace{10pt}{\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\par}\vspace{2pt}}
+\begin{document}
+
+\definecolor{accent}{HTML}{2E86C1}
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{Řád \& Kříž · Rozpis}}}\par\vspace{2pt}
+{\fontsize{24}{28}\selectfont\bfseries Organizátor\_ka\par}\vspace{2pt}
+{\itshape\textcolor{muted}{organizátor}}\par
+
+\orgpart{Vytížení}
+1 akcí, 0 rozhodnutí · nejvíc: Noc\_1 (1)\par
+\vspace{4pt}{\small\begin{adjustbox}{max width=\linewidth}\begin{tabular}{|c|c| }\hline
+Noc\_1 & Ráno 50 \%\\\hline
+\cellcolor{accent!25}\textbf{1} & 0\\\hline
+\end{tabular}\end{adjustbox}}\par
+
+\orgpart{Připrav si}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item {\bfseries Svíce}: Hoří
+\end{itemize}
+
+\orgpart{Průběh}
+\subhead{Noc\_1}
+\begin{itemize}[leftmargin=1.4em,itemsep=6pt]
+\needspace{4\baselineskip}\item[\textcolor{accent}{$\circ$}]
+{\large\bfseries Hledání v kapli\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{Anin cyklus · 1. Ty}}\par}
+{\small\textbf{S kým:} Anna <Nováková> \#1, Kaple}\par
+Org: schovej svíci \& čekej.\par
+{\small\color{muted}\itshape Hráči čtou: Hledáš světlo.\par}
+\flowline{Potřebuje}{Klíč \{starý\} {\color{muted}\textit{od Anna <Nováková> \#1}}}\flowline{Dává}{Svíce}
+\end{itemize}
+
+\clearpage\ifodd\value{page}\else\hbox{}\thispagestyle{empty}\clearpage\fi\setcounter{page}{1}
+
+\definecolor{accent}{HTML}{3E5C7A}
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{Řád \& Kříž · Rozpis}}}\par\vspace{2pt}
+{\fontsize{24}{28}\selectfont\bfseries Kaple\par}\vspace{2pt}
+{\itshape\textcolor{muted}{místnost}}\par
+
+\orgpart{Vytížení}
+1 akcí, 0 rozhodnutí · nejvíc: Noc\_1 (1)\par
+\vspace{4pt}{\small\begin{adjustbox}{max width=\linewidth}\begin{tabular}{|c|c| }\hline
+Noc\_1 & Ráno 50 \%\\\hline
+\cellcolor{accent!25}\textbf{1} & 0\\\hline
+\end{tabular}\end{adjustbox}}\par
+
+\orgpart{Připrav si}
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item {\bfseries Svíce}: Hoří
+\end{itemize}
+
+\orgpart{Průběh}
+\subhead{Noc\_1}
+\begin{itemize}[leftmargin=1.4em,itemsep=6pt]
+\needspace{4\baselineskip}\item[\textcolor{accent}{$\circ$}]
+{\large\bfseries Hledání v kapli\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{Anin cyklus · 1. Ty}}\par}
+{\small\textbf{S kým:} Anna <Nováková> \#1, Organizátor\_ka}\par
+Org: schovej svíci \& čekej.\par
+{\small\color{muted}\itshape Hráči čtou: Hledáš světlo.\par}
+\flowline{Potřebuje}{Klíč \{starý\} {\color{muted}\textit{od Anna <Nováková> \#1}}}\flowline{Dává}{Svíce}
+\end{itemize}
+
+
+
+\end{document}

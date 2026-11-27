@@ -571,3 +571,60 @@ fn map_walls_and_presets_are_checked() {
         "{errors:?}"
     );
 }
+
+/// Two known rooms `a` and `b` placed as given; returns the map warnings and errors.
+fn map_messages(a: &str, b: &str) -> (Vec<String>, Vec<String>) {
+    let rooms = "[[room]]\nid = \"a\"\nname = \"Áčko\"\n\n[[room]]\nid = \"b\"\nname = \"Béčko\"\n";
+    let map = format!("[map]\n[map.rooms]\na = {a}\nb = {b}\n");
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("rooms.toml", rooms),
+        ("map.toml", &map),
+    ]);
+    (
+        messages(&checked, Severity::Warning)
+            .into_iter()
+            .map(str::to_owned)
+            .collect(),
+        messages(&checked, Severity::Error)
+            .into_iter()
+            .map(str::to_owned)
+            .collect(),
+    )
+}
+
+#[test]
+fn map_rooms_side_by_side_in_any_direction_do_not_overlap() {
+    for b in [
+        "{ x = 0, y = 5, w = 5, h = 2 }",  // b left of a
+        "{ x = 10, y = 5, w = 3, h = 2 }", // b right of a
+        "{ x = 5, y = 0, w = 5, h = 5 }",  // b above a
+        "{ x = 5, y = 7, w = 5, h = 3 }",  // b below a
+    ] {
+        let (warnings, errors) = map_messages("{ x = 5, y = 5, w = 5, h = 2 }", b);
+        assert!(
+            warnings.is_empty() && errors.is_empty(),
+            "{b}: {warnings:?} {errors:?}"
+        );
+    }
+}
+
+#[test]
+fn map_rooms_sharing_a_cell_overlap() {
+    let (warnings, _) = map_messages(
+        "{ x = 5, y = 5, w = 5, h = 2 }",
+        "{ x = 9, y = 6, w = 3, h = 3 }",
+    );
+    assert_eq!(warnings, ["rooms `a` and `b` overlap on the map"]);
+}
+
+#[test]
+fn map_room_with_zero_width_or_height_is_an_error() {
+    for a in [
+        "{ x = 0, y = 0, w = 0, h = 1 }",
+        "{ x = 0, y = 0, w = 1, h = 0 }",
+    ] {
+        let (_, errors) = map_messages(a, "{ x = 9, y = 9 }");
+        assert_eq!(errors, ["room `a` has zero size on the map"], "{a}");
+    }
+}

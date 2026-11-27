@@ -36,6 +36,8 @@ files when they differ.
    becomes canon: propose the exact edit to the `world/` file (file, section, new text, source
    "*(odpověď #n)*"). Apply it only if your task says so; then close the issue with a comment
    linking the change. Never commit or push.
+   Every comment you post ends with a line `<!-- lore-keeper -->`: comments go out under the
+   author's login, and the marker keeps the GitHub workflow from treating them as answers.
 
 ## Rules
 

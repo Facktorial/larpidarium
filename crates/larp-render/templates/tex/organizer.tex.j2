@@ -1,0 +1,86 @@
+{#- Organizer sheets as LaTeX (compiled by tectonic). Copy this file to
+    <game>/templates/organizer.tex.j2 to customize it. Available: game_title, language, t (labels),
+    sheets: a list of { schedule, accent (RRGGBB) }. All game text is escaped for LaTeX. -#}
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[{% if language == "cs" %}czech{% else %}english{% endif %}]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2 % log missing glyphs (larpidarium reports them)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\newcommand{\sheetpart}[2]{\par\needspace{5\baselineskip}\vspace{12pt}%
+  {\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\quad #2\par}\vspace{2pt}}
+\newcommand{\subhead}[1]{\par\needspace{3\baselineskip}\vspace{6pt}%
+  {\sffamily\bfseries\small\textcolor{muted}{\MakeUppercase{\relax#1}}}\par}
+\newcommand{\steptag}[1]{\begingroup\sffamily\scriptsize\bfseries\textcolor{accent}{\MakeUppercase{\relax#1}}\endgroup}
+\newcommand{\flowline}[2]{\par{\small\textbf{\relax#1:} #2}}
+\newcommand{\orgpart}[1]{\par\needspace{4\baselineskip}\vspace{10pt}{\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\par}\vspace{2pt}}
+\begin{document}
+{%- macro things(list) -%}
+  {%- for x in list -%}{{ x.name }}{% if x.kind == "info" %} \textit{({{ t.org_info }})}{% endif %}{% if x.from %} {\color{muted}\textit{ {{- t.org_from }} {{ x.from | join(", ") -}} }}{% endif %}{% if not loop.last %}, {% endif %}{%- endfor -%}
+{%- endmacro -%}
+{%- macro flow(item) -%}
+  {%- if item.needs %}\flowline{ {{- t.org_needs -}} }{ {{- things(item.needs) -}} }{% endif -%}
+  {%- if item.uses %}\flowline{ {{- t.org_uses -}} }{ {{- things(item.uses) -}} }{% endif -%}
+  {%- if item.gives %}\flowline{ {{- t.org_gives -}} }{ {{- things(item.gives) -}} }{% endif -%}
+{%- endmacro %}
+{% for s in sheets %}
+\definecolor{accent}{HTML}{ {{- s.accent -}} }
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{ {{- game_title }} · {{ t.org_title -}} }}}\par\vspace{2pt}
+{\fontsize{24}{28}\selectfont\bfseries {{ s.schedule.name }}\par}\vspace{2pt}
+{\itshape\textcolor{muted}{ {{- t[s.schedule.role] if s.schedule.role else t.room -}} }}\par
+{%- set l = s.schedule.load %}
+
+\orgpart{ {{- t.org_load -}} }
+{{ l.total }} {{ t.org_total }}, {{ l.decisions }} {{ t.org_decisions }}{% if l.peak %} · {{ t.org_peak }}: {{ l.peak[0] }} ({{ l.peak[1] }}){% endif %}\par
+{%- if l.per_segment %}
+\vspace{4pt}{\small\begin{adjustbox}{max width=\linewidth}\begin{tabular}{ {%- for x in l.per_segment %}|c{% endfor %}| }\hline
+{% for name, n in l.per_segment %}{{ name }}{% if not loop.last %} & {% endif %}{% endfor %}\\\hline
+{% for name, n in l.per_segment %}{% if l.peak and l.peak[0] == name and n %}\cellcolor{accent!25}\textbf{ {{- n -}} }{% else %}{{ n }}{% endif %}{% if not loop.last %} & {% endif %}{% endfor %}\\\hline
+\end{tabular}\end{adjustbox}}\par
+{%- endif %}
+{%- if s.schedule.prepare %}
+
+\orgpart{ {{- t.org_prepare -}} }
+\begin{itemize}[nosep,leftmargin=1.2em]
+{% for x in s.schedule.prepare %}\item {\bfseries {{ x.name }}}{% if x.text %}: {{ x.text }}{% endif %}
+{% endfor %}\end{itemize}
+{%- endif %}
+
+\orgpart{ {{- t.org_schedule -}} }
+{% for b in s.schedule.blocks %}\subhead{ {{- b.segment or t.org_no_segment -}} }
+\begin{itemize}[leftmargin=1.4em,itemsep=6pt]
+{% for st in b.steps %}\needspace{4\baselineskip}\item[{% if st.decision %}\textcolor{accent}{$\blacklozenge$}{% else %}\textcolor{accent}{$\circ$}{% endif %}]
+{%- if st.decision %} \steptag{ {{- t.org_decision -}} }\par{% endif %}
+{\large\bfseries {{ st.title }}{% if st.when %}\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{ {{- st.when -}} }}{% endif %}\par}
+{%- if st.with %}
+{\small\textbf{ {{- t.org_with -}} :} {{ st.with | join(", ") }}}\par
+{%- endif %}
+{%- if st.text %}
+{{ st.text | trim }}\par
+{%- endif %}
+{%- if st.brief %}
+{\small\color{muted}\itshape {{ t.org_brief }}: {{ st.brief }}\par}
+{%- endif %}
+{{ flow(st) }}
+{%- if st.options %}
+\begin{itemize}[nosep,leftmargin=1.2em,label=\textcolor{accent}{$\triangleright$}]
+{% for o in st.options %}\needspace{3\baselineskip}\item {\bfseries {{ o.label }}}{{ flow(o) }}
+{% endfor %}\end{itemize}
+{%- endif %}
+{% endfor %}\end{itemize}
+{% else %}{\itshape\textcolor{muted}{ {{- t.org_none -}} }}\par
+{% endfor %}
+{% if not loop.last %}\clearpage\ifodd\value{page}\else\hbox{}\thispagestyle{empty}\clearpage\fi\setcounter{page}{1}{% endif %}
+{% endfor %}
+\end{document}

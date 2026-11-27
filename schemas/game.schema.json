@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "game": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "description": "Language of the sheets.",
+          "enum": [
+            "cs",
+            "en"
+          ]
+        },
+        "steps": {
+          "description": "Steps of a hero cycle, e.g. the 8 steps of the story circle.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "description": "Title of the game.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "language"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "game"
+  ],
+  "title": "game.toml",
+  "type": "object"
+}

@@ -55,11 +55,24 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
         sheets += 1;
     }
 
+    let org_template = read_named_template(dir, ORGANIZER_TEMPLATE)?;
+    let mut schedules = 0;
+    for id in larp_graph::schedule_owners(&loaded.game) {
+        let schedule = larp_graph::schedule(&loaded.game, id);
+        let html =
+            larp_render::organizer_sheet_html(&loaded.game, &schedule, org_template.as_deref())
+                .map_err(|e| miette!("{e}"))
+                .wrap_err_with(|| format!("cannot render the organizer sheet of `{id}`"))?;
+        write(&out.join("organizers").join(format!("{id}.html")), &html)?;
+        schedules += 1;
+    }
+
     let index = out.join("index.html");
     println!(
-        "✔ wrote {} and {sheets} character sheet(s) in {}",
+        "✔ wrote {}, {sheets} character sheet(s) in {} and {schedules} organizer sheet(s) in {}",
         index.display(),
-        out.join("players").display()
+        out.join("players").display(),
+        out.join("organizers").display()
     );
     if open {
         let path = index.canonicalize().into_diagnostic()?;
@@ -79,9 +92,17 @@ fn write(path: &Path, contents: &str) -> Result<()> {
         .wrap_err_with(|| format!("cannot write {}", path.display()))
 }
 
+/// Where a game keeps its own organizer sheet template.
+pub(crate) const ORGANIZER_TEMPLATE: &str = "templates/organizer.html.j2";
+
 /// The game's own sheet template, `templates/player.html.j2`, if it has one.
 pub(crate) fn read_template(dir: &Path) -> Result<Option<String>> {
-    let custom = dir.join("templates/player.html.j2");
+    read_named_template(dir, "templates/player.html.j2")
+}
+
+/// `<game>/<name>`, if the game has that template.
+pub(crate) fn read_named_template(dir: &Path, name: &str) -> Result<Option<String>> {
+    let custom = dir.join(name);
     if !custom.is_file() {
         return Ok(None);
     }

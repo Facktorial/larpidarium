@@ -71,12 +71,23 @@ flowchart LR
 ✅ Player-facing text is the action's `brief` key; `text` stays for organizers only.
 Items listed in `uses` are shown as "you will give up / use up …".
 
-## Organizer sheet
+## Organizer sheet (done)
 
-Same data, other angle: every node the person or room owns, in time order, with full
-organizer `text`, everything needed (what to prepare, where it comes from), and what to hand out.
+Same data, other angle, for every organizer, non-player character and room
+(`larp_graph::schedule`). Full of spoilers on purpose:
+
+- **Load:** number of actions and decisions, a table per world segment, the busiest segment.
+- **Have ready:** items (not info) the owner starts with or hands out.
+- **Running order:** the owner's nodes grouped by world segment, in time order. Each shows when
+  (cycle and step for cycle nodes), who else takes part, the organizer `text`, what players read
+  (`brief`), what it needs, with **who provides it**, uses up and gives; decisions with every option.
 
 ## Output
 
-- HTML: `dist/players/<id>.html`, `dist/organizers/<id>.html`, linked from the graph sidebar.
-- PDF: `dist/pdf/<id>.pdf` via minijinja `.tex.j2` templates and tectonic; Czech/English labels.
+- HTML: `dist/players/<id>.html` (📄) and `dist/organizers/<id>.html` (📋), linked from the graph
+  sidebar and the People tab; `serve` renders them live.
+- PDF (`larpidarium pdf`): `dist/pdf/<id>.pdf`, `dist/pdf/organizers/<id>.pdf`, and
+  `_all-players.pdf` / `_all-organizers.pdf` for printing, via minijinja `.tex.j2` templates and
+  tectonic; Czech/English labels.
+- Templates can be overridden per game in `templates/`: `player.html.j2`, `organizer.html.j2`,
+  `player.tex.j2`, `organizer.tex.j2`.

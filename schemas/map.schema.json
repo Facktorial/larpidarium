@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "map": {
+      "additionalProperties": false,
+      "properties": {
+        "cells": {
+          "description": "Grid rows, top to bottom: `.` empty, `=` corridor.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "rooms": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "properties": {
+              "h": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "w": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "x": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "y": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "type": "object"
+          },
+          "description": "Room id → place in cells.",
+          "type": "object"
+        },
+        "walls": {
+          "description": "Walls [x1, y1, x2, y2] along grid lines, horizontal or vertical.",
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maxItems": 4,
+            "minItems": 4,
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "required": [
+    "map"
+  ],
+  "title": "map.toml",
+  "type": "object"
+}

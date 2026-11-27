@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "knees": {
+      "additionalProperties": {
+        "description": "Bends of a line.",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "description": "Line id → bends.",
+      "type": "object"
+    },
+    "node": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "description": "Node id → position.",
+      "type": "object"
+    }
+  },
+  "required": [],
+  "title": "layout.toml",
+  "type": "object"
+}

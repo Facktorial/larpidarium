@@ -22,6 +22,10 @@ fmt-check:
     cargo fmt --all --check
     taplo fmt --check
 
+# example games against the JSON Schemas in schemas/ (rules in .taplo.toml)
+schemas:
+    taplo check "examples/*/*.toml" "examples/*/*/*.toml"
+
 # spelling in code, docs and file names
 typos:
     typos
@@ -60,4 +64,4 @@ mutants *ARGS:
 check: fmt-check typos lint test
 
 # everything CI runs
-ci: fmt-check typos lint test deny machete doc
+ci: fmt-check typos schemas lint test deny machete doc

@@ -2,9 +2,14 @@
 
 mod destiny;
 mod layout;
+mod schedule;
 
 pub use destiny::{
     Destiny, DestinyOption, DestinyStep, MiniEdge, MiniGraph, MiniNode, Source, ThingRef, destiny,
+};
+pub use schedule::{
+    ItemRef, Load, Schedule, ScheduleBlock, ScheduleOption, ScheduleStep, loads, schedule,
+    schedule_owners,
 };
 
 use std::collections::BTreeMap;

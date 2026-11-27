@@ -68,6 +68,25 @@ const LABELS: &[(&str, &str, &str)] = &[
     ("outside_cycle", "mimo cyklus", "outside the cycle"),
     ("part3", "Jak se měníš", "How you change"),
     ("from_segment", "Od", "From"),
+    // Organizer sheets.
+    ("room", "místnost", "room"),
+    ("org_title", "Rozpis", "Schedule"),
+    ("org_load", "Vytížení", "Load"),
+    ("org_total", "akcí", "actions"),
+    ("org_decisions", "rozhodnutí", "decisions"),
+    ("org_peak", "nejvíc", "busiest"),
+    ("org_prepare", "Připrav si", "Have ready"),
+    ("org_schedule", "Průběh", "Running order"),
+    ("org_with", "S kým", "With"),
+    ("org_from", "od", "from"),
+    ("org_needs", "Potřebuje", "Needs"),
+    ("org_uses", "Spotřebuje", "Uses up"),
+    ("org_gives", "Dává", "Gives"),
+    ("org_brief", "Hráči čtou", "Players read"),
+    ("org_decision", "Rozhodnutí", "Decision"),
+    ("org_none", "Nic na starosti.", "Nothing to run."),
+    ("org_no_segment", "Mimo segmenty", "Outside segments"),
+    ("org_info", "informace", "info"),
 ];
 
 /// Labels for `language`, keyed by the first column of the table above.

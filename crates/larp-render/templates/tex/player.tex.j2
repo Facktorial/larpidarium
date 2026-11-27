@@ -1,0 +1,152 @@
+{#- Player sheets as LaTeX (compiled by tectonic). Copy this file to <game>/templates/player.tex.j2
+    to customize it. Available: game_title, language, t (labels), sheets: a list of
+    { person (Part I), destiny (Part II), accent (RRGGBB) }. All game text is escaped for LaTeX;
+    write `{ {{- x -}} }` where a value must sit directly inside braces. -#}
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[{% if language == "cs" %}czech{% else %}english{% endif %}]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2 % log missing glyphs (larpidarium reports them)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\newcommand{\sheetpart}[2]{\par\needspace{5\baselineskip}\vspace{12pt}%
+  {\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\quad #2\par}\vspace{2pt}}
+\newcommand{\subhead}[1]{\par\needspace{3\baselineskip}\vspace{6pt}%
+  {\sffamily\bfseries\small\textcolor{muted}{\MakeUppercase{\relax#1}}}\par}
+\newcommand{\steptag}[1]{\begingroup\sffamily\scriptsize\bfseries\textcolor{accent}{\MakeUppercase{\relax#1}}\endgroup}
+\newcommand{\flowline}[2]{\par{\small\textbf{\relax#1:} #2}}
+\begin{document}
+{%- macro things(list) -%}
+  {%- for x in list -%}{{ x.name }}{% if x.source %} \textit{({{ t["src_" ~ x.source] }})}{% endif %}{% if not loop.last %}, {% endif %}{%- endfor -%}
+{%- endmacro -%}
+{%- macro flow(item) -%}
+  {%- if item.needs %}\flowline{ {{- t.needs -}} }{ {{- things(item.needs) -}} }{% endif -%}
+  {%- if item.uses %}\flowline{ {{- t.uses -}} }{ {{- things(item.uses) -}} }{% endif -%}
+  {%- if item.gives %}\flowline{ {{- t.gives -}} }{ {{- things(item.gives) -}} }{% endif -%}
+{%- endmacro -%}
+{%- macro items(list) -%}
+\begin{itemize}[nosep,leftmargin=1.2em]
+{% for x in list %}\item {{ x }}
+{% endfor %}\end{itemize}
+{%- endmacro %}
+{% for s in sheets %}
+{%- set p = s.person %}{% set d = s.destiny %}
+\definecolor{accent}{HTML}{ {{- s.accent -}} }
+\pagestyle{plain}
+{\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
+{\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{ {{- game_title -}} }}}\par\vspace{2pt}
+{\fontsize{28}{32}\selectfont\bfseries {{ p.name }}\par}\vspace{2pt}
+{\itshape\textcolor{muted}{ {{- t[p.role] }}{% if p.outside_cycle %} · {{ t.outside_cycle }}{% endif -%} }}\par
+{%- if p.played_by or p.enters or p.dies %}
+{\sffamily\small\textcolor{muted}{
+{%- if p.played_by %}\textbf{ {{- t.played_by -}} :} {{ p.played_by }}\quad {% endif %}
+{%- if p.enters or p.dies %}\textbf{ {{- t.enters -}} :} {{ p.enters or t.from_start }}\quad \textbf{ {{- t.dies -}} :} {{ p.dies or t.to_end }}{% endif -%}
+}}\par
+{%- endif %}
+
+\sheetpart{I}{ {{- t.part1 -}} }
+{% if p.appearance %}\subhead{ {{- t.appearance -}} }
+{{ p.appearance | trim }}
+{% endif %}
+{%- if p.whereabouts %}\subhead{ {{- t.whereabouts_enter if p.enters else t.whereabouts -}} }
+{{ p.whereabouts | trim }}
+{% endif %}
+{%- if p.backstory %}\subhead{ {{- t.backstory -}} }
+{{ p.backstory | trim }}
+{% endif %}
+{%- if p.goals %}\subhead{ {{- t.goals -}} }
+{{ items(p.goals) }}
+{% endif %}
+{%- if p.secrets %}\subhead{ {{- t.secrets -}} }
+{{ items(p.secrets) }}
+{% endif %}
+{%- if p.relations %}\subhead{ {{- t.relations -}} }
+\begin{description}[nosep,style=nextline,font=\normalfont\bfseries]
+{% for r in p.relations %}\item[{ {{- r.name -}} }] {{ r.text }}
+{% endfor %}\end{description}
+{% endif %}
+{%- if d.carries %}\subhead{ {{- t.carries -}} }
+\begin{itemize}[nosep,leftmargin=1.2em]
+{% for x in d.carries %}\item {\bfseries {{ x.name }}}{% if x.text %}: {{ x.text }}{% endif %}
+{% endfor %}\end{itemize}
+{% endif %}
+{%- for key, text in p.extra %}\subhead{ {{- t["sheet_" ~ key] or key -}} }
+{{ text | trim }}
+{% endfor %}
+
+\sheetpart{II}{ {{- t.part2 -}} }
+{% if d.steps -%}
+{\itshape\textcolor{muted}{ {{- t.destiny_intro -}} }}\par
+{%- set g = d.graph %}
+{#- Wide graphs are cut into rows of ROW px (one page width); lines between rows end in stubs. #}
+{%- set row_w = 640 %}
+{%- set rows = ((g.width - 1) // row_w + 1) | int %}
+\begin{center}
+{% for r in range(rows) %}
+{%- set x0 = r * row_w %}{% set x1 = x0 + row_w %}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=0.75pt,y=-0.75pt]
+\path (0,0) rectangle ({{ [g.width - x0, row_w] | min }},{{ g.height }});
+{% for e in g.edges %}
+{%- set a = e.x1 >= x0 and e.x1 < x1 %}{% set b = e.x2 > x0 and e.x2 <= x1 %}
+{%- if a and b %}\draw[-latex,muted!70,line width=0.8pt] ({{ e.x1 - x0 }},{{ e.y1 }}) .. controls ({{ e.x1 - x0 + 22 }},{{ e.y1 }}) and ({{ e.x2 - x0 - 22 }},{{ e.y2 }}) .. ({{ e.x2 - x0 }},{{ e.y2 }});
+{% elif a %}\draw[-latex,muted!70,line width=0.8pt,dashed] ({{ e.x1 - x0 }},{{ e.y1 }}) -- ({{ row_w }},{{ e.y1 }});
+{% elif b %}\draw[-latex,muted!70,line width=0.8pt,dashed] (0,{{ e.y2 }}) -- ({{ e.x2 - x0 }},{{ e.y2 }});
+{% endif %}
+{%- endfor %}
+{%- for n in g.nodes if n.x >= x0 and n.x < x1 %}
+{%- if n.own %}\draw[accent,line width=1.2pt,fill=accent!14,rounded corners={% if n.decision %}1pt{% else %}4pt{% endif %}] ({{ n.x - x0 }},{{ n.y }}) rectangle ++({{ n.w }},{{ n.h }});
+\node[font=\sffamily\scriptsize\bfseries,text width={{ n.w * 0.75 - 6 }}pt,align=center] at ({{ n.x - x0 + n.w / 2 }},{{ n.y + n.h / 2 }}) { {{- n.label -}} };
+{% else %}\draw[muted!60,dashed,fill=muted!8,rounded corners=4pt] ({{ n.x - x0 }},{{ n.y }}) rectangle ++({{ n.w }},{{ n.h }});
+\node[font=\sffamily\small,text=muted] at ({{ n.x - x0 + n.w / 2 }},{{ n.y + n.h / 2 }}) {?};
+{% endif %}
+{%- endfor %}
+\end{tikzpicture}
+\end{adjustbox}\\[6pt]
+{% endfor %}
+{\sffamily\scriptsize\textcolor{accent}{\rule{8pt}{8pt}} {{ t.mini_own }}\qquad \textcolor{muted!60}{\rule{8pt}{8pt}} {{ t.mini_other }}}
+\end{center}
+\begin{itemize}[leftmargin=1.4em,itemsep=8pt]
+{% for st in d.steps %}\needspace{4\baselineskip}\item[{% if st.decision %}\textcolor{accent}{$\blacklozenge$}{% else %}\textcolor{accent}{$\circ$}{% endif %}]
+{%- if st.decision %} \steptag{ {{- t.choice -}} }\par{% endif %}
+{\large\bfseries {{ st.title }}{% if st.segment %}\hfill{\normalfont\sffamily\scriptsize\textcolor{muted}{ {{- st.segment -}} }}{% endif %}\par}
+{%- if st.brief %}
+{\itshape {{ st.brief }}\par}
+{%- endif %}
+{{ flow(st) }}
+{%- if st.options %}
+\begin{itemize}[nosep,leftmargin=1.2em,label=\textcolor{accent}{$\triangleright$}]
+{% for o in st.options %}\needspace{3\baselineskip}\item {\bfseries {{ o.label }}}{{ flow(o) }}
+{% endfor %}\end{itemize}
+{%- endif %}
+{% endfor %}\end{itemize}
+{% else -%}
+{\itshape\textcolor{muted}{ {{- t.no_destiny -}} }}\par
+{% endif %}
+{%- if p.phases %}
+
+\sheetpart{III}{ {{- t.part3 -}} }
+\begin{itemize}[leftmargin=1.4em,itemsep=8pt,label=\textcolor{accent}{$\circ$}]
+{% for ph in p.phases %}\item \steptag{ {{- t.from_segment }}: {{ ph.segment -}} }\par
+{% for key, text in ph.sections %}\subhead{ {{- t["sheet_" ~ key] or key -}} }
+{{ text | trim }}
+{% endfor %}
+{%- if ph.goals %}\subhead{ {{- t.goals -}} }
+{{ items(ph.goals) }}
+{% endif %}
+{%- if ph.secrets %}\subhead{ {{- t.secrets -}} }
+{{ items(ph.secrets) }}
+{% endif %}
+{% endfor %}\end{itemize}
+{%- endif %}
+{% if not loop.last %}\clearpage\ifodd\value{page}\else\hbox{}\thispagestyle{empty}\clearpage\fi\setcounter{page}{1}{% endif %}
+{% endfor %}
+\end{document}

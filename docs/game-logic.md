@@ -44,7 +44,8 @@ Identical states are explored once; exploration stops after 10 000 states with a
 - ✅ **warning:** a player with no decision of their own (no agency);
 - ✅ **error:** a relation pointing at an unknown person;
 - planned **warning:** a player idle for a long stretch of layers in the middle of the game;
-- planned **info:** load per organizer and room (number of nodes, peak layer).
+- ✅ **info:** load per organizer, non-player character and room: `check` prints a `load:` line
+  (actions and the busiest segment); organizer sheets show the table per segment.
 
 ## Level 5: sheets (partly done)
 

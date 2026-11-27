@@ -43,7 +43,7 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
-      room: 'místnost', close: 'Zavřít', sheet: 'list postavy',
+      room: 'místnost', close: 'Zavřít', sheet: 'list postavy', orgSheet: 'rozpis pro organizátory',
       segments: 'Segmenty', noSegment: 'Bez segmentu', segment: 'Segment', crossing: 'přechod mezi segmenty',
       editing: 'Úpravy', newAction: '+ Akce', newDecision: '+ Rozhodnutí', newThing: '+ Předmět / info',
       newSegment: '+ Segment', saveLayout: 'Uložit rozložení do hry', edit: 'Upravit', remove: 'Smazat',
@@ -87,7 +87,7 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
-      room: 'room', close: 'Close', sheet: 'character sheet',
+      room: 'room', close: 'Close', sheet: 'character sheet', orgSheet: 'organizer schedule',
       segments: 'Segments', noSegment: 'No segment', segment: 'Segment', crossing: 'crosses segments',
       editing: 'Editing', newAction: '+ Action', newDecision: '+ Decision', newThing: '+ Item / info',
       newSegment: '+ Segment', saveLayout: 'Save layout into the game', edit: 'Edit', remove: 'Delete',
@@ -173,6 +173,8 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return e;
   };
   const ownerName = (id) => owners.get(id)?.name ?? id;
+  /** Player sheet for players, organizer schedule for everyone and everything else. */
+  const sheetHref = (o) => `${o.role === 'player' ? 'players' : 'organizers'}/${encodeURIComponent(o.id)}.html`;
   /** "1 akce", "3 akce", "5 akcí" / "1 action", "5 actions". */
   const actionCount = (n) => (G.language === 'cs'
     ? `${n} ${n === 1 || (n >= 2 && n <= 4) ? 'akce' : 'akcí'}`
@@ -1005,10 +1007,10 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       const dot = el('span', 'dot');
       dot.style.background = o.color;
       li.append(dot, el('span', null, o.name), el('span', 'tag', t[o.role ?? 'room']));
-      if (o.role === 'player') {
-        const link = el('a', 'sheet-link', '📄');
-        link.href = `players/${encodeURIComponent(o.id)}.html`;
-        link.title = t.sheet;
+      {
+        const link = el('a', 'sheet-link', o.role === 'player' ? '📄' : '📋');
+        link.href = sheetHref(o);
+        link.title = o.role === 'player' ? t.sheet : t.orgSheet;
         link.addEventListener('click', (e) => e.stopPropagation());
         li.append(link);
       }
@@ -1650,12 +1652,10 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       { label: t.name, cell: (o) => {
         const s = el('span');
         s.append(dot(o.color), ` ${o.name}`);
-        if (o.role === 'player') {
-          const a = el('a', 'sheet-link', ' 📄');
-          a.href = `players/${encodeURIComponent(o.id)}.html`;
-          a.title = t.sheet;
-          s.append(a);
-        }
+        const a = el('a', 'sheet-link', o.role === 'player' ? ' 📄' : ' 📋');
+        a.href = sheetHref(o);
+        a.title = o.role === 'player' ? t.sheet : t.orgSheet;
+        s.append(a);
         return s;
       }, sort: (o) => o.name },
       { label: t.role, cell: (o) => [t[o.role], o.outside_cycle ? t.outside : null].filter(Boolean).join(' · ') },

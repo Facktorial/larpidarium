@@ -228,7 +228,7 @@ fn timeline<'a>(
                 title: a.title.clone(),
                 brief: a.brief.clone(),
                 decision: false,
-                segment: segment_name(game, node),
+                segment: when(game, node),
                 needs: needed(&a.needs, &earlier),
                 uses: needed(&a.uses, &earlier),
                 gives: results(&a.gives),
@@ -239,7 +239,7 @@ fn timeline<'a>(
                 title: d.title.clone(),
                 brief: d.brief.clone(),
                 decision: true,
-                segment: segment_name(game, node),
+                segment: when(game, node),
                 needs: Vec::new(),
                 uses: Vec::new(),
                 gives: Vec::new(),
@@ -270,7 +270,8 @@ fn timeline<'a>(
     steps
 }
 
-fn segment_name(game: &Game, node: &Node) -> String {
+/// When a node happens, for people: "cycle · k. step", or the segment name.
+pub(crate) fn when(game: &Game, node: &Node) -> String {
     if let Some((c, step)) = node.cycle() {
         let cycle = larp_model::time::find_cycle(game, c.get_ref())
             .map_or_else(|| c.get_ref().to_string(), |c| c.name.clone());

@@ -561,3 +561,27 @@ fn step_without_cycle_is_an_error() {
         checked.diagnostics
     );
 }
+
+#[test]
+fn spans_that_only_touch_do_not_overlap() {
+    assert!(!span(0, 4).overlaps(span(4, 8)));
+    assert!(!span(4, 8).overlaps(span(0, 4)));
+    assert!(span(0, 5).overlaps(span(4, 8)));
+    assert!(span(4, 8).overlaps(span(0, 5)));
+}
+
+#[test]
+fn cycle_ending_in_the_segment_right_before_it_starts_has_no_span() {
+    // "two" starts at tick 4 and "one" ends at tick 4: an empty, backwards cycle.
+    let cycles = CYCLES.replace(
+        "from = \"two\"\nto = \"three\"",
+        "from = \"two\"\nto = \"one\"",
+    );
+    let checked = run(&[("cycles.toml", &cycles)]);
+    let draft = checked.draft.unwrap();
+    assert_eq!(time::cycle(&draft, cycle(&draft, "long")), None);
+    assert_eq!(
+        time::cycle(&draft, cycle(&draft, "short")),
+        Some(span(4, 8))
+    );
+}

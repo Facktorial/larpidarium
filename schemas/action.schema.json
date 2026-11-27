@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "action"
+      ]
+    },
+    {
+      "required": [
+        "decision"
+      ]
+    }
+  ],
+  "properties": {
+    "action": {
+      "additionalProperties": false,
+      "properties": {
+        "brief": {
+          "description": "What players read about it on their sheet (no names).",
+          "type": "string"
+        },
+        "cycle": {
+          "description": "Id of the hero cycle it belongs to (instead of segment).",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "gives": {
+          "description": "Ids of items or info produced.",
+          "items": {
+            "description": "Id of items or info produced.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "needs": {
+          "description": "Ids of items or info that must exist; they stay.",
+          "items": {
+            "description": "Id of items or info that must exist; they stay.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "owners": {
+          "description": "Ids of people or rooms that own it.",
+          "items": {
+            "description": "Id of people or rooms that own it.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "segment": {
+          "description": "Id of the world segment it belongs to.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "step": {
+          "description": "Step of the cycle, 1 … number of steps in game.toml.",
+          "maximum": 255,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "text": {
+          "description": "Longer description for organizers.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Short title shown on the graph.",
+          "type": "string"
+        },
+        "uses": {
+          "description": "Ids of items that must exist and are used up.",
+          "items": {
+            "description": "Id of items that must exist and are used up.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "type": "object"
+    },
+    "decision": {
+      "additionalProperties": false,
+      "properties": {
+        "brief": {
+          "description": "What players read about it on their sheet (no names).",
+          "type": "string"
+        },
+        "cycle": {
+          "description": "Id of the hero cycle it belongs to (instead of segment).",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "option": {
+          "description": "The options, [[decision.option]].",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "gives": {
+                "description": "Ids of items or info produced.",
+                "items": {
+                  "description": "Id of items or info produced.",
+                  "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "label": {
+                "description": "What the option is called.",
+                "type": "string"
+              },
+              "needs": {
+                "description": "Ids of items or info that must exist; they stay.",
+                "items": {
+                  "description": "Id of items or info that must exist; they stay.",
+                  "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "uses": {
+                "description": "Ids of items that must exist and are used up.",
+                "items": {
+                  "description": "Id of items that must exist and are used up.",
+                  "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "label"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "owners": {
+          "description": "Ids of people or rooms that own it.",
+          "items": {
+            "description": "Id of people or rooms that own it.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "segment": {
+          "description": "Id of the world segment it belongs to.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "step": {
+          "description": "Step of the cycle, 1 … number of steps in game.toml.",
+          "maximum": 255,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "text": {
+          "description": "Longer description for organizers.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Short title shown on the graph.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [],
+  "title": "actions/<id>.toml",
+  "type": "object"
+}

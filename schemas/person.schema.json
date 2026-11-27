@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "person": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "description": "Id of the character whose death starts this one's life (reincarnation).",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "color": {
+          "description": "Color as #rrggbb.",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "type": "string"
+        },
+        "dies": {
+          "description": "World segment id, or step number of the character's own cycle.",
+          "oneOf": [
+            {
+              "description": "Id of a world segment.",
+              "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "description": "Step of the cycle, 1 … number of steps in game.toml.",
+              "maximum": 255,
+              "minimum": 1,
+              "type": "integer"
+            }
+          ]
+        },
+        "enters": {
+          "description": "Id of the world segment where the character enters the story.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "goals": {
+          "description": "What the character wants.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Display name.",
+          "type": "string"
+        },
+        "outside_cycle": {
+          "description": "Never the hero of a cycle.",
+          "type": "boolean"
+        },
+        "phase": {
+          "description": "[[person.phase]]: how the sheet changes over time.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "goals": {
+                "description": "New goals from this moment (replace the old ones).",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "secrets": {
+                "description": "New secrets from this moment.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "segment": {
+                "description": "Id of the world segment the phase starts in.",
+                "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+                "type": "string"
+              },
+              "sheet": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Sheet sections that change (appearance, whereabouts, backstory, …).",
+                "type": "object"
+              },
+              "step": {
+                "description": "Step of the cycle, 1 … number of steps in game.toml.",
+                "maximum": 255,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "played_by": {
+          "description": "Id of the player (players.toml) who plays this character.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "relation": {
+          "description": "[[person.relation]]",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "description": "What the character thinks of them.",
+                "type": "string"
+              },
+              "with": {
+                "description": "Id of the other person.",
+                "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "with",
+              "text"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "role": {
+          "description": "player: gets a character sheet; organizer and npc: an organizer sheet.",
+          "enum": [
+            "player",
+            "organizer",
+            "npc"
+          ]
+        },
+        "secrets": {
+          "description": "What the character hides.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sheet": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Sheet sections: appearance, whereabouts, backstory, echo, or your own.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "role"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "person"
+  ],
+  "title": "people/<id>.toml",
+  "type": "object"
+}

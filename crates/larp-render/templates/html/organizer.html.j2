@@ -1,0 +1,92 @@
+{#- Organizer sheet. Copy this file to <game>/templates/organizer.html.j2 to customize it.
+    Available: game_title, language, t (labels), s (the schedule). -#}
+{%- macro things(list) -%}
+  {%- for x in list -%}
+    <span class="thing" {% if x.text %}title="{{ x.text }}"{% endif %}>{{ x.name }}</span>
+    {%- if x.kind == "info" %} <span class="src">({{ t.org_info }})</span>{% endif -%}
+    {%- if x.from %} <span class="src">{{ t.org_from }} {{ x.from | join(", ") }}</span>{% endif -%}
+    {%- if not loop.last %}, {% endif -%}
+  {%- endfor -%}
+{%- endmacro -%}
+{%- macro flow(item) -%}
+  {%- if item.needs %}<p class="flow"><b>{{ t.org_needs }}:</b> {{ things(item.needs) }}</p>{% endif -%}
+  {%- if item.uses %}<p class="flow"><b>{{ t.org_uses }}:</b> {{ things(item.uses) }}</p>{% endif -%}
+  {%- if item.gives %}<p class="flow"><b>{{ t.org_gives }}:</b> {{ things(item.gives) }}</p>{% endif -%}
+{%- endmacro -%}
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ t.org_title }}: {{ s.name }} · {{ game_title }}</title>
+<style>
+  :root { --ink: #22201c; --muted: #6b665d; --paper: #fffdf8; --line: #d9d3c7; --accent: {{ s.color or "#3e5c7a" }}; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e6df; color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+  nav { max-width: 900px; margin: 0 auto; padding: 14px 16px 0; font-size: 14px; }
+  nav a { color: var(--muted); }
+  .sheet { max-width: 900px; margin: 12px auto 40px; background: var(--paper); padding: 40px 48px;
+    border-top: 8px solid var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+  .game { margin: 0; font-weight: 600; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 6px 0 2px; font-size: 34px; line-height: 1.1; }
+  .role { margin: 0; color: var(--muted); font-style: italic; }
+  h2 { font-size: 20px; margin: 28px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 22px 0 6px; }
+  p { margin: 3px 0 8px; }
+  table.load { border-collapse: collapse; margin: 6px 0; }
+  table.load td, table.load th { border: 1px solid var(--line); padding: 3px 10px; text-align: center; font-size: 13px; }
+  table.load .peak { background: color-mix(in srgb, var(--accent) 25%, transparent); font-weight: 700; }
+  .thing { border-bottom: 1px dotted var(--muted); }
+  .src { color: var(--muted); font-size: .9em; font-style: italic; }
+  .step { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; margin: 10px 0 14px; break-inside: avoid; }
+  .step h4 { margin: 0 0 2px; font-size: 17px; }
+  .step .when, .step .with { color: var(--muted); font-size: 13px; margin: 0 0 4px; }
+  .tag { font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .text { white-space: pre-line; }
+  .brief { font-style: italic; color: var(--muted); }
+  .flow { margin: 1px 0; font-size: 14px; }
+  .options { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; }
+  .options li { border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 4px 10px; border-radius: 3px; }
+  @media print { body { background: none; } nav { display: none; } .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0; } }
+</style>
+</head>
+<body>
+<nav><a href="../index.html">← {{ t.back }}</a></nav>
+<article class="sheet">
+  <p class="game">{{ game_title }} · {{ t.org_title }}</p>
+  <h1>{{ s.name }}</h1>
+  <p class="role">{{ t[s.role] if s.role else t.room }}</p>
+
+  <h2>{{ t.org_load }}</h2>
+  <p>{{ s.load.total }} {{ t.org_total }}, {{ s.load.decisions }} {{ t.org_decisions }}{% if s.load.peak %} · {{ t.org_peak }}: {{ s.load.peak[0] }} ({{ s.load.peak[1] }}){% endif %}</p>
+  {% if s.load.per_segment %}
+  <table class="load"><tr>{% for name, n in s.load.per_segment %}<th>{{ name }}</th>{% endfor %}</tr>
+    <tr>{% for name, n in s.load.per_segment %}<td{% if s.load.peak and s.load.peak[0] == name and n %} class="peak"{% endif %}>{{ n }}</td>{% endfor %}</tr></table>
+  {% endif %}
+
+  {% if s.prepare %}
+  <h2>{{ t.org_prepare }}</h2>
+  <ul>{% for x in s.prepare %}<li><b>{{ x.name }}</b>{% if x.text %}: {{ x.text }}{% endif %}</li>{% endfor %}</ul>
+  {% endif %}
+
+  <h2>{{ t.org_schedule }}</h2>
+  {% for b in s.blocks %}
+  <h3>{{ b.segment or t.org_no_segment }}</h3>
+  {% for st in b.steps %}
+  <div class="step">
+    {% if st.decision %}<span class="tag">{{ t.org_decision }}</span>{% endif %}
+    <h4>{{ st.title }}</h4>
+    {% if st.when %}<p class="when">{{ st.when }}</p>{% endif %}
+    {% if st.with %}<p class="with"><b>{{ t.org_with }}:</b> {{ st.with | join(", ") }}</p>{% endif %}
+    {% if st.text %}<p class="text">{{ st.text | trim }}</p>{% endif %}
+    {% if st.brief %}<p class="brief">{{ t.org_brief }}: {{ st.brief }}</p>{% endif %}
+    {{ flow(st) }}
+    {% if st.options %}<ul class="options">{% for o in st.options %}<li><b>▶ {{ o.label }}</b>{{ flow(o) }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="brief">{{ t.org_none }}</p>
+  {% endfor %}
+</article>
+</body>
+</html>
