@@ -13,7 +13,37 @@ use miette::{
 pub(crate) fn run(dir: &Path) -> Result<()> {
     let loaded = load_game(dir)?;
     print_loads(&loaded.game);
+    print_progress(&loaded.game);
     Ok(())
+}
+
+/// `progress: 12/30 done, 5 in review, 3 drafts (10 untracked) · Jana 4/6`, if anything has a status.
+fn print_progress(game: &Game) {
+    use std::fmt::Write as _;
+    let p = larp_graph::progress(game);
+    if p.is_untracked() {
+        return;
+    }
+    let a = &p.all;
+    let mut line = format!(
+        "  progress: {}/{} done, {} in review, {} draft(s)",
+        a.done,
+        a.total(),
+        a.review,
+        a.draft
+    );
+    if a.untracked > 0 {
+        let _ = write!(line, " ({} untracked)", a.untracked);
+    }
+    let writers: Vec<String> = p
+        .writers
+        .iter()
+        .map(|(w, c)| format!("{w} {}/{}", c.done, c.total()))
+        .collect();
+    if !writers.is_empty() {
+        let _ = write!(line, " · {}", writers.join(" · "));
+    }
+    println!("{line}");
 }
 
 /// A valid game with everything `check` found out about it.

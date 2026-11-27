@@ -326,3 +326,17 @@ fn check_prints_the_load_but_build_does_not() {
     assert!(!String::from_utf8_lossy(&run.stdout).contains("  load:"));
     let _ = std::fs::remove_dir_all(&out);
 }
+
+#[test]
+fn check_prints_writing_progress() {
+    let (ok, stdout, stderr) = check("lost-abbey");
+    assert!(ok, "{stderr}");
+    let line = stdout
+        .lines()
+        .find(|l| l.starts_with("  progress:"))
+        .unwrap_or_else(|| panic!("no progress line in:\n{stdout}"));
+    assert!(
+        line.contains("1 in review") && line.contains("Petra 1/3"),
+        "{line}"
+    );
+}

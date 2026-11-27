@@ -1,6 +1,8 @@
 [action]
 segment = "night"
 title = "Prozkoumat kosti"
+status = "done"
+writer = "Petra"
 owners = ["inspector-hugo", "library"]
 needs = ["abbot-bones", "letter-shown"]
 gives = ["abbot-murdered"]

@@ -99,6 +99,14 @@ button:focus-visible { outline: 2px solid var(--accent); }
   border-left: 3px solid #f39c12; cursor: pointer; line-height: 1.35; }
 #health .finding.error { border-left-color: #e74c3c; }
 #health .finding .help { color: var(--muted); font-size: .9em; margin-top: 2px; }
+#health .progress-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 4px 0; }
+#health .progress-bar span { cursor: pointer; min-width: 4px; }
+#health .progress-done { background: #27ae60; }
+#health .progress-review { background: #f39c12; }
+#health .progress-draft { background: #e67e22; opacity: .6; }
+#health .progress-untracked { background: var(--muted); opacity: .4; }
+#health .finding.open-draft { border-left-color: #e67e22; }
+#health .finding.open-review { border-left-color: #f39c12; }
 #health .ending { padding: 4px 8px; border-left: 3px solid var(--line-color); }
 #health .ending .route { color: var(--muted); font-size: .9em; }
 .node.flagged { box-shadow: 0 0 0 2px #f39c12, 0 4px 6px rgba(0,0,0,.3); }

@@ -37,6 +37,8 @@
   const TEXT = {
     cs: {
       in: 'Potřebuje', uses: 'Spotřebuje', out: 'Dává', health: 'Stav hry', healthy: '✔ Bez problémů',
+      progress: 'Rozepsanost', done: 'hotovo', review: 'ke kontrole', draft: 'rozepsané', untracked: 'bez stavu',
+      openParts: 'Zbývá dopsat', statusLabel: 'Stav psaní', writerLabel: 'Kdo píše',
       endings: 'Dosažitelné konce', noEndings: 'Hra nemá žádný konec (ending = true).', outcomes: 'možných výsledků',
       brief: 'Pro hráče', orgText: 'Pro organizátory', stopped: 'simulace zastavena předčasně', owners: 'Postavy a místnosti', things: 'Předměty a informace',
       clearFilter: 'Zrušit filtr', exportLayout: 'Uložit layout.toml', resetLayout: 'Obnovit rozložení',
@@ -81,6 +83,8 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
     },
     en: {
       in: 'Needs', uses: 'Uses up', out: 'Gives', health: 'Game health', healthy: '✔ No problems',
+      progress: 'Writing progress', done: 'done', review: 'in review', draft: 'draft', untracked: 'untracked',
+      openParts: 'Still to write', statusLabel: 'Writing status', writerLabel: 'Writer',
       endings: 'Reachable endings', noEndings: 'The game has no ending (ending = true).', outcomes: 'possible outcomes',
       brief: 'For players', orgText: 'For organizers', stopped: 'simulation stopped early', owners: 'People and rooms', things: 'Items and info',
       clearFilter: 'Clear filter', exportLayout: 'Save layout.toml', resetLayout: 'Reset layout',
@@ -213,6 +217,8 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     if (!filter) return true;
     if (filter.kind === 'owner') return n.owners.includes(filter.id);
     if (filter.kind === 'segment') return segKey(n) === filter.id;
+    if (filter.kind === 'writer') return n.writer === filter.id;
+    if (filter.kind === 'status') return (n.status ?? 'untracked') === filter.id;
     return allThings(n).includes(filter.id);
   }
 
@@ -953,6 +959,9 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     }
     if (n.brief) box.append(el('div', 'label', t.brief), el('div', 'brief', n.brief.trim()));
     if (n.text) box.append(el('div', 'label', t.orgText), el('div', 'text', n.text.trim()));
+    if (n.status || n.writer) {
+      box.append(el('div', 'help', [n.status && t[n.status], n.writer && `✎ ${n.writer}`].filter(Boolean).join(' · ')));
+    }
 
     const list = (label, ids) => {
       if (!ids.length) return;
@@ -1055,6 +1064,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       }
       box.append(item);
     }
+    renderProgress(box);
     const hasEndings = G.things.some((x) => x.ending);
     if (!hasEndings) { box.append(el('div', 'help', t.noEndings)); return; }
     const head = `${t.endings} (${G.end_states} ${t.outcomes}${G.truncated ? `, ${t.stopped}` : ''})`;
@@ -1063,6 +1073,43 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       const row = el('div', 'ending');
       row.append(el('div', null, thingName(e.id)), el('div', 'route', e.route.join(' → ') || '—'));
       row.addEventListener('click', () => setFilter({ kind: 'thing', id: e.id }));
+      box.append(row);
+    }
+  }
+
+  /** Writing progress: a bar per status (click to show those nodes), writers, what is still open. */
+  function renderProgress(box) {
+    const p = G.progress;
+    if (!p || p.all.untracked === p.all.draft + p.all.review + p.all.done + p.all.untracked) return;
+    const total = p.all.draft + p.all.review + p.all.done + p.all.untracked;
+    box.append(el('div', 'label', `${t.progress}: ${p.all.done}/${total} ${t.done}`));
+    const bar = el('div', 'progress-bar');
+    for (const k of ['done', 'review', 'draft', 'untracked']) {
+      if (!p.all[k]) continue;
+      const part = el('span', `progress-${k}`);
+      part.style.flexGrow = p.all[k];
+      part.title = `${t[k]}: ${p.all[k]}`;
+      part.addEventListener('click', () => setFilter({ kind: 'status', id: k }));
+      bar.append(part);
+    }
+    box.append(bar);
+    const legend = el('div', 'help');
+    legend.textContent = ['done', 'review', 'draft', 'untracked']
+      .filter((k) => p.all[k]).map((k) => `${t[k]} ${p.all[k]}`).join(' · ');
+    box.append(legend);
+    for (const [name, c] of p.writers) {
+      const sum = c.draft + c.review + c.done + c.untracked;
+      const row = el('div', 'ending', `✎ ${name}: ${c.done}/${sum} ${t.done}`);
+      row.addEventListener('click', () => setFilter({ kind: 'writer', id: name }));
+      box.append(row);
+    }
+    if (!p.open.length) return;
+    box.append(el('div', 'label', `${t.openParts} (${p.open.length})`));
+    for (const o of p.open) {
+      const row = el('div', `finding open-${o.status}`, `${o.status === 'draft' ? '✎' : '👁'} ${o.title}${o.writer ? ` · ${o.writer}` : ''}`);
+      if (o.kind === 'node') {
+        row.addEventListener('click', () => { selected.clear(); selected.add(o.id); renderNodes(); showDetails(o.id); });
+      }
       box.append(row);
     }
   }
@@ -1412,11 +1459,14 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
 
       const brief = field(form, t.brief, textInput(n?.brief, true), t.briefHelp);
       const text = field(form, t.orgText, textInput(n?.text, true), t.textHelp);
+      const status = field(form, t.statusLabel, selectInput(
+        ['draft', 'review', 'done'].map((k) => ({ id: k, name: t[k] })), n?.status));
+      const writer = field(form, t.writerLabel, textInput(n?.writer));
       return () => ({
         create, id: id.value.trim(), kind: kindSel.value, title: title.value, owners: who.value(),
         segment: seg.value, cycle: cyc?.value ?? '', step: stepSel ? Number(stepSel.value) : null,
         needs: needs.value(), uses: uses.value(), gives: gives.value(),
-        brief: brief.value, text: text.value,
+        brief: brief.value, text: text.value, status: status.value, writer: writer.value.trim(),
         options: kindSel.value === 'decision'
           ? optionEditors.map((o) => ({ label: o.label.value, needs: o.on.value(), uses: o.ou.value(), gives: o.og.value() }))
           : [],

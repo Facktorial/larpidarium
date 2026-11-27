@@ -6,6 +6,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Added
 
+- Writing status: `status = "draft" | "review" | "done"` and `writer` on actions, decisions and
+  people. `check` prints the progress; Game health shows a progress bar, writers and what is still
+  open, and filters the graph by status or writer; the browser editor sets both.
 - `larpidarium schema DIR`: JSON Schemas of every game file and a `.taplo.toml`, so editors with
   Taplo (VS Code: Even Better TOML) autocomplete keys and underline mistakes. The schemas are also
   in `schemas/`, applied to the examples, checked in CI (`just schemas`).

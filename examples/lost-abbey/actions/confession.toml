@@ -1,6 +1,8 @@
 [decision]
 segment = "verdict"
 title = "Přiznání"
+status = "review"
+writer = "Petra"
 owners = ["brother-anselm"]
 text = "Anselm je obviněn před celým konventem."
 brief = "Přijde chvíle, kdy budeš muset před všemi odpovědět."

@@ -2,11 +2,13 @@
 
 mod destiny;
 mod layout;
+mod progress;
 mod schedule;
 
 pub use destiny::{
     Destiny, DestinyOption, DestinyStep, MiniEdge, MiniGraph, MiniNode, Source, ThingRef, destiny,
 };
+pub use progress::{OpenPart, Progress, StatusCount, progress};
 pub use schedule::{
     ItemRef, Load, Schedule, ScheduleBlock, ScheduleOption, ScheduleStep, loads, schedule,
     schedule_owners,
@@ -60,6 +62,8 @@ pub struct GraphData {
     pub end_states: usize,
     /// The simulation stopped early.
     pub truncated: bool,
+    /// Writing progress.
+    pub progress: Progress,
 }
 
 /// One problem reported by `check`.
@@ -252,6 +256,10 @@ pub struct OwnerView {
     pub hero_of: Option<String>,
     /// Works outside the hero's cycle.
     pub outside_cycle: bool,
+    /// Writing status (people only).
+    pub status: Option<&'static str>,
+    /// Who writes it (people only).
+    pub writer: Option<String>,
 }
 
 /// A real participant.
@@ -313,6 +321,10 @@ pub struct NodeView {
     pub uses: Vec<String>,
     /// Given thing ids (actions only).
     pub gives: Vec<String>,
+    /// Writing status (`draft`, `review`, `done`), if tracked.
+    pub status: Option<&'static str>,
+    /// Who writes it.
+    pub writer: Option<String>,
     /// Options (decisions only).
     pub options: Vec<OptionView>,
     /// Left edge on the canvas.
@@ -447,6 +459,7 @@ pub fn build(
         knees: game.layout.knees.clone(),
         edges,
         findings: diagnostics.iter().map(finding).collect(),
+        progress: progress(game),
         endings: playthroughs
             .map(|p| {
                 p.endings
@@ -646,6 +659,8 @@ fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
         uses,
         gives,
         options,
+        status: node.status().map(larp_model::model::Status::as_str),
+        writer: node.writer().map(str::to_owned),
         x: p.x,
         y: p.y,
     }
@@ -696,6 +711,8 @@ fn owners(game: &Game) -> Vec<OwnerView> {
             .map(|s| (s.start, s.end)),
         hero_of: time::hero_cycle(game, id).map(|c| c.id.get_ref().to_string()),
         outside_cycle: p.outside_cycle,
+        status: p.status.map(larp_model::model::Status::as_str),
+        writer: p.writer.clone(),
     });
     let rooms = game.rooms.iter().map(|r| OwnerView {
         id: r.id.get_ref().to_string(),
@@ -713,6 +730,8 @@ fn owners(game: &Game) -> Vec<OwnerView> {
         life: None,
         hero_of: None,
         outside_cycle: false,
+        status: None,
+        writer: None,
     });
     people.chain(rooms).collect()
 }

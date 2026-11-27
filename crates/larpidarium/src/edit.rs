@@ -61,6 +61,12 @@ pub(crate) struct NodeEdit {
     pub(crate) text: String,
     #[serde(default)]
     pub(crate) options: Vec<OptionEdit>,
+    /// `draft`, `review`, `done`, or empty to remove; absent (older page) keeps the file's value.
+    #[serde(default)]
+    pub(crate) status: Option<String>,
+    /// Writer, or empty to remove; absent keeps the file's value.
+    #[serde(default)]
+    pub(crate) writer: Option<String>,
     /// `true` for a new node: refused if the id already exists.
     #[serde(default)]
     pub(crate) create: bool,
@@ -273,6 +279,22 @@ pub(crate) fn node(current: Option<&str>, edit: &NodeEdit) -> EditResult<String>
     }
     set_text(table, "brief", &edit.brief);
     set_text(table, "text", &edit.text);
+    if let Some(status) = &edit.status {
+        match status.as_str() {
+            "" => {
+                table.remove("status");
+            }
+            "draft" | "review" | "done" => set(table, "status", Value::from(status.as_str())),
+            other => return refuse(format!("unknown status `{other}`")),
+        }
+    }
+    if let Some(writer) = &edit.writer {
+        if writer.trim().is_empty() {
+            table.remove("writer");
+        } else {
+            set(table, "writer", Value::from(writer.trim()));
+        }
+    }
     Ok(doc.to_string())
 }
 
@@ -547,6 +569,8 @@ mod tests {
             brief: "Přečti si to.".into(),
             text: String::new(),
             options: Vec::new(),
+            status: None,
+            writer: None,
             create: true,
         }
     }
@@ -558,6 +582,47 @@ mod tests {
             uses: Vec::new(),
             gives: vec!["end".into()],
         }
+    }
+
+    #[test]
+    fn status_and_writer_are_set_kept_and_removed() {
+        let e = NodeEdit {
+            status: Some("review".into()),
+            writer: Some(" Jana ".into()),
+            ..action("read")
+        };
+        let text = node(None, &e).unwrap();
+        assert!(text.contains("status = \"review\""), "{text}");
+        assert!(text.contains("writer = \"Jana\""), "{text}");
+        // An older page sends neither field: the file keeps them.
+        let kept = node(
+            Some(&text),
+            &NodeEdit {
+                create: false,
+                ..action("read")
+            },
+        )
+        .unwrap();
+        assert!(kept.contains("status = \"review\"") && kept.contains("writer = \"Jana\""));
+        let removed = node(
+            Some(&text),
+            &NodeEdit {
+                create: false,
+                status: Some(String::new()),
+                writer: Some("  ".into()),
+                ..action("read")
+            },
+        )
+        .unwrap();
+        assert!(
+            !removed.contains("status") && !removed.contains("writer"),
+            "{removed}"
+        );
+        let bad = NodeEdit {
+            status: Some("finished".into()),
+            ..action("read")
+        };
+        assert!(node(None, &bad).is_err());
     }
 
     #[test]

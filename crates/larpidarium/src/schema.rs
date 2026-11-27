@@ -69,8 +69,23 @@ fn flow() -> Value {
     })
 }
 
+/// `status` and `writer`, shared by nodes and people.
+fn writing() -> [(&'static str, Value); 2] {
+    [
+        (
+            "status",
+            json!({ "enum": ["draft", "review", "done"],
+                    "description": "How far the writing is; shown in the progress panel." }),
+        ),
+        ("writer", text("Who writes it.")),
+    ]
+}
+
 fn node_common() -> serde_json::Map<String, Value> {
     let mut m = serde_json::Map::new();
+    for (k, v) in writing() {
+        m.insert(k.into(), v);
+    }
     m.insert("title".into(), text("Short title shown on the graph."));
     m.insert("owners".into(), refs("people or rooms that own it"));
     m.insert(
@@ -130,6 +145,14 @@ fn phase() -> Value {
 }
 
 fn person() -> Value {
+    let mut v = person_fields();
+    for (k, field) in writing() {
+        v["properties"][k] = field;
+    }
+    v
+}
+
+fn person_fields() -> Value {
     object(
         &["name", "role"],
         &json!({

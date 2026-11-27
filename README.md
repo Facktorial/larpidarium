@@ -73,7 +73,8 @@ AI-assisted workflow works is in [`docs/workflow.md`](docs/workflow.md).
 | 3 ✅  | Game logic: playthroughs, endings, people, lives, "Game health" panel, load per organizer and room ([spec](docs/game-logic.md)) |
 | 4 ✅  | Character sheets in HTML: Part I who you are, Part II destiny from the graph, Part III how you change ([spec](docs/sheets.md)) |
 | 5 ✅  | PDF: LaTeX player sheets, TikZ destiny graph, `pdf` command with tectonic, CI compiles the examples |
-| 6 🚧  | Organizer sheets ✅, mutation-testing cleanup, releases                          |
+| 6 🚧  | Organizer sheets ✅, mutation-testing cleanup ✅, releases                         |
+| 7 🚧  | Writing support: writing status, shared text blocks and facts, factions, relationships graph, who knows what (spoiler check), inventory and handouts, character profiles with timeline, balance report, counters |
 
 ## License
 

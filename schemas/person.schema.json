@@ -143,6 +143,18 @@
           },
           "description": "Sheet sections: appearance, whereabouts, backstory, echo, or your own.",
           "type": "object"
+        },
+        "status": {
+          "description": "How far the writing is; shown in the progress panel.",
+          "enum": [
+            "draft",
+            "review",
+            "done"
+          ]
+        },
+        "writer": {
+          "description": "Who writes it.",
+          "type": "string"
         }
       },
       "required": [

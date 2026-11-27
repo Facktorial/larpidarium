@@ -301,6 +301,22 @@ and keeps the rooms. Copy the file to another game's `map-presets/` to reuse it.
 `check` reports unknown tiles, walls that are not horizontal or vertical (also in presets) and
 unknown rooms as errors, overlapping rooms as warnings.
 
+## Writing status
+
+Any action, decision or person can say how far it is written and who writes it:
+
+```toml
+[action]
+title = "Ohledání kostí"
+status = "review"   # draft | review | done
+writer = "Petra"
+```
+
+Both keys are optional. `check` prints a `progress:` line once anything has a status (done out of
+all, in review, drafts, untracked, and per writer). Game health in the viewer shows the same as a
+bar; click a colour or a writer to show only those nodes, click an open part to jump to it. The
+node editor in `serve` can set both.
+
 ## What `check` reports
 
 | Problem                                                       | Level   |

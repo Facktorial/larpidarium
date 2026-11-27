@@ -153,6 +153,24 @@ impl Node {
             Self::Decision(d) => &d.owners,
         }
     }
+
+    /// Writing status.
+    #[must_use]
+    pub fn status(&self) -> Option<Status> {
+        match self {
+            Self::Action(a) => a.status,
+            Self::Decision(d) => d.status,
+        }
+    }
+
+    /// Who writes it.
+    #[must_use]
+    pub fn writer(&self) -> Option<&str> {
+        match self {
+            Self::Action(a) => a.writer.as_deref(),
+            Self::Decision(d) => d.writer.as_deref(),
+        }
+    }
 }
 
 /// One `[[segment]]`: a part of the game such as a level, an act or a side plot.
@@ -328,6 +346,10 @@ pub struct Action {
     /// What players read about this action in their destiny.
     #[serde(default)]
     pub brief: String,
+    /// How far the writing is (`draft`, `review`, `done`); unset means not tracked.
+    pub status: Option<Status>,
+    /// Who writes it, for the progress panel.
+    pub writer: Option<String>,
 }
 
 /// The `[decision]` table.
@@ -354,6 +376,10 @@ pub struct Decision {
     /// The possible outcomes, written as `[[decision.option]]`.
     #[serde(rename = "option", default)]
     pub options: Vec<DecisionOption>,
+    /// How far the writing is (`draft`, `review`, `done`); unset means not tracked.
+    pub status: Option<Status>,
+    /// Who writes it, for the progress panel.
+    pub writer: Option<String>,
 }
 
 /// One `[[decision.option]]`.
@@ -371,6 +397,30 @@ pub struct DecisionOption {
     /// Items or info this option produces.
     #[serde(default)]
     pub gives: Vec<Ref>,
+}
+
+/// How far the writing of a node, person or other part is.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Status {
+    /// Being written.
+    Draft,
+    /// Written, waiting for someone else to read it.
+    Review,
+    /// Finished.
+    Done,
+}
+
+impl Status {
+    /// The value as written in TOML.
+    #[must_use]
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Draft => "draft",
+            Self::Review => "review",
+            Self::Done => "done",
+        }
+    }
 }
 
 /// Whether a person is played by a player, an organizer, or is a non-player character.
@@ -421,6 +471,10 @@ pub struct Person {
     /// Sheet changes per segment, written as `[[person.phase]]`.
     #[serde(rename = "phase", default)]
     pub phases: Vec<Phase>,
+    /// How far the writing is (`draft`, `review`, `done`); unset means not tracked.
+    pub status: Option<Status>,
+    /// Who writes it, for the progress panel.
+    pub writer: Option<String>,
 }
 
 /// One `[[person.relation]]`.
