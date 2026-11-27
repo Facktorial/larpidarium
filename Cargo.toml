@@ -7,7 +7,7 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.88"
 license = "WTFPL"
-repository = "https://github.com/Rustic-Baguettes-Inc/larpidarium"
+repository = "https://github.com/Facktorial/larpidarium"
 publish = false
 
 [workspace.dependencies]
