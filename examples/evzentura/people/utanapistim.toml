@@ -1,33 +1,12 @@
 [person]
-name = "Utanapištim"
+name = "Utanapištim / Ziusudra / Atrachasís"
 role = "npc"
 color = "#2980b9"
-goals = [
-  "Dostavět loď, která vzdoruje Nicotě",
-  "Pomoct týmům Nicotu zdržet, protože o ní ví nejdéle ze všech",
-]
-secrets = [
-  "O Nicotě víš odedávna. Už jednou jsi přežil potopu a víš, jak to chodí.",
-  "Máš fígle, jak Nicotu zdržet. Za správnou cenu je prozradíš.",
-  "Z mědi od Ea-nasira umíš vyrobit klíč, ať už k čemukoli.",
-]
 
 [person.sheet]
-appearance = "Prastarý stařec, dlouhé bílé vousy, plášť z rákosu, kladivo a smola. Kolem sebe modely lodí a pár plyšových zvířat po dvou."
-whereabouts = "Patro 4. Stavíš loď v rohu patra a pořád něco ťukáš a těsníš."
-backstory = """
-Jsi Utanapištim, kterému se také říká Ziusudra nebo Atrachasís. Byl jsi Noem dřív, než to bylo cool.
-Bůh Ea tě kdysi varoval před potopou, postavil sis loď a přežil jsi, když všichni ostatní utonuli.
-Za to ti bohové dali nesmrtelnost a ty ses od té doby nepřestal připravovat na další konec světa.
-Teď přichází Nicota. Viděl jsi ji přicházet dávno, protože ji sleduješ celé věky.
-Stavíš loď, která jí vzdoruje, a nikdo ti nevěřil, dokud nebylo pozdě. Jako vždycky.
+whereabouts = "Patro 4"
+poznamky = """
+starší obdoba Noema
+ví o nicotě, věděl o ní dlouho, staví si loď, která dokáže nicotě vzdorovat a umožní mu přežít
+může hráčům pomáhat v boji s nicotou, může mít i další fígle, jak nicotu zadržet
 """
-manner = "Klidně, rozvážně, jako stařec, který už všechno viděl. „Já jsem to říkal.“ Všechno přirovnáváš k potopě: „Tohle? Tohle je nic proti potopě.“ Stěžuješ si na kvalitu mědi od Ea-nasira, ale stejně ji kupuješ."
-
-[[person.relation]]
-with = "ea-nasir"
-text = "Prodává tu nejhorší měď na světě. Je jediný, kdo nějakou prodává."
-
-[[person.relation]]
-with = "isaac-newton"
-text = "Mladý vědec. Mluví o černých dírách. Ty jim říkáš Nicota."

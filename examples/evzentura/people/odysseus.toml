@@ -2,32 +2,9 @@
 name = "Odysseus"
 role = "npc"
 color = "#c0392b"
-goals = ["Zeptat se Háda na cestu domů na Ithaku", "Vyhnout se Achilleovi a hlavně Antinoovi"]
-secrets = [
-  "Hádes tu není a nikdo neví, kde je. Ty to víš už dlouho, ale přiznat si to nechceš.",
-  "Trojský kůň byl tvůj nápad. Pořád jsi na to hrdý, i když Achilles kvůli té válce umřel.",
-]
 
 [person.sheet]
-appearance = "Řecký chitón nebo prostěradlo, plášť, ošoupané sandály, veslo přes rameno. Unavený pohled člověka, který je na cestě dvacet let."
-whereabouts = "Patro 2. Přešlapuješ u vstupu a ptáš se každého, kudy se jde k Hádovi."
-backstory = """
-Jsi Odysseus, král Ithaky, muž mnoha úskoků.
-Vyhrál jsi Trojskou válku dřevěným koněm, oslepil jsi Kyklopa a přelstil Sirény.
-Domů ses ale nedostal, a tak jsi sestoupil do podsvětí, aby ses zeptal Háda na cestu.
-Jenže tohle podsvětí je nějaké divné, nikdo tu Háda nezná a místo stínů hrdinů tu postávají Hollywooďané.
-Doma na tebe čeká Pénelopé a ty doufáš, že ještě čeká.
+whereabouts = "Patro 2"
+poznamky = """
+přišel do pekla, aby se zeptal Háda na cestu
 """
-manner = "Výřečně, chytrácky, rád vyprávíš historky ze své cesty a každou trochu přibarvíš. Na otázku, kdo jsi, nejdřív odpovíš „Nikdo“ a pak se tomu směješ. Vyptáváš se týmů na cestu: „Neviděli jste tu Háda? Takový zachmuřený, s helmou neviditelnosti.“"
-
-[[person.relation]]
-with = "achilles"
-text = "Starý spolubojovník. Od té doby, co umřel, je s ním těžká řeč."
-
-[[person.relation]]
-with = "antinoos"
-text = "Nejdrzejší z nápadníků tvé ženy. Zastřelil jsi ho šípem do krku. Doufáš, že se tu nepotkáte."
-
-[[person.relation]]
-with = "christopher-nolan"
-text = "Nějaký Brit tvrdí, že o tobě natočil film. Nevíš, co je film, ale lichotí ti to."

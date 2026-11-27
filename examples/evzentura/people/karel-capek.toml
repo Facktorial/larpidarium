@@ -2,28 +2,9 @@
 name = "Karel Čapek"
 role = "npc"
 color = "#8e44ad"
-goals = ["Najít konec pro příběh, který právě píše", "Zeptat se týmů, jak by to měli skončit"]
-secrets = [
-  "Ten příběh je tahle hra. Nevíš, jak skončí, stejně jako jsi nevěděl, jak skončit Válku s mloky.",
-  "Na konci adventury necháš rozhodnutí na čtenářích.",
-]
 
 [person.sheet]
-appearance = "Oblek, vázanka, kulaté brýle, dýmka. Psací stroj nebo blok s nedopsanou stránkou. Na stole malý robot."
-whereabouts = "Patro 5. Sedíš u psacího stroje na konci patra. Jsi poslední zastávka."
-backstory = """
-Jsi Karel Čapek, spisovatel, novinář, zahrádkář a pejskař.
-Dal jsi světu slovo „robot“, i když ho vlastně vymyslel bratr Josef.
-Napsal jsi Válku s mloky a na konci ses zeptal sám sebe, jak to celé skončí, a odpověď jsi nenašel.
-Teď píšeš další příběh. Tentokrát v něm Nicota polyká Peklo patro po patru.
-A zase nevíš, jak ho dopsat.
+whereabouts = "Patro 5"
+poznamky = """
+končí se u Karla Čapka, podobný konec jako u Války s mloky, autor neví, jak zakončit příběh, ptá se na pomoc čtenáře
 """
-manner = "Laskavě, zdvořile, hloubavě, s jemným humorem. Mluvíš o sobě a o příběhu, jako bys s týmy psal fejeton. Ptáš se: „A jak byste to skončili vy?“ Nemáš rád velká slova ani velké konce."
-
-[[person.relation]]
-with = "karel-marx"
-text = "Psal jsi proti jeho myšlenkám. Teď jste sousedi. Peklo má smysl pro humor."
-
-[[person.relation]]
-with = "karel-gott"
-text = "Zpívá v tvém příběhu, i když jsi ho tam nepsal."

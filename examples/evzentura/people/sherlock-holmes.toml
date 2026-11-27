@@ -2,31 +2,13 @@
 name = "Sherlock Holmes"
 role = "npc"
 color = "#27ae60"
-goals = [
-  "Vyřešit případ. Jaký případ, to zatím neprozradí.",
-  "Mluvit s obětí, která skončila v Pekle",
-  "Dokázat, že detektiv nemusí být noir",
-]
-secrets = [
-  "Vyšetřuješ Isaaca Newtona. Ukradl Diferenciální počet.",
-  "Všechny zavražděné postavy chtějí svědčit proti svým vrahům. Ochotně je vyslechneš, ale tvůj případ to není.",
-]
 
 [person.sheet]
-appearance = "Lovecká čepice, plášť s pelerínou, dýmka, lupa. Žádný trenčkot, žádná cigareta, žádné saxofony v pozadí."
-whereabouts = "Patro 4. Procházíš patro s lupou a prohlížíš si cizí boty."
-backstory = """
-Jsi Sherlock Holmes, jediný konzultující detektiv na světě a teď i v Pekle.
-Přišel jsi sem kvůli případu, o kterém zatím nikomu neříkáš.
-Víš jen, že potřebuješ mluvit s obětí, a obětí je tu dole až příliš mnoho.
-Na rozdíl od nižších detektivů nemusíš stát v dešti a zahořkle kouřit. Stačí ti dýmka, lupa a dedukce.
+whereabouts = "Patro 4"
+poznamky = """
+vyšetřuje tu případ; záhadou je, o jaký případ jde
+zdá se, že chce mluvit s obětí, která skončila v pekle
+všechny zavražděné postavy s ním chtějí mluvit a svědčit proti svému vrahovi
+nakonec se ukáže, že vyšetřoval Newtona, který ukradl „Diferenciální počet“
+dokazuje, že člověk může být detektiv a přitom nebýt noir
 """
-manner = "Rychle, sebevědomě, s nečekanými dedukcemi o hráčích: „Byli jste u Prométhea, máte na botách játra. Elementární.“ Nesnášíš noirový tón. Když někdo začne mluvit zasmušile, přerušíš ho. O případu mluvíš jen náznaky."
-
-[[person.relation]]
-with = "isaac-newton"
-text = "Podezřelý. Zatím mu to neříkáš. Zatím."
-
-[[person.relation]]
-with = "rorschach"
-text = "Maskovaný amatér v trenčkotu. Přesně ten typ, kterým nechceš být."

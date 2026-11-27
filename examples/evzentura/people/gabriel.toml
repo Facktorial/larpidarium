@@ -1,29 +1,11 @@
 [person]
-name = "Archanděl Gabriel"
+name = "Gabriel"
 role = "npc"
 color = "#8e44ad"
-goals = ["Svést poslední bitvu, i když je teď mír", "Zjistit, co se děje v Pekle"]
-secrets = [
-  "Nebe o Pekle nevědělo. Až ti týmy řeknou o Pekle a Nicotě, začneš tušit, že se tam něco děje, a sestoupíš dolů do patra 4.",
-  "Mír tě nudí. Nicota je pro tebe příležitost.",
-]
 
 [person.sheet]
-appearance = "Bílá řiza, velká křídla, zlatá trubka, meč. Válečnický postoj, nikdy se neopíráš."
-whereabouts = "Nebe, u brány. Až se dozvíš o Pekle, sestoupíš do patra 4 a čekáš tam na týmy."
-backstory = """
-Jsi archanděl Gabriel, posel a válečník, ten, kdo jednou zatroubí k poslední bitvě.
-Jenže je mír. Už strašně dlouho je mír a tvoje trubka se práší.
-Leštíš meč, nacvičuješ bojové formace a čekáš na znamení.
-A teď do nebe přicházejí cizí lidé, kteří smrdí sírou a mluví o nějaké Nicotě.
-Že by konečně?
+whereabouts = "Patro 3 (nebe), Patro 4 (?)"
+poznamky = """
+chce, aby byla svedena poslední bitva (ačkoli je teď mír)
+interakce s námi anděle dovede k podezření, že se v pekle něco děje => v dalším patře přichází Gabriel
 """
-manner = "Slavnostně, hlasitě, vojensky. „Zvěstuji vám…!“ je tvůj začátek věty i u banalit. Když se mluví o boji, v očích se ti zablýskne. Antinoovo dvoření snášíš s napjatou zdvořilostí."
-
-[[person.relation]]
-with = "antinoos"
-text = "Host. Diův zákon ti zakazuje ho vyhodit. Jeho náklonnost ti zakazuje klid."
-
-[[person.relation]]
-with = "rorschach"
-text = "Nepříjemný, ale aspoň bere hrozby vážně."

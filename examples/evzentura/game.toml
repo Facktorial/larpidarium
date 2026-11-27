@@ -1,3 +1,6 @@
+# Evžentura: přepis poznámek z EVŽENTURA.md v aktuálním stavu (bez domýšlení).
+# Co v poznámkách chybí (přechody mezi patry, zdroje některých itemů), hlásí `check`
+# jako varování: slouží jako seznam toho, co je ještě potřeba vymyslet.
 [game]
 title = "Evžentura"
 language = "cs"

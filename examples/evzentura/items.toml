@@ -1,169 +1,91 @@
+# Itemy a informace jen z poznámek. Kde poznámky neříkají, odkud item pochází nebo k čemu je,
+# `check` to hlásí jako varování.
+
+[[category]]
+id = "maso"
+color = "#b03a2e"
+
 [[category]]
 id = "artefakt"
-color = "#8e44ad"
-
-[[category]]
-id = "obet"
-color = "#c0392b"
-
-[[category]]
-id = "nastroj"
-color = "#d4a017"
-
-[[category]]
-id = "ochrana"
-color = "#2e86c1"
+color = "#b7950b"
 
 [[category]]
 id = "vlajka"
 color = "#e74c3c"
 
-# --- Patro 1 ---
-
-[[item]]
-id = "stark-technology"
-name = "Stark Technology"
-category = "artefakt"
-owners = ["ned-stark"]
-text = "Rodinné dědictví Starků. Ned netuší, že je to ve skutečnosti reaktor ze železného obleku."
-
-[[item]]
-id = "cooperovy-hodinky"
-name = "Cooperovy hodinky"
-category = "artefakt"
-owners = ["matthew-mcconaughey"]
-text = "Hodinky z Interstellaru. Vrátí čas o kousek zpátky: jednu postavu pohlcenou Nicotou přivedou zpět."
-
-[[item]]
-id = "scenar-odyssey"
-name = "Nolanův scénář: Odysseia"
-category = "artefakt"
-owners = ["christopher-nolan"]
-text = "Scénář filmu, který Nolan přišel natočit do pekla. Konec je v něm černé na bílém: Odysseus se vrátí domů."
-
-[[item]]
-id = "zhavy-uhlik"
-name = "Žhavý uhlík z Krbu"
-category = "nastroj"
-owners = ["krb"]
-text = "Oheň, který Nicota neuhasí. Krb ho vydá, jen když něco dostane."
-
-# --- Patro 2 ---
-
 [[item]]
 id = "jatra"
-name = "Prométheova játra"
-category = "obet"
+name = "Játra"
+category = "maso"
 owners = ["prometheus"]
-text = "Dorostou každý den. Prométheus jich má nekonečně mnoho."
+text = "Prométheus slouží jako neomezený zdroj jater."
+
+[[item]]
+id = "tygr-a-beranek"
+name = "Tygr a Beránek"
+text = "Blake je umí stvořit jen oba současně; tygr pokaždé sežere beránka."
 
 [[item]]
 id = "beranek"
 name = "Beránek"
-category = "obet"
-owners = ["william-blake"]
-text = "Blakeův beránek, který jednou přežil vlastního tygra."
-
-[[item]]
-id = "kryokomora"
-name = "Disneyho kryokomora"
-category = "ochrana"
-owners = ["walt-disney"]
-text = "Zmrazí jednu postavu, takže ji Nicota nepohltí."
-
-# --- Nebe ---
-
-[[item]]
-id = "rorschachuv-denik"
-name = "Rorschachův deník"
-category = "artefakt"
-owners = ["rorschach"]
-text = "Rorschach do něj zapsal, co se děje v Pekle a proč. Kdo ho přečte, uvěří."
-
-[[item]]
-id = "obrazek-zadku"
-name = "Obrázek zadku od Zadkiela"
-category = "artefakt"
-owners = ["zadkiel"]
-text = "Zadkiel kreslí jen jedno. Zato pečlivě."
-
-[[item]]
-id = "masova-koule"
-name = "Masová koule"
-category = "obet"
-owners = ["fsm"]
-text = "Kousek Létajícího špagetového monstra. Patří do polévky, říká monstrum."
-
-[[item]]
-id = "plechovka-argus"
-name = "Plechovka Argus"
-category = "artefakt"
-owners = ["antinoos"]
-text = "Odysseův věrný pes v plechovce. Pozná po čichu cokoli, co kdy Odysseus nebo Pandorra drželi v ruce."
-
-[[item]]
-id = "auryn"
-name = "Auryn"
-category = "ochrana"
-owners = ["atreyu"]
-text = "Atreyův amulet. Kdo ho nosí, toho Nicota nepohltí."
-
-# --- Patro 4 ---
-
-[[item]]
-id = "spatna-med"
-name = "Ea-Nasirova měď"
-category = "nastroj"
-owners = ["ea-nasir"]
-text = "Nejhorší měď v podsvětí. Stejně zkažená jako všechno v Pandořině skříňce."
-
-[[item]]
-id = "medeny-klic"
-name = "Měděný klíč"
-category = "nastroj"
-owners = ["utanapistim"]
-text = "Klíč ke Pandořině skříňce, ukutý ze špatné mědi v ohni, který Nicota neuhasí."
-
-[[item]]
-id = "gravitacni-kotva"
-name = "Gravitační kotva"
-category = "ochrana"
-owners = ["isaac-newton"]
-text = "Newtonův vynález ze Stark Technology. Ukotví jednu postavu, takže ji Nicota nevtáhne."
-
-[[item]]
-id = "achilluv-stit"
-name = "Achillův štít"
-category = "artefakt"
-owners = ["achilles"]
-text = "Achilles už nechce být slavný válečník. Štít mu jen překáží v závodě se želvou."
-
-[[item]]
-id = "diferencialni-pocet"
-name = "Diferenciální počet"
-category = "artefakt"
-owners = ["isaac-newton"]
-text = "Kradený. Ale funguje."
-
-# --- Patro 5 ---
-
-[[item]]
-id = "ruda-vlajka"
-name = "Rudá vlajka"
-category = "vlajka"
-owners = ["karel-marx"]
-text = "Vlajka se jménem. Kdo dostane rudou vlajku se jménem postavy B, přestane postavu B chtít."
+text = "Když tygr dostane játra, sní je a beránka nechá být. Hráči si ho mohou nechat."
 
 [[item]]
 id = "pandorina-skrinka"
 name = "Pandořina skříňka"
 category = "artefakt"
-owners = ["karel-iv"]
-text = "Zamčená. Uvnitř je MefiKarlův přístroj, a možná i něco horšího."
+owners = ["pandorra"]
+starting = true
+text = "Je v ní MefiKarlův přístroj. Pandorra říká, že je zamčená. Později jí ji někdo ukradne, nakonec se ukáže, že ji sebral Karel."
 
 [[item]]
-id = "mefikarluv-pristroj"
-name = "MefiKarlův přístroj"
+id = "med"
+name = "Měď (nekvalitní)"
+owners = ["ea-nasir"]
+starting = true
+text = "Ea Nasir dodává hráčům měď, ale hodně nekvalitní."
+
+[[item]]
+id = "medeny-klic"
+name = "Měděný klíč k Pandořině skříňce"
 category = "artefakt"
-owners = ["karel-iv"]
-text = "Přístroj, který zastaví Nicotu. Cíl celé adventury."
+text = "Poskytne Ea Nasir (jeho měď je stejně zkažená jako všechno ve skříňce), popřípadě ho z mědi vyrobí Utanapištim."
+
+[[item]]
+id = "diuv-zakon"
+name = "Diův zákon"
+text = "Antinoos ho využil, aby ho nebešťané museli hostit. Nudliel bude možná věštit jedině tehdy, když ho dostane. Odkud ho hráči vezmou, zatím není vymyšlené (v grafu proto dostupný od začátku)."
+starting = true
+
+[[item]]
+id = "stark-technology"
+name = "Stark Technology"
+text = "Když ji dostane Newton, vyzkoumá z ní nástroj pro boj s Nicotou. Odkud pochází, zatím není vymyšlené (v grafu proto dostupná od začátku)."
+starting = true
+
+[[item]]
+id = "diferencialni-pocet"
+name = "Diferenciální počet"
+owners = ["isaac-newton"]
+starting = true
+text = "Newton ho ukradl. Tají ho, nebo ho nabízí zadarmo?"
+
+[[item]]
+id = "obrazek-zadku"
+name = "Obrázek zadku od Zadkiela"
+owners = ["zadkiel"]
+starting = true
+text = "Antinoos se s ním možná nakonec smíří."
+
+[[item]]
+id = "red-flag"
+name = "Red flag"
+category = "vlajka"
+text = "Postava A chce postavu B, ale B nechce A. Když hráči dají A red flag jménem B, A přestane chtít B. Při greenwashingu se z red flagu stane green flag."
+
+[[item]]
+id = "plechovka-argus"
+name = "Plechovka Argus"
+owners = ["antinoos"]
+starting = true
+text = "Lísá se k hráčům, protože z nich cítí Odyssea."

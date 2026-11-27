@@ -1,13 +1,7 @@
 [action]
-segment = "nebe"
-title = "Nudliel věští z polévky"
+segment = "patro-3"
+title = "Nudliel věští z písmenkové polévky"
 owners = ["nudliel"]
-needs = ["cesta-do-nebe", "diuv-zakon"]
-uses = ["masova-koule"]
-gives = ["odpoved-z-polevky"]
-brief = "Anděl s miskou písmenkové polévky nabízí odpověď. Ne řešení. Odpověď."
-text = """
-Nudliel věští jen hostům, kteří znají Diův zákon, a jen když FSM přestane rušit (masová koule v polévce).
-Věštba z písmenek: odpověď pro Atreye, náznak Lucifemme a tušení, že boj s Nicotou nevyhrajeme.
-Dej týmu lísteček s věštbou.
-"""
+needs = ["diuv-zakon"]
+gives = ["odpoved"]
+text = "Bude věštit jedině tehdy, když dostane Diův zákon? Věštba obsahuje forshadowing na Lucifemme."

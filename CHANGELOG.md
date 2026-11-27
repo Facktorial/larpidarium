@@ -6,7 +6,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Added
 
-- `examples/evzentura`: a five-floor team adventure built from the organizers' design notes by the two copywriter agents.
+- `examples/evzentura`: transcript of the Evžentura design notes (five floors, characters and the interactions the notes describe); warnings mark what is still to be designed.
 - Segments (`segments.toml`, `segment = "…"` on actions): acts, levels or loosely connected side
   plots. Each segment gets its own band and colored area in the graph, a filter in the sidebar
   that zooms to it, and dashed arrows where the plot crosses between segments.

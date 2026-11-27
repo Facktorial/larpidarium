@@ -1,31 +1,29 @@
-# Five floors of Hell. Teams unlock them one by one; the Void (Nicota) swallows them from the top.
-
 [[segment]]
 id = "patro-1"
 name = "Patro 1"
-color = "#d9822b"
-text = "Interstellar v pekle: Atreyu varuje před Nicotou, Nolan točí film. Končí se u Atreye, který pustí týmy dolů."
+color = "#5b8def"
+text = "Přechod: nějak navázat na Nolana, Damona, potenciálně McConaugheyho, zakončit u Átreje."
 
 [[segment]]
 id = "patro-2"
 name = "Patro 2"
-color = "#b03a2e"
-text = "Játra, tygr a beránek. Pandořina skříňka je tu poprvé a naposledy u Pandorry. Končí se obětí beránka v Krbu."
+color = "#c9853a"
+text = "Přechod: Prométheus → játra → Blake → Tygr & Beránek → Tygr dostane játra → Beránek → Krb → cesta do Nebe."
 
 [[segment]]
-id = "nebe"
-name = "Patro 3: Nebe"
-color = "#7fb3d5"
-text = "Andělé týmy nechtějí. Rorschach i Gabriel se musí dozvědět o Pekle a Nicotě; pak andělé Nebe zamknou a Gabriel jde dolů."
+id = "patro-3"
+name = "Patro 3 (nebe)"
+color = "#8fb8d8"
+text = "Přechod: musí být nutné obejít Rorschacha a Gabriela, oba se musí dozvědět o Pekle a o Nicotě. Přijdeme, hledáme řešení, pošlou nás pryč, patro se uzamyká."
 
 [[segment]]
 id = "patro-4"
 name = "Patro 4"
-color = "#a0782c"
-text = "Měď, klíč a případ Diferenciálního počtu. Gabriel přijde z Nebe a troubením otevře poslední patro."
+color = "#7aa36b"
+text = "Přechod zatím není vymyšlený."
 
 [[segment]]
 id = "patro-5"
 name = "Patro 5"
-color = "#5b2c6f"
-text = "Samí Karlové a jejich hádky. Skříňka je na Karlštejně. Nic dál nevede: končí se u Karla Čapka."
+color = "#b5485d"
+text = "Žádný přechod, jen hodně konfliktů mezi Karly, než všechno pohltí Nicota. Končí se u Karla Čapka."

@@ -3,7 +3,7 @@
 | Folder           | Purpose                                                                 |
 | ---------------- | ----------------------------------------------------------------------- |
 | `lost-abbey/`    | Clean reference game: passes `check` with no warnings, 3 endings.        |
-| `evzentura/`    | Bigger game from the organizers' design notes: a five-floor team adventure in Hell, 5 segments, 40 actions, 34 people (organizers play all characters, no player sheets). Warning-free. |
+| `evzentura/`    | Transcript of the Evžentura design notes as they are now: 5 floors, the characters with their organizers, only the interactions the notes describe. The warnings are the gaps still to design. |
 | `flawed-abbey/`  | Same game with planted **warnings**. Builds; see them in "Stav hry".     |
 | `broken-abbey/`  | `flawed-abbey` plus one planted **error**. `check` and `build` refuse it. |
 

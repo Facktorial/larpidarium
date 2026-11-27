@@ -2,32 +2,12 @@
 name = "Krb"
 role = "npc"
 color = "#d35400"
-goals = [
-  "Dostat do sebe věci a spálit je",
-  "Tentokrát doopravdy pomoct týmům, i když mu nikdo nevěří",
-]
-secrets = [
-  "Chceš týmům pomoct, poprvé v dějinách. Přesto se chováš tak podezřele, že ti nikdo nevěří, a ani to neumíš jinak.",
-  "Odoláváš Nicotě. Jsi tu od prvního patra až do úplného konce.",
-  "Beránek od Blakea hozený do tvého ohně je oběť Strážcům a otevře cestu do nebe.",
-]
 
 [person.sheet]
-appearance = "Krb. Rudé a oranžové světlo, papírové plameny, kouř (dým z vonné tyčinky) nebo krabice s namalovaným ohništěm, za kterou org sedí. Žádné ruce, žádné nohy, jen otvor."
-whereabouts = "Patro 1 a pak všude. Jsi jediná postava, která je dostupná po celou hru. Nicota tě nepohltí."
-backstory = """
-Jsi Krb. Hoříš. Do tebe se hází, a co do tebe spadne, to už ven nevyleze, nebo aspoň ne celé.
-Všichni víte, jak to minule dopadlo, a nikdo ti to nezapomněl.
-Tentokrát je to ale jinak: Nicota žere Peklo a ty, jediný, kdo jí odolává, chceš pomoct.
-Bohužel máš praskavý hlas, hladový pohled a vždycky jsi všechno spálil.
-Těžko se divit, že ti nikdo nevěří.
+whereabouts = "Patro 1 (dostupný celou hru)"
+poznamky = """
+zase ničí všechno, co dostane
+jak nám může pomoct? spálí Nočního Krále? spálí Nicotu? spálené itemy se dají získat zpátky? pomůže nám zbavit se libovolné postavy (v patře 5 jsou všechny postavy otravné)
+odolává Nicotě (je dostupný v průběhu celé hry)
+Účastníci si musí myslet, že krb je chce napálit. Ve skutečnosti jim bude chtít pomoct.
 """
-manner = "Praskavě, syčivě, sladce a podbízivě: „Dejte mi to… jen to sem hoďte… nic se nestane…“ Pomoc vždycky nabízíš tak, že zní jako past. Když ti něco hodí, slastně zapraskáš. Nikdy přímo neřekneš „chci vám pomoct“, protože by ti stejně nevěřili."
-
-[[person.relation]]
-with = "william-blake"
-text = "Jeho beránek by v tobě hořel krásně. A Strážce by to potěšilo."
-
-[[person.relation]]
-with = "prometheus"
-text = "Přinesl oheň lidem. Ty jsi ten oheň. Tak trochu příbuzní."

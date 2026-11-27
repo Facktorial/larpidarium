@@ -1,0 +1,7 @@
+[action]
+segment = "patro-4"
+title = "Newton vyzkoumá nástroj proti Nicotě"
+owners = ["isaac-newton"]
+uses = ["stark-technology"]
+gives = ["nastroj-proti-nicote"]
+text = "Když dostane Stark Technology."

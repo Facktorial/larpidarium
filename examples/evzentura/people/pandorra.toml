@@ -2,31 +2,13 @@
 name = "Pandorra"
 role = "npc"
 color = "#8e44ad"
-goals = [
-  "Uchránit skříňku, aby ji nikdo neotevřel",
-  "Zjistit, kdo jí skříňku ukradl (od patra 3 dál)",
-]
-secrets = [
-  "Ve skříňce je MefiKarlův přístroj, který zastaví Nicotu. To ale neprozradíš ani pod hypnózou, protože to sama nevíš jistě.",
-  "Až týmy odemknou další patro, skříňka zmizí. Ukradl ji Karel, ale ty netušíš, kdo to byl.",
-  "Klíč ke skříňce musí být z mědi stejně zkažené jako všechno, co je uvnitř.",
-]
 
 [person.sheet]
-appearance = "Řecké šaty, zlaté náramky, v náručí zdobená skříňka s velkým zámkem. Dokud ji máš, svíráš ji jako dítě. Pak už jen prázdné ruce."
-whereabouts = "Patro 2. Sedíš v nejodlehlejším koutě patra a skříňku máš na klíně."
-backstory = """
-Jsi Pandorra, první žena, kterou bohové stvořili a hned obdarovali zvědavostí.
-Kdysi jsi jednu skříňku otevřela a do světa vyletělo všechno zlé. Na dně zůstala jen naděje.
-Teď máš novou skříňku, zamčenou, a víš, že tentokrát se nesmí otevřít, ať se děje cokoli.
-Kdo ti ji dal a co v ní je, nevíš. Ale cítíš, že je důležitá. Hodně důležitá.
+whereabouts = "Patro 2"
+poznamky = """
+má Pandořinu skříňku, ve které je MefiKarlův přístroj
+nejdřív říká, že je skříňka zamčená a že ji nesmíme otevírat - působí to, jako že naším cílem bude sehnat klíč a sebrat jí krabičku
+když se dostaneme do dalšího patra, tak skříňku už nemá, někdo jí ji ukradl
+později se Pandořina skříňka ještě někde mihne (už bez Pandory), nakonec se ukáže, že ji sebral Karel
+Alternativa: z postav pohlcených Nicotou se stávají „lži a manipulace“, tj. jsou teleportovány do Pandořiny skříňky; skříňka by pak umožňovala kontakt s pohlcenými postavami
 """
-manner = "Nervózně, ochranitelsky, pořád se ohlížíš. „Nesahat. Neotvírat. Ani se na ni moc nedívejte.“ Když se tě ptají na klíč, zbledneš. Po krádeži jsi zoufalá a podezíráš každého: „To jste byli vy? Přiznejte se!“"
-
-[[person.relation]]
-with = "prometheus"
-text = "Bratr tvého manžela. Kvůli němu tě bohové stvořili, abys lidi potrestala. Máte spolu nevyřízené účty."
-
-[[person.relation]]
-with = "ea-nasir"
-text = "Neznáš ho. Kdybys věděla, jak mizernou měď prodává, věděla bys, že tvůj zámek otevře."

@@ -1,7 +1,11 @@
 [person]
-name = "Dalibor (organizátor)"
+name = "Dalibor"
 role = "organizer"
 color = "#d35400"
 goals = [
-  "Hrát Krb (od patra 1 až do konce hry), Prométhea (patro 2), Zadkiela (nebe), Achillea (patro 4) a Karla Marxe (patro 5)",
+  "Krb (Patro 1 (dostupný celou hru))",
+  "Prométheus (Patro 2)",
+  "Zadkiel (Patro 3 (nebe))",
+  "Achilles (Patro 4)",
+  "Karel Marx (Patro 5)",
 ]

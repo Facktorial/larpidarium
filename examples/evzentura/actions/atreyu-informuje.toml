@@ -1,0 +1,6 @@
+[action]
+segment = "patro-1"
+title = "Atreyu vypráví o Nicotě"
+owners = ["atreyu"]
+gives = ["zprava-o-nicote"]
+text = "Atreyu slouží primárně jako zdroj informací o Nicotě a mechanismech okolo."

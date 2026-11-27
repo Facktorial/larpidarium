@@ -135,9 +135,11 @@ fn build_writes_a_sheet_per_player() {
 }
 
 #[test]
-fn evzentura_example_is_warning_free_with_both_endings() {
+fn evzentura_example_builds_and_lists_open_gaps() {
+    // A transcript of unfinished design notes: warnings are the to-do list, but no errors,
+    // so the GitHub Pages build keeps working.
     let (ok, stdout, stderr) = check("evzentura");
     assert!(ok, "{stderr}");
-    assert!(stdout.contains("0 warning(s)"), "{stdout}\n{stderr}");
     assert!(stdout.contains("2 reachable ending(s)"), "{stdout}");
+    assert!(stderr.contains("is never needed"), "{stderr}");
 }

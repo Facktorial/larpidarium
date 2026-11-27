@@ -2,32 +2,13 @@
 name = "Nudliel"
 role = "npc"
 color = "#16a085"
-goals = [
-  "Věštit z písmenkové polévky, ale jen tomu, kdo se dovolá Diova zákona",
-  "Udržet si polévku čistou od špaget a masových koulí",
-]
-secrets = [
-  "Dáváš odpověď, ne řešení. Právě tu odpověď hledá Atrej.",
-  "Tvoje věštba prozrazuje příchod Lucifemme, i když nevíš, kdo to je.",
-  "Polévka ti ukázala, že boj s Nicotou se prohraje. Říkáš to jen v hádankách.",
-]
 
 [person.sheet]
-appearance = "Andělská křídla, kuchařská zástěra, velká naběračka a talíř nebo hrnec s písmenkovou polévkou (nebo kartičkami s písmeny)."
-whereabouts = "Nebe. Stojíš nad hrncem uprostřed a mícháš."
-backstory = """
-Jsi Nudliel, vědma nebes. Věštíš z písmenkové polévky.
-Mícháš, naběráš, a co ti na lžíci vyplave, to je pravda, i když se na první pohled nedá přečíst.
-Neprodáváš řešení. Dáváš odpověď. Co s ní kdo udělá, to už je jeho starost.
-Poslední dobou ti z polévky vyplouvá pořád jedno slovo, které neznáš: LUCIFEMME.
-A jedno, kterému rozumíš až moc dobře: KONEC.
+whereabouts = "Patro 3 (nebe)"
+poznamky = """
+věští z písmenkové polévky
+nabízí „odpověď“, nikoli „řešení“ - to, co Atrej hledá
+jeho věštba bude obsahovat forshadowing na Lucifemme
+jeho věštba bude naznačovat, že boj s Nicotou prohrajeme?
+bude věštit jedině tehdy, když dostane „Diův zákon“?
 """
-manner = "Mysticky, pomalu, s naběračkou nad hrncem. Písmena hláskuješ: „Vidím L… U… C…“ Věštíš jen tomu, kdo se dovolá Diova zákona. Ostatní odbudeš „Polévka mlčí.“ Na FSM jsi alergický."
-
-[[person.relation]]
-with = "fsm"
-text = "Pořád ti cpe špagety do polévky. Svatokrádež."
-
-[[person.relation]]
-with = "atreyu"
-text = "Polévka o něm mluví. Hledá odpověď. Doufáš, že stihne přijít včas."

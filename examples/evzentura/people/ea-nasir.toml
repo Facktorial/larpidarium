@@ -1,33 +1,14 @@
 [person]
-name = "Ea-nasir"
+name = "Ea Nasir"
 role = "npc"
 color = "#c0392b"
-goals = [
-  "Prodat týmům co nejvíc mědi za co nejvyšší cenu",
-  "Dát všem najevo, že je něco víc než oni",
-]
-secrets = [
-  "Tvoje měď je mizerná. Víš to. Prodáváš ji dál.",
-  "Z tvé zkažené mědi jde vyrobit klíč k Pandořině skříňce, protože je stejně zkažená jako všechno, co je uvnitř.",
-  "Na tebe byla napsána nejstarší dochovaná reklamace v dějinách lidstva. Od Nanniho. Pořád tě to žere.",
-]
 
 [person.sheet]
-appearance = "Mezopotámský kupec: dlouhý plášť, vousy, čepice. Váhy, pytlík zelenavých „ingotů“ mědi, hliněné tabulky (nebo pečená sušenka s rytými klínky)."
-whereabouts = "Patro 4. Sedíš za pultem a ani nezvedneš oči, když přijdou zákazníci."
-backstory = """
-Jsi Ea-nasir, obchodník s mědí z Uru. Čtyři tisíce let jsi nejslavnější podvodník starověku.
-Nějaký Nanni ti kdysi napsal hliněnou tabulku plnou stížností: měď špatná, jednání neuctivé.
-Kvůli němu tě znají v každém muzeu světa.
-Ty to vidíš jinak: ty jsi profesionál a oni jsou plebs, který nerozpozná dobrou měď ani kdyby ho kousla.
-V Pekle obchoduješ dál, protože poptávka je stálá a reklamace se nepřijímají.
+whereabouts = "Patro 4"
+poznamky = """
+mezopotámský obchodník s mědí, známý díky nejstarší dochované stížnosti od zákazníka
+bude hráčům dodávat měď, ale hodně nekvalitní měď
+bude se k hráčům chovat extrémně pohrdlivě, on je něco víc než oni
+může obchodovat i s dalším zbožím, ale vždycky tak, aby to pro hráče bylo nevýhodné
+umí poskytnout měděný klíč k Pandořině skříňce (protože jeho měď je stejně zkažená jako všechno ve skříňce); popřípadě poskytuje jenom měď a klíč vyrobí Utanapištim
 """
-manner = "Povýšeně, znuděně, pohrdavě. Na zákazníky se nedíváš, mluvíš přes rameno. „Měď je první třídy. Jestli se vám nelíbí, je chyba ve vás.“ Každý obchod je pro týmy nevýhodný a ty to řekneš nahlas, jako by to byla laskavost. Když padne jméno Nanni, ztuhneš."
-
-[[person.relation]]
-with = "utanapistim"
-text = "Stavitel lodí. Pořád od tebe kupuje měď a pořád si stěžuje. Typický zákazník."
-
-[[person.relation]]
-with = "pandorra"
-text = "Nějaká paní s krabičkou. Prý zamčenou. Každý zámek se dá otevřít správně špatnou mědí."

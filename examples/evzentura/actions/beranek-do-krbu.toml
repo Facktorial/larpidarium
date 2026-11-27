@@ -1,0 +1,7 @@
+[action]
+segment = "patro-2"
+title = "Hráči hodí Beránka do Krbu"
+owners = ["krb"]
+uses = ["beranek"]
+gives = ["cesta-do-nebe"]
+text = "Obětují ho Strážcům, otevře se jim cesta do Nebe."

@@ -1,0 +1,7 @@
+[action]
+segment = "patro-1"
+title = "Nicota pohltí koně"
+owners = ["atreyu"]
+needs = ["cesta-do-nebe"]
+gives = ["kun-pohlcen"]
+text = "Až se odemkne další patro, Nicota přichází a pohltí koně. Poznámky říkají druhé patro; v grafu je to navázané na první známý přechod (cesta do Nebe), protože přechod z patra 1 zatím není vymyšlený."

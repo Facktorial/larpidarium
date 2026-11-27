@@ -1,7 +1,11 @@
 [person]
-name = "Fak (organizátor)"
+name = "Fak"
 role = "organizer"
 color = "#2980b9"
 goals = [
-  "Hrát Matthewa McConaugheyho (patro 1), Williama Blakea (patro 2), Rorschacha (nebe), Utanapištima (patro 4) a Karla Martela (patro 5)",
+  "Matthew McConaughey (?) (Patro 1)",
+  "William Blake (Patro 2)",
+  "Rorschach (Patro 3 (nebe))",
+  "Utanapištim / Ziusudra / Atrachasís (Patro 4)",
+  "Karel Martel (?) (Patro 5)",
 ]

@@ -1,0 +1,6 @@
+[action]
+segment = "patro-2"
+title = "Blake stvoří Tygra a Beránka"
+owners = ["william-blake"]
+gives = ["tygr-a-beranek"]
+text = "Vždycky jen obojí současně. Tygr chce sníst Beránka."

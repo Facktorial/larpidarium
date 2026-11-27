@@ -1,0 +1,7 @@
+[action]
+segment = "patro-3"
+title = "Antinoos se smíří s obrázkem zadku"
+owners = ["antinoos", "zadkiel"]
+needs = ["cesta-do-nebe"]
+uses = ["obrazek-zadku"]
+text = "Možná se nakonec smíří s obrázkem zadku od Zadkiela. Co z toho plyne, zatím není vymyšlené."

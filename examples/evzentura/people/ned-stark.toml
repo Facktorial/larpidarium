@@ -2,31 +2,12 @@
 name = "Ned Stark"
 role = "npc"
 color = "#8e44ad"
-goals = [
-  "Varovat všechny, že se blíží zima, tedy Nicota",
-  "Najít někoho, komu může věřit (a kdo mu konečně řekne, že to je špatný nápad)",
-]
-secrets = [
-  "Nicota není jediná zima. Tušíš, že tady dole někde čeká Noční král, jen ještě nevíš, kdo jím bude.",
-  "Už jednou jsi všem poctivě oznámil, že znáš pravdu, a přišel jsi o hlavu. Pořád ses nepoučil.",
-]
 
 [person.sheet]
-appearance = "Kožešina přes ramena, těžký meč (Led), zachmuřený vous. Pokud možno hlava, která jen tak tak drží na krku."
-whereabouts = "Patro 1. Stojíš u zdi, odkud je nejvíc vidět, a hledíš na sever, tedy směrem, odkud jde Nicota."
-backstory = """
-Jsi Eddard Stark, pán Zimohradu, poslední čestný muž Západozemí.
-V Králově přístavu jsi všem řekl pravdu do očí a skončil jsi tady, s hlavou jen tak tak na krku.
-Teď vidíš, že zima opravdu přišla. Jmenuje se Nicota a nezastaví ji žádná Zeď.
-Říkáš to každému, kdo projde kolem, ale ještě nikdo nevzal tvoje varování vážně. Nikdy nikdo.
-Občas tě oslovují „pane Starku“ a chtějí po tobě brnění, které létá. Nevíš, o čem mluví.
+whereabouts = "Patro 1"
+poznamky = """
+je v prvním patře, mluví o tom, že se blíží zima, respektive Nicota
+možná vpašovat narážku na nějakou blbost, co udělal v první knížce?
+možná narážky na Iron Mana?
+forshadowing na Nočního Krále, ve kterého se promění Karel Gott
 """
-manner = "Zasmušile, pomalu, s váhou. Skoro každá promluva začíná nebo končí „Zima se blíží.“ Věříš všem, kdo vypadají poctivě, a vyklopíš jim příliš mnoho. Když tě někdo nazve „Tony“ nebo „Iron Man“, unaveně ho opravíš: „Eddard. Stark. Ze Zimohradu.“"
-
-[[person.relation]]
-with = "karel-gott"
-text = "Neznáš ho, ale o Nočním králi se ti zdá každou noc. Ve snu zpívá."
-
-[[person.relation]]
-with = "atreyu"
-text = "Konečně někdo, kdo bere zimu vážně. Ten jeho kůň ti ale připadá jako marná výprava."

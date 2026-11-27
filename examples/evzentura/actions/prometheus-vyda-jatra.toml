@@ -1,0 +1,6 @@
+[action]
+segment = "patro-2"
+title = "Prométheus vydá játra"
+owners = ["prometheus"]
+gives = ["jatra"]
+text = "Neomezený zdroj jater."

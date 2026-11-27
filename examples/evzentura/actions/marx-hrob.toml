@@ -1,12 +1,14 @@
-[action]
+[decision]
 segment = "patro-5"
-title = "Návštěva Marxova hrobu"
+title = "Návštěva hrobu Karla Marxe"
 owners = ["karel-marx"]
-needs = ["cesta-do-patra-5"]
-gives = ["marx-nabizi-vlajky"]
-brief = "Tady je pohřben Karel Marx. Návštěva hrobu se platí, a on se pokaždé na něco ptá."
-text = """
-Marx se při každé návštěvě zeptá, kolik má tým rudých vlajek, a nabídne další. Pravidlo, které týmu
-neřekneš: kdo má aspoň tři, tomu zažehne revoluci a znárodní mu majetek. Hrob se otáčí:
-revolutions per minute.
-"""
+text = "Za návštěvu hrobu se platí. Při každé návštěvě se zeptá, jestli máme red flagy."
+
+[[decision.option]]
+label = "Méně než 3 red flagy: dá další"
+gives = ["red-flag"]
+
+[[decision.option]]
+label = "Aspoň 3 red flagy: revoluce"
+needs = ["red-flag"]
+gives = ["revoluce"]

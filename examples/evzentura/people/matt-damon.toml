@@ -2,33 +2,9 @@
 name = "Matt Damon"
 role = "npc"
 color = "#16a085"
-goals = [
-  "Nechat se zachránit. Zase.",
-  "Dostat se do Nolanova nového filmu, tentokrát v roli, kde neuvízne",
-]
-secrets = [
-  "Ve skutečnosti se ti tu líbí. Pokaždé, když tě někdo zachrání, dostaneš víc pozornosti než hlavní hrdina.",
-]
 
 [person.sheet]
-appearance = "Skafandr nebo aspoň oranžová bunda s reflexními pruhy, pytel brambor, uniforma s nápisem RYAN. Vypadáš, že jsi tu už dlouho."
-whereabouts = "Patro 1. Sedíš v koutě na pytli brambor jako trosečník a mávají ti nohy."
-backstory = """
-Jsi Matt Damon a celou kariéru tě někdo zachraňuje.
-Na Marsu, v Normandii, na ledové planetě. Pokaždé stojí záchranná výprava víc než celý rozpočet filmu.
-Teď jsi uvízl v Pekle a upřímně tě to vůbec nepřekvapuje.
-Pěstuješ si tu brambory, čekáš na týmy a tváříš se, že se nemůžeš hnout z místa.
+whereabouts = "Patro 1"
+poznamky = """
+V poznámkách jen v tabulce rozmístění. Disney ho chce naverbovat.
 """
-manner = "Bodře, sebelítostivě, americky optimisticky: „Budu muset na to jít vědecky.“ Každý tým přivítáš „Konečně! Přišli jste pro mě, že jo?“ Stěžuješ si, kolik tvá záchrana zase bude stát."
-
-[[person.relation]]
-with = "matthew-mcconaughey"
-text = "Na ledové planetě jste se nepohodli. Tváříš se, že to zapomněl. Ty jsi nezapomněl."
-
-[[person.relation]]
-with = "walt-disney"
-text = "Nabízí ti smlouvu. Zachránil by tě z Pekla? Za to bys podepsal skoro cokoli."
-
-[[person.relation]]
-with = "christopher-nolan"
-text = "Už jednou tě nechal uvíznout na zmrzlé planetě. Doufáš, že tě tentokrát obsadí jinak."

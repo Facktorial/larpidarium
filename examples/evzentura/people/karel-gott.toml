@@ -2,31 +2,12 @@
 name = "Karel Gott"
 role = "npc"
 color = "#c0392b"
-goals = [
-  "Dostávat dárky od týmů a být jimi pokaždé upřímně zaskočen",
-  "Zazpívat ještě jednou, naposledy (zase)",
-]
-secrets = [
-  "Až Nicota dorazí do pátého patra, proměníš se v Nočního krále. Zima, o které mluví Ned Stark, jsi ty.",
-  "Pohřbili tě stokrát a stokrát jsi vstal. Nicota je první, kdo tě možná doopravdy pohřbí.",
-]
 
 [person.sheet]
-appearance = "Sako s flitry, dokonalý účes, mikrofon. Ledově bledý make-up nebo ledová koruna, pokud chceš naznačit Nočního krále."
-whereabouts = "Patro 5. Stojíš na pódiu (bedna, koberec) a tváříš se, že je kolem plno fanynek."
-backstory = """
-Jsi Karel Gott, Mistr, Zlatý slavík, hlas, který neumírá.
-Pohřbili tě stokrát a ty jsi stokrát vstal. Tohle Peklo je jen další štace na turné.
-Cokoli dostaneš, rozhodně jsi to nečekal. Jsi skromný a dojatý a pořád trochu jinde.
-Mezi Karly v pátém patře jsi samozřejmě ten nejznámější. Ostatní to vědí a nesnášejí tě za to.
-V noci se ti zdá o králi, který nosí korunu z ledu. Ráno si ho nepamatuješ.
+whereabouts = "Patro 5"
+poznamky = """
+dějové linie budou odkazovat na texty jeho písniček
+má písničku Noční Král => spojit s Nočním Králem z GoT? Zima se blíží stejně jako nicota?
+Už pohřbili mě stokrát a já jsem stokrát vstal
+když něco dostane, tak to „rozhodně nečekal“
 """
-manner = "Měkce, dojatě, se zdvořilostí staré školy. Na každý dárek: „To jsem rozhodně nečekal.“ Do řeči vplétáš verše písní: „Lady Carneval“, „Být stále mlád“, „Kdepak ty ptáčku hnízdo máš“, „Když jsem já byl tenkrát kluk“. Když se mluví o smrti, usměješ se: „Už pohřbili mě stokrát…“"
-
-[[person.relation]]
-with = "karel-capek"
-text = "Spisovatel. Kdyby o tobě napsal knížku, rozhodně bys to nečekal."
-
-[[person.relation]]
-with = "ned-stark"
-text = "Neznáš ho. Ve snech ti ale nějaký vousáč pořád říká, že se blíží zima."

@@ -2,12 +2,5 @@
 segment = "patro-1"
 title = "Atreyu dostane odpověď"
 owners = ["atreyu"]
-needs = ["odpoved-z-polevky", "atreyova-otazka"]
-uses = ["cooperovy-hodinky"]
-gives = ["auryn"]
-brief = "Někdo nahoře ještě pořád čeká na odpověď. Pokud ho mezitím nepohltila Nicota."
-text = """
-Tým se vrací do patra 1 s věštbou z Nebe. Atreyu je touhle dobou nejspíš pohlcený: Cooperovy hodinky
-ho vrátí. Pokud ještě nezmizel, vezme si hodinky jako dar. Odpověď ho dojme a dá týmu Auryn,
-který jednu postavu ochrání před Nicotou. Hráči musí hrát rychle, jinak tahle linka nevyjde.
-"""
+needs = ["odpoved"]
+text = "Hledá odpověď, ne řešení; najde ji u vědmy v patře 3. Hráči musí hrát rychle, než Atreyu zmizí v Nicotě. Co tím hráči získají, zatím není vymyšlené."

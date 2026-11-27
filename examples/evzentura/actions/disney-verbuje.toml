@@ -1,0 +1,6 @@
+[action]
+segment = "patro-2"
+title = "Disney naverbuje Nolana, Damona a Mc-týpka"
+owners = ["walt-disney", "christopher-nolan", "matt-damon", "matthew-mcconaughey"]
+gives = ["disney-neco-vyda"]
+text = "Když se mu to podaří, vydá něco. Co, zatím není vymyšlené."

@@ -1,20 +1,6 @@
-[decision]
+[action]
 segment = "patro-5"
-title = "Jak skončí příběh?"
+title = "Karel Čapek neví, jak příběh zakončit"
 owners = ["karel-capek"]
-brief = "Spisovatel neví, jak svůj příběh dopsat. Ptá se vás, čtenářů."
-text = """
-Konec adventury. Čapek, jako na konci Války s mloky, neví, jak to skončit, a obrátí se na čtenáře.
-Má-li tým MefiKarlův přístroj, může ho Čapkovi předat. Jinak (nebo když Čapka pohltí Nicota dřív)
-nastane konec Nicotou.
-"""
-
-[[decision.option]]
-label = "Předat Čapkovi MefiKarlův přístroj"
-needs = ["cesta-k-capkovi", "mefikarluv-pristroj"]
-gives = ["konec-pristroj"]
-
-[[decision.option]]
-label = "Nechat Čapka psát dál"
-needs = ["cesta-k-capkovi"]
-gives = ["konec-nicota"]
+gives = ["konec-capek"]
+text = "Podobný konec jako u Války s mloky; ptá se na pomoc čtenáře."

@@ -1,36 +1,10 @@
 [person]
-name = "Matthew McConaughey"
+name = "Matthew McConaughey (?)"
 role = "npc"
 color = "#2980b9"
-goals = [
-  "Najít Christophera Nolana a zjistit, jestli bude pokračování",
-  "Varovat týmy, že čas tady běží jinak, než si myslí",
-]
-secrets = [
-  "Cítíš, jak tiká časomíra Nicoty. Přesný čas neprozradíš nikdy, ale dokážeš říct „brzo“ nebo „ještě ne“.",
-  "Walt Disney ti nabídl smlouvu a tobě se líbí víc, než by ses chtěl přiznat.",
-]
 
 [person.sheet]
-appearance = "Rozepnutá košile, kovbojský klobouk, sluneční brýle i uvnitř. Kapesní hodinky, které neustále kontroluješ."
-whereabouts = "Patro 1. Sedíš opřený, nohy na stole, a díváš se na hodinky."
-backstory = """
-Jsi Matthew McConaughey. Jednou jsi letěl přes červí díru a vrátil ses k dceři starší, než jsi byl ty.
-Od té doby víš, že čas je plochý kruh a že hodiny lžou.
-Do Pekla jsi přišel za Christopherem Nolanem, protože se šušká, že točí další film,
-a ty v něm prostě musíš být.
-Tady dole cítíš čas ještě silněji: něco ho požírá, patro po patru.
+whereabouts = "Patro 1"
+poznamky = """
+V poznámkách jen v tabulce rozmístění (s otazníkem). Disney ho chce naverbovat.
 """
-manner = "Líně, s jižanským přízvukem, protahuješ samohlásky. Každou návštěvu přivítáš „Alright, alright, alright.“ Filozofuješ o čase: „Čas je plochý kruh, kámo. Všechno, co jste udělali, uděláte zas.“ Nikdy nespěcháš, i když Nicota ano."
-
-[[person.relation]]
-with = "christopher-nolan"
-text = "Tvůj režisér. Pustil tě přes černou díru, pustí tě i přes Peklo."
-
-[[person.relation]]
-with = "matt-damon"
-text = "Zase on. Minule jsi ho na ledové planetě málem zabil. Nebo on tebe? Na tom nesejde."
-
-[[person.relation]]
-with = "walt-disney"
-text = "Nabízí ti smlouvu na věčnost. Doslova."

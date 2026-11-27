@@ -1,0 +1,7 @@
+[action]
+segment = "patro-3"
+title = "Gabriel se dozví o Pekle a Nicotě"
+owners = ["gabriel"]
+needs = ["zprava-o-nicote", "cesta-do-nebe"]
+gives = ["gabriel-vi-o-pekle"]
+text = "Interakce s námi anděle dovede k podezření, že se v pekle něco děje. V dalším patře přichází Gabriel."

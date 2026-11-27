@@ -1,0 +1,8 @@
+[action]
+segment = "patro-2"
+title = "Hráči dají tygrovi játra"
+owners = ["william-blake"]
+needs = ["tygr-a-beranek"]
+uses = ["jatra"]
+gives = ["beranek"]
+text = "Tygr sní maso a beránka nechá být, hráči si beránka mohou nechat."

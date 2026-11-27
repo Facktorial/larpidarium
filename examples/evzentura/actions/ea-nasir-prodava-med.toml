@@ -1,12 +1,7 @@
 [action]
 segment = "patro-4"
-title = "Ea-Nasir prodává měď"
+title = "Ea Nasir prodává měď"
 owners = ["ea-nasir"]
-needs = ["cesta-do-patra-4"]
-gives = ["spatna-med"]
-brief = "Obchodník s mědí vás nesnáší. Prodá vám ji stejně."
-text = """
-Ea-Nasir se k týmu chová extrémně povýšeně. Prodá mu měď, mizernou, a nepřizná to; stížnosti nepřijímá
-(nejstarší stížnost zákazníka v dějinách je na něj). Klíč sám nevyrobí: „Na to máte Utanapištima.“
-Jakýkoli další obchod s ním musí být pro tým nevýhodný.
-"""
+uses = ["med"]
+gives = ["medeny-klic"]
+text = "Extrémně pohrdlivě. Umí poskytnout měděný klíč k Pandořině skříňce; popřípadě poskytuje jen měď a klíč vyrobí Utanapištim."

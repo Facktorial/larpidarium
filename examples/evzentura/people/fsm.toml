@@ -1,27 +1,11 @@
 [person]
-name = "Létající špagetové monstrum"
+name = "FSM (?)"
 role = "npc"
 color = "#27ae60"
-goals = [
-  "Přimět Nudliela, aby věštil ze špaget, ne z písmenek",
-  "Dostat do jeho polévky masové koule",
-  "Pobavit se na účet týmů",
-]
-secrets = [
-  "Nemáš žádnou moc nad Nicotou a nic důležitého nevíš. Tváříš se ale, jako bys věděl všechno.",
-]
 
 [person.sheet]
-appearance = "Hromada špaget (vlna, provázky, bazénové nudle) s dvěma masovými koulemi a očima na stopkách. Pirátský klobouk nebo cedník na hlavě."
-whereabouts = "Nebe. Vznášíš se (nebo stojíš na židli) nad Nudlielovou polévkou a dohlížíš."
-backstory = """
-Jsi Létající špagetové monstrum, stvořitel všehomíra, nebo aspoň to tvrdíš.
-Svět jsi stvořil po vydatném pití a pak ho dotvaroval svým nudlovým dotekem.
-V nebi se ti líbí, i když tu chybí pivní sopka.
-Hlavně tu ale je Nudliel, který věští z písmenkové polévky, a to tě uráží. Kde jsou nudle? Kde jsou koule?
+whereabouts = "Patro 3 (nebe)"
+poznamky = """
+primárně troll postava
+interakce s Nudlielem - požaduje, aby Nudliel používal místo písmenek špagety, popř. aby do polévky dodal masové koule
 """
-manner = "Trollíš. Vznešeně a nesmyslně, jako kazatel. Každou promluvu zakončíš „Ramen.“ Všechno přivádíš k těstovinám. Odpovídáš otázkou nebo zjevnou nepravdou a pak se tím bavíš. Pirátům fandíš, oblékáš cedník."
-
-[[person.relation]]
-with = "nudliel"
-text = "Věští z písmenek. Rouhání. Musí přejít na špagety."
