@@ -10,6 +10,7 @@ use crate::model::{Game, Node, Ref, Role, Thing};
 use crate::playthrough::{self, Playthroughs};
 use crate::{Diagnostic, Id, Severity};
 
+mod blocks;
 mod lives;
 mod map;
 
@@ -24,6 +25,8 @@ enum Kind {
     Player,
     Item,
     Info,
+    Block,
+    Faction,
 }
 
 impl fmt::Display for Kind {
@@ -38,6 +41,8 @@ impl fmt::Display for Kind {
             Self::Player => "a player",
             Self::Item => "an item",
             Self::Info => "an info",
+            Self::Block => "a block",
+            Self::Faction => "a faction",
         })
     }
 }
@@ -55,7 +60,7 @@ struct Step<'a> {
     gives: &'a [Ref],
 }
 
-const OWNER: &[Kind] = &[Kind::Person, Kind::Room];
+const OWNER: &[Kind] = &[Kind::Person, Kind::Room, Kind::Faction];
 const THING: &[Kind] = &[Kind::Item, Kind::Info];
 
 /// Runs all checks. Returns the playthrough summary when the game had no errors to simulate.
@@ -115,10 +120,34 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
     }
 
     check_cycle_refs(game, &registry, diags);
+    for block in &game.blocks {
+        check_refs(
+            &block.show,
+            "blocks.toml",
+            &[Kind::Person, Kind::Faction],
+            "`show` entry",
+            &registry,
+            diags,
+        );
+    }
+    blocks::check(game, &registry, diags);
+    for faction in &game.factions {
+        if game.members(faction.id.get_ref()).next().is_none() {
+            diags.push(
+                Diagnostic::warning(
+                    "factions.toml",
+                    Some(faction.id.span()),
+                    format!("faction `{}` has no members", faction.id.get_ref()),
+                )
+                .with_help("add `factions = [\"id\"]` to the members' person files"),
+            );
+        }
+    }
 
     check_flow(game, &steps, diags);
     check_colors(game, diags);
     check_people(game, diags);
+    check_relations(game, diags);
     lives::check(game, diags);
     map::check(game, diags);
     for id in game
@@ -149,7 +178,7 @@ fn check_people(game: &Game, diags: &mut Vec<Diagnostic>) {
         let owned: Vec<&Node> = game
             .nodes
             .values()
-            .filter(|n| n.owners().iter().any(|o| o.get_ref() == id))
+            .filter(|n| game.involves(n.owners(), id))
             .collect();
         if owned.is_empty() {
             diags.push(
@@ -245,6 +274,14 @@ fn check_person_refs(game: &Game, registry: &HashMap<Id, Entry>, diags: &mut Vec
             registry,
             diags,
         );
+        check_refs(
+            &person.factions,
+            &file,
+            &[Kind::Faction],
+            "faction",
+            registry,
+            diags,
+        );
         let player: Vec<Ref> = person.played_by.iter().cloned().collect();
         check_refs(&player, &file, &[Kind::Player], "player", registry, diags);
         let dies_in = person.dies.as_ref().and_then(|d| match d.get_ref() {
@@ -266,6 +303,55 @@ fn check_person_refs(game: &Game, registry: &HashMap<Id, Entry>, diags: &mut Vec
             registry,
             diags,
         );
+    }
+}
+
+/// Relationships between two player characters go both ways: if one has a view of the other,
+/// the other should have one back, or one of them plays blind.
+fn check_relations(game: &Game, diags: &mut Vec<Diagnostic>) {
+    let is_player = |id: &Id| game.people.get(id).is_some_and(|p| p.role == Role::Player);
+    for (id, person) in game.people.iter().filter(|(id, _)| is_player(id)) {
+        for r in &person.relations {
+            let other = r.with.get_ref();
+            if other == id || !is_player(other) || !lives_overlap(game, id, other) {
+                continue;
+            }
+            let back = game
+                .people
+                .get(other)
+                .is_some_and(|o| o.relations.iter().any(|x| x.with.get_ref() == id));
+            if !back {
+                diags.push(
+                    Diagnostic::warning(
+                        person_file(id),
+                        Some(r.with.span()),
+                        format!(
+                            "`{id}` has a relation with `{other}`, but not the other way round"
+                        ),
+                    )
+                    .with_help(format!(
+                        "add a [[person.relation]] with `with = \"{id}\"` to people/{other}.toml"
+                    )),
+                );
+            }
+        }
+    }
+}
+
+/// Whether two people are alive at the same time; unknown lives count as overlapping.
+fn lives_overlap(game: &Game, a: &Id, b: &Id) -> bool {
+    // Without segments there is no time axis, so every life is unknown.
+    if game.segments.is_empty() {
+        return true;
+    }
+    let life = |id: &Id| {
+        game.people
+            .get(id)
+            .and_then(|p| crate::time::life(game, id, p))
+    };
+    match (life(a), life(b)) {
+        (Some(x), Some(y)) => x.overlaps(y),
+        _ => true,
     }
 }
 
@@ -301,7 +387,9 @@ fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> 
                         existing.kind, existing.file
                     ),
                 )
-                .with_help("ids must be unique across actions, people, rooms, items and info"),
+                .with_help(
+                    "ids must be unique across actions, people, rooms, factions, items, info and blocks",
+                ),
             );
         } else {
             registry.insert(id.clone(), Entry { kind, file });
@@ -361,6 +449,22 @@ fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> 
             Kind::Info
         };
         add(thing.id.get_ref(), kind, file.into(), Some(thing.id.span()));
+    }
+    for faction in &game.factions {
+        add(
+            faction.id.get_ref(),
+            Kind::Faction,
+            "factions.toml".into(),
+            Some(faction.id.span()),
+        );
+    }
+    for block in &game.blocks {
+        add(
+            block.id.get_ref(),
+            Kind::Block,
+            "blocks.toml".into(),
+            Some(block.id.span()),
+        );
     }
     registry
 }
@@ -493,6 +597,9 @@ fn check_colors(game: &Game, diags: &mut Vec<Diagnostic>) {
     }
     for cycle in &game.cycles {
         check(cycle.color.as_ref(), "cycles.toml");
+    }
+    for faction in &game.factions {
+        check(faction.color.as_ref(), "factions.toml");
     }
 }
 

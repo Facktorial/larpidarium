@@ -1,4 +1,4 @@
-//! Writing progress: how many nodes and people are drafts, in review or done, per writer.
+//! Writing progress: how many nodes, people, blocks and factions are drafts, in review or done, per writer.
 
 use std::collections::BTreeMap;
 
@@ -39,9 +39,9 @@ impl StatusCount {
 /// One part that is not done yet.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct OpenPart {
-    /// `"node"` or `"person"`.
+    /// `"node"`, `"person"`, `"block"` or `"faction"`.
     pub kind: &'static str,
-    /// Node or person id.
+    /// Id of the node, person, block or faction.
     pub id: String,
     /// Title or name.
     pub title: String,
@@ -70,7 +70,7 @@ impl Progress {
     }
 }
 
-/// Writing progress of every node and person.
+/// Writing progress of every node, person, block and faction.
 #[must_use]
 pub fn progress(game: &Game) -> Progress {
     let parts = game
@@ -81,7 +81,22 @@ pub fn progress(game: &Game) -> Progress {
             game.people
                 .iter()
                 .map(|(id, p)| ("person", id, p.name.as_str(), p.status, p.writer.as_deref())),
-        );
+        )
+        .chain(game.blocks.iter().map(|b| {
+            let id = b.id.get_ref();
+            let title = b.title.as_deref().unwrap_or(id.as_str());
+            ("block", id, title, b.status, b.writer.as_deref())
+        }))
+        .chain(game.factions.iter().map(|f| {
+            let id = f.id.get_ref();
+            (
+                "faction",
+                id,
+                f.name.as_str(),
+                f.status,
+                f.writer.as_deref(),
+            )
+        }));
     let mut out = Progress::default();
     let mut writers: BTreeMap<String, StatusCount> = BTreeMap::new();
     for (kind, id, title, status, writer) in parts {

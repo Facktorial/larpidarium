@@ -56,6 +56,16 @@ include = ["examples/*/actions/*.toml"]
 path = "./schemas/action.schema.json"
 
 [[rule]]
+include = ["examples/*/factions.toml"]
+[rule.schema]
+path = "./schemas/factions.schema.json"
+
+[[rule]]
+include = ["examples/*/blocks.toml"]
+[rule.schema]
+path = "./schemas/blocks.schema.json"
+
+[[rule]]
 include = ["examples/*/layout.toml"]
 [rule.schema]
 path = "./schemas/layout.schema.json"

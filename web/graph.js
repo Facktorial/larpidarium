@@ -38,6 +38,7 @@
     cs: {
       in: 'Potřebuje', uses: 'Spotřebuje', out: 'Dává', health: 'Stav hry', healthy: '✔ Bez problémů',
       progress: 'Rozepsanost', done: 'hotovo', review: 'ke kontrole', draft: 'rozepsané', untracked: 'bez stavu',
+      tabBlocks: 'Texty', blockTitle: 'Nadpis', blockText: 'Text', blockShow: 'Na listech', blockUsed: 'Použito v',
       openParts: 'Zbývá dopsat', statusLabel: 'Stav psaní', writerLabel: 'Kdo píše',
       endings: 'Dosažitelné konce', noEndings: 'Hra nemá žádný konec (ending = true).', outcomes: 'možných výsledků',
       brief: 'Pro hráče', orgText: 'Pro organizátory', stopped: 'simulace zastavena předčasně', owners: 'Postavy a místnosti', things: 'Předměty a informace',
@@ -45,6 +46,9 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
+      tabRelations: 'Vztahy', noRelations: 'Nikdo nemá vztahy ([[person.relation]]).', oneWay: 'jen jedním směrem',
+      relationsHint: 'Plná čára: oba se znají. Přerušovaná šipka: vztah jen jedním směrem. Najeď na čáru pro texty, klikni na postavu.',
+      factionTag: 'frakce', factions: 'Frakce', tabFactions: 'Frakce', members: 'Členové',
       room: 'místnost', close: 'Zavřít', sheet: 'list postavy', orgSheet: 'rozpis pro organizátory',
       segments: 'Segmenty', noSegment: 'Bez segmentu', segment: 'Segment', crossing: 'přechod mezi segmenty',
       editing: 'Úpravy', newAction: '+ Akce', newDecision: '+ Rozhodnutí', newThing: '+ Předmět / info',
@@ -84,6 +88,7 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
     en: {
       in: 'Needs', uses: 'Uses up', out: 'Gives', health: 'Game health', healthy: '✔ No problems',
       progress: 'Writing progress', done: 'done', review: 'in review', draft: 'draft', untracked: 'untracked',
+      tabBlocks: 'Texts', blockTitle: 'Title', blockText: 'Text', blockShow: 'On sheets of', blockUsed: 'Used in',
       openParts: 'Still to write', statusLabel: 'Writing status', writerLabel: 'Writer',
       endings: 'Reachable endings', noEndings: 'The game has no ending (ending = true).', outcomes: 'possible outcomes',
       brief: 'For players', orgText: 'For organizers', stopped: 'simulation stopped early', owners: 'People and rooms', things: 'Items and info',
@@ -91,6 +96,9 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
+      tabRelations: 'Relationships', noRelations: 'Nobody has relationships ([[person.relation]]).', oneWay: 'one way only',
+      relationsHint: 'Solid line: both have a view of each other. Dashed arrow: one way only. Hover a line for the texts, click a person.',
+      factionTag: 'faction', factions: 'Factions', tabFactions: 'Factions', members: 'Members',
       room: 'room', close: 'Close', sheet: 'character sheet', orgSheet: 'organizer schedule',
       segments: 'Segments', noSegment: 'No segment', segment: 'Segment', crossing: 'crosses segments',
       editing: 'Editing', newAction: '+ Action', newDecision: '+ Decision', newThing: '+ Item / info',
@@ -177,6 +185,16 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return e;
   };
   const ownerName = (id) => owners.get(id)?.name ?? id;
+  /**
+   * Whether owner `oid` of a node stands for `who`: the same id, a faction `who` belongs to,
+   * or (when `who` is a faction) one of its members.
+   */
+  const involves = (oid, who) => {
+    if (oid === who) return true;
+    const w = owners.get(who);
+    if (w?.kind === 'faction') return w.members.includes(oid);
+    return (w?.factions ?? []).includes(oid);
+  };
   /** Player sheet for players, organizer schedule for everyone and everything else. */
   const sheetHref = (o) => `${o.role === 'player' ? 'players' : 'organizers'}/${encodeURIComponent(o.id)}.html`;
   /** "1 akce", "3 akce", "5 akcí" / "1 action", "5 actions". */
@@ -215,7 +233,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
 
   function nodeMatches(n) {
     if (!filter) return true;
-    if (filter.kind === 'owner') return n.owners.includes(filter.id);
+    if (filter.kind === 'owner') return n.owners.some((oid) => involves(oid, filter.id));
     if (filter.kind === 'segment') return segKey(n) === filter.id;
     if (filter.kind === 'writer') return n.writer === filter.id;
     if (filter.kind === 'status') return (n.status ?? 'untracked') === filter.id;
@@ -890,7 +908,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     const list = el('div', 'state-list', names.slice(-3).join(' · ') + (names.length > 3 ? ` (+${names.length - 3})` : ''));
     bar.append(list);
     if (filter?.kind === 'owner') {
-      const ahead = nodes.filter((n) => openSet.has(n.id) && n.owners.includes(filter.id)).sort((a, b) => nodeTime(a) - nodeTime(b));
+      const ahead = nodes.filter((n) => openSet.has(n.id) && n.owners.some((oid) => involves(oid, filter.id))).sort((a, b) => nodeTime(a) - nodeTime(b));
       const line = el('div', 'state-ahead');
       line.append(el('b', null, `${t.stateAhead} (${ownerName(filter.id)}): `));
       if (ahead.length) line.append(joinNodes(ahead)); else line.append(t.stateNothing);
@@ -1015,7 +1033,8 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       if (filter?.kind === 'owner' && filter.id === o.id) li.classList.add('active');
       const dot = el('span', 'dot');
       dot.style.background = o.color;
-      li.append(dot, el('span', null, o.name), el('span', 'tag', t[o.role ?? 'room']));
+      li.append(dot, el('span', null, o.name), el('span', 'tag', o.kind === 'faction' ? t.factionTag : t[o.role ?? 'room']));
+      if (o.kind === 'faction' && o.members.length) li.title = o.members.map(ownerName).join(', ');
       {
         const link = el('a', 'sheet-link', o.role === 'player' ? '📄' : '📋');
         link.href = sheetHref(o);
@@ -1320,7 +1339,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return { el: wrap, value: () => [...value] };
   }
 
-  const ownerChoices = () => G.owners.map((o) => ({ id: o.id, name: o.name, label: `${o.name} (${t[o.role ?? 'room']})` }));
+  const ownerChoices = () => G.owners.map((o) => ({ id: o.id, name: o.name, label: `${o.name} (${o.kind === 'faction' ? t.factionTag : t[o.role ?? 'room']})` }));
   const thingChoices = () => G.things.map((x) => ({ id: x.id, name: x.name, label: `${x.name} (${t[x.kind]})` }));
 
   function field(form, label, input, help) {
@@ -1457,8 +1476,8 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       kindSel.addEventListener('change', showKind);
       showKind();
 
-      const brief = field(form, t.brief, textInput(n?.brief, true), t.briefHelp);
-      const text = field(form, t.orgText, textInput(n?.text, true), t.textHelp);
+      const brief = field(form, t.brief, textInput(n?.raw_brief ?? n?.brief, true), t.briefHelp);
+      const text = field(form, t.orgText, textInput(n?.raw_text ?? n?.text, true), t.textHelp);
       const status = field(form, t.statusLabel, selectInput(
         ['draft', 'review', 'done'].map((k) => ({ id: k, name: t[k] })), n?.status));
       const writer = field(form, t.writerLabel, textInput(n?.writer));
@@ -1505,7 +1524,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       };
       kindSel.addEventListener('change', showKind);
       showKind();
-      const text = field(form, t.orgText, textInput(x?.text, true));
+      const text = field(form, t.orgText, textInput(x?.raw_text ?? x?.text, true));
       return () => ({
         create, kind: kindSel.value, id: id.value.trim(), name: name.value,
         category: kindSel.value === 'item' ? cat.value : '', owners: who.value(),
@@ -1527,7 +1546,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       let picked = create || Boolean(s?.color);
       color.addEventListener('input', () => { picked = true; });
       field(form, t.color, color);
-      const text = field(form, t.orgText, textInput(s?.text, true));
+      const text = field(form, t.orgText, textInput(s?.raw_text ?? s?.text, true));
       return () => ({ create, id: id.value.trim(), name: name.value, color: picked ? color.value : '', text: text.value });
     });
   }
@@ -1585,6 +1604,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
   const playerName = (id) => G.players.find((p) => p.id === id)?.name ?? id;
   const people = G.owners.filter((o) => o.kind === 'person');
   const rooms = G.owners.filter((o) => o.kind === 'room');
+  const factions = G.owners.filter((o) => o.kind === 'faction');
   /** Index range of segments a character lives in. */
   const lifeRange = (o) => [o.enters ? segIndex.get(o.enters) ?? 0 : 0,
     o.dies ? segIndex.get(o.dies) ?? G.segments.length - 1 : G.segments.length - 1];
@@ -1709,13 +1729,115 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
         return s;
       }, sort: (o) => o.name },
       { label: t.role, cell: (o) => [t[o.role], o.outside_cycle ? t.outside : null].filter(Boolean).join(' · ') },
+      ...(factions.length ? [{ label: t.factions, cell: (o) => o.factions.map(ownerName).join(', '), sort: (o) => o.factions.join() }] : []),
       ...(hasLives ? [
         { label: t.playedBy, cell: (o) => (o.played_by ? playerName(o.played_by) : '') },
         { label: t.life, cell: lifeText, sort: (o) => lifeRange(o)[0] * 1000 + lifeRange(o)[1] },
       ] : []),
-      { label: t.acts, cell: (o) => [...new Set(nodes.filter((n) => n.owners.includes(o.id)).map(segKey))]
+      { label: t.acts, cell: (o) => [...new Set(nodes.filter((n) => n.owners.some((oid) => involves(oid, o.id))).map(segKey))]
         .sort((a, b) => (segIndex.get(a) ?? 1e9) - (segIndex.get(b) ?? 1e9)).map(segName).join(', ') },
-      { label: t.actions, cell: (o) => joinNodes(nodes.filter((n) => n.owners.includes(o.id))), sort: (o) => nodes.filter((n) => n.owners.includes(o.id)).length },
+      { label: t.actions, cell: (o) => joinNodes(nodes.filter((n) => n.owners.some((oid) => involves(oid, o.id)))), sort: (o) => nodes.filter((n) => n.owners.some((oid) => involves(oid, o.id))).length },
+      { label: t.holds, cell: (o) => G.things.filter((x) => x.starting && x.owners.some((oid) => involves(oid, o.id))).map((x) => x.name).join(', ') },
+    ]);
+  }
+
+  /**
+   * Relationship graph: people on a circle (grouped by faction), a solid line where both have a
+   * view of each other, a dashed arrow where only one does. Hover a line for the texts, click a
+   * person to show only their relationships.
+   */
+  function relationsView() {
+    const rel = people.filter((o) => o.relations.length || people.some((p) => p.relations.some(([w]) => w === o.id)));
+    if (!rel.length) return el('p', 'hint', t.noRelations);
+    const order = [...rel].sort((a, b) => (a.role === 'player' ? 0 : 1) - (b.role === 'player' ? 0 : 1)
+      || (a.factions[0] ?? '~').localeCompare(b.factions[0] ?? '~') || a.name.localeCompare(b.name));
+    const size = Math.max(420, order.length * 46);
+    const c = size / 2;
+    const radius = c - 70;
+    const pos = new Map(order.map((o, i) => {
+      const a = (i / order.length) * 2 * Math.PI - Math.PI / 2;
+      return [o.id, { x: c + radius * Math.cos(a), y: c + radius * Math.sin(a), a }];
+    }));
+    // Room left and right for the names, which point outwards.
+    const margin = 170;
+    const svg = svgEl('svg', { viewBox: `${-margin} 0 ${size + 2 * margin} ${size}`, class: 'relations', role: 'img', 'aria-label': t.tabRelations });
+    const defs = svgEl('defs', {});
+    const marker = svgEl('marker', { id: 'rel-arrow', viewBox: '0 0 10 10', refX: 10, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' });
+    marker.append(svgEl('path', { d: 'M0,0 L10,5 L0,10 z', fill: 'currentColor' }));
+    defs.append(marker);
+    svg.append(defs);
+    const pairs = new Map();
+    for (const o of order) {
+      for (const [w, text] of o.relations) {
+        if (!pos.has(w) || w === o.id) continue;
+        const key = [o.id, w].sort().join('|');
+        if (!pairs.has(key)) pairs.set(key, []);
+        pairs.get(key).push({ from: o.id, to: w, text });
+      }
+    }
+    const lines = [];
+    const nodeR = 16;
+    for (const list of pairs.values()) {
+      const mutual = new Set(list.map((r) => r.from)).size > 1;
+      const { from, to } = list[0];
+      const a = pos.get(from);
+      const b = pos.get(to);
+      const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+      const ux = (b.x - a.x) / len;
+      const uy = (b.y - a.y) / len;
+      const line = svgEl('line', {
+        x1: a.x + ux * nodeR, y1: a.y + uy * nodeR, x2: b.x - ux * (nodeR + 2), y2: b.y - uy * (nodeR + 2),
+        class: mutual ? 'rel-line mutual' : 'rel-line one-way',
+      });
+      if (!mutual) line.setAttribute('marker-end', 'url(#rel-arrow)');
+      const title = svgEl('title', {});
+      title.textContent = list.map((r) => `${ownerName(r.from)} → ${ownerName(r.to)}: ${r.text}`).join('\n\n')
+        + (mutual ? '' : `\n\n(${t.oneWay})`);
+      line.append(title);
+      line.dataset.ends = `${from} ${to}`;
+      lines.push(line);
+      svg.append(line);
+    }
+    let focus = null;
+    for (const o of order) {
+      const p = pos.get(o.id);
+      const g = svgEl('g', { class: 'rel-node' });
+      const ring = owners.get(o.factions[0])?.color;
+      g.append(svgEl('circle', { cx: p.x, cy: p.y, r: nodeR, fill: o.color, stroke: ring ?? 'var(--bg)', 'stroke-width': ring ? 4 : 2 }));
+      const outward = Math.cos(p.a) >= 0 ? 'start' : 'end';
+      const label = svgEl('text', {
+        x: p.x + Math.cos(p.a) * (nodeR + 8), y: p.y + Math.sin(p.a) * (nodeR + 8) + 4,
+        'text-anchor': Math.abs(Math.cos(p.a)) < 0.3 ? 'middle' : outward, class: 'rel-label',
+      });
+      label.textContent = o.name;
+      const title = svgEl('title', {});
+      title.textContent = [o.name, t[o.role], o.factions.map(ownerName).join(', ')].filter(Boolean).join(' · ');
+      g.append(label, title);
+      g.addEventListener('click', () => {
+        focus = focus === o.id ? null : o.id;
+        for (const l of lines) l.classList.toggle('faded', !!focus && !l.dataset.ends.split(' ').includes(focus));
+      });
+      svg.append(g);
+    }
+    const wrap = el('div', 'relations-wrap');
+    wrap.append(svg, el('p', 'hint', t.relationsHint));
+    return wrap;
+  }
+
+  /** Factions: members, their actions (owned by the faction itself) and what they hold. */
+  function factionsTable() {
+    return dataTable(factions, [
+      { label: t.name, cell: (o) => {
+        const s = el('span');
+        s.append(dot(o.color), ` ${o.name}`);
+        const a = el('a', 'sheet-link', ' 📋');
+        a.href = sheetHref(o);
+        a.title = t.orgSheet;
+        s.append(a);
+        return s;
+      }, sort: (o) => o.name },
+      { label: t.members, cell: (o) => o.members.map(ownerName).join(', '), sort: (o) => o.members.length },
+      { label: t.actions, cell: (o) => joinNodes(nodes.filter((n) => n.owners.includes(o.id))) },
       { label: t.holds, cell: (o) => G.things.filter((x) => x.starting && x.owners.includes(o.id)).map((x) => x.name).join(', ') },
     ]);
   }
@@ -1852,6 +1974,18 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       { label: t.neededBy, cell: (x) => joinNodes(by('needs', x.id)) },
       { label: t.usedBy, cell: (x) => joinNodes(by('uses', x.id)) },
       { label: t.startsAt, cell: (x) => (x.starting ? (x.owners.map(ownerName).join(', ') || t.starting) : '') },
+    ]);
+  }
+
+  /** Shared texts: where each block is used and whose sheets show it. */
+  function blocksTable() {
+    return dataTable(G.blocks, [
+      { label: 'Id', cell: (b) => `[[${b.id}]]`, sort: (b) => b.id },
+      { label: t.blockTitle, cell: (b) => b.title, sort: (b) => b.title },
+      { label: t.blockText, cell: (b) => { const d = el('div', 'prose-cell', b.text); if (b.raw_text !== b.text) d.title = b.raw_text; return d; } },
+      { label: t.blockShow, cell: (b) => b.show.map(ownerName).join(', ') },
+      { label: t.blockUsed, cell: (b) => b.used_in.join(', ') || (b.show.length ? '' : '⚠ —'), sort: (b) => b.used_in.length },
+      { label: t.statusLabel, cell: (b) => [b.status && t[b.status], b.writer && `✎ ${b.writer}`].filter(Boolean).join(' · ') },
     ]);
   }
 
@@ -2234,8 +2368,10 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
   const TABS = [
     ['graph', t.tabGraph, null], ['places', t.tabPlaces, placesTable],
     ...(rooms.length ? [['map', t.tabMap, mapView]] : []), ['people', t.tabPeople, peopleTable],
+    ...(factions.length ? [['factions', t.tabFactions, factionsTable]] : []),
+    ...(people.some((o) => o.relations.length) ? [['relations', t.tabRelations, relationsView]] : []),
     ['players', t.tabPlayers, playersGrid], ...(G.cycles.length ? [['cycles', t.tabCycles, cyclesTable]] : []),
-    ['things', t.tabThings, thingsTable],
+    ['things', t.tabThings, thingsTable], ...(G.blocks?.length ? [['blocks', t.tabBlocks, blocksTable]] : []),
     ['segments', t.tabSegments, segmentsTable], ['problems', `${t.tabProblems} (${G.findings.length})`, problemsTable],
   ];
   function showTab(name) {

@@ -26,9 +26,9 @@
             "type": "string"
           },
           "owners": {
-            "description": "Ids of people or rooms that have it at the start.",
+            "description": "Ids of people, rooms or factions that have it at the start.",
             "items": {
-              "description": "Id of people or rooms that have it at the start.",
+              "description": "Id of people, rooms or factions that have it at the start.",
               "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
               "type": "string"
             },

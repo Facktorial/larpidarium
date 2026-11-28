@@ -55,7 +55,7 @@
 <article class="sheet">
   <p class="game">{{ game_title }} · {{ t.org_title }}</p>
   <h1>{{ s.name }}</h1>
-  <p class="role">{{ t[s.role] if s.role else t.room }}</p>
+  <p class="role">{{ t[s.role] if s.role else (t.faction_kind if s.kind == "faction" else t.room) }}</p>
 
   <h2>{{ t.org_load }}</h2>
   <p>{{ s.load.total }} {{ t.org_total }}, {{ s.load.decisions }} {{ t.org_decisions }}{% if s.load.peak %} · {{ t.org_peak }}: {{ s.load.peak[0] }} ({{ s.load.peak[1] }}){% endif %}</p>

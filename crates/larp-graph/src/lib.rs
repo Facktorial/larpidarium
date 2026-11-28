@@ -44,7 +44,7 @@ pub struct GraphData {
     pub map: Option<MapView>,
     /// Saved floor plans by preset id (rooms left out).
     pub map_presets: BTreeMap<String, MapView>,
-    /// People and rooms that can own nodes.
+    /// People, rooms and factions that can own nodes.
     pub owners: Vec<OwnerView>,
     /// Items and info that flow along the edges.
     pub things: Vec<ThingView>,
@@ -64,6 +64,29 @@ pub struct GraphData {
     pub truncated: bool,
     /// Writing progress.
     pub progress: Progress,
+    /// Shared texts from `blocks.toml`.
+    pub blocks: Vec<BlockView>,
+}
+
+/// One block from `blocks.toml` with where it is used.
+#[derive(Debug, Clone, Serialize)]
+pub struct BlockView {
+    /// Id, used as `[[id]]`.
+    pub id: String,
+    /// Heading on sheets, or empty.
+    pub title: String,
+    /// Text with links expanded.
+    pub text: String,
+    /// Text as written.
+    pub raw_text: String,
+    /// Ids of the people whose sheets show it.
+    pub show: Vec<String>,
+    /// Files that include it, as `file (field)`, without repeats.
+    pub used_in: Vec<String>,
+    /// Writing status.
+    pub status: Option<&'static str>,
+    /// Who writes it.
+    pub writer: Option<String>,
 }
 
 /// One problem reported by `check`.
@@ -107,6 +130,9 @@ pub struct SegmentView {
     pub x: f64,
     /// Timeline layout: width of the segment's column.
     pub width: f64,
+    /// The text as written, when it differs from `text` because of `[[links]]` (for the editor).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub raw_text: Option<String>,
 }
 
 /// The tile map: grid rows and room placements.
@@ -236,7 +262,7 @@ pub struct OwnerView {
     pub id: String,
     /// Display name.
     pub name: String,
-    /// `"person"` or `"room"`.
+    /// `"person"`, `"room"` or `"faction"`.
     pub kind: &'static str,
     /// `"player"`, `"organizer"` or `"npc"` for people.
     pub role: Option<&'static str>,
@@ -260,6 +286,12 @@ pub struct OwnerView {
     pub status: Option<&'static str>,
     /// Who writes it (people only).
     pub writer: Option<String>,
+    /// Faction ids (people only).
+    pub factions: Vec<String>,
+    /// Member ids (factions only).
+    pub members: Vec<String>,
+    /// Relations as (other person id, text), people only.
+    pub relations: Vec<(String, String)>,
 }
 
 /// A real participant.
@@ -292,6 +324,9 @@ pub struct ThingView {
     pub starting: bool,
     /// Is an outcome of the game.
     pub ending: bool,
+    /// The text as written, when it differs from `text` because of `[[links]]` (for the editor).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub raw_text: Option<String>,
 }
 
 /// An action or decision.
@@ -331,6 +366,12 @@ pub struct NodeView {
     pub x: f64,
     /// Top edge on the canvas.
     pub y: f64,
+    /// The text as written, when it differs from `text` because of `[[links]]` (for the editor).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub raw_text: Option<String>,
+    /// The brief as written, when it differs from `brief` (for the editor).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub raw_brief: Option<String>,
 }
 
 /// One option of a decision.
@@ -379,6 +420,83 @@ pub fn build(
     diagnostics: &[Diagnostic],
     playthroughs: Option<&Playthroughs>,
 ) -> GraphData {
+    let shown = larp_model::text::expand(game);
+    let mut data = build_shown(&shown, diagnostics, playthroughs);
+    attach_raw(&mut data, game);
+    data.blocks = blocks(game, &shown);
+    data
+}
+
+/// Blocks with their expanded text and the places that include them.
+fn blocks(raw: &Game, shown: &Game) -> Vec<BlockView> {
+    let mut used: BTreeMap<String, Vec<String>> = BTreeMap::new();
+    larp_model::text::each_text(raw, |place, t| {
+        for link in larp_model::text::links(t) {
+            let entry = used.entry(link.id.to_string()).or_default();
+            let at = format!("{} ({})", place.file, place.field);
+            if !entry.contains(&at) {
+                entry.push(at);
+            }
+        }
+    });
+    raw.blocks
+        .iter()
+        .zip(&shown.blocks)
+        .map(|(b, s)| BlockView {
+            id: b.id.get_ref().to_string(),
+            title: b.title.clone().unwrap_or_default(),
+            text: s.text.clone(),
+            raw_text: b.text.clone(),
+            show: ids(&b.show),
+            used_in: used.remove(b.id.get_ref().as_str()).unwrap_or_default(),
+            status: b.status.map(larp_model::model::Status::as_str),
+            writer: b.writer.clone(),
+        })
+        .collect()
+}
+
+/// Keeps the texts as written next to the expanded ones, where `[[links]]` changed them, so the
+/// browser editor saves what the author wrote and not the expansion.
+fn attach_raw(data: &mut GraphData, raw: &Game) {
+    let differs = |raw: &str, shown: &str| (raw != shown).then(|| raw.to_owned());
+    for n in &mut data.nodes {
+        let Some(node) = Id::parse(&n.id).ok().and_then(|id| raw.nodes.get(&id)) else {
+            continue;
+        };
+        let text = match node {
+            Node::Action(a) => &a.text,
+            Node::Decision(d) => &d.text,
+        };
+        n.raw_text = differs(text, &n.text);
+        n.raw_brief = differs(node.brief(), &n.brief);
+    }
+    for t in &mut data.things {
+        if let Some(thing) = raw
+            .items
+            .iter()
+            .chain(&raw.info)
+            .find(|x| x.id.get_ref().as_str() == t.id)
+        {
+            t.raw_text = differs(&thing.text, &t.text);
+        }
+    }
+    for v in &mut data.segments {
+        if let Some(seg) = raw
+            .segments
+            .iter()
+            .find(|x| x.id.get_ref().as_str() == v.id)
+        {
+            v.raw_text = differs(&seg.text, &v.text);
+        }
+    }
+}
+
+/// [`build`] on a game whose links are already expanded.
+fn build_shown(
+    game: &Game,
+    diagnostics: &[Diagnostic],
+    playthroughs: Option<&Playthroughs>,
+) -> GraphData {
     let edges = edges(game);
     let timeline = (!game.cycles.is_empty()).then(|| layout::timeline(game, &edges));
     let positions = match &timeline {
@@ -411,6 +529,7 @@ pub fn build(
             .iter()
             .enumerate()
             .map(|(i, s)| SegmentView {
+                raw_text: None,
                 id: s.id.get_ref().to_string(),
                 name: s.name.clone(),
                 color: s
@@ -460,6 +579,7 @@ pub fn build(
         edges,
         findings: diagnostics.iter().map(finding).collect(),
         progress: progress(game),
+        blocks: Vec::new(),
         endings: playthroughs
             .map(|p| {
                 p.endings
@@ -646,6 +766,8 @@ fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
         ),
     };
     NodeView {
+        raw_text: None,
+        raw_brief: None,
         id: id.to_string(),
         kind,
         title: node.title().to_owned(),
@@ -713,6 +835,13 @@ fn owners(game: &Game) -> Vec<OwnerView> {
         outside_cycle: p.outside_cycle,
         status: p.status.map(larp_model::model::Status::as_str),
         writer: p.writer.clone(),
+        factions: ids(&p.factions),
+        members: Vec::new(),
+        relations: p
+            .relations
+            .iter()
+            .map(|r| (r.with.get_ref().to_string(), r.text.clone()))
+            .collect(),
     });
     let rooms = game.rooms.iter().map(|r| OwnerView {
         id: r.id.get_ref().to_string(),
@@ -732,12 +861,41 @@ fn owners(game: &Game) -> Vec<OwnerView> {
         outside_cycle: false,
         status: None,
         writer: None,
+        factions: Vec::new(),
+        members: Vec::new(),
+        relations: Vec::new(),
     });
-    people.chain(rooms).collect()
+    let factions = game.factions.iter().map(|f| OwnerView {
+        id: f.id.get_ref().to_string(),
+        name: f.name.clone(),
+        kind: "faction",
+        role: None,
+        color: f
+            .color
+            .as_ref()
+            .map_or(DEFAULT_COLOR.to_owned(), |c| safe_color(c.get_ref())),
+        played_by: None,
+        enters: None,
+        dies: None,
+        dies_step: None,
+        life: None,
+        hero_of: None,
+        outside_cycle: false,
+        status: f.status.map(larp_model::model::Status::as_str),
+        writer: f.writer.clone(),
+        factions: Vec::new(),
+        members: game
+            .members(f.id.get_ref())
+            .map(ToString::to_string)
+            .collect(),
+        relations: Vec::new(),
+    });
+    people.chain(rooms).chain(factions).collect()
 }
 
 fn things(game: &Game) -> Vec<ThingView> {
     let view = |t: &Thing, kind: &'static str| ThingView {
+        raw_text: None,
         id: t.id.get_ref().to_string(),
         name: t.name.clone(),
         kind,

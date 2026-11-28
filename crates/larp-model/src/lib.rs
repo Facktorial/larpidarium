@@ -5,6 +5,7 @@ mod id;
 mod load;
 pub mod model;
 mod playthrough;
+pub mod text;
 pub mod time;
 mod validate;
 

@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "block": {
+      "description": "[[block]]: shared texts and facts, used as [[id]] in any text.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Id of the block; write [[id]] in a text to include it: lowercase ASCII letters, digits and dashes.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "show": {
+            "description": "Ids of people or factions whose sheets show this block as a section.",
+            "items": {
+              "description": "Id of people or factions whose sheets show this block as a section.",
+              "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "status": {
+            "description": "How far the writing is; shown in the progress panel.",
+            "enum": [
+              "draft",
+              "review",
+              "done"
+            ]
+          },
+          "text": {
+            "description": "The text; may include other blocks and names as [[id]].",
+            "type": "string"
+          },
+          "title": {
+            "description": "Heading when the block is shown on a sheet.",
+            "type": "string"
+          },
+          "writer": {
+            "description": "Who writes it.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [],
+  "title": "blocks.toml",
+  "type": "object"
+}

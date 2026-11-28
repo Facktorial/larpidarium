@@ -82,9 +82,10 @@ fn check(name: &str) -> (bool, String, String) {
 fn flawed_example_reports_every_planted_issue_but_passes() {
     let (ok, stdout, stderr) = check("flawed-abbey");
     assert!(ok, "warnings must not fail the check:\n{stderr}");
-    assert!(stdout.contains("11 warning(s)"), "{stdout}");
+    assert!(stdout.contains("13 warning(s)"), "{stdout}");
     for expected in [
         "unknown file",
+        "has a relation with `inspector-hugo`, but not the other",
         "`silver-chalice` is never needed",
         "`ghost-chain` is never needed",
         "no decision of their own",
@@ -217,8 +218,9 @@ fn pdf_tex_only_writes_organizer_sheets_and_one_with_all() {
     );
     let all = std::fs::read_to_string(out.join("_all-organizers.tex")).unwrap();
     assert_eq!(all.matches(r"\documentclass").count(), 1);
-    // org-petra and the three rooms (gate, crypt, library).
-    assert_eq!(all.matches(r"\orgpart{Vytížení}").count(), 4);
+    // org-petra, the three rooms (gate, crypt, library) and the faction (bratri).
+    assert_eq!(all.matches(r"\orgpart{Vytížení}").count(), 5);
+    assert!(all.contains("Konvent"), "the faction has an organizer part");
     let _ = std::fs::remove_dir_all(&out);
 }
 
@@ -339,4 +341,162 @@ fn check_prints_writing_progress() {
         line.contains("1 in review") && line.contains("Petra 1/3"),
         "{line}"
     );
+}
+
+/// A copy of `lost-abbey` in a fresh temp folder, with a `blocks.toml` and a `[[datum]]` link in
+/// the brief of `marta-letter`. Returns (base folder, game folder).
+fn abbey_with_blocks(name: &str, link: &str) -> (PathBuf, PathBuf) {
+    let base = std::env::temp_dir().join(format!("larpidarium-{name}-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&base);
+    let game = base.join("game");
+    copy_dir(&example("lost-abbey"), &game);
+    // Added to the example's own blocks.
+    let blocks = std::fs::read_to_string(game.join("blocks.toml")).unwrap_or_default();
+    std::fs::write(
+        game.join("blocks.toml"),
+        blocks
+            + "\n[[block]]\nid = \"datum\"\ntext = \"třináctého března\"\n\n\
+         [[block]]\nid = \"zvesti-z-cel\"\ntitle = \"Zvěsti z cel\"\n\
+         text = \"Šeptá se, že [[brother-anselm]] ví víc, než říká.\"\nshow = [\"novice-marta\"]\n",
+    )
+    .unwrap();
+    let letter = game.join("actions/marta-letter.toml");
+    let text = std::fs::read_to_string(&letter).unwrap();
+    let old = "brief = \"Víš, co je v dopise.";
+    assert!(text.contains(old), "the example changed: {text}");
+    let text = text.replace(
+        old,
+        &format!("brief = \"Dopis je z {link}. Víš, co je v dopise."),
+    );
+    std::fs::write(&letter, text).unwrap();
+    (base, game)
+}
+
+fn run_check(game: &std::path::Path) -> (bool, String, String) {
+    let out = Command::new(env!("CARGO_BIN_EXE_larpidarium"))
+        .arg("check")
+        .arg(game)
+        .output()
+        .unwrap();
+    (
+        out.status.success(),
+        String::from_utf8_lossy(&out.stdout).into_owned(),
+        String::from_utf8_lossy(&out.stderr).into_owned(),
+    )
+}
+
+#[test]
+fn check_passes_a_game_with_blocks_and_links_without_warnings() {
+    let (base, game) = abbey_with_blocks("blocks-check", "[[datum]]");
+    let (ok, stdout, stderr) = run_check(&game);
+    assert!(ok, "{stderr}");
+    assert!(stdout.contains("0 warning(s)"), "{stdout}\n{stderr}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn check_fails_on_an_unknown_link_with_a_suggestion() {
+    let (base, game) = abbey_with_blocks("blocks-unknown", "[[datun]]");
+    let (ok, _, stderr) = run_check(&game);
+    assert!(!ok, "{stderr}");
+    assert!(stderr.contains("unknown link [[datun]]"), "{stderr}");
+    assert!(stderr.contains("did you mean [[datum]]?"), "{stderr}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn build_expands_links_on_sheets_and_keeps_them_for_the_editor() {
+    let (base, game) = abbey_with_blocks("blocks-build", "[[datum]]");
+    let site = base.join("site");
+    let run = Command::new(env!("CARGO_BIN_EXE_larpidarium"))
+        .arg("build")
+        .arg(&game)
+        .arg("--out")
+        .arg(&site)
+        .output()
+        .unwrap();
+    assert!(
+        run.status.success(),
+        "{}",
+        String::from_utf8_lossy(&run.stderr)
+    );
+    let sheet = std::fs::read_to_string(site.join("players/novice-marta.html")).unwrap();
+    assert!(sheet.contains("Dopis je z třináctého března."), "{sheet}");
+    assert!(!sheet.contains("[["), "{sheet}");
+    assert!(sheet.contains("<h3>Zvěsti z cel</h3>"), "{sheet}");
+    assert!(
+        sheet.contains("Šeptá se, že Bratr Anselm ví víc"),
+        "{sheet}"
+    );
+    let hugo = std::fs::read_to_string(site.join("players/inspector-hugo.html")).unwrap();
+    assert!(
+        !hugo.contains("Zvěsti z cel"),
+        "only `show` people get the block"
+    );
+
+    let data = std::fs::read_to_string(site.join("graph-data.js")).unwrap();
+    // Only briefs with links keep their text as written: the changed one and the example's own.
+    assert_eq!(data.matches("\"raw_brief\"").count(), 2, "{data}");
+    assert!(
+        data.contains("\"raw_brief\": \"Dopis je z [[datum]]. Víš, co je v dopise."),
+        "{data}"
+    );
+    assert!(data.contains("\"blocks\""), "{data}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn pdf_expands_links_on_tex_sheets() {
+    let (base, game) = abbey_with_blocks("blocks-pdf", "[[datum]]");
+    let out = base.join("pdf");
+    let run = Command::new(env!("CARGO_BIN_EXE_larpidarium"))
+        .arg("pdf")
+        .arg(&game)
+        .arg("--out")
+        .arg(&out)
+        .arg("--tex-only")
+        .output()
+        .unwrap();
+    assert!(
+        run.status.success(),
+        "{}",
+        String::from_utf8_lossy(&run.stderr)
+    );
+    let tex = std::fs::read_to_string(out.join("novice-marta.tex")).unwrap();
+    assert!(tex.contains("Dopis je z třináctého března."), "{tex}");
+    assert!(tex.contains(r"\subhead{Zvěsti z cel}"), "{tex}");
+    assert!(!tex.contains("[[datum]]"), "{tex}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn build_writes_faction_sections_and_a_faction_organizer_sheet() {
+    let out = std::env::temp_dir().join(format!("larpidarium-faction-test-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&out);
+    let status = Command::new(env!("CARGO_BIN_EXE_larpidarium"))
+        .arg("build")
+        .arg(example("lost-abbey"))
+        .arg("--out")
+        .arg(&out)
+        .status()
+        .unwrap();
+    assert!(status.success());
+    let marta = std::fs::read_to_string(out.join("players/novice-marta.html")).unwrap();
+    assert!(marta.contains("Tvá frakce"), "{marta}");
+    assert!(marta.contains("Konvent"), "{marta}");
+    assert!(
+        marta.contains("Bratr Anselm"),
+        "the other member is named: {marta}"
+    );
+    assert!(
+        marta.contains("Zvěsti z kláštera"),
+        "the block shown to the faction is on the sheet: {marta}"
+    );
+    let hugo = std::fs::read_to_string(out.join("players/inspector-hugo.html")).unwrap();
+    assert!(!hugo.contains("Tvá frakce"), "Hugo is not in the Konvent");
+    assert!(!hugo.contains("Zvěsti z kláštera"));
+    let bratri = std::fs::read_to_string(out.join("organizers/bratri.html")).unwrap();
+    assert!(bratri.contains("Konvent"), "{bratri}");
+    assert!(bratri.contains("frakce"), "{bratri}");
+    let _ = std::fs::remove_dir_all(&out);
 }

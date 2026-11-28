@@ -149,7 +149,7 @@ pub fn destiny(game: &Game, graph: &GraphData, person: &Id) -> Destiny {
         .chain(&game.info)
         .map(|t| (t.id.get_ref(), t))
         .collect();
-    let owns = |refs: &[Ref]| refs.iter().any(|r| r.get_ref() == person);
+    let owns = |refs: &[Ref]| game.involves(refs, person);
 
     let carried: HashSet<&Id> = things
         .values()

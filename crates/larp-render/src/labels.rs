@@ -23,6 +23,11 @@ const LABELS: &[(&str, &str, &str)] = &[
     ("secrets", "Co skrýváš", "What you hide"),
     ("relations", "Koho znáš", "People you know"),
     ("carries", "Co máš u sebe", "What you carry"),
+    ("shared", "Co víš s ostatními", "What you share with others"),
+    ("faction", "Tvá frakce", "Your faction"),
+    ("faction_members", "Další členové", "Other members"),
+    ("faction_goals", "Společné cíle", "Shared goals"),
+    ("faction_secrets", "Společná tajemství", "Shared secrets"),
     (
         "destiny_intro",
         "Takto se tvá cesta proplétá s hrou. Pořadí je přibližné; jak a kdy přesně, záleží na hře.",
@@ -70,6 +75,7 @@ const LABELS: &[(&str, &str, &str)] = &[
     ("from_segment", "Od", "From"),
     // Organizer sheets.
     ("room", "místnost", "room"),
+    ("faction_kind", "frakce", "faction"),
     ("org_title", "Rozpis", "Schedule"),
     ("org_load", "Vytížení", "Load"),
     ("org_total", "akcí", "actions"),

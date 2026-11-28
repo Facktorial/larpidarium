@@ -6,6 +6,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Added
 
+- Factions in `factions.toml`: members write `factions = [...]`, every member's sheet gets the
+  faction's goals, secrets and sections, factions can own actions and items for all members, get
+  an organizer sheet, and show up in the viewer (owner list, Frakce tab, People column).
+- Relationships: `check` warns when a player character has a relation with another player character
+  who has none back, and the viewer has a Vztahy tab with a relationship graph.
+- The example game lost-abbey has a faction (Konvent), shared blocks and both-way relationships.
+- Shared texts and facts in `blocks.toml`: write `[[id]]` in any text to include a block or show
+  the name of a person, room, item or info. Blocks with `show` appear on those players' sheets.
+  `check` reports unknown links, blocks that include themselves and unused blocks; the viewer has
+  a Texty tab, and the editor keeps the links as written.
 - Writing status: `status = "draft" | "review" | "done"` and `writer` on actions, decisions and
   people. `check` prints the progress; Game health shows a progress bar, writers and what is still
   open, and filters the graph by status or writer; the browser editor sets both.

@@ -1,6 +1,7 @@
 [person]
 name = "Novicka Marta"
 role = "player"
+factions = ["bratri"]
 color = "#2980b9"
 goals = ["Zjistit, proč opat zmizel", "Doručit dopis tomu, komu patří"]
 secrets = ["Dopis jsi našla v opatově cele a nikomu jsi to neřekla"]
@@ -16,3 +17,7 @@ Opat tě přijal, když tě nikdo jiný nechtěl. Den před jeho zmizením ti ř
 [[person.relation]]
 with = "brother-anselm"
 text = "Pokladník. Od opatova zmizení je nervózní."
+
+[[person.relation]]
+with = "inspector-hugo"
+text = "Biskupův vyšetřovatel, přijel nečekaně. Opatův dopis je adresován biskupovi. Patří tedy jemu?"

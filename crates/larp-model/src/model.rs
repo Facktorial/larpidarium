@@ -40,6 +40,10 @@ pub struct Game {
     pub items: Vec<Thing>,
     /// Pieces of information from `info.toml`.
     pub info: Vec<Thing>,
+    /// Shared texts and facts from `blocks.toml`.
+    pub blocks: Vec<Block>,
+    /// Groups of people from `factions.toml`.
+    pub factions: Vec<Faction>,
     /// Node positions and line bends saved from the browser (`layout.toml`).
     pub layout: Layout,
 }
@@ -145,7 +149,7 @@ impl Node {
         }
     }
 
-    /// People and rooms responsible for this node.
+    /// People, rooms and factions responsible for this node.
     #[must_use]
     pub fn owners(&self) -> &[Ref] {
         match self {
@@ -322,7 +326,7 @@ pub struct Phase {
 pub struct Action {
     /// Short title.
     pub title: String,
-    /// People or rooms that own the action.
+    /// People, rooms or factions that own the action.
     #[serde(default)]
     pub owners: Vec<Ref>,
     /// Segment this action belongs to.
@@ -358,7 +362,7 @@ pub struct Action {
 pub struct Decision {
     /// Short title, usually a question.
     pub title: String,
-    /// People or rooms that own the decision.
+    /// People, rooms or factions that own the decision.
     #[serde(default)]
     pub owners: Vec<Ref>,
     /// Segment this decision belongs to.
@@ -397,6 +401,28 @@ pub struct DecisionOption {
     /// Items or info this option produces.
     #[serde(default)]
     pub gives: Vec<Ref>,
+}
+
+/// One `[[block]]` from `blocks.toml`: a named text written once and used in many places.
+///
+/// Any text can include it as `[[id]]`. A block with `show` also appears as a section on those
+/// people's sheets. A short block without a title works as a fact (a date, a name, a number).
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Block {
+    /// Id, used as `[[id]]` in texts.
+    pub id: Spanned<Id>,
+    /// Heading when the block is shown on a sheet.
+    pub title: Option<String>,
+    /// The text; may include other blocks.
+    pub text: String,
+    /// People whose sheets show this block as a section.
+    #[serde(default)]
+    pub show: Vec<Ref>,
+    /// How far the writing is.
+    pub status: Option<Status>,
+    /// Who writes it.
+    pub writer: Option<String>,
 }
 
 /// How far the writing of a node, person or other part is.
@@ -457,6 +483,9 @@ pub struct Person {
     /// How this person sees other people, written as `[[person.relation]]`.
     #[serde(rename = "relation", default)]
     pub relations: Vec<Relation>,
+    /// Factions the person belongs to (`factions.toml`).
+    #[serde(default)]
+    pub factions: Vec<Ref>,
     /// The player (from `players.toml`) who plays this character.
     pub played_by: Option<Ref>,
     /// First segment of the character's life; without it, the character exists from the start.
@@ -485,6 +514,64 @@ pub struct Relation {
     pub with: Ref,
     /// What this person thinks or knows about them.
     pub text: String,
+}
+
+/// One `[[faction]]` from `factions.toml`: a group of people (a family, a gang, a guild).
+///
+/// Members name it in their person file (`factions = ["montekove"]`). A faction can own actions
+/// and items, which then belong to every member, and its goals, secrets and sheet sections appear
+/// on every member's sheet.
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Faction {
+    /// Id.
+    pub id: Spanned<Id>,
+    /// Display name.
+    pub name: String,
+    /// Color as `#rrggbb`.
+    pub color: Option<Spanned<String>>,
+    /// Notes for organizers.
+    #[serde(default)]
+    pub text: String,
+    /// Goals every member shares.
+    #[serde(default)]
+    pub goals: Vec<String>,
+    /// Secrets every member knows.
+    #[serde(default)]
+    pub secrets: Vec<String>,
+    /// More sheet sections for members, such as `history` or `rules`.
+    #[serde(default)]
+    pub sheet: BTreeMap<String, String>,
+    /// How far the writing is.
+    pub status: Option<Status>,
+    /// Who writes it.
+    pub writer: Option<String>,
+}
+
+impl Game {
+    /// True when `owners` names `who` directly, or names a faction `who` belongs to.
+    ///
+    /// Use it wherever "does this person own that action or item" is asked, so faction
+    /// ownership counts for every member.
+    #[must_use]
+    pub fn involves(&self, owners: &[Ref], who: &Id) -> bool {
+        owners.iter().any(|o| {
+            let o = o.get_ref();
+            o == who
+                || self
+                    .people
+                    .get(who)
+                    .is_some_and(|p| p.factions.iter().any(|f| f.get_ref() == o))
+        })
+    }
+
+    /// The members of faction `faction`, by id.
+    pub fn members<'a>(&'a self, faction: &'a Id) -> impl Iterator<Item = &'a Id> + 'a {
+        self.people
+            .iter()
+            .filter(move |(_, p)| p.factions.iter().any(|f| f.get_ref() == faction))
+            .map(|(id, _)| id)
+    }
 }
 
 /// One `[[room]]`.
@@ -519,7 +606,7 @@ pub struct Thing {
     pub name: String,
     /// Category id (items only, optional).
     pub category: Option<Ref>,
-    /// People or rooms that hold it at the start.
+    /// People, rooms or factions that hold it at the start.
     #[serde(default)]
     pub owners: Vec<Ref>,
     /// Exists when the game starts, so nothing has to give it.

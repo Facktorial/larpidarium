@@ -92,7 +92,7 @@ pub struct Schedule {
     pub id: String,
     /// Display name.
     pub name: String,
-    /// `"person"` or `"room"`.
+    /// `"person"`, `"room"` or `"faction"`.
     pub kind: &'static str,
     /// `"organizer"`, `"npc"` or `"player"` for people, `None` for rooms.
     pub role: Option<&'static str>,
@@ -106,7 +106,7 @@ pub struct Schedule {
     pub blocks: Vec<ScheduleBlock>,
 }
 
-/// Owners that get an organizer sheet: organizers, non-player characters and rooms, by id.
+/// Owners that get an organizer sheet: organizers, non-player characters, rooms and factions, by id.
 #[must_use]
 pub fn schedule_owners(game: &Game) -> Vec<&Id> {
     let mut ids: Vec<&Id> = game
@@ -115,6 +115,7 @@ pub fn schedule_owners(game: &Game) -> Vec<&Id> {
         .filter(|(_, p)| p.role != Role::Player)
         .map(|(id, _)| id)
         .chain(game.rooms.iter().map(|r| r.id.get_ref()))
+        .chain(game.factions.iter().map(|f| f.id.get_ref()))
         .collect();
     ids.sort();
     ids
@@ -129,7 +130,7 @@ pub fn loads(game: &Game) -> Vec<(String, Load)> {
         .collect()
 }
 
-/// The organizer sheet of `owner` (a person or a room).
+/// The organizer sheet of `owner` (a person, a room or a faction).
 #[must_use]
 pub fn schedule(game: &Game, owner: &Id) -> Schedule {
     let things: HashMap<&Id, &Thing> = game
@@ -229,8 +230,15 @@ pub fn schedule(game: &Game, owner: &Id) -> Schedule {
     }
 }
 
-/// `"person"`/`"room"`, the person's role and the color.
+/// `"person"`, `"room"` or `"faction"`, the person's role and the color.
 fn identity(game: &Game, owner: &Id) -> (&'static str, Option<&'static str>, Option<String>) {
+    if let Some(f) = game.factions.iter().find(|f| f.id.get_ref() == owner) {
+        return (
+            "faction",
+            None,
+            f.color.as_ref().map(|c| c.get_ref().clone()),
+        );
+    }
     match game.people.get(owner) {
         Some(p) => (
             "person",
@@ -257,7 +265,7 @@ fn owned<'a>(game: &'a Game, owner: &Id) -> Vec<(&'a Id, &'a Node)> {
     let mut nodes: Vec<(&Id, &Node)> = game
         .nodes
         .iter()
-        .filter(|(_, n)| n.owners().iter().any(|r| r.get_ref() == owner))
+        .filter(|(_, n)| game.involves(n.owners(), owner))
         .collect();
     let tick = |n: &Node| larp_model::time::node(game, n).map_or(u32::MAX, |s| s.start);
     nodes.sort_by_key(|(id, n)| (tick(n), *id));
@@ -359,7 +367,7 @@ fn prepare(
     let mut ids: Vec<&Ref> = game
         .items
         .iter()
-        .filter(|t| t.starting && t.owners.iter().any(|o| o.get_ref() == owner))
+        .filter(|t| t.starting && game.involves(&t.owners, owner))
         .map(|t| &t.id)
         .collect();
     for (_, n) in nodes {
@@ -383,8 +391,10 @@ fn owner_name(game: &Game, id: &Id) -> String {
         || {
             game.rooms
                 .iter()
-                .find(|r| r.id.get_ref() == id)
-                .map_or_else(|| id.to_string(), |r| r.name.clone())
+                .map(|r| (&r.id, &r.name))
+                .chain(game.factions.iter().map(|f| (&f.id, &f.name)))
+                .find(|(rid, _)| rid.get_ref() == id)
+                .map_or_else(|| id.to_string(), |(_, name)| name.clone())
         },
         |p| p.name.clone(),
     )

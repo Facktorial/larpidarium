@@ -41,14 +41,16 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
         &format!("window.LARP_GRAPH = {json};\n"),
     )?;
 
+    // Sheets show texts with `[[links]]` replaced.
+    let shown = larp_model::text::expand(&loaded.game);
     let template = read_template(dir)?;
     let mut sheets = 0;
-    for (id, person) in &loaded.game.people {
+    for (id, person) in &shown.people {
         if person.role != Role::Player {
             continue;
         }
-        let destiny = larp_graph::destiny(&loaded.game, &graph, id);
-        let html = larp_render::player_sheet_html(&loaded.game, id, &destiny, template.as_deref())
+        let destiny = larp_graph::destiny(&shown, &graph, id);
+        let html = larp_render::player_sheet_html(&shown, id, &destiny, template.as_deref())
             .map_err(|e| miette!("{e}"))
             .wrap_err_with(|| format!("cannot render the sheet of `{id}`"))?;
         write(&out.join("players").join(format!("{id}.html")), &html)?;
@@ -57,12 +59,11 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
 
     let org_template = read_named_template(dir, ORGANIZER_TEMPLATE)?;
     let mut schedules = 0;
-    for id in larp_graph::schedule_owners(&loaded.game) {
-        let schedule = larp_graph::schedule(&loaded.game, id);
-        let html =
-            larp_render::organizer_sheet_html(&loaded.game, &schedule, org_template.as_deref())
-                .map_err(|e| miette!("{e}"))
-                .wrap_err_with(|| format!("cannot render the organizer sheet of `{id}`"))?;
+    for id in larp_graph::schedule_owners(&shown) {
+        let schedule = larp_graph::schedule(&shown, id);
+        let html = larp_render::organizer_sheet_html(&shown, &schedule, org_template.as_deref())
+            .map_err(|e| miette!("{e}"))
+            .wrap_err_with(|| format!("cannot render the organizer sheet of `{id}`"))?;
         write(&out.join("organizers").join(format!("{id}.html")), &html)?;
         schedules += 1;
     }

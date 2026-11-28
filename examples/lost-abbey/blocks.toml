@@ -1,0 +1,12 @@
+[[block]]
+id = "datum-prijezdu"
+text = "13. března"
+
+[[block]]
+id = "zvesti"
+title = "Zvěsti z kláštera"
+text = """
+Je [[datum-prijezdu]] a opat chybí už třetí den. Bratři si šeptají, že [[brother-anselm]] \
+od té doby zamyká pokladnici dvakrát a klíč od krypty si nesundá z krku ani ke spánku.
+"""
+show = ["bratri"]

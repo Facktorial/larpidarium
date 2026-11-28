@@ -22,8 +22,14 @@ const ORGANIZER_TEMPLATE: &str = "templates/organizer.tex.j2";
 /// and the same for organizer sheets in `organizers/` and `_all-organizers`.
 pub(crate) fn run(dir: &Path, out: &Path, tex_only: bool) -> Result<()> {
     let loaded = load_game(dir)?;
-    let game = &loaded.game;
-    let graph = larp_graph::build(game, &loaded.diagnostics, loaded.playthroughs.as_ref());
+    // Sheets show texts with `[[links]]` replaced.
+    let shown = larp_model::text::expand(&loaded.game);
+    let game = &shown;
+    let graph = larp_graph::build(
+        &loaded.game,
+        &loaded.diagnostics,
+        loaded.playthroughs.as_ref(),
+    );
     let template = read_named_template(dir, TEMPLATE)?;
     let template_name = template.as_ref().map_or_else(
         || "the built-in LaTeX template".to_owned(),

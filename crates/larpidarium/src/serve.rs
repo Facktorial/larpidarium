@@ -258,17 +258,20 @@ fn sheet(dir: &Path, path: &str) -> Response {
         Err(response) => return response,
     };
     // Sheets are for players: never render them from a draft with errors.
-    let Some(game) = checked.game.as_ref() else {
+    let Some(raw) = checked.game.as_ref() else {
         return Response::text(
             409,
             "the game has errors; fix them (see Game health on the graph page) to see the sheet",
         );
     };
+    // Sheets show texts with `[[links]]` replaced.
+    let shown = larp_model::text::expand(raw);
+    let game = &shown;
     let template = match read_template(dir) {
         Ok(t) => t,
         Err(e) => return Response::text(500, format!("{e:?}")),
     };
-    let graph = larp_graph::build(game, &checked.diagnostics, checked.playthroughs.as_ref());
+    let graph = larp_graph::build(raw, &checked.diagnostics, checked.playthroughs.as_ref());
     let destiny = larp_graph::destiny(game, &graph, &id);
     match larp_render::player_sheet_html(game, &id, &destiny, template.as_deref()) {
         Ok(html) => Response::new(200, "text/html; charset=utf-8", html),
@@ -289,12 +292,15 @@ fn organizer_sheet(dir: &Path, path: &str) -> Response {
         Ok(r) => r,
         Err(response) => return response,
     };
-    let Some(game) = checked.game.as_ref() else {
+    let Some(raw) = checked.game.as_ref() else {
         return Response::text(
             409,
             "the game has errors; fix them (see Game health on the graph page) to see the sheet",
         );
     };
+    // Sheets show texts with `[[links]]` replaced.
+    let shown = larp_model::text::expand(raw);
+    let game = &shown;
     if !larp_graph::schedule_owners(game).contains(&&id) {
         return Response::text(404, "no organizer sheet for this id");
     }

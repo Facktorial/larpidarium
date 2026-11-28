@@ -1,6 +1,7 @@
 [person]
 name = "Bratr Anselm"
 role = "player"
+factions = ["bratri"]
 color = "#c0392b"
 goals = ["Udržet kryptu zavřenou", "Dostat inspektora pryč z opatství"]
 secrets = ["Pohřbil opata v kryptě", "Krade z pokladnice už tři roky"]

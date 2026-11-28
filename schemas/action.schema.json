@@ -45,9 +45,9 @@
           "type": "array"
         },
         "owners": {
-          "description": "Ids of people or rooms that own it.",
+          "description": "Ids of people, rooms or factions that own it.",
           "items": {
-            "description": "Id of people or rooms that own it.",
+            "description": "Id of people, rooms or factions that own it.",
             "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
             "type": "string"
           },
@@ -156,9 +156,9 @@
           "type": "array"
         },
         "owners": {
-          "description": "Ids of people or rooms that own it.",
+          "description": "Ids of people, rooms or factions that own it.",
           "items": {
-            "description": "Id of people or rooms that own it.",
+            "description": "Id of people, rooms or factions that own it.",
             "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
             "type": "string"
           },

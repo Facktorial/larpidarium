@@ -68,6 +68,19 @@
 {%- if p.secrets %}\subhead{ {{- t.secrets -}} }
 {{ items(p.secrets) }}
 {% endif %}
+{%- for f in p.factions %}\subhead{ {{- t.faction }}: {{ f.name -}} }
+{% if f.members %}{\bfseries {{ t.faction_members }}:} {{ f.members | join(", ") }}\par
+{% endif %}
+{%- if f.goals %}{\bfseries {{ t.faction_goals }}}\par
+{{ items(f.goals) }}
+{% endif %}
+{%- if f.secrets %}{\bfseries {{ t.faction_secrets }}}\par
+{{ items(f.secrets) }}
+{% endif %}
+{%- for key, text in f.sheet %}{\bfseries {{ t["sheet_" ~ key] or key }}}\par
+{{ text | trim }}\par
+{% endfor %}
+{% endfor %}
 {%- if p.relations %}\subhead{ {{- t.relations -}} }
 \begin{description}[nosep,style=nextline,font=\normalfont\bfseries]
 {% for r in p.relations %}\item[{ {{- r.name -}} }] {{ r.text }}
@@ -78,6 +91,9 @@
 {% for x in d.carries %}\item {\bfseries {{ x.name }}}{% if x.text %}: {{ x.text }}{% endif %}
 {% endfor %}\end{itemize}
 {% endif %}
+{%- for title, text in p.blocks %}\subhead{ {{- title or t.shared -}} }
+{{ text | trim }}\par
+{% endfor %}
 {%- for key, text in p.extra %}\subhead{ {{- t["sheet_" ~ key] or key -}} }
 {{ text | trim }}
 {% endfor %}

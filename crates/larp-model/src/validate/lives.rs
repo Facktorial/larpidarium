@@ -329,7 +329,7 @@ fn check_phases(
 /// A character owns no action outside their life.
 fn check_actions(game: &Game, id: &Id, person: &Person, life: Span, diags: &mut Vec<Diagnostic>) {
     for (node_id, node) in &game.nodes {
-        if !node.owners().iter().any(|o| o.get_ref() == id) {
+        if !game.involves(node.owners(), id) {
             continue;
         }
         let Some(at) = time::node(game, node) else {

@@ -87,7 +87,10 @@ fn node_common() -> serde_json::Map<String, Value> {
         m.insert(k.into(), v);
     }
     m.insert("title".into(), text("Short title shown on the graph."));
-    m.insert("owners".into(), refs("people or rooms that own it"));
+    m.insert(
+        "owners".into(),
+        refs("people, rooms or factions that own it"),
+    );
     m.insert(
         "segment".into(),
         reference("the world segment it belongs to"),
@@ -168,7 +171,8 @@ fn person_fields() -> Value {
                 "with": reference("the other person"),
                 "text": text("What the character thinks of them."),
             })), "[[person.relation]]"),
-            "played_by": reference("the player (players.toml) who plays this character"),
+            "factions": refs("factions (factions.toml) the person belongs to"),
+        "played_by": reference("the player (players.toml) who plays this character"),
             "enters": reference("the world segment where the character enters the story"),
             "after": reference("the character whose death starts this one's life (reincarnation)"),
             "dies": { "description": "World segment id, or step number of the character's own cycle.",
@@ -186,7 +190,7 @@ fn thing(kind: &str) -> Value {
             "id": id(kind),
             "name": text("Display name."),
             "category": reference("a category from items.toml"),
-            "owners": refs("people or rooms that have it at the start"),
+            "owners": refs("people, rooms or factions that have it at the start"),
             "starting": { "type": "boolean", "description": "Exists when the game starts." },
             "ending": { "type": "boolean", "description": "Reaching it ends the game (an ending)." },
             "text": text("Description."),
@@ -209,6 +213,44 @@ fn map() -> Value {
                        })) },
         }),
     )
+}
+
+/// One `[[faction]]`.
+fn faction_entry() -> Value {
+    let mut v = object(
+        &["id", "name"],
+        &json!({
+            "id": id("the faction"),
+            "name": text("Display name."),
+            "color": color(),
+            "text": text("Notes for organizers."),
+            "goals": texts("Goals every member shares (on their sheets)."),
+            "secrets": texts("Secrets every member knows."),
+            "sheet": { "type": "object", "additionalProperties": { "type": "string" },
+                       "description": "More sections on every member's sheet." },
+        }),
+    );
+    for (k, field) in writing() {
+        v["properties"][k] = field;
+    }
+    v
+}
+
+/// One `[[block]]`.
+fn blocks_entry() -> Value {
+    let mut v = object(
+        &["id", "text"],
+        &json!({
+            "id": id("the block; write [[id]] in a text to include it"),
+            "title": text("Heading when the block is shown on a sheet."),
+            "text": text("The text; may include other blocks and names as [[id]]."),
+            "show": refs("people or factions whose sheets show this block as a section"),
+        }),
+    );
+    for (k, field) in writing() {
+        v["properties"][k] = field;
+    }
+    v
 }
 
 /// All schemas, one per kind of game file (world and time first, then content).
@@ -346,6 +388,28 @@ fn content_schemas() -> Vec<Schema> {
                 v["oneOf"] = json!([{ "required": ["action"] }, { "required": ["decision"] }]);
                 v
             },
+        },
+        Schema {
+            name: "factions",
+            globs: &["factions.toml"],
+            json: file(
+                "factions.toml",
+                &[],
+                &json!({
+                    "faction": list_of(&faction_entry(), "[[faction]]: groups of people; members write `factions = [...]`."),
+                }),
+            ),
+        },
+        Schema {
+            name: "blocks",
+            globs: &["blocks.toml"],
+            json: file(
+                "blocks.toml",
+                &[],
+                &json!({
+                    "block": list_of(&blocks_entry(), "[[block]]: shared texts and facts, used as [[id]] in any text."),
+                }),
+            ),
         },
         Schema {
             name: "layout",

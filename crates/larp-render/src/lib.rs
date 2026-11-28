@@ -84,6 +84,11 @@ pub struct PersonView {
     pub relations: Vec<RelationView>,
     /// Other `[person.sheet]` keys, as (key, text).
     pub extra: Vec<(String, String)>,
+    /// Blocks from `blocks.toml` that list this person (or one of their factions) in `show`,
+    /// as (title, text).
+    pub blocks: Vec<(String, String)>,
+    /// The person's factions with what every member gets.
+    pub factions: Vec<FactionView>,
     /// Name of the player who plays the character, or empty.
     pub played_by: String,
     /// Name of the segment the character enters in, or empty (from the start).
@@ -107,6 +112,23 @@ pub struct PhaseView {
     pub secrets: Option<Vec<String>>,
     /// Changed sheet sections as (key, text); known keys are translated in the template.
     pub sections: Vec<(String, String)>,
+}
+
+/// A faction as its members see it on their sheet.
+#[derive(Debug, Clone, Serialize)]
+pub struct FactionView {
+    /// Display name.
+    pub name: String,
+    /// Color as `#rrggbb`, or empty.
+    pub color: String,
+    /// Goals every member shares.
+    pub goals: Vec<String>,
+    /// Secrets every member knows.
+    pub secrets: Vec<String>,
+    /// More sections, as (key, text).
+    pub sheet: Vec<(String, String)>,
+    /// Display names of the other members.
+    pub members: Vec<String>,
 }
 
 /// One relation.
@@ -186,6 +208,43 @@ fn person_view(game: &Game, person: &Id) -> Result<PersonView, RenderError> {
             .iter()
             .filter(|(k, _)| !KNOWN_SHEET_KEYS.contains(&k.as_str()))
             .map(|(k, v)| (k.clone(), v.clone()))
+            .collect(),
+        blocks: game
+            .blocks
+            .iter()
+            .filter(|b| game.involves(&b.show, person))
+            .map(|b| (b.title.clone().unwrap_or_default(), b.text.clone()))
+            .collect(),
+        factions: p
+            .factions
+            .iter()
+            .filter_map(|r| game.factions.iter().find(|f| f.id.get_ref() == r.get_ref()))
+            .map(|f| FactionView {
+                name: f.name.clone(),
+                // Checked by `check`; checked again because it goes into a `style` attribute.
+                color: f
+                    .color
+                    .as_ref()
+                    .map(|c| c.get_ref().clone())
+                    .filter(|c| {
+                        c.len() == 7
+                            && c.starts_with('#')
+                            && c[1..].chars().all(|ch| ch.is_ascii_hexdigit())
+                    })
+                    .unwrap_or_default(),
+                goals: f.goals.clone(),
+                secrets: f.secrets.clone(),
+                sheet: f
+                    .sheet
+                    .iter()
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect(),
+                members: game
+                    .members(f.id.get_ref())
+                    .filter(|m| *m != person)
+                    .filter_map(|m| game.people.get(m).map(|p| p.name.clone()))
+                    .collect(),
+            })
             .collect(),
         played_by: String::new(),
         enters: String::new(),

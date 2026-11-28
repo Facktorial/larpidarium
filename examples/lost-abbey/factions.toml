@@ -1,0 +1,14 @@
+[[faction]]
+id = "bratri"
+name = "Konvent"
+color = "#7a5c3e"
+text = "Pro organizátory: obyvatelé opatství; sdílejí jen to, co ví celý konvent, Anselmova vina ani Martin dopis sem nepatří."
+goals = ["Udržet v opatství řád, dokud se neví, co je s opatem."]
+secrets = ["Konvent opatovo zmizení biskupovi neohlásil. Doufali jste, že se opat vrátí sám."]
+
+[faction.sheet]
+history = """
+Konvent je malý: hrstka bratří, jedna novicka a opat, který o všem rozhodoval sám. \
+Už třetí den zůstává jeho místo v refektáři prázdné a nikdo si na ně netroufne sednout. \
+Při nešporách se zpívá tišeji a svíčky v kapli dohořívají dřív, než je kdo vymění.
+"""

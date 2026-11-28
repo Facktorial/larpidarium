@@ -38,7 +38,7 @@
 {\color{accent}\rule{\linewidth}{4pt}}\par\vspace{6pt}
 {\sffamily\footnotesize\textcolor{muted}{\MakeUppercase{ {{- game_title }} · {{ t.org_title -}} }}}\par\vspace{2pt}
 {\fontsize{24}{28}\selectfont\bfseries {{ s.schedule.name }}\par}\vspace{2pt}
-{\itshape\textcolor{muted}{ {{- t[s.schedule.role] if s.schedule.role else t.room -}} }}\par
+{\itshape\textcolor{muted}{ {{- t[s.schedule.role] if s.schedule.role else (t.faction_kind if s.schedule.kind == "faction" else t.room) -}} }}\par
 {%- set l = s.schedule.load %}
 
 \orgpart{ {{- t.org_load -}} }

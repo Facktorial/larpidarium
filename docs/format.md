@@ -14,6 +14,8 @@ my-game/
 ├── items.toml      items and their categories
 ├── rooms.toml
 ├── info.toml       pieces of information (rumors, secrets) that work like items
+├── blocks.toml     optional: shared texts and facts, used as [[id]] in any text
+├── factions.toml   optional: groups of people (families, gangs, guilds)
 ├── segments.toml   optional: acts, levels or side plots
 ├── players.toml    optional: real participants, when they play several characters in turn
 ├── cycles.toml     optional: hero cycles placed on the world timeline
@@ -136,6 +138,12 @@ text = "Bojíš se, co ví."
 ```
 
 Players need `backstory`, `whereabouts` and `goals`; `check` warns when one is missing.
+
+Relationships between two player characters should go both ways: when one has a
+`[[person.relation]]` about the other and the other has none back, `check` warns (relationships
+with NPCs and organizers, or between characters whose lives never overlap, may be one-sided). The viewer's **Vztahy** tab draws all relationships as a
+graph: a solid line where both have a view of each other, a dashed arrow where only one does; hover a
+line for the texts, click a person to show only their relationships.
 
 ## Hero cycles, lives and reincarnation
 
@@ -301,9 +309,79 @@ and keeps the rooms. Copy the file to another game's `map-presets/` to reuse it.
 `check` reports unknown tiles, walls that are not horizontal or vertical (also in presets) and
 unknown rooms as errors, overlapping rooms as warnings.
 
+## Factions (`factions.toml`)
+
+A faction is a group of people: a family, a gang, a guild, a crew.
+
+```toml
+[[faction]]
+id = "montekove"
+name = "Montekové"
+color = "#2c3e50"
+text = "Pro organizátory: drží přístav, dluží Kapuletům."
+goals = ["Udržet přístav v rodině."]
+secrets = ["Otec Montek prodal sklad Kapuletům."]
+
+[faction.sheet]
+history = "Montekové drží přístav od dob prvního majáku…"
+```
+
+```toml
+# people/romeo.toml
+[person]
+name = "Romeo"
+role = "player"
+factions = ["montekove"]
+```
+
+- **Members** name the faction in their person file. A person can be in several factions.
+- **Sheets.** Every member's sheet gets a "Tvá frakce" section: the other members, shared goals,
+  shared secrets and the faction's `sheet` sections.
+- **Ownership.** A faction can be an owner of actions, decisions and items (`owners =
+  ["montekove"]`): it counts for every member, so the action is in every member's destiny and the
+  item on every member's sheet. Blocks can be shown to a faction (`show = ["montekove"]`).
+- **Organizer sheet.** Each faction gets one (`organizers/<id>.html`, PDF too): the nodes it owns.
+- **Viewer.** Factions are in the owner list (filtering by a faction shows its own nodes and its
+  members' nodes; filtering by a person also shows their factions' nodes), a **Frakce** tab lists
+  members, and the People tab has a Frakce column. `[[faction-id]]` in a text shows its name.
+- **Checks.** Unknown factions in `factions` are errors; a faction without members is a warning.
+
+## Shared texts and facts (`blocks.toml`)
+
+Write a text once and use it in many places:
+
+```toml
+[[block]]
+id = "zvesti-z-pristavu"
+title = "Zvěsti z přístavu"     # heading when shown on a sheet
+text = """
+V přístavu se šeptá, že [[don]] zaplatil celou stráž.
+"""
+show = ["barmanka", "taxikar"]  # these people's sheets get it as a section
+
+[[block]]
+id = "datum-vrazdy"             # a fact: short, no title, only used inside other texts
+text = "13. března"
+```
+
+- **Links.** In any text (`text`, `brief`, goals, secrets, `[person.sheet]`, relations, phases,
+  item, info, segment, cycle and block texts) `[[id]]` is replaced by:
+  - a block's text (blocks may include blocks);
+  - the name of a person, room, faction, item or piece of info.
+
+  Change the block or the name once and every sheet changes. Brackets around anything that is not
+  an id (`[[ poznámka ]]`) stay as they are.
+- **On sheets.** A block with `show` appears on those players' sheets as its own section (titled
+  by `title`, or "Co víš s ostatními").
+- **Editing.** Sheets and the viewer show the expanded text; the browser editor shows and saves the
+  text as written. The **Texty** tab lists every block, where it is used and whose sheets show it.
+- **Checks.** An unknown `[[id]]` or a link to an action or segment is an error (with a "did you
+  mean"); a block that includes itself is an error, and so is a chain of 16 or more blocks including each other or a block that grows past 200 000 bytes when expanded; a block used nowhere and shown to nobody is a
+  warning. Blocks can have `status` and `writer` like everything else.
+
 ## Writing status
 
-Any action, decision or person can say how far it is written and who writes it:
+Any action, decision, person, block or faction can say how far it is written and who writes it:
 
 ```toml
 [action]

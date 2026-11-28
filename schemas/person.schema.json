@@ -36,6 +36,15 @@
           "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
           "type": "string"
         },
+        "factions": {
+          "description": "Ids of factions (factions.toml) the person belongs to.",
+          "items": {
+            "description": "Id of factions (factions.toml) the person belongs to.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "type": "array"
+        },
         "goals": {
           "description": "What the character wants.",
           "items": {

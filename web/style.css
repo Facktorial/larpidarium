@@ -184,6 +184,7 @@ button.small { padding: 4px 8px; font-size: .85em; }
 table.data { border-collapse: collapse; width: 100%; font-size: .9em; background: var(--node-bg); }
 table.data th, table.data td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
 table.data th { background: var(--sidebar-bg); cursor: pointer; user-select: none; position: sticky; top: 0; white-space: nowrap; }
+table.data .prose-cell { white-space: pre-wrap; max-width: 40em; }
 table.data td.empty { color: var(--muted); font-style: italic; }
 table.data .dot { display: inline-block; vertical-align: middle; }
 .chip-link { color: var(--text-color); text-decoration: none; border-bottom: 1px dotted var(--muted); }
@@ -296,3 +297,14 @@ g.faded { opacity: .15; }
 .map-board.tool-wall, .map-board.tool-paint, .map-board.tool-erase { cursor: crosshair; }
 .map-board.tool-wall .map-room, .map-board.tool-paint .map-room, .map-board.tool-erase .map-room { pointer-events: none; }
 .map-preset { margin: 0; }
+
+/* relationship graph */
+.relations-wrap { max-width: 1100px; }
+svg.relations { width: 100%; height: auto; color: var(--muted); }
+svg.relations .rel-line { stroke: currentColor; stroke-width: 2; cursor: help; }
+svg.relations .rel-line.mutual { stroke: var(--text-color, #ddd); opacity: .7; }
+svg.relations .rel-line.one-way { stroke-dasharray: 6 4; color: #f39c12; stroke: #f39c12; }
+svg.relations .rel-line:hover { stroke-width: 4; opacity: 1; }
+svg.relations .rel-line.faded { opacity: .08; }
+svg.relations .rel-node { cursor: pointer; }
+svg.relations .rel-label { fill: var(--text-color, #ddd); font-size: 12px; }

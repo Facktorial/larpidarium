@@ -94,11 +94,18 @@
     {% if person.backstory %}<h3>{{ t.backstory }}</h3><p class="prose">{{ person.backstory | trim }}</p>{% endif %}
     {% if person.goals %}<h3>{{ t.goals }}</h3><ul>{% for g in person.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
     {% if person.secrets %}<h3>{{ t.secrets }}</h3><ul>{% for s in person.secrets %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+    {% for f in person.factions -%}
+    <h3>{{ t.faction }}: <span style="border-bottom: 3px solid {{ f.color or 'transparent' }}">{{ f.name }}</span></h3>
+      {% if f.members %}<p><strong>{{ t.faction_members }}:</strong> {{ f.members | join(", ") }}</p>{% endif %}
+      {% if f.goals %}<h4>{{ t.faction_goals }}</h4><ul>{% for g in f.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+      {% if f.secrets %}<h4>{{ t.faction_secrets }}</h4><ul>{% for g in f.secrets %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+      {% for key, text in f.sheet %}<h4>{{ t["sheet_" ~ key] or key }}</h4><p class="prose">{{ text | trim }}</p>{% endfor %}
+    {% endfor -%}
     {% if person.relations %}<h3>{{ t.relations }}</h3>
       <dl>{% for r in person.relations %}<dt>{{ r.name }}</dt><dd>{{ r.text }}</dd>{% endfor %}</dl>{% endif %}
     {% if destiny.carries %}<h3>{{ t.carries }}</h3>
       <ul>{% for x in destiny.carries %}<li><span class="thing">{{ x.name }}</span>{% if x.text %}: {{ x.text }}{% endif %}</li>{% endfor %}</ul>{% endif %}
-    {% for key, text in person.extra %}<h3>{{ t["sheet_" ~ key] or key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
+    {% for key, text in person.extra %}<h3>{{ t["sheet_" ~ key] or key }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}{% for title, text in person.blocks %}<h3>{{ title or t.shared }}</h3><p class="prose">{{ text | trim }}</p>{% endfor %}
   </section>
 
   <section class="part">

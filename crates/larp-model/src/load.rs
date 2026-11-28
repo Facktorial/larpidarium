@@ -6,8 +6,8 @@ use serde::Deserialize;
 use serde::de::DeserializeOwned;
 
 use crate::model::{
-    Action, Category, Cycle, Decision, Game, GameMeta, Layout, Map, Node, Person, Player, Room,
-    Segment, Thing,
+    Action, Block, Category, Cycle, Decision, Faction, Game, GameMeta, Layout, Map, Node, Person,
+    Player, Room, Segment, Thing,
 };
 use crate::playthrough::Playthroughs;
 use crate::validate::validate;
@@ -114,6 +114,20 @@ struct SegmentsFile {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct FactionsFile {
+    #[serde(default)]
+    faction: Vec<Faction>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct BlocksFile {
+    #[serde(default)]
+    block: Vec<Block>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct InfoFile {
     #[serde(default)]
     info: Vec<Thing>,
@@ -121,7 +135,7 @@ struct InfoFile {
 
 /// Parses and validates all files of a game folder.
 ///
-/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`, `segments.toml`, `players.toml`, `cycles.toml`, `map.toml`,
+/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`, `segments.toml`, `players.toml`, `cycles.toml`, `map.toml`, `blocks.toml`, `factions.toml`,
 /// `actions/<id>.toml`, `people/<id>.toml` and `layout.toml`.
 /// Any other path produces a warning.
 #[must_use]
@@ -134,6 +148,8 @@ pub fn load(files: &[SourceFile]) -> Checked {
     let mut categories = Vec::new();
     let mut items = Vec::new();
     let mut info = Vec::new();
+    let mut blocks = Vec::new();
+    let mut factions = Vec::new();
     let mut layout = Layout::default();
     let mut segments = Vec::new();
     let mut players = Vec::new();
@@ -153,6 +169,16 @@ pub fn load(files: &[SourceFile]) -> Checked {
             "rooms.toml" => {
                 if let Some(f) = parse::<RoomsFile>(file, &mut diags) {
                     rooms = f.room;
+                }
+            }
+            "factions.toml" => {
+                if let Some(f) = parse::<FactionsFile>(file, &mut diags) {
+                    factions = f.faction;
+                }
+            }
+            "blocks.toml" => {
+                if let Some(f) = parse::<BlocksFile>(file, &mut diags) {
+                    blocks = f.block;
                 }
             }
             "info.toml" => {
@@ -213,7 +239,7 @@ pub fn load(files: &[SourceFile]) -> Checked {
                 } else {
                     diags.push(
                         Diagnostic::warning(path, None, "unknown file, ignored")
-                            .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, players.toml, cycles.toml, map.toml, map-presets/*.toml, actions/*.toml and people/*.toml"),
+                            .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, players.toml, cycles.toml, map.toml, layout.toml, blocks.toml, factions.toml, map-presets/*.toml, actions/*.toml and people/*.toml"),
                     );
                 }
             }
@@ -244,6 +270,8 @@ pub fn load(files: &[SourceFile]) -> Checked {
                 categories,
                 items,
                 info,
+                blocks,
+                factions,
                 layout,
             };
             if !has_errors(&diags) {
