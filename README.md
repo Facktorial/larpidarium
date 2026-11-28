@@ -20,7 +20,7 @@ Character sheets land in `dist/players/`; open them from the 📄 icons in the g
 See [`examples/README.md`](examples/README.md) for what is planted where.
 
 ```text
-✔ Ztracené opatství: 6 actions (2 decisions), 4 people, 3 rooms, 3 items, 6 info · 0 warning(s)
+✔ Ztracené opatství: 8 actions (3 decisions), 4 people, 3 rooms, 3 items, 9 info · 0 warning(s)
 ```
 
 Now break something, for example change `"rusty-key"` to `"rusty-kee"` in
@@ -47,7 +47,8 @@ action gives what another needs, they are connected. **Decisions** are actions w
 larpidarium check  my-game/          # validate, show errors with file and line   (works)
 larpidarium serve  my-game/          # edit in the browser, live reload           (works)
 larpidarium build  my-game/ --open   # static site in dist/, works offline        (works)
-larpidarium pdf    my-game/          # player and organizer PDFs
+larpidarium pdf    my-game/          # player and organizer PDFs, packing list  (works)
+larpidarium schema my-game/          # JSON Schemas for editor autocomplete     (works)
 larpidarium import plan.json         # convert a taraxaplan save to TOML
 ```
 
@@ -74,7 +75,9 @@ AI-assisted workflow works is in [`docs/workflow.md`](docs/workflow.md).
 | 4 ✅  | Character sheets in HTML: Part I who you are, Part II destiny from the graph, Part III how you change ([spec](docs/sheets.md)) |
 | 5 ✅  | PDF: LaTeX player sheets, TikZ destiny graph, `pdf` command with tectonic, CI compiles the examples |
 | 6 🚧  | Organizer sheets ✅, mutation-testing cleanup ✅, releases                         |
-| 7 🚧  | Writing support: writing status, shared text blocks and facts, factions, relationships graph, who knows what (spoiler check), inventory and handouts, character profiles with timeline, balance report, counters |
+| 7 ✅  | Writing support: writing status ✅, shared text blocks and facts ✅, factions ✅, relationships graph ✅, who knows what (spoiler check) ✅, inventory and handouts ✅, character profiles with timeline ✅, balance report ✅, counters ✅ |
+| 8 📝  | Writers' chat in `serve`: a panel to iterate the story with the copywriter agents, writing only into `drafts/` with a diff and an apply button; must work without Claude Code too (design not decided yet) |
+| 9 📝  | Game kinds: one tool for an adventure (adventura), an Evžentura and a LARP, with a preset per kind. Evžentura preset: an organizer plays several characters, each on a different level; every NPC stands for a place; a hint giver outside the game (usually an organizer's character, but it can be a prop, such as a phone); a place that stays open for the whole game across levels (like the Krb) |
 
 ## License
 
