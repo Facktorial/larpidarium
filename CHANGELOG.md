@@ -11,6 +11,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
   an organizer sheet, and show up in the viewer (owner list, Frakce tab, People column).
 - Relationships: `check` warns when a player character has a relation with another player character
   who has none back, and the viewer has a Vztahy tab with a relationship graph.
+- Balance tab in the viewer: player characters side by side (acts, decisions, goals, secrets,
+  relations both ways, people met, knowledge, items, sheet words, idle segments), with numbers
+  below half the median highlighted.
 - Character profiles: `profiles/<id>.html` for every person, with relationships both ways and a
   timeline of their life, phases and actions (what they find out, are told, get and use up);
   linked from the viewer with 👤.

@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 
+mod balance;
 mod destiny;
 mod inventory;
 mod layout;
@@ -7,6 +8,7 @@ mod profile;
 mod progress;
 mod schedule;
 
+pub use balance::{Balance, balance};
 pub use destiny::{
     Destiny, DestinyOption, DestinyStep, MiniEdge, MiniGraph, MiniNode, Source, ThingRef, destiny,
 };
@@ -74,6 +76,8 @@ pub struct GraphData {
     pub blocks: Vec<BlockView>,
     /// Who knows which info and from when, for the Knowledge tab.
     pub knowledge: Vec<KnowView>,
+    /// Balance numbers per player character, for the Balance tab.
+    pub balance: Vec<Balance>,
     /// Items and handouts, for the Inventory tab.
     pub inventory: Vec<InventoryItem>,
 }
@@ -622,6 +626,7 @@ fn build_shown(
         blocks: Vec::new(),
         knowledge: knowledge(game),
         inventory: inventory(game),
+        balance: balance(game),
         endings: playthroughs
             .map(|p| {
                 p.endings

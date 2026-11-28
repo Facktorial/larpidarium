@@ -443,6 +443,16 @@ the game, sheet phases, every action and decision they take part in (directly or
 faction) with who else is there, what they find out, are told, get and use up, and their death.
 The viewer links each person's profile with 👤 (owner list and People tab).
 
+## Balance between players
+
+The viewer's **Rovnováha / Balance** tab (shown when the game has two or more player characters)
+compares them: actions and decisions they take part in (directly or through a faction), goals and
+secrets (with their factions'), relations to others and from others, how many other people they
+meet in their acts, info known at the start and learned during the game, items held or received,
+words of their own sheet text (with phases, without their factions'), and segments they live in
+with nothing to do (left empty when one of their acts has no time). Numbers below half
+the median are highlighted. It is information only: `check` never warns about it.
+
 ## Writing status
 
 Any action, decision, person, block or faction can say how far it is written and who writes it:

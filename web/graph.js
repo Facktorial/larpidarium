@@ -46,6 +46,7 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
+      tabBalance: 'Rovnováha', balanceHint: 'Kolik má každá hráčská postava hrát, vědět a čeho se účastnit. Čísla pod polovinou mediánu jsou zvýrazněná; je to jen informace, tichá postava může být záměr.', belowMedian: 'pod polovinou mediánu', balDecisions: 'Rozhodnutí', balGoals: 'Cíle', balSecrets: 'Tajemství', balRelOut: 'Vztahy k ostatním', balRelIn: 'Vztahy k ní', balMeets: 'Potká lidí', balKnows: 'Ví na začátku', balLearns: 'Dozví se', balItems: 'Předměty', balWords: 'Slov v listu', balIdle: 'Segmenty bez akce',
       profile: 'Profil postavy (celý příběh, spoilery)', qo: '„', qc: '“', tabInventory: 'Inventář', noInventory: 'Hra nemá žádné předměty.', packingList: 'Balicí seznam', handoutCards: 'Kartičky k tisku',
       prop: 'Rekvizita', location: 'Kde leží', holdsAtStart: 'Má na začátku', givenAt: 'Získá se', neededAt: 'Potřeba', usedAt: 'Spotřebuje se', handoutCol: 'Kartička',
       tabKnowledge: 'Znalosti', noKnowledge: 'Nikdo nic neví: v info.toml nejsou informace, které by někdo měl nebo získal.',
@@ -101,6 +102,7 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
+      tabBalance: 'Balance', balanceHint: 'How much each player character has to play, know and take part in. Numbers below half the median are marked; this is information only, a quiet character can be on purpose.', belowMedian: 'below half the median', balDecisions: 'Decisions', balGoals: 'Goals', balSecrets: 'Secrets', balRelOut: 'Relations to others', balRelIn: 'Relations to them', balMeets: 'Meets people', balKnows: 'Knows at start', balLearns: 'Learns', balItems: 'Items', balWords: 'Words on sheet', balIdle: 'Segments with nothing to do',
       profile: 'Character profile (whole story, spoilers)', qo: '“', qc: '”', tabInventory: 'Inventory', noInventory: 'The game has no items.', packingList: 'Packing list', handoutCards: 'Handouts to print',
       prop: 'Prop', location: 'Where', holdsAtStart: 'Held at start', givenAt: 'Given at', neededAt: 'Needed at', usedAt: 'Used up at', handoutCol: 'Handout',
       tabKnowledge: 'Knowledge', noKnowledge: 'Nobody knows anything: info.toml has no info that anyone holds or learns.',
@@ -1944,6 +1946,47 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return box;
   }
 
+  /**
+   * Balance: how much each player character has to do, know and play with. Numbers below half
+   * the median of all players are marked; it is information, not a warning.
+   */
+  function balanceTable() {
+    const rows = G.balance ?? [];
+    const median = (k) => {
+      const v = rows.map((r) => r[k]).sort((a, b) => a - b);
+      return v.length ? (v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2) : 0;
+    };
+    const num = (k, label) => {
+      const m = median(k);
+      return {
+        label,
+        cell: (r) => {
+          const s = el('span', r[k] < m / 2 ? 'low' : null, String(r[k]));
+          if (r[k] < m / 2) s.title = `${t.belowMedian} (${m})`;
+          return s;
+        },
+        sort: (r) => r[k],
+      };
+    };
+    const box = el('div');
+    box.append(el('p', 'hint', t.balanceHint));
+    box.append(dataTable(rows, [
+      { label: t.name, cell: (r) => {
+        const s = el('span');
+        const o = owners.get(r.id);
+        s.append(r.name);
+        if (o) s.append(profileLink(o));
+        return s;
+      }, sort: (r) => r.name },
+      num('actions', t.actions), num('decisions', t.balDecisions), num('goals', t.balGoals),
+      num('secrets', t.balSecrets), num('relations_out', t.balRelOut), num('relations_in', t.balRelIn),
+      num('meets', t.balMeets), num('knows_at_start', t.balKnows), num('learns', t.balLearns),
+      num('items', t.balItems), num('words', t.balWords),
+      { label: t.balIdle, cell: (r) => r.idle.join(', '), sort: (r) => r.idle.length },
+    ]));
+    return box;
+  }
+
   /** Factions: members, their actions (owned by the faction itself) and what they hold. */
   function factionsTable() {
     return dataTable(factions, [
@@ -2492,6 +2535,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     ...(people.some((o) => o.relations.length) ? [['relations', t.tabRelations, relationsView]] : []),
     ...((G.knowledge ?? []).length ? [['knowledge', t.tabKnowledge, knowledgeTable]] : []),
     ...((G.inventory ?? []).length ? [['inventory', t.tabInventory, inventoryTable]] : []),
+    ...((G.balance ?? []).length > 1 ? [['balance', t.tabBalance, balanceTable]] : []),
     ['players', t.tabPlayers, playersGrid], ...(G.cycles.length ? [['cycles', t.tabCycles, cyclesTable]] : []),
     ['things', t.tabThings, thingsTable], ...(G.blocks?.length ? [['blocks', t.tabBlocks, blocksTable]] : []),
     ['segments', t.tabSegments, segmentsTable], ['problems', `${t.tabProblems} (${G.findings.length})`, problemsTable],
