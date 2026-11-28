@@ -628,3 +628,24 @@ fn map_room_with_zero_width_or_height_is_an_error() {
         assert_eq!(errors, ["room `a` has zero size on the map"], "{a}");
     }
 }
+
+#[test]
+fn using_an_item_another_action_only_needs_is_a_choice_of_order() {
+    // Reading needs the book, burning uses it up: read first and both happen, burn first and
+    // reading never does, so that playthrough gets stuck.
+    let book = "[[item]]\nid = \"book\"\nname = \"Book\"\nstarting = true\n";
+    let burn = "[action]\ntitle = \"Burn\"\nuses = [\"book\"]\n";
+    let read = "[action]\ntitle = \"Read\"\nneeds = [\"book\"]\ngives = [\"win\"]\n";
+    let checked = run(&[
+        ("game.toml", GAME),
+        ("items.toml", book),
+        ("info.toml", &ending("win")),
+        ("actions/burn.toml", burn),
+        ("actions/read.toml", read),
+    ]);
+    assert_eq!(checked.playthroughs.as_ref().unwrap().end_states, 2);
+    assert_eq!(
+        messages(&checked, Severity::Warning),
+        ["a playthrough gets stuck without reaching any ending, after: Burn"]
+    );
+}

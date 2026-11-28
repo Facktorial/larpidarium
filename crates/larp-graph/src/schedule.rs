@@ -47,6 +47,8 @@ pub struct ScheduleOption {
     pub uses: Vec<ItemRef>,
     /// Produced.
     pub gives: Vec<ItemRef>,
+    /// Counter requirements and changes, as "Podezření ≥ 3", "Podezření +2".
+    pub counters: Vec<String>,
 }
 
 /// One action or decision on an organizer sheet.
@@ -72,6 +74,8 @@ pub struct ScheduleStep {
     pub uses: Vec<ItemRef>,
     /// Produced.
     pub gives: Vec<ItemRef>,
+    /// Counter requirements and changes, as "Podezření ≥ 3", "Podezření +2".
+    pub counters: Vec<String>,
     /// Decision options.
     pub options: Vec<ScheduleOption>,
 }
@@ -183,6 +187,7 @@ pub fn schedule(game: &Game, owner: &Id) -> Schedule {
                 needs: items(&a.needs),
                 uses: items(&a.uses),
                 gives: results(&a.gives),
+                counters: crate::counter_texts(game, &a.change, &a.require),
                 options: Vec::new(),
             },
             Node::Decision(d) => ScheduleStep {
@@ -196,6 +201,7 @@ pub fn schedule(game: &Game, owner: &Id) -> Schedule {
                 needs: Vec::new(),
                 uses: Vec::new(),
                 gives: Vec::new(),
+                counters: Vec::new(),
                 options: d
                     .options
                     .iter()
@@ -204,6 +210,7 @@ pub fn schedule(game: &Game, owner: &Id) -> Schedule {
                         needs: items(&o.needs),
                         uses: items(&o.uses),
                         gives: results(&o.gives),
+                        counters: crate::counter_texts(game, &o.change, &o.require),
                     })
                     .collect(),
             },

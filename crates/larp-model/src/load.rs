@@ -6,8 +6,8 @@ use serde::Deserialize;
 use serde::de::DeserializeOwned;
 
 use crate::model::{
-    Action, Block, Category, Cycle, Decision, Faction, Game, GameMeta, Layout, Map, Node, Person,
-    Player, Room, Segment, Thing,
+    Action, Block, Category, Counter, Cycle, Decision, Faction, Game, GameMeta, Layout, Map, Node,
+    Person, Player, Room, Segment, Thing,
 };
 use crate::playthrough::Playthroughs;
 use crate::validate::validate;
@@ -121,6 +121,13 @@ struct FactionsFile {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct CountersFile {
+    #[serde(default)]
+    counter: Vec<Counter>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct BlocksFile {
     #[serde(default)]
     block: Vec<Block>,
@@ -133,120 +140,159 @@ struct InfoFile {
     info: Vec<Thing>,
 }
 
-/// Parses and validates all files of a game folder.
-///
-/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`, `segments.toml`, `players.toml`, `cycles.toml`, `map.toml`, `blocks.toml`, `factions.toml`,
-/// `actions/<id>.toml`, `people/<id>.toml` and `layout.toml`.
-/// Any other path produces a warning.
-#[must_use]
-pub fn load(files: &[SourceFile]) -> Checked {
-    let mut diags = Vec::new();
-    let mut meta = None;
-    let mut nodes = BTreeMap::new();
-    let mut people = BTreeMap::new();
-    let mut rooms = Vec::new();
-    let mut categories = Vec::new();
-    let mut items = Vec::new();
-    let mut info = Vec::new();
-    let mut blocks = Vec::new();
-    let mut factions = Vec::new();
-    let mut layout = Layout::default();
-    let mut segments = Vec::new();
-    let mut players = Vec::new();
-    let mut cycles = Vec::new();
-    let mut map = None;
-    let mut map_presets = BTreeMap::new();
+/// Everything parsed so far, file by file.
+#[derive(Default)]
+struct Parts {
+    meta: Option<GameMeta>,
+    nodes: BTreeMap<Id, Node>,
+    people: BTreeMap<Id, Person>,
+    rooms: Vec<Room>,
+    categories: Vec<Category>,
+    items: Vec<Thing>,
+    info: Vec<Thing>,
+    blocks: Vec<Block>,
+    factions: Vec<Faction>,
+    counters: Vec<Counter>,
+    layout: Layout,
+    segments: Vec<Segment>,
+    players: Vec<Player>,
+    cycles: Vec<Cycle>,
+    map: Option<Map>,
+    map_presets: BTreeMap<Id, Map>,
+}
 
-    for file in files {
+impl Parts {
+    /// Parses one file into its place.
+    fn add(&mut self, file: &SourceFile, diags: &mut Vec<Diagnostic>) {
         match file.path.as_str() {
-            "game.toml" => meta = parse::<GameFile>(file, &mut diags).map(|f| f.game),
+            "game.toml" => self.meta = parse::<GameFile>(file, diags).map(|f| f.game),
             "items.toml" => {
-                if let Some(f) = parse::<ItemsFile>(file, &mut diags) {
-                    categories = f.category;
-                    items = f.item;
+                if let Some(f) = parse::<ItemsFile>(file, diags) {
+                    self.categories = f.category;
+                    self.items = f.item;
                 }
             }
-            "rooms.toml" => {
-                if let Some(f) = parse::<RoomsFile>(file, &mut diags) {
-                    rooms = f.room;
-                }
-            }
-            "factions.toml" => {
-                if let Some(f) = parse::<FactionsFile>(file, &mut diags) {
-                    factions = f.faction;
-                }
-            }
-            "blocks.toml" => {
-                if let Some(f) = parse::<BlocksFile>(file, &mut diags) {
-                    blocks = f.block;
-                }
-            }
-            "info.toml" => {
-                if let Some(f) = parse::<InfoFile>(file, &mut diags) {
-                    info = f.info;
-                }
-            }
+            "rooms.toml" => set(
+                &mut self.rooms,
+                parse::<RoomsFile>(file, diags).map(|f| f.room),
+            ),
+            "counters.toml" => set(
+                &mut self.counters,
+                parse::<CountersFile>(file, diags).map(|f| f.counter),
+            ),
+            "factions.toml" => set(
+                &mut self.factions,
+                parse::<FactionsFile>(file, diags).map(|f| f.faction),
+            ),
+            "blocks.toml" => set(
+                &mut self.blocks,
+                parse::<BlocksFile>(file, diags).map(|f| f.block),
+            ),
+            "info.toml" => set(
+                &mut self.info,
+                parse::<InfoFile>(file, diags).map(|f| f.info),
+            ),
             "map.toml" => {
-                if let Some(f) = parse::<MapFile>(file, &mut diags) {
-                    map = Some(f.map);
+                if let Some(f) = parse::<MapFile>(file, diags) {
+                    self.map = Some(f.map);
                 }
             }
-            "cycles.toml" => {
-                if let Some(f) = parse::<CyclesFile>(file, &mut diags) {
-                    cycles = f.cycle;
-                }
-            }
-            "players.toml" => {
-                if let Some(f) = parse::<PlayersFile>(file, &mut diags) {
-                    players = f.player;
-                }
-            }
-            "segments.toml" => {
-                if let Some(f) = parse::<SegmentsFile>(file, &mut diags) {
-                    segments = f.segment;
-                }
-            }
-            "layout.toml" => {
-                if let Some(l) = parse::<Layout>(file, &mut diags) {
-                    layout = l;
-                }
-            }
-            path => {
-                if let Some(stem) = path
-                    .strip_prefix("actions/")
-                    .and_then(|p| p.strip_suffix(".toml"))
-                {
-                    if let Some(node) = load_node(file, stem, &mut diags) {
-                        nodes.extend([node]);
-                    }
-                } else if let Some(stem) = path
-                    .strip_prefix("map-presets/")
-                    .and_then(|p| p.strip_suffix(".toml"))
-                {
-                    let id = file_id(file, stem, &mut diags);
-                    if let (Some(id), Some(f)) = (id, parse::<MapFile>(file, &mut diags)) {
-                        map_presets.insert(id, f.map);
-                    }
-                } else if let Some(stem) = path
-                    .strip_prefix("people/")
-                    .and_then(|p| p.strip_suffix(".toml"))
-                {
-                    let id = file_id(file, stem, &mut diags);
-                    let person = parse::<PersonFile>(file, &mut diags);
-                    if let (Some(id), Some(p)) = (id, person) {
-                        people.insert(id, p.person);
-                    }
-                } else {
-                    diags.push(
-                        Diagnostic::warning(path, None, "unknown file, ignored")
-                            .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, players.toml, cycles.toml, map.toml, layout.toml, blocks.toml, factions.toml, map-presets/*.toml, actions/*.toml and people/*.toml"),
-                    );
-                }
-            }
+            "cycles.toml" => set(
+                &mut self.cycles,
+                parse::<CyclesFile>(file, diags).map(|f| f.cycle),
+            ),
+            "players.toml" => set(
+                &mut self.players,
+                parse::<PlayersFile>(file, diags).map(|f| f.player),
+            ),
+            "segments.toml" => set(
+                &mut self.segments,
+                parse::<SegmentsFile>(file, diags).map(|f| f.segment),
+            ),
+            "layout.toml" => set(&mut self.layout, parse::<Layout>(file, diags)),
+            path => self.add_nested(file, path, diags),
         }
     }
 
-    if meta.is_none() && !files.iter().any(|f| f.path == "game.toml") {
+    /// Loads a file inside `actions/`, `map-presets/` or `people/`; any other path is unknown.
+    fn add_nested(&mut self, file: &SourceFile, path: &str, diags: &mut Vec<Diagnostic>) {
+        if let Some(stem) = path
+            .strip_prefix("actions/")
+            .and_then(|p| p.strip_suffix(".toml"))
+        {
+            if let Some(node) = load_node(file, stem, diags) {
+                self.nodes.extend([node]);
+            }
+        } else if let Some(stem) = path
+            .strip_prefix("map-presets/")
+            .and_then(|p| p.strip_suffix(".toml"))
+        {
+            let id = file_id(file, stem, diags);
+            if let (Some(id), Some(f)) = (id, parse::<MapFile>(file, diags)) {
+                self.map_presets.insert(id, f.map);
+            }
+        } else if let Some(stem) = path
+            .strip_prefix("people/")
+            .and_then(|p| p.strip_suffix(".toml"))
+        {
+            let id = file_id(file, stem, diags);
+            let person = parse::<PersonFile>(file, diags);
+            if let (Some(id), Some(p)) = (id, person) {
+                self.people.insert(id, p.person);
+            }
+        } else {
+            diags.push(
+                Diagnostic::warning(path, None, "unknown file, ignored")
+                    .with_help("game files are game.toml, items.toml, rooms.toml, info.toml, segments.toml, players.toml, cycles.toml, map.toml, layout.toml, blocks.toml, factions.toml, counters.toml, map-presets/*.toml, actions/*.toml and people/*.toml"),
+            );
+        }
+    }
+
+    /// The game, if `game.toml` was read.
+    fn into_game(self) -> Option<Game> {
+        Some(Game {
+            meta: self.meta?,
+            nodes: self.nodes,
+            people: self.people,
+            rooms: self.rooms,
+            segments: self.segments,
+            players: self.players,
+            cycles: self.cycles,
+            map: self.map,
+            map_presets: self.map_presets,
+            categories: self.categories,
+            items: self.items,
+            info: self.info,
+            blocks: self.blocks,
+            factions: self.factions,
+            counters: self.counters,
+            layout: self.layout,
+        })
+    }
+}
+
+/// Replaces `slot` with a successfully parsed value.
+fn set<T>(slot: &mut T, parsed: Option<T>) {
+    if let Some(v) = parsed {
+        *slot = v;
+    }
+}
+
+/// Parses and validates all files of a game folder.
+///
+/// Recognized paths: `game.toml` (required), `items.toml`, `rooms.toml`, `info.toml`,
+/// `segments.toml`, `players.toml`, `cycles.toml`, `map.toml`, `blocks.toml`, `factions.toml`,
+/// `counters.toml`, `actions/<id>.toml`, `people/<id>.toml`, `map-presets/<id>.toml` and
+/// `layout.toml`. Any other path produces a warning.
+#[must_use]
+pub fn load(files: &[SourceFile]) -> Checked {
+    let mut diags = Vec::new();
+    let mut parts = Parts::default();
+    for file in files {
+        parts.add(file, &mut diags);
+    }
+
+    if parts.meta.is_none() && !files.iter().any(|f| f.path == "game.toml") {
         diags.push(
             Diagnostic::error("game.toml", None, "game.toml is missing").with_help(
                 "create game.toml with a [game] table containing `title` and `language`",
@@ -255,32 +301,12 @@ pub fn load(files: &[SourceFile]) -> Checked {
     }
 
     let mut playthroughs = None;
-    let game = match meta {
-        Some(meta) => {
-            let game = Game {
-                meta,
-                nodes,
-                people,
-                rooms,
-                segments,
-                players,
-                cycles,
-                map,
-                map_presets,
-                categories,
-                items,
-                info,
-                blocks,
-                factions,
-                layout,
-            };
-            if !has_errors(&diags) {
-                playthroughs = validate(&game, &mut diags);
-            }
-            Some(game)
-        }
-        None => None,
-    };
+    let game = parts.into_game();
+    if let Some(game) = &game
+        && !has_errors(&diags)
+    {
+        playthroughs = validate(game, &mut diags);
+    }
 
     diags.sort_by_key(|d| std::cmp::Reverse(d.severity));
     let (game, draft) = if has_errors(&diags) {

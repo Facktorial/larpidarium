@@ -4,5 +4,6 @@ title = "Otevřít kryptu"
 owners = ["crypt"]
 needs = ["rusty-key", "crypt-suspicion"]
 gives = ["abbot-bones"]
+change = { suspicion = 3 }
 text = "Kdo má klíč a důvod, odemkne kryptu. Organizátor tam předem uloží kostru."
 brief = "Jednou se dveře krypty otevřou. Co je za nimi, změní všechno."

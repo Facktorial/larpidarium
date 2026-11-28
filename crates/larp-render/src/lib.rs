@@ -597,12 +597,14 @@ fn value_text(value: &Value) -> String {
 }
 
 /// Escapes text for LaTeX: the ten special characters, `"` (active in Czech babel) and square
-/// brackets (so text can follow `\item`). Line breaks and tabs are kept (a blank line starts a
-/// paragraph); other control characters, which `XeTeX` rejects, are dropped.
+/// brackets (so text can follow `\item`). `≥`, `≤` and `−`, which the default font lacks, are
+/// typeset as math. Line breaks and tabs are kept (a blank line starts a paragraph); other
+/// control characters, which `XeTeX` rejects, are dropped.
 ///
 /// ```
 /// assert_eq!(larp_render::tex_escape("50 % & $5_a"), r"50 \% \& \$5\_a");
 /// assert_eq!(larp_render::tex_escape("„Ř“ {x}"), r"„Ř“ \{x\}");
+/// assert_eq!(larp_render::tex_escape("≥ 3"), r"\ensuremath{\geq} 3");
 /// ```
 #[must_use]
 pub fn tex_escape(text: &str) -> String {
@@ -617,6 +619,9 @@ pub fn tex_escape(text: &str) -> String {
             '^' => out.push_str(r"\textasciicircum{}"),
             '~' => out.push_str(r"\textasciitilde{}"),
             '"' => out.push_str(r"\textquotedbl{}"),
+            '≥' => out.push_str(r"\ensuremath{\geq}"),
+            '≤' => out.push_str(r"\ensuremath{\leq}"),
+            '−' => out.push_str(r"\ensuremath{-}"),
             '[' => out.push_str("{[}"),
             ']' => out.push_str("{]}"),
             '\n' | '\t' => out.push(c),

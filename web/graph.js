@@ -46,7 +46,7 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
-      tabBalance: 'Rovnováha', balanceHint: 'Kolik má každá hráčská postava hrát, vědět a čeho se účastnit. Čísla pod polovinou mediánu jsou zvýrazněná; je to jen informace, tichá postava může být záměr.', belowMedian: 'pod polovinou mediánu', balDecisions: 'Rozhodnutí', balGoals: 'Cíle', balSecrets: 'Tajemství', balRelOut: 'Vztahy k ostatním', balRelIn: 'Vztahy k ní', balMeets: 'Potká lidí', balKnows: 'Ví na začátku', balLearns: 'Dozví se', balItems: 'Předměty', balWords: 'Slov v listu', balIdle: 'Segmenty bez akce',
+      counters: 'Počitadla', tabBalance: 'Rovnováha', balanceHint: 'Kolik má každá hráčská postava hrát, vědět a čeho se účastnit. Čísla pod polovinou mediánu jsou zvýrazněná; je to jen informace, tichá postava může být záměr.', belowMedian: 'pod polovinou mediánu', balDecisions: 'Rozhodnutí', balGoals: 'Cíle', balSecrets: 'Tajemství', balRelOut: 'Vztahy k ostatním', balRelIn: 'Vztahy k ní', balMeets: 'Potká lidí', balKnows: 'Ví na začátku', balLearns: 'Dozví se', balItems: 'Předměty', balWords: 'Slov v listu', balIdle: 'Segmenty bez akce',
       profile: 'Profil postavy (celý příběh, spoilery)', qo: '„', qc: '“', tabInventory: 'Inventář', noInventory: 'Hra nemá žádné předměty.', packingList: 'Balicí seznam', handoutCards: 'Kartičky k tisku',
       prop: 'Rekvizita', location: 'Kde leží', holdsAtStart: 'Má na začátku', givenAt: 'Získá se', neededAt: 'Potřeba', usedAt: 'Spotřebuje se', handoutCol: 'Kartička',
       tabKnowledge: 'Znalosti', noKnowledge: 'Nikdo nic neví: v info.toml nejsou informace, které by někdo měl nebo získal.',
@@ -102,7 +102,7 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
-      tabBalance: 'Balance', balanceHint: 'How much each player character has to play, know and take part in. Numbers below half the median are marked; this is information only, a quiet character can be on purpose.', belowMedian: 'below half the median', balDecisions: 'Decisions', balGoals: 'Goals', balSecrets: 'Secrets', balRelOut: 'Relations to others', balRelIn: 'Relations to them', balMeets: 'Meets people', balKnows: 'Knows at start', balLearns: 'Learns', balItems: 'Items', balWords: 'Words on sheet', balIdle: 'Segments with nothing to do',
+      counters: 'Counters', tabBalance: 'Balance', balanceHint: 'How much each player character has to play, know and take part in. Numbers below half the median are marked; this is information only, a quiet character can be on purpose.', belowMedian: 'below half the median', balDecisions: 'Decisions', balGoals: 'Goals', balSecrets: 'Secrets', balRelOut: 'Relations to others', balRelIn: 'Relations to them', balMeets: 'Meets people', balKnows: 'Knows at start', balLearns: 'Learns', balItems: 'Items', balWords: 'Words on sheet', balIdle: 'Segments with nothing to do',
       profile: 'Character profile (whole story, spoilers)', qo: '“', qc: '”', tabInventory: 'Inventory', noInventory: 'The game has no items.', packingList: 'Packing list', handoutCards: 'Handouts to print',
       prop: 'Prop', location: 'Where', holdsAtStart: 'Held at start', givenAt: 'Given at', neededAt: 'Needed at', usedAt: 'Used up at', handoutCol: 'Handout',
       tabKnowledge: 'Knowledge', noKnowledge: 'Nobody knows anything: info.toml has no info that anyone holds or learns.',
@@ -243,6 +243,22 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return s;
   }
 
+  const counters = new Map((G.counters ?? []).map((c) => [c.id, c]));
+  const counterName = (id) => counters.get(id)?.name ?? id;
+  /** "Podezření +2", "Podezření ≥ 3", "Peníze 1–4": a node's counter changes and requirements. */
+  const counterTexts = (n) => [
+    ...(n.require ?? []).map((r) => {
+      const name = counterName(r.counter);
+      if (r.at_least !== undefined && r.at_most !== undefined) return `${name} ${r.at_least}–${r.at_most}`;
+      return r.at_least !== undefined ? `${name} ≥ ${r.at_least}` : `${name} ≤ ${r.at_most}`;
+    }),
+    ...(n.change ?? []).map(([c, v]) => `${counterName(c)} ${v >= 0 ? '+' : '−'}${Math.abs(v)}`),
+  ];
+  function counterLine(n) {
+    const list = counterTexts(n);
+    if (!list.length) return null;
+    return el('div', 'node-req', `${t.counters}: ${list.join(', ')}`);
+  }
   function thingLine(label, ids) {
     if (!ids.length) return null;
     const d = el('div', 'node-req');
@@ -289,7 +305,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       const core = el('div', 'node-core');
       const names = n.owners.map(ownerName).sort((a, b) => a.localeCompare(b)).join(', ');
       core.append(el('div', 'node-owner', names || t.unassigned), el('div', 'node-desc', n.title));
-      const lines = [thingLine(t.in, n.needs), thingLine(t.uses, n.uses), thingLine(t.out, n.gives)].filter(Boolean);
+      const lines = [thingLine(t.in, n.needs), thingLine(t.uses, n.uses), thingLine(t.out, n.gives), counterLine(n)].filter(Boolean);
       core.append(...lines);
       node.append(bar, core);
 
@@ -299,7 +315,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
           const row = el('div', 'node-opt-row');
           row.dataset.opt = String(i);
           row.append(el('div', 'opt-label', `▶ ${o.label}`));
-          const optLines = [thingLine(t.in, o.needs), thingLine(t.uses, o.uses), thingLine(t.out, o.gives)]
+          const optLines = [thingLine(t.in, o.needs), thingLine(t.uses, o.uses), thingLine(t.out, o.gives), counterLine(o)]
             .filter(Boolean);
           row.append(...optLines);
           opts.append(row);
@@ -1017,11 +1033,21 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     list(t.in, n.needs);
     list(t.uses, n.uses);
     list(t.out, n.gives);
+    const counterList = (o) => {
+      const texts = counterTexts(o);
+      if (!texts.length) return;
+      box.append(el('strong', null, t.counters));
+      const ul = el('ul');
+      for (const x of texts) ul.append(el('li', null, x));
+      box.append(ul);
+    };
+    counterList(n);
     for (const o of n.options) {
       box.append(el('div', 'opt-label', `▶ ${o.label}`));
       list(t.in, o.needs);
       list(t.uses, o.uses);
       list(t.out, o.gives);
+      counterList(o);
     }
     if (EDIT) {
       const row = el('div', 'edit-row');
@@ -1464,7 +1490,8 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       const decisionBox = el('div', 'kind-box');
       const optionList = el('div', 'option-list');
       const optionEditors = [];
-      const addOption = (o) => {
+      // `from`: the option's place in the file, so the server keeps its other keys with it.
+      const addOption = (o, from) => {
         const box = el('fieldset', 'option-box');
         box.append(el('legend', null, t.option));
         const label = textInput(o?.label);
@@ -1477,16 +1504,16 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
         field(box, t.out, og.el);
         const remove = el('button', 'danger small', t.remove);
         remove.type = 'button';
-        const entry = { label, on, ou, og };
+        const entry = { label, on, ou, og, from: o ? from : null, fromLabel: o ? o.label : null };
         remove.addEventListener('click', () => { box.remove(); optionEditors.splice(optionEditors.indexOf(entry), 1); });
         box.append(remove);
         optionEditors.push(entry);
         optionList.append(box);
       };
-      (n?.options?.length ? n.options : [null, null]).forEach(addOption);
+      (n?.options?.length ? n.options : [null, null]).forEach((o, i) => addOption(o, i));
       const add = el('button', 'small', t.addOption);
       add.type = 'button';
-      add.addEventListener('click', () => addOption(null));
+      add.addEventListener('click', () => addOption(null, null));
       decisionBox.append(optionList, add);
       form.append(actionBox, decisionBox);
 
@@ -1508,7 +1535,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
         needs: needs.value(), uses: uses.value(), gives: gives.value(),
         brief: brief.value, text: text.value, status: status.value, writer: writer.value.trim(),
         options: kindSel.value === 'decision'
-          ? optionEditors.map((o) => ({ label: o.label.value, needs: o.on.value(), uses: o.ou.value(), gives: o.og.value() }))
+          ? optionEditors.map((o) => ({ label: o.label.value, needs: o.on.value(), uses: o.ou.value(), gives: o.og.value(), from: o.from, from_label: o.fromLabel }))
           : [],
       });
     });

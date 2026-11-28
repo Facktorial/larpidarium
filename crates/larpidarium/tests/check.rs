@@ -778,3 +778,73 @@ fn profile_template_in_the_game_folder_is_used() {
     assert_eq!(html, "PROFILE Bratr Anselm Konvent");
     let _ = std::fs::remove_dir_all(&base);
 }
+
+// ---------- counters ----------
+
+#[test]
+fn build_shows_the_suspicion_counter_on_the_crypt_sheet() {
+    let base = fresh("build-counters");
+    let site = base.join("site");
+    build(&example("lost-abbey"), &site);
+    let crypt = std::fs::read_to_string(site.join("organizers/crypt.html")).unwrap();
+    assert!(
+        crypt.contains("<b>Počitadla:</b> Hugovo podezření +3</p>"),
+        "{crypt}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn pdf_tex_only_shows_the_suspicion_counter_on_the_crypt_sheet() {
+    let base = fresh("pdf-counters");
+    let out = base.join("pdf");
+    pdf_tex_only(&example("lost-abbey"), &out);
+    let crypt = std::fs::read_to_string(out.join("organizers/crypt.tex")).unwrap();
+    assert!(
+        crypt.contains(r"\flowline{Počitadla}{Hugovo podezření +3}"),
+        "{crypt}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn build_writes_counters_and_their_uses_into_the_graph_data() {
+    let base = fresh("build-counters-json");
+    let site = base.join("site");
+    build(&example("lost-abbey"), &site);
+    let text = std::fs::read_to_string(site.join("graph.json")).unwrap();
+    let data: serde_json::Value = serde_json::from_str(&text).unwrap();
+    let counters = data["counters"].as_array().unwrap();
+    assert_eq!(counters.len(), 1, "{counters:?}");
+    assert_eq!(counters[0]["id"], "suspicion");
+    assert_eq!(counters[0]["name"], "Hugovo podezření");
+    assert_eq!(
+        (
+            &counters[0]["start"],
+            &counters[0]["min"],
+            &counters[0]["max"]
+        ),
+        (&0.into(), &0.into(), &10.into())
+    );
+    let node = |id: &str| {
+        data["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|n| n["id"] == id)
+            .unwrap_or_else(|| panic!("no node {id}"))
+            .clone()
+    };
+    assert_eq!(
+        node("open-crypt")["change"],
+        serde_json::json!([["suspicion", 3]])
+    );
+    let accuse = &node("hugo-verdict")["options"][0];
+    assert_eq!(accuse["label"], "Obvinit Anselma");
+    assert_eq!(
+        accuse["require"],
+        serde_json::json!([{ "counter": "suspicion", "at_least": 6 }]),
+        "a missing bound is left out, not null"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}

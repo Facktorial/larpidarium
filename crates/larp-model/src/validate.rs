@@ -11,6 +11,7 @@ use crate::playthrough::{self, Playthroughs};
 use crate::{Diagnostic, Id, Severity};
 
 mod blocks;
+mod counters;
 mod knowledge;
 mod lives;
 mod map;
@@ -28,6 +29,7 @@ enum Kind {
     Info,
     Block,
     Faction,
+    Counter,
 }
 
 impl fmt::Display for Kind {
@@ -44,6 +46,7 @@ impl fmt::Display for Kind {
             Self::Info => "an info",
             Self::Block => "a block",
             Self::Faction => "a faction",
+            Self::Counter => "a counter",
         })
     }
 }
@@ -120,6 +123,7 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
         );
     }
     blocks::check(game, &registry, diags);
+    counters::check(game, &registry, diags);
     knowledge::check(game, diags);
     for faction in &game.factions {
         if game.members(faction.id.get_ref()).next().is_none() {
@@ -405,7 +409,7 @@ fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> 
                     ),
                 )
                 .with_help(
-                    "ids must be unique across actions, people, rooms, factions, items, info and blocks",
+                    "ids must be unique across actions, people, rooms, factions, counters, items, info and blocks",
                 ),
             );
         } else {
@@ -473,6 +477,14 @@ fn register_ids(game: &Game, diags: &mut Vec<Diagnostic>) -> HashMap<Id, Entry> 
             Kind::Faction,
             "factions.toml".into(),
             Some(faction.id.span()),
+        );
+    }
+    for counter in &game.counters {
+        add(
+            counter.id.get_ref(),
+            Kind::Counter,
+            "counters.toml".into(),
+            Some(counter.id.span()),
         );
     }
     for block in &game.blocks {

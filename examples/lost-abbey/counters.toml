@@ -1,0 +1,11 @@
+[[counter]]
+id = "suspicion"
+name = "Hugovo podezření"
+start = 0
+max = 10
+text = """
+Jak moc inspektor Hugo věří, že za opatovým zmizením stojí bratr Anselm.
+Zvěst od brány přidá 2, otevřená krypta 3, opatův dopis v Hugových rukou 3.
+Obvinit Anselma lze až od 6: kosti a sténání nestačí, rozhodne teprve dopis.
+Petra podle něj hlídá tempo: když se ráno blíží a podezření stojí na 5, dopis pořád chybí.
+"""

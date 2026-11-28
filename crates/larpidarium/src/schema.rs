@@ -66,6 +66,14 @@ fn flow() -> Value {
         "needs": refs("items or info that must exist; they stay"),
         "uses": refs("items that must exist and are used up"),
         "gives": refs("items or info produced"),
+        "change": { "type": "object", "additionalProperties": { "type": "integer" },
+                    "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+                    "description": "How much to add to counters (negative subtracts), by counter id: `{ suspicion = 2 }`." },
+        "require": { "type": "object", "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" }, "description": "Counter values needed, by counter id: `{ suspicion = { at_least = 3 } }`.",
+                     "additionalProperties": object(&[], &json!({
+                         "at_least": { "type": "integer", "description": "Smallest allowed value." },
+                         "at_most": { "type": "integer", "description": "Largest allowed value." },
+                     })) },
     })
 }
 
@@ -240,6 +248,21 @@ fn faction_entry() -> Value {
     v
 }
 
+/// One `[[counter]]`.
+fn counter_entry() -> Value {
+    object(
+        &["id", "name"],
+        &json!({
+            "id": id("the counter"),
+            "name": text("Display name."),
+            "start": { "type": "integer", "description": "Value when the game starts (default 0)." },
+            "min": { "type": "integer", "description": "Smallest value (default 0); changes stop there." },
+            "max": { "type": "integer", "description": "Largest value (default 10); changes stop there." },
+            "text": text("Notes for organizers."),
+        }),
+    )
+}
+
 /// One `[[block]]`.
 fn blocks_entry() -> Value {
     let mut v = object(
@@ -401,6 +424,17 @@ fn content_schemas() -> Vec<Schema> {
                 &[],
                 &json!({
                     "faction": list_of(&faction_entry(), "[[faction]]: groups of people; members write `factions = [...]`."),
+                }),
+            ),
+        },
+        Schema {
+            name: "counters",
+            globs: &["counters.toml"],
+            json: file(
+                "counters.toml",
+                &[],
+                &json!({
+                    "counter": list_of(&counter_entry(), "[[counter]]: numbers that actions `change` and `require`."),
                 }),
             ),
         },

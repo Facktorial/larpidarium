@@ -82,6 +82,15 @@ pub(crate) struct OptionEdit {
     pub(crate) uses: Vec<String>,
     #[serde(default)]
     pub(crate) gives: Vec<String>,
+    /// The option's index in the file before the edit; `None` for a new option. Its other keys
+    /// (`change`, `require`, comments) stay with it when options are removed or reordered.
+    #[serde(default)]
+    pub(crate) from: Option<usize>,
+    /// The label the option at `from` had when the form was loaded. When the file has changed
+    /// since and that option is labelled differently, the edit is refused instead of moving
+    /// `change`/`require` onto the wrong option.
+    #[serde(default)]
+    pub(crate) from_label: Option<String>,
 }
 
 /// Item or info.
@@ -226,6 +235,20 @@ pub(crate) fn node(current: Option<&str>, edit: &NodeEdit) -> EditResult<String>
         NodeKind::Action => ("action", "decision"),
         NodeKind::Decision => ("decision", "action"),
     };
+    // Switching kind would lose counter keys the form does not carry.
+    if let Some(old) = doc.get(other).and_then(Item::as_table)
+        && has_counter_keys(old)
+    {
+        return refuse(format!(
+            "`{}` has `change` or `require`; remove them in the file before turning it into {}",
+            edit.id,
+            if key == "action" {
+                "an action"
+            } else {
+                "a decision"
+            }
+        ));
+    }
     // Switching kind: the new table inherits the old one's comment and position.
     let old_decor = doc
         .remove(other)
@@ -298,33 +321,60 @@ pub(crate) fn node(current: Option<&str>, edit: &NodeEdit) -> EditResult<String>
     Ok(doc.to_string())
 }
 
-/// Updates `[[decision.option]]` in place, so comments on existing options survive.
-fn options(table: &mut Table, edits: &[OptionEdit]) -> EditResult<()> {
-    if !matches!(table.get("option"), Some(Item::ArrayOfTables(_))) {
-        table.insert("option", Item::ArrayOfTables(ArrayOfTables::new()));
-    }
-    let Some(list) = table
-        .get_mut("option")
-        .and_then(Item::as_array_of_tables_mut)
-    else {
-        return refuse("`option` is not a list of tables");
+/// True when a node table, or any of its options, has `change` or `require`.
+fn has_counter_keys(table: &Table) -> bool {
+    let own = table.contains_key("change") || table.contains_key("require");
+    let in_options = match table.get("option") {
+        Some(Item::ArrayOfTables(list)) => list
+            .iter()
+            .any(|o| o.contains_key("change") || o.contains_key("require")),
+        Some(Item::Value(Value::Array(list))) => list
+            .iter()
+            .filter_map(Value::as_inline_table)
+            .any(|o| o.contains_key("change") || o.contains_key("require")),
+        _ => false,
     };
-    while list.len() > edits.len() {
-        list.remove(list.len() - 1);
-    }
-    for (i, o) in edits.iter().enumerate() {
-        require(&o.label, "option label")?;
-        if list.get(i).is_none() {
-            list.push(Table::new());
+    own || in_options
+}
+
+/// Rewrites `[[decision.option]]`. An option edited from an existing one (`from`) starts from
+/// that table, so its comments and keys the form does not show (`change`, `require`) follow it
+/// when options are removed or reordered.
+fn options(table: &mut Table, edits: &[OptionEdit]) -> EditResult<()> {
+    let old: Vec<Table> = match table.get("option") {
+        None => Vec::new(),
+        Some(Item::ArrayOfTables(list)) => list.iter().cloned().collect(),
+        Some(_) => {
+            return refuse(
+                "the options are not written as [[decision.option]] tables; edit this file by hand",
+            );
         }
-        let Some(t) = list.get_mut(i) else {
-            return refuse("cannot add an option");
+    };
+    let mut used = vec![false; old.len()];
+    let mut list = ArrayOfTables::new();
+    for o in edits {
+        require(&o.label, "option label")?;
+        let mut t = match o.from {
+            None => Table::new(),
+            Some(i) => {
+                let Some(t) = old.get(i) else {
+                    return refuse("the options changed in the file since the form was opened");
+                };
+                let label = t.get("label").and_then(Item::as_str).unwrap_or_default();
+                let moved = o.from_label.as_deref().is_some_and(|l| l != label);
+                if moved || std::mem::replace(&mut used[i], true) {
+                    return refuse("the options changed in the file since the form was opened");
+                }
+                t.clone()
+            }
         };
-        set(t, "label", Value::from(o.label.trim()));
-        set_list(t, "needs", &ids(&o.needs)?);
-        set_list(t, "uses", &ids(&o.uses)?);
-        set_list(t, "gives", &ids(&o.gives)?);
+        set(&mut t, "label", Value::from(o.label.trim()));
+        set_list(&mut t, "needs", &ids(&o.needs)?);
+        set_list(&mut t, "uses", &ids(&o.uses)?);
+        set_list(&mut t, "gives", &ids(&o.gives)?);
+        list.push(t);
     }
+    table.insert("option", Item::ArrayOfTables(list));
     Ok(())
 }
 
@@ -581,6 +631,8 @@ mod tests {
             needs: Vec::new(),
             uses: Vec::new(),
             gives: vec!["end".into()],
+            from: None,
+            from_label: None,
         }
     }
 
@@ -703,13 +755,126 @@ mod tests {
         let mut e = action("d");
         e.kind = NodeKind::Decision;
         e.create = false;
-        e.options = vec![option("A2")];
+        e.options = vec![OptionEdit {
+            from: Some(0),
+            ..option("A2")
+        }];
         let text = node(Some(current), &e).unwrap();
         assert!(
             text.contains("# first option\n[[decision.option]]\nlabel = \"A2\""),
             "{text}"
         );
         assert!(!text.contains("label = \"B\""));
+    }
+
+    #[test]
+    fn removing_an_option_keeps_counter_keys_with_their_own_options() {
+        let current = "[decision]\ntitle = \"D\"\n\n[[decision.option]]\nlabel = \"A\"\nrequire = { s = { at_least = 6 } }\n\n[[decision.option]]\nlabel = \"B\"\n\n[[decision.option]]\nlabel = \"C\"\nchange = { s = -2 }\n";
+        let mut e = action("d");
+        e.kind = NodeKind::Decision;
+        e.create = false;
+        e.options = vec![
+            OptionEdit {
+                from: Some(0),
+                ..option("A")
+            },
+            OptionEdit {
+                from: Some(2),
+                ..option("C")
+            },
+            option("New"),
+        ];
+        let text = node(Some(current), &e).unwrap();
+        let doc: toml::Value = toml::from_str(&text).unwrap();
+        let opts = doc["decision"]["option"].as_array().unwrap();
+        assert_eq!(opts.len(), 3, "{text}");
+        assert_eq!(opts[0]["label"].as_str(), Some("A"));
+        assert!(opts[0].get("require").is_some(), "{text}");
+        assert_eq!(opts[1]["label"].as_str(), Some("C"));
+        assert_eq!(opts[1]["change"]["s"].as_integer(), Some(-2), "{text}");
+        assert!(opts[1].get("require").is_none(), "{text}");
+        assert!(opts[2].get("change").is_none() && opts[2].get("require").is_none());
+    }
+
+    fn decision_edit(options: Vec<OptionEdit>) -> NodeEdit {
+        let mut e = action("d");
+        e.kind = NodeKind::Decision;
+        e.create = false;
+        e.options = options;
+        e
+    }
+
+    const TWO_OPTIONS: &str = "[decision]\ntitle = \"D\"\n\n[[decision.option]]\nlabel = \"A\"\nchange = { s = 1 }\n\n[[decision.option]]\nlabel = \"B\"\n";
+
+    #[test]
+    fn option_whose_label_changed_in_the_file_is_refused() {
+        let e = decision_edit(vec![OptionEdit {
+            from: Some(0),
+            from_label: Some("B".into()),
+            ..option("B")
+        }]);
+        assert!(node(Some(TWO_OPTIONS), &e).is_err());
+        let ok = decision_edit(vec![OptionEdit {
+            from: Some(0),
+            from_label: Some("A".into()),
+            ..option("A2")
+        }]);
+        assert!(
+            node(Some(TWO_OPTIONS), &ok)
+                .unwrap()
+                .contains("change = { s = 1 }")
+        );
+    }
+
+    #[test]
+    fn option_from_out_of_range_or_twice_is_refused() {
+        let far = decision_edit(vec![OptionEdit {
+            from: Some(2),
+            ..option("X")
+        }]);
+        assert!(node(Some(TWO_OPTIONS), &far).is_err());
+        let twice = decision_edit(vec![
+            OptionEdit {
+                from: Some(0),
+                ..option("A")
+            },
+            OptionEdit {
+                from: Some(0),
+                ..option("A again")
+            },
+        ]);
+        assert!(node(Some(TWO_OPTIONS), &twice).is_err());
+    }
+
+    #[test]
+    fn inline_option_array_is_refused_not_dropped() {
+        let current =
+            "[decision]\ntitle = \"D\"\noption = [{ label = \"A\", change = { s = 1 } }]\n";
+        let e = decision_edit(vec![option("A")]);
+        assert!(node(Some(current), &e).is_err());
+    }
+
+    #[test]
+    fn switching_kind_with_inline_option_counter_keys_is_refused() {
+        let current =
+            "[decision]\ntitle = \"D\"\noption = [{ label = \"A\", change = { s = 1 } }]\n";
+        let mut e = action("d");
+        e.create = false;
+        assert!(node(Some(current), &e).is_err());
+    }
+
+    #[test]
+    fn switching_kind_with_counter_keys_is_refused() {
+        let current = "[action]\ntitle = \"A\"\nchange = { s = 1 }\n";
+        let mut e = action("a");
+        e.kind = NodeKind::Decision;
+        e.create = false;
+        e.options = vec![option("X")];
+        assert!(node(Some(current), &e).is_err());
+        let current = "[decision]\ntitle = \"D\"\n[[decision.option]]\nlabel = \"X\"\nrequire = { s = { at_most = 1 } }\n";
+        let mut e = action("d");
+        e.create = false;
+        assert!(node(Some(current), &e).is_err());
     }
 
     #[test]

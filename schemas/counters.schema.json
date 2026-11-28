@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "counter": {
+      "description": "[[counter]]: numbers that actions `change` and `require`.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "Id of the counter: lowercase ASCII letters, digits and dashes.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "max": {
+            "description": "Largest value (default 10); changes stop there.",
+            "type": "integer"
+          },
+          "min": {
+            "description": "Smallest value (default 0); changes stop there.",
+            "type": "integer"
+          },
+          "name": {
+            "description": "Display name.",
+            "type": "string"
+          },
+          "start": {
+            "description": "Value when the game starts (default 0).",
+            "type": "integer"
+          },
+          "text": {
+            "description": "Notes for organizers.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [],
+  "title": "counters.toml",
+  "type": "object"
+}

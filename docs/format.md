@@ -16,6 +16,7 @@ my-game/
 ├── info.toml       pieces of information (rumors, secrets) that work like items
 ├── blocks.toml     optional: shared texts and facts, used as [[id]] in any text
 ├── factions.toml   optional: groups of people (families, gangs, guilds)
+├── counters.toml   optional: numbers actions change and check (suspicion, money, the hour)
 ├── segments.toml   optional: acts, levels or side plots
 ├── players.toml    optional: real participants, when they play several characters in turn
 ├── cycles.toml     optional: hero cycles placed on the world timeline
@@ -375,6 +376,52 @@ factions = ["montekove"]
   members, and the People tab has a Frakce column. `[[faction-id]]` in a text shows its name.
 - **Checks.** Unknown factions in `factions` are errors; a faction without members is a warning.
 
+## Counters (`counters.toml`)
+
+Some things are amounts rather than items: how much the inspector suspects, how much money a
+gang has, how many hours have passed. A counter is a number that actions change and check.
+
+```toml
+# counters.toml
+[[counter]]
+id    = "suspicion"
+name  = "Podezření"
+start = 0        # default 0
+min   = 0        # default 0
+max   = 5        # default 10
+text  = "Jak moc inspektor tuší, že Anselm lže."
+```
+
+Actions and decision options take two keys:
+
+- `change = { suspicion = 2 }` adds to the counter; a negative number subtracts. The value never
+  leaves `min..=max`: a change past a bound stops there.
+- `require = { suspicion = { at_least = 3 } }` (or `at_most`, or both): the action or option
+  happens only while the counter is in that range. Like `needs`, a plain action happens as soon
+  as every requirement is met.
+
+```toml
+# actions/hugo-verdict.toml
+[decision]
+title = "Verdikt inspektora"
+
+[[decision.option]]
+label   = "Obvinit Anselma"
+require = { suspicion = { at_least = 3 } }
+
+[[decision.option]]
+label  = "Uzavřít to jako nehodu"
+change = { suspicion = -2 }
+```
+
+The simulation follows the counters, so `check` finds endings that no amount of suspicion can
+reach and options that can never be chosen. Two ready actions are a choice of order when one
+changes a counter the other requires, when both change a required counter that can hit its `min`
+or `max`, or when what one of them leads to depends on the other. A counter that nothing requires
+is only shown, never simulated, so it cannot slow `check` down. The viewer shows counters on the nodes, and
+organizer sheets list them for each act ("Podezření ≥ 3", "Podezření +2"). Players never see
+counters.
+
 ## Shared texts and facts (`blocks.toml`)
 
 Write a text once and use it in many places:
@@ -494,5 +541,9 @@ node editor in `serve` can set both.
 | Unknown `[[link]]`, block loop, too deep or too big block       | error   |
 | Block used nowhere and shown to nobody                         | warning |
 | `[[info]]` in a text a person reads before they know the info  | warning |
+| Counter with `min` above `max`, or `start` outside them         | error   |
+| `require` without bounds, `at_least` above `at_most`, or out of the counter's range | error |
+| Counter that no action or option changes                        | warning |
+| Unknown counter in `change`/`require`, or an id that is not a counter | error |
 
 Warnings don't stop the game from being generated; errors do.

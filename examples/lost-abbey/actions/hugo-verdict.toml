@@ -8,6 +8,7 @@ brief = "Biskup čeká na tvou zprávu. Rozhodni, co mu napíšeš."
 [[decision.option]]
 label = "Obvinit Anselma"
 needs = ["abbot-murdered"]
+require = { suspicion = { at_least = 6 } }
 gives = ["accusation"]
 
 [[decision.option]]

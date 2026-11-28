@@ -8,6 +8,13 @@
 //! - When two ready actions compete for an item that one of them uses up, the order is a choice.
 //! - A decision is taken only when no plain action can happen any more. Every ready decision and
 //!   every option whose needs are met is a separate branch. A decision is taken at most once.
+//! - Counters start at their `start` value. An action or option is ready only when every counter
+//!   it `require`s is in range; `change` adds to counters, stopping at their `min` and `max`.
+//!   Two ready actions compete when one changes a counter the other requires, or both change a
+//!   counter that someone requires and that can hit its `min` or `max` (then order matters).
+//!   Counters nobody requires do not change the course of the game and are not followed.
+//! - Two ready actions also compete when something one of them can lead to (through what it
+//!   gives or the counters it changes, over any number of steps) competes with the other.
 //! - A playthrough ends when nothing can happen. Its endings are the `ending` things it produced.
 //!
 //! Identical game states are explored once, so the work is bounded by the number of distinct
@@ -15,7 +22,7 @@
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 
-use crate::model::{Game, Node, Ref};
+use crate::model::{Bound, Counter, Game, Node, Ref};
 use crate::{Diagnostic, Id};
 
 /// Upper bound on explored game states.
@@ -40,6 +47,9 @@ struct Step {
     needs: Vec<usize>,
     uses: Vec<usize>,
     gives: Vec<usize>,
+    /// (counter, amount, min, max, order matters: two changes to it do not commute)
+    change: Vec<(usize, i32, i32, i32, bool)>,
+    require: Vec<(usize, Bound)>,
 }
 
 struct Decision {
@@ -52,6 +62,7 @@ struct State {
     have: Vec<bool>,
     ever: Vec<bool>,
     done: Vec<bool>,
+    counters: Vec<i32>,
 }
 
 enum Choice {
@@ -66,11 +77,15 @@ struct Sim<'a> {
     node_titles: Vec<String>,
     actions: Vec<Step>,
     decisions: Vec<Decision>,
+    /// `conflict[i][j]`: the order of actions `i` and `j` can matter.
+    conflict: Vec<Vec<bool>>,
 }
 
 impl Step {
     fn ready(&self, s: &State) -> bool {
-        !s.done[self.node] && self.needs.iter().chain(&self.uses).all(|&t| s.have[t])
+        !s.done[self.node]
+            && self.needs.iter().chain(&self.uses).all(|&t| s.have[t])
+            && self.require.iter().all(|(c, b)| b.allows(s.counters[*c]))
     }
 
     fn apply(&self, s: &mut State) {
@@ -81,17 +96,42 @@ impl Step {
             s.have[t] = true;
             s.ever[t] = true;
         }
+        for &(c, amount, min, max, _) in &self.change {
+            // `check` refuses min > max before simulating; `max(min)` keeps clamp from panicking.
+            s.counters[c] = s.counters[c]
+                .saturating_add(amount)
+                .clamp(min, max.max(min));
+        }
         s.done[self.node] = true;
     }
 
-    /// True when firing one of the two steps could take away something the other needs.
+    /// True when firing this step can make `other` ready: it gives something `other` needs or
+    /// uses, or changes a counter `other` requires.
+    fn enables(&self, other: &Step) -> bool {
+        self.gives
+            .iter()
+            .any(|t| other.needs.contains(t) || other.uses.contains(t))
+            || self
+                .change
+                .iter()
+                .any(|(c, ..)| other.require.iter().any(|(r, _)| r == c))
+    }
+
+    /// True when firing one of the two steps could take away something the other needs, or the
+    /// order of their counter changes matters.
     fn competes_with(&self, other: &Step) -> bool {
         let touches = |a: &Step, b: &Step| {
             a.uses
                 .iter()
                 .any(|t| b.needs.contains(t) || b.uses.contains(t))
         };
-        touches(self, other) || touches(other, self)
+        let counts = |a: &Step, b: &Step| {
+            a.change.iter().any(|&(c, .., order)| {
+                b.require.iter().any(|(r, _)| *r == c)
+                    || (order && b.change.iter().any(|(x, ..)| *x == c))
+            })
+        };
+        touches(self, other) || touches(other, self) || counts(self, other) || counts(other, self)
     }
 }
 
@@ -103,6 +143,37 @@ impl<'a> Sim<'a> {
             .enumerate()
             .map(|(i, t)| (t.id.get_ref(), i))
             .collect();
+        let counter_index: HashMap<&Id, usize> = game
+            .counters
+            .iter()
+            .enumerate()
+            .map(|(i, c)| (c.id.get_ref(), i))
+            .collect();
+        // Counters nobody requires cannot change what happens, so they are not followed.
+        let required: HashSet<&Id> = game
+            .nodes
+            .values()
+            .flat_map(|n| match n {
+                Node::Action(a) => vec![&a.require],
+                Node::Decision(d) => d.options.iter().map(|o| &o.require).collect(),
+            })
+            .flat_map(|m| m.keys().map(Ref::get_ref))
+            .collect();
+        let change = |m: &BTreeMap<Ref, toml::Spanned<i32>>| -> Vec<(usize, i32, i32, i32, bool)> {
+            m.iter()
+                .filter(|(k, _)| required.contains(k.get_ref()))
+                .filter_map(|(k, v)| {
+                    let i = *counter_index.get(k.get_ref())?;
+                    let c = &game.counters[i];
+                    Some((i, *v.get_ref(), c.min(), c.max(), false))
+                })
+                .collect()
+        };
+        let require = |m: &BTreeMap<Ref, Bound>| -> Vec<(usize, Bound)> {
+            m.iter()
+                .filter_map(|(k, b)| counter_index.get(k.get_ref()).map(|&i| (i, *b)))
+                .collect()
+        };
         let refs = |r: &[Ref]| -> Vec<usize> {
             r.iter()
                 .filter_map(|x| index.get(x.get_ref()).copied())
@@ -116,6 +187,7 @@ impl<'a> Sim<'a> {
             node_titles: Vec::new(),
             actions: Vec::new(),
             decisions: Vec::new(),
+            conflict: Vec::new(),
         };
         for (node, (id, n)) in game.nodes.iter().enumerate() {
             sim.node_files.push(format!("actions/{id}.toml"));
@@ -127,6 +199,8 @@ impl<'a> Sim<'a> {
                     needs: refs(&a.needs),
                     uses: refs(&a.uses),
                     gives: refs(&a.gives),
+                    change: change(&a.change),
+                    require: require(&a.require),
                 }),
                 Node::Decision(d) => sim.decisions.push(Decision {
                     node,
@@ -139,12 +213,91 @@ impl<'a> Sim<'a> {
                             needs: refs(&o.needs),
                             uses: refs(&o.uses),
                             gives: refs(&o.gives),
+                            change: change(&o.change),
+                            require: require(&o.require),
                         })
                         .collect(),
                 }),
             }
         }
+        sim.mark_clamping(game);
+        sim.conflict = sim.conflicts();
         sim
+    }
+
+    /// Marks changes to counters that can hit a bound: their order matters.
+    fn mark_clamping(&mut self, game: &Game) {
+        let steps = || {
+            self.actions
+                .iter()
+                .chain(self.decisions.iter().flat_map(|d| &d.options))
+        };
+        let clamps: Vec<bool> = game
+            .counters
+            .iter()
+            .enumerate()
+            .map(|(i, c)| {
+                let (up, down) = steps().flat_map(|s| &s.change).filter(|x| x.0 == i).fold(
+                    (0i64, 0i64),
+                    |(u, d), x| {
+                        let v = i64::from(x.1);
+                        (u + v.max(0), d + v.min(0))
+                    },
+                );
+                let start = i64::from(c.start());
+                start + up > i64::from(c.max()) || start + down < i64::from(c.min())
+            })
+            .collect();
+        for s in self
+            .actions
+            .iter_mut()
+            .chain(self.decisions.iter_mut().flat_map(|d| &mut d.options))
+        {
+            for x in &mut s.change {
+                x.4 = clamps[x.0];
+            }
+        }
+    }
+
+    /// Pairs of actions whose order can matter: they compete, or something one can lead to
+    /// competes with the other. O(n³) in the number of actions (a transitive closure), which
+    /// is fine for games of a few hundred actions.
+    fn conflicts(&self) -> Vec<Vec<bool>> {
+        let n = self.actions.len();
+        // leads[i]: actions that `i` can make ready, directly or through others.
+        let mut leads: Vec<Vec<bool>> = (0..n)
+            .map(|i| {
+                (0..n)
+                    .map(|j| i != j && self.actions[i].enables(&self.actions[j]))
+                    .collect()
+            })
+            .collect();
+        for k in 0..n {
+            for i in 0..n {
+                if leads[i][k] {
+                    for j in 0..n {
+                        if leads[k][j] {
+                            leads[i][j] = true;
+                        }
+                    }
+                }
+            }
+        }
+        let competes: Vec<Vec<bool>> = (0..n)
+            .map(|i| {
+                (0..n)
+                    .map(|j| i != j && self.actions[i].competes_with(&self.actions[j]))
+                    .collect()
+            })
+            .collect();
+        let via = |i: usize, j: usize| (0..n).any(|k| leads[i][k] && competes[k][j]);
+        (0..n)
+            .map(|i| {
+                (0..n)
+                    .map(|j| i != j && (competes[i][j] || via(i, j) || via(j, i)))
+                    .collect()
+            })
+            .collect()
     }
 
     fn start(&self, game: &Game) -> State {
@@ -158,21 +311,20 @@ impl<'a> Sim<'a> {
             ever: have.clone(),
             have,
             done: vec![false; self.node_files.len()],
+            counters: game.counters.iter().map(Counter::start).collect(),
         }
     }
 
-    /// Fires every ready action that competes with no other ready action, until none is left.
-    /// Returns the ready actions that compete (their order is a choice).
+    /// Fires every ready action whose order matters to no other ready action, until none is
+    /// left. Returns the ready actions in conflict (their order is a choice).
     fn settle(&self, s: &mut State) -> Vec<usize> {
         loop {
             let ready: Vec<usize> = (0..self.actions.len())
                 .filter(|&i| self.actions[i].ready(s))
                 .collect();
-            let (free, competing): (Vec<usize>, Vec<usize>) = ready.iter().partition(|&&i| {
-                !ready
-                    .iter()
-                    .any(|&j| j != i && self.actions[i].competes_with(&self.actions[j]))
-            });
+            let (free, competing): (Vec<usize>, Vec<usize>) = ready
+                .iter()
+                .partition(|&&i| !ready.iter().any(|&j| self.conflict[i][j]));
             if free.is_empty() {
                 return competing;
             }
@@ -328,7 +480,7 @@ fn report(
                     format!("“{}” can never happen in any playthrough", step.label),
                 )
                 .with_help(
-                    "something it needs is never present at the same time, or is used up first",
+                    "something it needs is never present at the same time, is used up first, or a counter it requires is never in range",
                 ),
             );
         }
@@ -343,7 +495,7 @@ fn report(
                         format!("option “{}” can never be chosen", opt.label),
                     )
                     .with_help(format!(
-                        "when “{}” is decided, what this option needs is never all present",
+                        "when “{}” is decided, what this option needs is never all present (or a counter it requires is out of range)",
                         sim.node_titles[dec.node]
                     )),
                 );

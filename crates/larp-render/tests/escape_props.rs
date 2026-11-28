@@ -14,8 +14,11 @@ use proptest::prelude::*;
 const TEX_SPECIAL: [char; 10] = ['\\', '{', '}', '$', '&', '#', '%', '_', '^', '~'];
 
 /// Every escape sequence `tex_escape` documents, with the character it stands for.
-const TEX_SEQUENCES: [(&str, char); 13] = [
+const TEX_SEQUENCES: [(&str, char); 16] = [
     (r"\textbackslash{}", '\\'),
+    (r"\ensuremath{\geq}", '≥'),
+    (r"\ensuremath{\leq}", '≤'),
+    (r"\ensuremath{-}", '−'),
     (r"\textasciicircum{}", '^'),
     (r"\textasciitilde{}", '~'),
     (r"\textquotedbl{}", '"'),
@@ -38,7 +41,7 @@ fn tricky_char() -> impl Strategy<Value = char> {
         ]),
         2 => prop::sample::select(vec![
             'ř', 'Ř', 'ů', 'Ů', 'č', 'Č', 'ě', 'š', 'ž', 'ý', 'á', 'í', 'é', 'ú', 'ň', 'ť', 'ď',
-            '„', '“', '…', '–',
+            '„', '“', '…', '–', '≥', '≤', '−',
         ]),
         1 => prop::sample::select(vec![
             '\n', '\t', '\r', '\0', '\u{7}', '\u{8}', '\u{b}', '\u{c}', '\u{1b}', '\u{7f}',
@@ -67,7 +70,7 @@ fn tex_unescape(out: &str) -> Result<String, String> {
                 continue 'outer;
             }
         }
-        if TEX_SPECIAL.contains(&c) || matches!(c, '"' | '[' | ']') {
+        if TEX_SPECIAL.contains(&c) || matches!(c, '"' | '[' | ']' | '≥' | '≤' | '−') {
             return Err(format!("unescaped {c:?} in {out:?}"));
         }
         text.push(c);

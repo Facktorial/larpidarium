@@ -11,6 +11,7 @@ brief = "Víš, co je v dopise. Teď je na tobě, co s ním uděláš."
 label = "Ukázat inspektorovi"
 needs = ["letter-content", "sealed-letter"]
 gives = ["letter-shown"]
+change = { suspicion = 3 }
 
 [[decision.option]]
 label = "Spálit dopis"

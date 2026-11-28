@@ -12,6 +12,7 @@
   {%- if item.needs %}<p class="flow"><b>{{ t.org_needs }}:</b> {{ things(item.needs) }}</p>{% endif -%}
   {%- if item.uses %}<p class="flow"><b>{{ t.org_uses }}:</b> {{ things(item.uses) }}</p>{% endif -%}
   {%- if item.gives %}<p class="flow"><b>{{ t.org_gives }}:</b> {{ things(item.gives) }}</p>{% endif -%}
+  {%- if item.counters %}<p class="flow"><b>{{ t.org_counters }}:</b> {{ item.counters | join(", ") }}</p>{% endif -%}
 {%- endmacro -%}
 <!DOCTYPE html>
 <html lang="{{ language }}">

@@ -31,6 +31,7 @@
   {%- if item.needs %}\flowline{ {{- t.org_needs -}} }{ {{- things(item.needs) -}} }{% endif -%}
   {%- if item.uses %}\flowline{ {{- t.org_uses -}} }{ {{- things(item.uses) -}} }{% endif -%}
   {%- if item.gives %}\flowline{ {{- t.org_gives -}} }{ {{- things(item.gives) -}} }{% endif -%}
+  {%- if item.counters %}\flowline{ {{- t.org_counters -}} }{ {{- item.counters | join(", ") -}} }{% endif -%}
 {%- endmacro %}
 {% for s in sheets %}
 \definecolor{accent}{HTML}{ {{- s.accent -}} }

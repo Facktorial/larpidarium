@@ -11,6 +11,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
   an organizer sheet, and show up in the viewer (owner list, Frakce tab, People column).
 - Relationships: `check` warns when a player character has a relation with another player character
   who has none back, and the viewer has a Vztahy tab with a relationship graph.
+- Counters: `counters.toml` with numbers (suspicion, money, the hour) that actions and options
+  `change` and `require`; the simulation follows them, check reports impossible requirements,
+  and the viewer and organizer sheets show them. `≥`, `≤` and `−` now print in PDFs.
+  The simulation now also tries both orders of two actions when one can lead to an action that
+  takes something the other needs, so it finds more playthroughs; very large games may reach the
+  simulation limit sooner.
 - Balance tab in the viewer: player characters side by side (acts, decisions, goals, secrets,
   relations both ways, people met, knowledge, items, sheet words, idle segments), with numbers
   below half the median highlighted.

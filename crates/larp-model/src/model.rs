@@ -13,6 +13,12 @@ use crate::Id;
 /// An id that refers to another entity, with its position in the source file.
 pub type Ref = Spanned<Id>;
 
+/// Counter changes on an action or option: amount by counter id (`change = { suspicion = 2 }`).
+pub type Changes = BTreeMap<Ref, Spanned<i32>>;
+
+/// Counter requirements on an action or option: range by counter id.
+pub type Requires = BTreeMap<Ref, Bound>;
+
 /// A whole game: everything in one game folder.
 #[derive(Debug, Clone)]
 pub struct Game {
@@ -44,6 +50,8 @@ pub struct Game {
     pub blocks: Vec<Block>,
     /// Groups of people from `factions.toml`.
     pub factions: Vec<Faction>,
+    /// Numbers that actions change and check, from `counters.toml`.
+    pub counters: Vec<Counter>,
     /// Node positions and line bends saved from the browser (`layout.toml`).
     pub layout: Layout,
 }
@@ -344,6 +352,12 @@ pub struct Action {
     /// Items or info the action produces.
     #[serde(default)]
     pub gives: Vec<Ref>,
+    /// How much the action adds to counters (negative to subtract), by counter id.
+    #[serde(default)]
+    pub change: Changes,
+    /// Counter values the action needs, by counter id.
+    #[serde(default)]
+    pub require: Requires,
     /// Longer description for organizers.
     #[serde(default)]
     pub text: String,
@@ -401,6 +415,70 @@ pub struct DecisionOption {
     /// Items or info this option produces.
     #[serde(default)]
     pub gives: Vec<Ref>,
+    /// How much this option adds to counters (negative to subtract), by counter id.
+    #[serde(default)]
+    pub change: Changes,
+    /// Counter values this option needs, by counter id.
+    #[serde(default)]
+    pub require: Requires,
+}
+
+/// A range a counter must be in, as `{ at_least = 3 }`, `{ at_most = 1 }` or both.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Bound {
+    /// Smallest allowed value.
+    pub at_least: Option<i32>,
+    /// Largest allowed value.
+    pub at_most: Option<i32>,
+}
+
+impl Bound {
+    /// True when `value` is within the range.
+    #[must_use]
+    pub fn allows(self, value: i32) -> bool {
+        self.at_least.is_none_or(|l| value >= l) && self.at_most.is_none_or(|m| value <= m)
+    }
+}
+
+/// One `[[counter]]` from `counters.toml`: a number that actions change and check, such as
+/// suspicion, money or the hour. It stays within `min..=max`: a change past a bound stops there.
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Counter {
+    /// Id that actions use in `change` and `require`.
+    pub id: Spanned<Id>,
+    /// Display name.
+    pub name: String,
+    /// Value when the game starts (default 0).
+    pub start: Option<Spanned<i32>>,
+    /// Smallest value (default 0).
+    pub min: Option<Spanned<i32>>,
+    /// Largest value (default 10).
+    pub max: Option<Spanned<i32>>,
+    /// Notes for organizers.
+    #[serde(default)]
+    pub text: String,
+}
+
+impl Counter {
+    /// Value when the game starts.
+    #[must_use]
+    pub fn start(&self) -> i32 {
+        self.start.as_ref().map_or(0, |v| *v.get_ref())
+    }
+
+    /// Smallest value.
+    #[must_use]
+    pub fn min(&self) -> i32 {
+        self.min.as_ref().map_or(0, |v| *v.get_ref())
+    }
+
+    /// Largest value.
+    #[must_use]
+    pub fn max(&self) -> i32 {
+        self.max.as_ref().map_or(10, |v| *v.get_ref())
+    }
 }
 
 /// One `[[block]]` from `blocks.toml`: a named text written once and used in many places.

@@ -76,6 +76,8 @@ pub struct GraphData {
     pub blocks: Vec<BlockView>,
     /// Who knows which info and from when, for the Knowledge tab.
     pub knowledge: Vec<KnowView>,
+    /// Counters from `counters.toml`.
+    pub counters: Vec<CounterView>,
     /// Balance numbers per player character, for the Balance tab.
     pub balance: Vec<Balance>,
     /// Items and handouts, for the Inventory tab.
@@ -404,6 +406,10 @@ pub struct NodeView {
     pub status: Option<&'static str>,
     /// Who writes it.
     pub writer: Option<String>,
+    /// Counter changes (actions), as (counter id, amount).
+    pub change: Vec<(String, i32)>,
+    /// Counter requirements (actions).
+    pub require: Vec<CounterCheck>,
     /// Options (decisions only).
     pub options: Vec<OptionView>,
     /// Left edge on the canvas.
@@ -429,6 +435,40 @@ pub struct OptionView {
     pub uses: Vec<String>,
     /// Given thing ids.
     pub gives: Vec<String>,
+    /// Counter changes, as (counter id, amount).
+    pub change: Vec<(String, i32)>,
+    /// Counter requirements.
+    pub require: Vec<CounterCheck>,
+}
+
+/// A counter an action or option requires, and the range it must be in.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct CounterCheck {
+    /// Counter id.
+    pub counter: String,
+    /// Smallest allowed value.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub at_least: Option<i32>,
+    /// Largest allowed value.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub at_most: Option<i32>,
+}
+
+/// One counter from `counters.toml`.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct CounterView {
+    /// Id.
+    pub id: String,
+    /// Display name.
+    pub name: String,
+    /// Value at the start.
+    pub start: i32,
+    /// Smallest value.
+    pub min: i32,
+    /// Largest value.
+    pub max: i32,
+    /// Notes for organizers.
+    pub text: String,
 }
 
 /// A line from the part of one node that gives things to the part of another that needs them.
@@ -627,6 +667,7 @@ fn build_shown(
         knowledge: knowledge(game),
         inventory: inventory(game),
         balance: balance(game),
+        counters: counter_views(game),
         endings: playthroughs
             .map(|p| {
                 p.endings
@@ -786,18 +827,22 @@ fn ids(refs: &[Ref]) -> Vec<String> {
 }
 
 fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
-    let (kind, text, needs, uses, gives, options) = match node {
+    let (kind, text, needs, uses, gives, change, require, options) = match node {
         Node::Action(a) => (
             "action",
             &a.text,
             ids(&a.needs),
             ids(&a.uses),
             ids(&a.gives),
+            changes(&a.change),
+            checks(&a.require),
             Vec::new(),
         ),
         Node::Decision(d) => (
             "decision",
             &d.text,
+            Vec::new(),
+            Vec::new(),
             Vec::new(),
             Vec::new(),
             Vec::new(),
@@ -808,6 +853,8 @@ fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
                     needs: ids(&o.needs),
                     uses: ids(&o.uses),
                     gives: ids(&o.gives),
+                    change: changes(&o.change),
+                    require: checks(&o.require),
                 })
                 .collect(),
         ),
@@ -827,12 +874,87 @@ fn node_view(id: &Id, node: &Node, p: Point) -> NodeView {
         needs,
         uses,
         gives,
+        change,
+        require,
         options,
         status: node.status().map(larp_model::model::Status::as_str),
         writer: node.writer().map(str::to_owned),
         x: p.x,
         y: p.y,
     }
+}
+
+fn counter_views(game: &Game) -> Vec<CounterView> {
+    game.counters
+        .iter()
+        .map(|c| CounterView {
+            id: c.id.get_ref().to_string(),
+            name: c.name.clone(),
+            start: c.start(),
+            min: c.min(),
+            max: c.max(),
+            text: c.text.clone(),
+        })
+        .collect()
+}
+
+/// Counter requirements and changes in words, by counter name: "Podezření ≥ 3",
+/// "Peníze 1–4", "Podezření +2", "Peníze −1".
+#[must_use]
+pub fn counter_texts(
+    game: &Game,
+    change: &larp_model::model::Changes,
+    require: &larp_model::model::Requires,
+) -> Vec<String> {
+    let name = |id: &Id| {
+        game.counters
+            .iter()
+            .find(|c| c.id.get_ref() == id)
+            .map_or_else(|| id.to_string(), |c| c.name.clone())
+    };
+    let checks = require.iter().map(|(k, b)| {
+        let n = name(k.get_ref());
+        // A typographic minus, like the changes below.
+        let num = |v: i32| {
+            if v < 0 {
+                format!("−{}", v.unsigned_abs())
+            } else {
+                v.to_string()
+            }
+        };
+        match (b.at_least, b.at_most) {
+            (Some(l), Some(m)) => format!("{n} {}–{}", num(l), num(m)),
+            (Some(l), None) => format!("{n} ≥ {}", num(l)),
+            (None, Some(m)) => format!("{n} ≤ {}", num(m)),
+            (None, None) => n,
+        }
+    });
+    let changes = change.iter().map(|(k, v)| {
+        let v = *v.get_ref();
+        let sign = if v < 0 { '−' } else { '+' };
+        format!("{} {sign}{}", name(k.get_ref()), v.unsigned_abs())
+    });
+    checks.chain(changes).collect()
+}
+
+/// Counter changes as (id, amount).
+#[must_use]
+pub fn changes(m: &larp_model::model::Changes) -> Vec<(String, i32)> {
+    m.iter()
+        .map(|(k, v)| (k.get_ref().to_string(), *v.get_ref()))
+        .collect()
+}
+
+/// Counter requirements.
+#[must_use]
+pub fn checks(m: &larp_model::model::Requires) -> Vec<CounterCheck> {
+    m.iter()
+        .map(|(k, b)| CounterCheck {
+            counter: k.get_ref().to_string(),
+            at_least: b.at_least,
+            at_most: b.at_most,
+        })
+        .collect()
 }
 
 const DEFAULT_COLOR: &str = "#888888";

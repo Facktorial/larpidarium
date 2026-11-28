@@ -147,6 +147,7 @@ const LABELS: &[(&str, &str, &str)] = &[
     ("org_needs", "Potřebuje", "Needs"),
     ("org_uses", "Spotřebuje", "Uses up"),
     ("org_gives", "Dává", "Gives"),
+    ("org_counters", "Počitadla", "Counters"),
     ("org_brief", "Hráči čtou", "Players read"),
     ("org_decision", "Rozhodnutí", "Decision"),
     ("org_none", "Nic na starosti.", "Nothing to run."),
