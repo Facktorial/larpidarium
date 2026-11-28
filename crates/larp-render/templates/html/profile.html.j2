@@ -1,0 +1,79 @@
+{#- A character's profile for organizers: everything about them, with spoilers, and a timeline.
+    Copy to <game>/templates/profile.html.j2 to customize it. Available: game_title, language,
+    t (labels), p: { id, name, role, color, played_by, factions, goals, secrets, sheet,
+    relations, seen_by, starts_with, timeline: [{ when, kind, node, title, brief, text, with,
+    options, finds, told, gets, uses }], status, writer }. -#}
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ p.name }} · {{ t.profile_title }} · {{ game_title }}</title>
+<style>
+  :root { --accent: {{ p.color or '#3e5c7a' }}; }
+  body { font-family: system-ui, sans-serif; max-width: 56rem; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.45; }
+  header { border-top: 6px solid var(--accent); padding-top: .6rem; }
+  .kicker { color: #6b665d; text-transform: uppercase; font-size: .8rem; letter-spacing: .05em; margin: 0; }
+  h1 { margin: .1rem 0 .3rem; } .facts { color: #444; margin: 0; }
+  .spoiler { background: #fff4e5; border-left: 4px solid #e67e22; padding: .4rem .7rem; font-size: .9rem; }
+  h2 { border-bottom: 2px solid var(--accent); padding-bottom: .2rem; margin-top: 2rem; }
+  h3 { margin: 1rem 0 .2rem; font-size: 1rem; }
+  .prose { white-space: pre-wrap; }
+  dl.rel dt { font-weight: 600; } dl.rel dd { margin: 0 0 .5rem 1rem; }
+  ol.timeline { list-style: none; padding-left: 0; border-left: 3px solid var(--accent); margin-left: .5rem; }
+  ol.timeline li { position: relative; padding: .2rem 0 .9rem 1.2rem; }
+  ol.timeline li::before { content: ""; position: absolute; left: -.55rem; top: .55rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--accent); }
+  ol.timeline li.life::before { background: #fff; border: 3px solid var(--accent); width: .55rem; height: .55rem; }
+  .when { color: #6b665d; font-size: .85rem; }
+  .tag { font-size: .75rem; background: #eee; border-radius: 3px; padding: 0 .35em; margin-left: .3em; }
+  .brief { margin: .2rem 0; } .notes { color: #555; font-size: .9rem; margin: .2rem 0; white-space: pre-wrap; }
+  .flow { font-size: .88rem; margin: .1rem 0; } .flow b { font-weight: 600; }
+  @media print { body { margin: 0; } .spoiler { border: 1px solid #e67e22; } }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">{{ game_title }} · {{ t.profile_title }}</p>
+  <h1>{{ p.name }}</h1>
+  <p class="facts">{{ t[p.role] }}{% if p.played_by %} · {{ t.played_by | lower }} {{ p.played_by }}{% endif %}{% if p.factions %} · {{ t.faction }}: {{ p.factions | join(", ") }}{% endif %}{% if p.status %} · {{ t["profile_status_" ~ p.status] }}{% endif %}{% if p.writer %} · ✎ {{ p.writer }}{% endif %}</p>
+</header>
+<p class="spoiler">{{ t.profile_spoiler }}</p>
+
+{% if p.goals or p.secrets or p.starts_with %}<h2>{{ t.profile_start }}</h2>
+{% if p.goals %}<h3>{{ t.profile_goals }}</h3><ul>{% for g in p.goals %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+{% if p.secrets %}<h3>{{ t.profile_secrets }}</h3><ul>{% for g in p.secrets %}<li>{{ g }}</li>{% endfor %}</ul>{% endif %}
+{% if p.starts_with %}<h3>{{ t.profile_starts_with }}</h3><p>{{ p.starts_with | join(", ") }}</p>{% endif %}
+{% endif %}
+
+{% if p.timeline %}<h2>{{ t.profile_timeline }}</h2>
+<ol class="timeline">
+{% for m in p.timeline %}<li class="{{ 'life' if m.kind in ['enters', 'phase', 'dies'] else 'node' }}">
+  <span class="when">{{ m.when or t.profile_no_time }}</span>
+  {% if m.kind == "enters" %}<div><strong>{{ t.profile_enters }}</strong></div>
+  {% elif m.kind == "dies" %}<div><strong>† {{ t.profile_dies }}</strong></div>
+  {% elif m.kind == "phase" %}<div><strong>{{ t.profile_phase }}</strong></div>
+    {% if m.brief %}<p class="brief">{{ t.profile_goals }}: {{ m.brief }}</p>{% endif %}{% if m.text %}<p class="notes">{{ t.profile_secrets }}: {{ m.text }}</p>{% endif %}
+  {% else %}<div><strong>{{ m.title }}</strong>{% if m.kind == "decision" %}<span class="tag">{{ t.profile_decision }}</span>{% endif %}</div>
+    {% if m.with %}<p class="flow"><b>{{ t.profile_with }}:</b> {{ m.with | join(", ") }}</p>{% endif %}
+    {% if m.brief %}<p class="brief">{{ m.brief }}</p>{% endif %}
+    {% if m.text %}<p class="notes">{{ m.text | trim }}</p>{% endif %}
+    {% if m.options %}<p class="flow"><b>{{ t.profile_options }}:</b> {{ m.options | join(" · ") }}</p>{% endif %}
+    {% if m.finds %}<p class="flow"><b>🔍 {{ t.profile_finds }}:</b> {{ m.finds | join(", ") }}</p>{% endif %}
+    {% if m.told %}<p class="flow"><b>💬 {{ t.profile_told }}:</b> {{ m.told | join(", ") }}</p>{% endif %}
+    {% if m.gets %}<p class="flow"><b>+ {{ t.profile_gets }}:</b> {{ m.gets | join(", ") }}</p>{% endif %}
+    {% if m.uses %}<p class="flow"><b>− {{ t.profile_uses }}:</b> {{ m.uses | join(", ") }}</p>{% endif %}
+  {% endif %}
+</li>
+{% endfor %}</ol>
+{% endif %}
+
+{% if p.relations or p.seen_by %}<h2>{{ t.profile_relations }}</h2>
+{% if p.relations %}<h3>{{ t.profile_their_view }}</h3><dl class="rel">{% for who, text in p.relations %}<dt>{{ who }}</dt><dd>{{ text }}</dd>{% endfor %}</dl>{% endif %}
+{% if p.seen_by %}<h3>{{ t.profile_seen_by }}</h3><dl class="rel">{% for who, text in p.seen_by %}<dt>{{ who }}</dt><dd>{{ text }}</dd>{% endfor %}</dl>{% endif %}
+{% endif %}
+
+{% if p.sheet %}<h2>{{ t.profile_sheet }}</h2>
+{% for key, text in p.sheet %}<h3>{{ t["sheet_" ~ key] or key }}</h3><p class="prose">{{ text | trim }}</p>
+{% endfor %}{% endif %}
+</body>
+</html>

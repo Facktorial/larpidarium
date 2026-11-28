@@ -68,6 +68,17 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
         schedules += 1;
     }
 
+    let profile_template = read_named_template(dir, "templates/profile.html.j2")?;
+    for id in shown.people.keys() {
+        let Some(profile) = larp_graph::profile(&shown, id) else {
+            continue;
+        };
+        let html = larp_render::profile_html(&shown, &profile, profile_template.as_deref())
+            .map_err(|e| miette!("{e}"))
+            .wrap_err_with(|| format!("cannot render the profile of `{id}`"))?;
+        write(&out.join("profiles").join(format!("{id}.html")), &html)?;
+    }
+
     let packing = larp_graph::packing(&shown);
     for (page, file, name) in [
         (
@@ -90,7 +101,7 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
 
     let index = out.join("index.html");
     println!(
-        "✔ wrote {}, {sheets} character sheet(s) in {} and {schedules} organizer sheet(s) in {}",
+        "✔ wrote {}, {sheets} character sheet(s) in {}, {schedules} organizer sheet(s) in {} and profiles in profiles/",
         index.display(),
         out.join("players").display(),
         out.join("organizers").display()

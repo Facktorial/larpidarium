@@ -46,7 +46,7 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
-      qo: '„', qc: '“', tabInventory: 'Inventář', noInventory: 'Hra nemá žádné předměty.', packingList: 'Balicí seznam', handoutCards: 'Kartičky k tisku',
+      profile: 'Profil postavy (celý příběh, spoilery)', qo: '„', qc: '“', tabInventory: 'Inventář', noInventory: 'Hra nemá žádné předměty.', packingList: 'Balicí seznam', handoutCards: 'Kartičky k tisku',
       prop: 'Rekvizita', location: 'Kde leží', holdsAtStart: 'Má na začátku', givenAt: 'Získá se', neededAt: 'Potřeba', usedAt: 'Spotřebuje se', handoutCol: 'Kartička',
       tabKnowledge: 'Znalosti', noKnowledge: 'Nikdo nic neví: v info.toml nejsou informace, které by někdo měl nebo získal.',
       knowledgeHint: '● ví od začátku · 🔍 zjistí sám · 💬 dozví se od jiných (nejpozději v tu chvíli) · ? jen při některé volbě. Najeď na buňku pro všechny cesty.',
@@ -101,7 +101,7 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
-      qo: '“', qc: '”', tabInventory: 'Inventory', noInventory: 'The game has no items.', packingList: 'Packing list', handoutCards: 'Handouts to print',
+      profile: 'Character profile (whole story, spoilers)', qo: '“', qc: '”', tabInventory: 'Inventory', noInventory: 'The game has no items.', packingList: 'Packing list', handoutCards: 'Handouts to print',
       prop: 'Prop', location: 'Where', holdsAtStart: 'Held at start', givenAt: 'Given at', neededAt: 'Needed at', usedAt: 'Used up at', handoutCol: 'Handout',
       tabKnowledge: 'Knowledge', noKnowledge: 'Nobody knows anything: info.toml has no info that anyone holds or learns.',
       knowledgeHint: '● knows from the start · 🔍 finds it out · 💬 is told (by then at the latest) · ? only after some choice. Hover a cell for every way.',
@@ -204,6 +204,14 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     const w = owners.get(who);
     if (w?.kind === 'faction') return w.members.includes(oid);
     return (w?.factions ?? []).includes(oid);
+  };
+  /** 👤 link to a person's profile page (everything about them, with a timeline). */
+  const profileLink = (o) => {
+    const a = el('a', 'sheet-link', ' 👤');
+    a.href = `profiles/${encodeURIComponent(o.id)}.html`;
+    a.title = t.profile;
+    a.addEventListener('click', (e) => e.stopPropagation());
+    return a;
   };
   /** Player sheet for players, organizer schedule for everyone and everything else. */
   const sheetHref = (o) => `${o.role === 'player' ? 'players' : 'organizers'}/${encodeURIComponent(o.id)}.html`;
@@ -1051,6 +1059,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
         link.title = o.role === 'player' ? t.sheet : t.orgSheet;
         link.addEventListener('click', (e) => e.stopPropagation());
         li.append(link);
+        if (o.kind === 'person') li.append(profileLink(o));
       }
       li.addEventListener('click', () => setFilter({ kind: 'owner', id: o.id }));
       ownerList.append(li);
@@ -1735,7 +1744,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
         const a = el('a', 'sheet-link', o.role === 'player' ? ' 📄' : ' 📋');
         a.href = sheetHref(o);
         a.title = o.role === 'player' ? t.sheet : t.orgSheet;
-        s.append(a);
+        s.append(a, profileLink(o));
         return s;
       }, sort: (o) => o.name },
       { label: t.role, cell: (o) => [t[o.role], o.outside_cycle ? t.outside : null].filter(Boolean).join(' · ') },

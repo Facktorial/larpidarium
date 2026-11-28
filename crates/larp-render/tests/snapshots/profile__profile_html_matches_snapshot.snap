@@ -1,0 +1,101 @@
+---
+source: crates/larp-render/tests/profile.rs
+expression: "profile_html(&g, &p, None).unwrap()"
+---
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anna &lt;Nováková&gt; · Profil postavy · Řád &amp; Kříž</title>
+<style>
+  :root { --accent: #c0392b; }
+  body { font-family: system-ui, sans-serif; max-width: 56rem; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.45; }
+  header { border-top: 6px solid var(--accent); padding-top: .6rem; }
+  .kicker { color: #6b665d; text-transform: uppercase; font-size: .8rem; letter-spacing: .05em; margin: 0; }
+  h1 { margin: .1rem 0 .3rem; } .facts { color: #444; margin: 0; }
+  .spoiler { background: #fff4e5; border-left: 4px solid #e67e22; padding: .4rem .7rem; font-size: .9rem; }
+  h2 { border-bottom: 2px solid var(--accent); padding-bottom: .2rem; margin-top: 2rem; }
+  h3 { margin: 1rem 0 .2rem; font-size: 1rem; }
+  .prose { white-space: pre-wrap; }
+  dl.rel dt { font-weight: 600; } dl.rel dd { margin: 0 0 .5rem 1rem; }
+  ol.timeline { list-style: none; padding-left: 0; border-left: 3px solid var(--accent); margin-left: .5rem; }
+  ol.timeline li { position: relative; padding: .2rem 0 .9rem 1.2rem; }
+  ol.timeline li::before { content: ""; position: absolute; left: -.55rem; top: .55rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--accent); }
+  ol.timeline li.life::before { background: #fff; border: 3px solid var(--accent); width: .55rem; height: .55rem; }
+  .when { color: #6b665d; font-size: .85rem; }
+  .tag { font-size: .75rem; background: #eee; border-radius: 3px; padding: 0 .35em; margin-left: .3em; }
+  .brief { margin: .2rem 0; } .notes { color: #555; font-size: .9rem; margin: .2rem 0; white-space: pre-wrap; }
+  .flow { font-size: .88rem; margin: .1rem 0; } .flow b { font-weight: 600; }
+  @media print { body { margin: 0; } .spoiler { border: 1px solid #e67e22; } }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Řád &amp; Kříž · Profil postavy</p>
+  <h1>Anna &lt;Nováková&gt;</h1>
+  <p class="facts">hráčská postava · hraje Petra Ůlehlová · Tvá frakce: Řád &amp; spol. · ke kontrole · ✎ Petra</p>
+</header>
+<p class="spoiler">Pro organizátory: obsahuje celý příběh postavy včetně tajemství a konců.</p>
+
+<h2>Na začátku hry</h2>
+<h3>Cíle</h3><ul><li>Přežít &amp; utéct</li></ul>
+<h3>Tajemství</h3><ul><li>Ukradla &quot;klíč&quot;</li></ul>
+<h3>Má u sebe a ví</h3><p>Klíč, Heslo</p>
+
+
+<h2>Časová osa</h2>
+<ol class="timeline">
+<li class="node">
+  <span class="when">Anin cyklus · 1. Ty</span>
+  <div><strong>Hledání v kapli</strong></div>
+    <p class="flow"><b>S kým:</b> Bob Čech, Kaple</p>
+    <p class="brief">Hledáš světlo.</p>
+    <p class="notes">Org: schovej svíci &amp; čekej.</p>
+    
+    
+    <p class="flow"><b>💬 Dozví se:</b> Heslo</p>
+    <p class="flow"><b>+ Získá:</b> Svíce</p>
+    
+  
+</li>
+<li class="life">
+  <span class="when">Anin cyklus · 2. Potřeba</span>
+  <div><strong>Nová fáze listu</strong></div>
+    <p class="brief">Cíle: Utéct</p><p class="notes">Tajemství: Zradila</p>
+  
+</li>
+<li class="node">
+  <span class="when">Anin cyklus · 2. Potřeba</span>
+  <div><strong>Volba</strong><span class="tag">rozhodnutí</span></div>
+    <p class="flow"><b>S kým:</b> Řád &amp; spol.</p>
+    <p class="brief">Co uděláš?</p>
+    
+    <p class="flow"><b>Volby:</b> Zůstat · Odejít</p>
+    <p class="flow"><b>🔍 Zjistí:</b> Konec</p>
+    
+    
+    <p class="flow"><b>− Spotřebuje:</b> Svíce (Zůstat)</p>
+  
+</li>
+<li class="life">
+  <span class="when">Anin cyklus · 2. Potřeba</span>
+  <div><strong>† Umírá</strong></div>
+  
+</li>
+</ol>
+
+
+<h2>Vztahy</h2>
+<h3>Co si postava myslí o ostatních</h3><dl class="rel"><dt>Bob Čech</dt><dd>Bratr &lt;starší&gt;</dd></dl>
+<h3>Co si o postavě myslí ostatní</h3><dl class="rel"><dt>Bob Čech</dt><dd>Bojí se jí</dd></dl>
+
+
+<h2>Části listu</h2>
+<h3>Tvůj příběh</h3><p class="prose">Kuchařka.
+
+Druhý odstavec.</p>
+<h3>Kde jsi</h3><p class="prose">V kapli</p>
+
+</body>
+</html>

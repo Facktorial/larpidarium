@@ -12,6 +12,20 @@ game folder, calls the pure crates, and writes `dist/`.
 | `larpidarium import F`   | Convert a taraxaplan JSON save into a game folder       | 2     |
 | `larpidarium pdf DIR`    | Player and organizer sheets as PDF via tectonic (`--out`, `--tex-only`) | ✅ |
 
+## `build`: the static site
+
+Writes into `dist/` (or `--out`):
+
+- `index.html`: the graph viewer;
+- `players/<id>.html`: a character sheet per player character;
+- `organizers/<id>.html`: an organizer sheet per organizer, NPC, room and faction;
+- `profiles/<id>.html`: a profile per character, for organizers, with spoilers: goals, secrets,
+  relationships both ways, sheet sections and a timeline of their life, phases and actions
+  (what they find out, are told, get and use up at each);
+- `packing.html` and `handouts.html`: the packing list and the handout cards.
+
+`serve` shows the same pages, rendered from the files on every request.
+
 ## `schema`: autocomplete in the editor
 
 ```sh
@@ -44,7 +58,7 @@ The sheet has the same parts as the HTML one: who you are, destiny (with the min
 TikZ) and how you change. To restyle, copy a template from `crates/larp-render/templates/` into
 `<game>/templates/`: `tex/player.tex.j2` → `player.tex.j2`, `tex/organizer.tex.j2` →
 `organizer.tex.j2`, `packing.tex.j2`, `handouts.tex.j2`, and likewise `player.html.j2`,
-`organizer.html.j2`, `packing.html.j2` and `handouts.html.j2` for the web pages. All game
+`organizer.html.j2`, `profile.html.j2`, `packing.html.j2` and `handouts.html.j2` for the web pages. All game
 text is escaped for you.
 
 ## `serve`: editing in the browser

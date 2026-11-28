@@ -3,6 +3,7 @@
 mod destiny;
 mod inventory;
 mod layout;
+mod profile;
 mod progress;
 mod schedule;
 
@@ -12,6 +13,7 @@ pub use destiny::{
 pub use inventory::{
     InventoryItem, Move, PackItem, Packing, PackingAct, PackingPlace, inventory, packing,
 };
+pub use profile::{Moment, Profile, profile};
 pub use progress::{OpenPart, Progress, StatusCount, progress};
 pub use schedule::{
     ItemRef, Load, Schedule, ScheduleBlock, ScheduleOption, ScheduleStep, loads, schedule,

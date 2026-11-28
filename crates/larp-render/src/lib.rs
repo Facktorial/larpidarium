@@ -2,7 +2,7 @@
 
 mod labels;
 
-use larp_graph::{Destiny, Packing, Schedule};
+use larp_graph::{Destiny, Packing, Profile, Schedule};
 use larp_model::model::{Death, Language, Role};
 use larp_model::{Game, Id};
 use minijinja::{AutoEscape, Environment, Error, ErrorKind, Value};
@@ -434,6 +434,44 @@ pub struct PackingContext<'a> {
     pub t: std::collections::BTreeMap<&'static str, &'static str>,
     /// The packing list and handouts.
     pub p: &'a Packing,
+}
+
+/// A character's profile page (HTML), for organizers.
+pub const PROFILE_HTML: &str = include_str!("../templates/html/profile.html.j2");
+
+/// Everything the profile template can use.
+#[derive(Debug, Serialize)]
+pub struct ProfileContext<'a> {
+    /// Game title.
+    pub game_title: &'a str,
+    /// `"cs"` or `"en"`.
+    pub language: &'static str,
+    /// Translated labels, see [`labels`].
+    pub t: std::collections::BTreeMap<&'static str, &'static str>,
+    /// The profile.
+    pub p: &'a Profile,
+}
+
+/// Renders a character's profile page; `template` overrides [`PROFILE_HTML`].
+///
+/// # Errors
+///
+/// [`RenderError::Template`] if the template is invalid.
+pub fn profile_html(
+    game: &Game,
+    profile: &Profile,
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let ctx = ProfileContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        p: profile,
+    };
+    let mut env = Environment::new();
+    env.set_auto_escape_callback(|_| AutoEscape::Html);
+    env.add_template("profile.html", template.unwrap_or(PROFILE_HTML))?;
+    Ok(env.get_template("profile.html")?.render(&ctx)?)
 }
 
 /// Which printable page to render from a [`Packing`].

@@ -90,4 +90,5 @@ Same data, other angle, for every organizer, non-player character and room
   `_all-players.pdf` / `_all-organizers.pdf` for printing, via minijinja `.tex.j2` templates and
   tectonic; Czech/English labels.
 - Templates can be overridden per game in `templates/`: `player.html.j2`, `organizer.html.j2`,
-  `player.tex.j2`, `organizer.tex.j2`.
+  `profile.html.j2`, `packing.html.j2`, `handouts.html.j2`, `player.tex.j2`, `organizer.tex.j2`,
+  `packing.tex.j2`, `handouts.tex.j2`.

@@ -153,6 +153,7 @@ pub(crate) fn handle(dir: &Path, req: &Request) -> Response {
         ("GET", p) if p.starts_with("/assets/") => asset(&p[1..]),
         ("GET", p) if p.starts_with("/players/") => sheet(dir, p),
         ("GET", p) if p.starts_with("/organizers/") => organizer_sheet(dir, p),
+        ("GET", p) if p.starts_with("/profiles/") => profile_page(dir, p),
         ("GET", "/packing.html") => packing_page(dir, larp_render::Page::Packing),
         ("GET", "/handouts.html") => packing_page(dir, larp_render::Page::Handouts),
         ("POST", _) if !req.token => Response::text(403, "missing X-Larpidarium header"),
@@ -312,6 +313,39 @@ fn organizer_sheet(dir: &Path, path: &str) -> Response {
     };
     let schedule = larp_graph::schedule(game, &id);
     match larp_render::organizer_sheet_html(game, &schedule, template.as_deref()) {
+        Ok(html) => Response::new(200, "text/html; charset=utf-8", html),
+        Err(e) => Response::text(500, e.to_string()),
+    }
+}
+
+/// A character's profile, rendered from the game as it is on disk now.
+fn profile_page(dir: &Path, path: &str) -> Response {
+    let Some(id) = path
+        .strip_prefix("/profiles/")
+        .and_then(|p| p.strip_suffix(".html"))
+        .and_then(|raw| edit::id(raw).ok())
+    else {
+        return Response::text(404, "not found");
+    };
+    let (_, checked) = match read(dir) {
+        Ok(r) => r,
+        Err(response) => return response,
+    };
+    let Some(raw) = checked.game.as_ref() else {
+        return Response::text(
+            409,
+            "the game has errors; fix them (see Game health on the graph page) to see the profile",
+        );
+    };
+    let game = larp_model::text::expand(raw);
+    let Some(profile) = larp_graph::profile(&game, &id) else {
+        return Response::text(404, "no such person");
+    };
+    let template = match crate::build::read_named_template(dir, "templates/profile.html.j2") {
+        Ok(t) => t,
+        Err(e) => return Response::text(500, format!("{e:?}")),
+    };
+    match larp_render::profile_html(&game, &profile, template.as_deref()) {
         Ok(html) => Response::new(200, "text/html; charset=utf-8", html),
         Err(e) => Response::text(500, e.to_string()),
     }
@@ -580,6 +614,11 @@ mod tests {
         assert_eq!(get(&dir, "/organizers/inspector-hugo.html").status, 404);
         assert_eq!(get(&dir, "/organizers/../game.toml").status, 404);
         assert_eq!(get(&dir, "/nope").status, 404);
+        let profile = get(&dir, "/profiles/brother-anselm.html");
+        assert_eq!(profile.status, 200);
+        assert!(text(&profile).contains("Bratr Anselm"));
+        assert_eq!(get(&dir, "/profiles/nobody.html").status, 404);
+        assert_eq!(get(&dir, "/profiles/../game.toml").status, 404);
         let packing = get(&dir, "/packing.html");
         assert_eq!(packing.status, 200);
         assert!(text(&packing).contains("Rezavý klíč"));

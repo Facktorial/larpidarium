@@ -22,7 +22,8 @@ my-game/
 ├── map.toml        optional: floor plan and room tiles, written by the browser's map view
 ├── map-presets/    optional: saved floor plans, <id>.toml
 ├── layout.toml     optional, written by "Save layout" in the browser
-└── templates/      optional: player.html.j2, organizer.html.j2, player.tex.j2, organizer.tex.j2
+└── templates/      optional: your own page templates (player, organizer, profile, packing,
+                    handouts; .html.j2 and .tex.j2), see crates/larpidarium/README.md
 
 All files can also be edited from the browser with `larpidarium serve` (see below). Hidden files
 (`.taplo.toml`, `.schemas/`) are ignored; `larpidarium schema` writes them for editor autocomplete.
@@ -432,6 +433,15 @@ know it yet (organizers know the whole plot and are not checked):
 
 Phases are not checked. Names written as plain text are not checked; link the info to get the
 check.
+
+## Character profiles
+
+`build` writes `profiles/<id>.html` for every person, for organizers (it has spoilers): goals,
+secrets, what they have and know at the start, relationships both ways (what they think of others
+and what others think of them), sheet sections, and a **timeline** in world-time order: entering
+the game, sheet phases, every action and decision they take part in (directly or through a
+faction) with who else is there, what they find out, are told, get and use up, and their death.
+The viewer links each person's profile with 👤 (owner list and People tab).
 
 ## Writing status
 

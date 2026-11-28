@@ -707,3 +707,74 @@ fn packing_and_handout_templates_in_the_game_folder_are_used() {
     );
     let _ = std::fs::remove_dir_all(&base);
 }
+
+// ---------- character profiles ----------
+
+#[test]
+fn build_writes_a_profile_for_every_person_including_organizers_and_npcs() {
+    let base = fresh("profiles");
+    let game = base.join("game");
+    copy_dir(&example("lost-abbey"), &game);
+    std::fs::write(
+        game.join("people/test-npc.toml"),
+        "[person]\nname = \"Zkušební převor\"\nrole = \"npc\"\n",
+    )
+    .unwrap();
+    let site = base.join("site");
+    build(&game, &site);
+    let mut people = 0;
+    for entry in std::fs::read_dir(game.join("people")).unwrap() {
+        let path = entry.unwrap().path();
+        let id = path.file_stem().unwrap().to_str().unwrap().to_owned();
+        let profile = site.join("profiles").join(format!("{id}.html"));
+        assert!(profile.is_file(), "missing profile of {id}");
+        people += 1;
+    }
+    assert_eq!(people, 5, "four people in lost-abbey and the test NPC");
+    let org = std::fs::read_to_string(site.join("profiles/org-petra.html")).unwrap();
+    assert!(org.contains("Petra (organizátorka)"), "{org}");
+    let npc = std::fs::read_to_string(site.join("profiles/test-npc.html")).unwrap();
+    assert!(npc.contains("Zkušební převor"), "{npc}");
+    assert!(npc.contains("cizí postava"), "{npc}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn anselm_profile_shows_his_faction_and_what_marta_thinks_of_him() {
+    let base = fresh("profile-anselm");
+    let site = base.join("site");
+    build(&example("lost-abbey"), &site);
+    let html = std::fs::read_to_string(site.join("profiles/brother-anselm.html")).unwrap();
+    assert!(html.contains("Bratr Anselm"), "{html}");
+    assert!(html.contains("Tvá frakce: Konvent"), "{html}");
+    assert!(
+        html.contains("Pro organizátory: obsahuje celý příběh"),
+        "{html}"
+    );
+    assert!(html.contains("Co si o postavě myslí ostatní"), "{html}");
+    let seen_by = html.split("Co si o postavě myslí ostatní").nth(1).unwrap();
+    assert!(
+        seen_by
+            .contains("<dt>Novicka Marta</dt><dd>Pokladník. Od opatova zmizení je nervózní.</dd>"),
+        "{html}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn profile_template_in_the_game_folder_is_used() {
+    let base = fresh("profile-tpl");
+    let game = base.join("game");
+    copy_dir(&example("lost-abbey"), &game);
+    std::fs::create_dir_all(game.join("templates")).unwrap();
+    std::fs::write(
+        game.join("templates/profile.html.j2"),
+        "PROFILE {{ p.name }} {{ p.factions | join(\",\") }}",
+    )
+    .unwrap();
+    let site = base.join("site");
+    build(&game, &site);
+    let html = std::fs::read_to_string(site.join("profiles/brother-anselm.html")).unwrap();
+    assert_eq!(html, "PROFILE Bratr Anselm Konvent");
+    let _ = std::fs::remove_dir_all(&base);
+}
