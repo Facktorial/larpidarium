@@ -2,7 +2,7 @@
 
 mod labels;
 
-use larp_graph::{Destiny, Schedule};
+use larp_graph::{Destiny, Packing, Schedule};
 use larp_model::model::{Death, Language, Role};
 use larp_model::{Game, Id};
 use minijinja::{AutoEscape, Environment, Error, ErrorKind, Value};
@@ -335,7 +335,36 @@ fn tex_env() -> Environment<'static> {
         out.write_str(&text)
             .map_err(|e| Error::new(ErrorKind::WriteFailure, e.to_string()))
     });
+    env.add_filter("lines", |text: String| {
+        Value::from_safe_string(tex_lines(&text))
+    });
     env
+}
+
+/// Escapes `text` for LaTeX like [`tex_escape`] and keeps its line breaks: a single newline
+/// becomes `\newline`, a blank line still starts a paragraph. For letters and notes, where every
+/// line matters. Templates use it as the `lines` filter.
+///
+/// ```
+/// assert_eq!(
+///     larp_render::tex_lines("Milý pane,\npíši 50 %.\n\nOpat"),
+///     "Milý pane,\\newline\npíši 50 \\%.\n\nOpat"
+/// );
+/// ```
+#[must_use]
+pub fn tex_lines(text: &str) -> String {
+    text.replace("\r\n", "\n")
+        .trim()
+        .split("\n\n")
+        .map(|para| {
+            para.trim()
+                .lines()
+                .map(tex_escape)
+                .collect::<Vec<_>>()
+                .join("\\newline\n")
+        })
+        .collect::<Vec<_>>()
+        .join("\n\n")
 }
 
 /// `RRGGBB` from a `#rrggbb` color, or the default accent.
@@ -380,6 +409,96 @@ pub fn organizer_sheet_html(
     env.set_auto_escape_callback(|_| AutoEscape::Html);
     env.add_template("organizer.html", template.unwrap_or(ORGANIZER_SHEET_HTML))?;
     Ok(env.get_template("organizer.html")?.render(&ctx)?)
+}
+
+/// The packing list page (HTML). Copy it to `<game>/templates/packing.html.j2` to customize it.
+pub const PACKING_HTML: &str = include_str!("../templates/html/packing.html.j2");
+
+/// The packing list (LaTeX).
+pub const PACKING_TEX: &str = include_str!("../templates/tex/packing.tex.j2");
+
+/// Handout cards to print (HTML).
+pub const HANDOUTS_HTML: &str = include_str!("../templates/html/handouts.html.j2");
+
+/// Handout cards to print (LaTeX).
+pub const HANDOUTS_TEX: &str = include_str!("../templates/tex/handouts.tex.j2");
+
+/// Everything the packing list and handout templates can use.
+#[derive(Debug, Serialize)]
+pub struct PackingContext<'a> {
+    /// Game title.
+    pub game_title: &'a str,
+    /// `"cs"` or `"en"`.
+    pub language: &'static str,
+    /// Translated labels, see [`labels`].
+    pub t: std::collections::BTreeMap<&'static str, &'static str>,
+    /// The packing list and handouts.
+    pub p: &'a Packing,
+}
+
+/// Which printable page to render from a [`Packing`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Page {
+    /// The packing list for organizers.
+    Packing,
+    /// Handout cards for players.
+    Handouts,
+}
+
+/// Renders the packing list or the handout cards as HTML; `template` overrides
+/// [`PACKING_HTML`] / [`HANDOUTS_HTML`].
+///
+/// # Errors
+///
+/// [`RenderError::Template`] if the template is invalid.
+pub fn packing_html(
+    game: &Game,
+    packing: &Packing,
+    page: Page,
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let mut env = Environment::new();
+    env.set_auto_escape_callback(|_| AutoEscape::Html);
+    let default = match page {
+        Page::Packing => PACKING_HTML,
+        Page::Handouts => HANDOUTS_HTML,
+    };
+    env.add_template("page.html", template.unwrap_or(default))?;
+    Ok(env
+        .get_template("page.html")?
+        .render(packing_context(game, packing))?)
+}
+
+/// Renders the packing list or the handout cards as LaTeX, escaped as in
+/// [`player_sheets_tex`]; `template` overrides [`PACKING_TEX`] / [`HANDOUTS_TEX`].
+///
+/// # Errors
+///
+/// [`RenderError::Template`] if the template is invalid.
+pub fn packing_tex(
+    game: &Game,
+    packing: &Packing,
+    page: Page,
+    template: Option<&str>,
+) -> Result<String, RenderError> {
+    let mut env = tex_env();
+    let default = match page {
+        Page::Packing => PACKING_TEX,
+        Page::Handouts => HANDOUTS_TEX,
+    };
+    env.add_template("page.tex", template.unwrap_or(default))?;
+    Ok(env
+        .get_template("page.tex")?
+        .render(packing_context(game, packing))?)
+}
+
+fn packing_context<'a>(game: &'a Game, packing: &'a Packing) -> PackingContext<'a> {
+    PackingContext {
+        game_title: &game.meta.title,
+        language: language(game),
+        t: labels(game.meta.language),
+        p: packing,
+    }
 }
 
 /// One organizer sheet inside a LaTeX document.

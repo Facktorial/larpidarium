@@ -500,3 +500,210 @@ fn build_writes_faction_sections_and_a_faction_organizer_sheet() {
     assert!(bratri.contains("frakce"), "{bratri}");
     let _ = std::fs::remove_dir_all(&out);
 }
+
+// ---------- packing list and handouts ----------
+
+/// A fresh, empty temp folder for one test.
+fn fresh(name: &str) -> PathBuf {
+    let base = std::env::temp_dir().join(format!("larpidarium-{name}-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&base);
+    std::fs::create_dir_all(&base).unwrap();
+    base
+}
+
+/// A copy of `lost-abbey` with one more item and one more info carrying a prop, a location and
+/// a handout with characters LaTeX must escape and a `[[link]]`. New ids only, so this works
+/// whatever props and handouts the example itself has. Returns (base folder, game folder).
+fn abbey_with_handouts(name: &str) -> (PathBuf, PathBuf) {
+    let base = fresh(name);
+    let game = base.join("game");
+    copy_dir(&example("lost-abbey"), &game);
+    let append = |file: &str, extra: &str| {
+        let path = game.join(file);
+        let text = std::fs::read_to_string(&path).unwrap();
+        std::fs::write(&path, text + extra).unwrap();
+    };
+    append(
+        "items.toml",
+        "\n[[item]]\nid = \"test-candle\"\nname = \"Zkušební svíce\"\nowners = [\"novice-marta\"]\n\
+         starting = true\nprop = \"vosková svíce 50 % & knot\"\nquantity = 4\nlocation = \"library\"\n",
+    );
+    append(
+        "info.toml",
+        "\n[[info]]\nid = \"test-note\"\nname = \"Zkušební vzkaz\"\nowners = [\"novice-marta\"]\n\
+         starting = true\nhandout = \"Pro [[brother-anselm]]: cena 5 $ & 10 % — přijď_hned.\"\n",
+    );
+    (base, game)
+}
+
+/// A game with one player and nothing to pack; `items` is the content of `items.toml`, if any.
+fn tiny_game(base: &std::path::Path, items: Option<&str>) -> PathBuf {
+    let game = base.join("game");
+    std::fs::create_dir_all(game.join("people")).unwrap();
+    std::fs::write(
+        game.join("game.toml"),
+        "[game]\ntitle = \"Malá hra\"\nlanguage = \"cs\"\n",
+    )
+    .unwrap();
+    std::fs::write(
+        game.join("people/ann.toml"),
+        "[person]\nname = \"Anna Řeháková\"\nrole = \"player\"\n",
+    )
+    .unwrap();
+    if let Some(items) = items {
+        std::fs::write(game.join("items.toml"), items).unwrap();
+    }
+    game
+}
+
+fn run_ok(args: &[&std::ffi::OsStr]) {
+    let out = Command::new(env!("CARGO_BIN_EXE_larpidarium"))
+        .args(args)
+        .output()
+        .unwrap();
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+}
+
+fn build(game: &std::path::Path, out: &std::path::Path) {
+    run_ok(&[
+        "build".as_ref(),
+        game.as_os_str(),
+        "--out".as_ref(),
+        out.as_os_str(),
+    ]);
+}
+
+fn pdf_tex_only(game: &std::path::Path, out: &std::path::Path) {
+    run_ok(&[
+        "pdf".as_ref(),
+        game.as_os_str(),
+        "--out".as_ref(),
+        out.as_os_str(),
+        "--tex-only".as_ref(),
+    ]);
+}
+
+#[test]
+fn build_writes_the_packing_list_and_handouts() {
+    let (base, game) = abbey_with_handouts("build-packing");
+    let site = base.join("site");
+    build(&game, &site);
+    let packing = std::fs::read_to_string(site.join("packing.html")).unwrap();
+    assert!(packing.contains("Balicí seznam"), "{packing}");
+    assert!(packing.contains("Zkušební svíce"), "{packing}");
+    assert!(
+        packing.contains("vosková svíce 50 % &amp; knot"),
+        "{packing}"
+    );
+    assert!(packing.contains("4×"), "{packing}");
+    assert!(packing.contains("Knihovna"), "the room is named: {packing}");
+    let handouts = std::fs::read_to_string(site.join("handouts.html")).unwrap();
+    assert!(
+        handouts.contains("Pro Bratr Anselm: cena 5 $ &amp; 10 % — přijď_hned."),
+        "the link is expanded and the text escaped: {handouts}"
+    );
+    assert!(!handouts.contains("[[brother-anselm]]"), "{handouts}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn build_writes_both_pages_even_for_a_game_without_items() {
+    let base = fresh("build-no-packing");
+    let game = tiny_game(&base, None);
+    let site = base.join("site");
+    build(&game, &site);
+    let packing = std::fs::read_to_string(site.join("packing.html")).unwrap();
+    assert!(
+        packing.contains("Hra nemá žádné předměty ani kartičky."),
+        "{packing}"
+    );
+    let handouts = std::fs::read_to_string(site.join("handouts.html")).unwrap();
+    assert!(
+        handouts.contains("Žádná informace ani předmět nemá"),
+        "{handouts}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn pdf_tex_only_writes_the_packing_list_and_handouts() {
+    let (base, game) = abbey_with_handouts("pdf-packing");
+    let out = base.join("pdf");
+    pdf_tex_only(&game, &out);
+    let packing = std::fs::read_to_string(out.join("_packing.tex")).unwrap();
+    assert!(packing.contains(r"\begin{document}"), "{packing}");
+    assert!(
+        packing.contains(r"vosková svíce 50 \% \& knot"),
+        "{packing}"
+    );
+    let handouts = std::fs::read_to_string(out.join("_handouts.tex")).unwrap();
+    assert!(
+        handouts.contains(r"Pro Bratr Anselm: cena 5 \$ \& 10 \% — přijď\_hned."),
+        "{handouts}"
+    );
+    assert!(!out.join("packing.tex").exists() && !out.join("handouts.tex").exists());
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn pdf_tex_only_writes_no_packing_list_or_handouts_without_items() {
+    let base = fresh("pdf-no-packing");
+    let game = tiny_game(&base, None);
+    let out = base.join("pdf");
+    pdf_tex_only(&game, &out);
+    assert!(out.join("ann.tex").is_file(), "the player sheet is written");
+    assert!(!out.join("_packing.tex").exists());
+    assert!(!out.join("_handouts.tex").exists());
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn pdf_tex_only_writes_a_packing_list_but_no_handouts_without_a_handout() {
+    let base = fresh("pdf-props-only");
+    let items = "[[item]]\nid = \"key\"\nname = \"Klíč\"\nowners = [\"ann\"]\nstarting = true\n\
+                 prop = \"mosazný klíč\"\nending = true\n";
+    let game = tiny_game(&base, Some(items));
+    let out = base.join("pdf");
+    pdf_tex_only(&game, &out);
+    let packing = std::fs::read_to_string(out.join("_packing.tex")).unwrap();
+    assert!(packing.contains("mosazný klíč"), "{packing}");
+    assert!(!out.join("_handouts.tex").exists());
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn packing_and_handout_templates_in_the_game_folder_are_used() {
+    let (base, game) = abbey_with_handouts("packing-tpl");
+    std::fs::create_dir_all(game.join("templates")).unwrap();
+    for (file, text) in [
+        (
+            "packing.html.j2",
+            "PACK-HTML {% for h in p.handouts %}{% if h[0] == \"Zkušební vzkaz\" %}{{ h[0] }}{% endif %}{% endfor %}",
+        ),
+        ("handouts.html.j2", "CARDS-HTML {{ game_title }}"),
+        ("packing.tex.j2", "PACK-TEX {{ game_title }}"),
+        ("handouts.tex.j2", "CARDS-TEX {{ game_title }}"),
+    ] {
+        std::fs::write(game.join("templates").join(file), text).unwrap();
+    }
+    let site = base.join("site");
+    build(&game, &site);
+    let read = |p: PathBuf| std::fs::read_to_string(p).unwrap();
+    assert_eq!(read(site.join("packing.html")), "PACK-HTML Zkušební vzkaz");
+    assert_eq!(
+        read(site.join("handouts.html")),
+        "CARDS-HTML Ztracené opatství"
+    );
+    let out = base.join("pdf");
+    pdf_tex_only(&game, &out);
+    assert_eq!(read(out.join("_packing.tex")), "PACK-TEX Ztracené opatství");
+    assert_eq!(
+        read(out.join("_handouts.tex")),
+        "CARDS-TEX Ztracené opatství"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}

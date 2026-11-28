@@ -1,0 +1,37 @@
+{#- Packing list as LaTeX. Copy to <game>/templates/packing.tex.j2 to customize it. Same data as
+    packing.html.j2; all game text is escaped for LaTeX. -#}
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[{% if language == "cs" %}czech{% else %}english{% endif %}]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\definecolor{accent}{HTML}{3E5C7A}
+\newcommand{\packpart}[1]{\par\needspace{5\baselineskip}\vspace{12pt}{\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\par}\vspace{2pt}}
+\newcommand{\packplace}[1]{\par\needspace{3\baselineskip}\vspace{6pt}{\sffamily\bfseries {\relax#1}\par}}
+\begin{document}
+{%- macro items(list, during=false) %}
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+{% for x in list %}\item {% if x.quantity > 1 %}{{ x.quantity }}× {% endif %}{\bfseries {{ x.name }}}{% if x.prop %} {\color{muted}· {{ x.prop }}}{% endif %}{% if x.handout %} {\small\itshape ({{ t.pack_handout }})}{% endif %}{% if during and x.location %} {\small\color{muted}$\rightarrow$ {{ x.location }}}{% endif %}{% if x.option %} {\small\itshape\color{muted}({{ t.pack_if }} {{ t.q_open }}{{ x.option }}{{ t.q_close }})}{% endif %}{% if x.for_acts %} {\small\itshape\color{muted}({{ t.pack_for }} {{ x.for_acts | join(", ") }})}{% endif %}
+{% endfor %}\end{itemize}
+{%- endmacro %}
+{\fontsize{24}{28}\selectfont\bfseries {{ t.pack_title }}\par}
+{\sffamily\textcolor{muted}{ {{- game_title -}} }}\par
+{% if not p.before and not p.during %}{{ t.pack_empty }}\par{% endif %}
+{%- if p.before %}\packpart{ {{- t.pack_before -}} }
+{% for place in p.before %}\packplace{ {{- place.name or t.pack_unassigned -}} }
+{% if place.members %}{\small\itshape\color{muted} {{ t.pack_members }}: {{ place.members | join(", ") }}\par}{% endif %}
+{{- items(place.items) }}
+{% endfor %}{% endif %}
+{%- if p.during %}\packpart{ {{- t.pack_during -}} }
+{% for act in p.during %}\packplace{ {{- act.title -}} }
+{% if act.owners %}{\small\itshape\color{muted} {{ t.pack_by }} {{ act.owners | join(", ") }}\par}{% endif %}
+{{- items(act.items, true) }}
+{% endfor %}{% endif %}
+\end{document}

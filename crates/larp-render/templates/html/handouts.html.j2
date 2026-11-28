@@ -1,0 +1,25 @@
+{#- Handout cards to print and cut. Copy to <game>/templates/handouts.html.j2 to customize it.
+    Available: game_title, language, t (labels), p.handouts: a list of (name, text). -#}
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ t.handouts_title }} · {{ game_title }}</title>
+<style>
+  body { font-family: Georgia, serif; margin: 1.5rem; color: #222; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; }
+  .card { border: 1px dashed #999; padding: 1rem 1.2rem; break-inside: avoid; min-height: 8rem; }
+  .card h2 { font-size: 1rem; margin: 0 0 .5rem; font-family: system-ui, sans-serif; color: #6b665d; text-transform: uppercase; letter-spacing: .04em; }
+  .card p { white-space: pre-wrap; margin: 0; line-height: 1.5; }
+  .noprint { color: #6b665d; } @media print { .noprint { display: none; } body { margin: 0; } }
+</style>
+</head>
+<body>
+<p class="noprint">{{ game_title }} · {{ t.handouts_title }}</p>
+{% if not p.handouts %}<p>{{ t.handouts_empty }}</p>{% endif %}
+<div class="cards">
+{% for name, text in p.handouts %}<div class="card"><h2>{{ name }}</h2><p>{{ text | trim }}</p></div>
+{% endfor %}</div>
+</body>
+</html>

@@ -57,6 +57,7 @@ pub(crate) fn run(dir: &Path, out: &Path, tex_only: bool) -> Result<()> {
         files.push(write(&out.join(ALL), &tex)?);
     }
     files.extend(organizers(dir, game, out)?);
+    files.extend(packing(dir, game, out)?);
     if files.is_empty() {
         return Err(miette!(
             "the game has no people or rooms, so there are no sheets to print"
@@ -134,6 +135,37 @@ fn organizers(dir: &Path, game: &larp_model::Game, out: &Path) -> Result<Vec<std
     }
     let all: Vec<_> = schedules.iter().collect();
     files.push(write(&out.join(ALL_ORGANIZERS), &render(&all)?)?);
+    Ok(files)
+}
+
+/// `_packing.tex` when the game has props to bring, `_handouts.tex` when it has handouts.
+/// The leading underscore keeps them apart from player sheets, which are named by id.
+fn packing(dir: &Path, game: &larp_model::Game, out: &Path) -> Result<Vec<std::path::PathBuf>> {
+    let packing = larp_graph::packing(game);
+    let mut files = Vec::new();
+    for (page, file, name, wanted) in [
+        (
+            larp_render::Page::Packing,
+            "_packing.tex",
+            "templates/packing.tex.j2",
+            !packing.before.is_empty() || !packing.during.is_empty(),
+        ),
+        (
+            larp_render::Page::Handouts,
+            "_handouts.tex",
+            "templates/handouts.tex.j2",
+            !packing.handouts.is_empty(),
+        ),
+    ] {
+        if !wanted {
+            continue;
+        }
+        let template = read_named_template(dir, name)?;
+        let tex = larp_render::packing_tex(game, &packing, page, template.as_deref())
+            .map_err(|e| miette!("{e}"))
+            .wrap_err_with(|| format!("cannot render {file}"))?;
+        files.push(write(&out.join(file), &tex)?);
+    }
     Ok(files)
 }
 

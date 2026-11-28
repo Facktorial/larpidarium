@@ -1,0 +1,43 @@
+---
+source: crates/larp-render/tests/packing.rs
+expression: "html(&game(), Page::Packing)"
+---
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balicí seznam · Řád &amp; Kříž</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.45; }
+  h1 { margin-bottom: 0; } .sub { color: #6b665d; margin-top: .2rem; }
+  h2 { border-bottom: 2px solid #3e5c7a; padding-bottom: .2rem; margin-top: 2rem; }
+  h3 { margin: 1.2rem 0 .3rem; }
+  ul { list-style: none; padding-left: 0; } li { padding: .15rem 0; }
+  li::before { content: "☐ "; } .prop { color: #6b665d; } .tag { font-size: .8em; background: #eee; border-radius: 3px; padding: 0 .3em; }
+  .by { color: #6b665d; font-style: italic; }
+  @media print { body { margin: 0; } h2 { break-after: avoid; } }
+</style>
+</head>
+<body>
+<h1>Balicí seznam</h1>
+<p class="sub">Řád &amp; Kříž</p>
+
+<h2>Před hrou</h2>
+<h3>Anna_#1 {Ř}</h3>
+<ul><li>3× <strong>Klíč &amp; $5</strong> <span class="prop">· mosaz &lt;stará&gt; 100 %</span></li></ul>
+<h3>Sklep &lt;50 %&gt;</h3>
+<ul><li><strong>Kniha ů</strong></li><li><strong>Lampa_{x}</strong> <span class="prop">· #2 petrolejka</span> <span class="by">(pro Příjezd &amp; {uvítání})</span></li></ul>
+<h3>Řád_{x}</h3><p class="by">členové: Anna_#1 {Ř}</p>
+<ul><li><strong>Pečeť</strong></li></ul>
+<h3>Nikdo to nemá</h3>
+<ul><li><strong>Prsten &amp; co</strong></li></ul>
+
+<h2>Během hry</h2>
+<h3>Příjezd &amp; {uvítání}</h3><p class="by">vydává Anna_#1 {Ř}</p>
+<ul><li><strong>Lampa_{x}</strong> <span class="prop">· #2 petrolejka</span> <span class="by">→ Sklep &lt;50 %&gt;</span></li><li><strong>Dopis &lt;tajný&gt;</strong> <span class="tag">kartička</span></li></ul>
+<h3>Volba</h3><p class="by">vydává Anna_#1 {Ř}</p>
+<ul><li><strong>Svíce</strong> <span class="prop">· vosk</span> <span class="by">(při volbě „Ano &amp; {hned}“)</span></li></ul>
+
+</body>
+</html>

@@ -33,16 +33,18 @@ larpidarium pdf examples/lost-abbey --tex-only      # only the .tex files, no te
 ```
 
 Writes a LaTeX document per player character and `_all-players` with every sheet, and the same
-for organizer sheets (organizers, non-player characters and rooms) in `organizers/` and
+for organizer sheets (organizers, non-player characters, rooms and factions) in `organizers/` and
 `_all-organizers` (every sheet in one document, each starting on an odd page for duplex printing),
-then compiles them with [tectonic](https://tectonic-typesetting.github.io).
+plus `_packing` (the packing list) when the game has items and `_handouts` (cards to cut out) when
+something has a `handout`, then compiles them with [tectonic](https://tectonic-typesetting.github.io).
 The first run downloads the LaTeX packages it needs, later runs work offline. Without tectonic the
 command stops with an install hint; the `.tex` files are already written.
 
 The sheet has the same parts as the HTML one: who you are, destiny (with the mini graph drawn in
 TikZ) and how you change. To restyle, copy a template from `crates/larp-render/templates/` into
 `<game>/templates/`: `tex/player.tex.j2` → `player.tex.j2`, `tex/organizer.tex.j2` →
-`organizer.tex.j2`, and likewise `player.html.j2` / `organizer.html.j2` for the web sheets. All game
+`organizer.tex.j2`, `packing.tex.j2`, `handouts.tex.j2`, and likewise `player.html.j2`,
+`organizer.html.j2`, `packing.html.j2` and `handouts.html.j2` for the web pages. All game
 text is escaped for you.
 
 ## `serve`: editing in the browser

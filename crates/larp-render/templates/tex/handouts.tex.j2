@@ -1,0 +1,22 @@
+{#- Handout cards as LaTeX, two per row, to print and cut. Copy to
+    <game>/templates/handouts.tex.j2 to customize it. Available: game_title, language, t,
+    p.handouts: a list of (name, text). -#}
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[{% if language == "cs" %}czech{% else %}english{% endif %}]{babel}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{xcolor}
+\tracinglostchars=2
+\setlength{\parindent}{0pt}
+\definecolor{muted}{HTML}{6B665D}
+% A card grows with its text, so long handouts never overflow it.
+% The lowered rule beside the text keeps short cards 7 cm deep.
+\newcommand{\handout}[2]{\fbox{\rule[-7cm]{0pt}{7cm}\begin{minipage}[t]{0.44\textwidth}\vspace{4pt}%
+  {\sffamily\small\bfseries\textcolor{muted}{\MakeUppercase{\relax#1}}}\par\vspace{6pt}%
+  {\setlength{\parskip}{6pt}\relax#2\par}\vspace{4pt}\end{minipage}}}
+\begin{document}
+\pagestyle{empty}
+{% if not p.handouts %}{{ t.handouts_empty }}\par{% endif %}
+{%- for name, text in p.handouts %}\handout{ {{- name -}} }{ {{- text | lines -}} }{% if loop.index is divisibleby(2) %}\par\vspace{8pt}{% else %}\hfill{% endif %}
+{% endfor %}
+\end{document}

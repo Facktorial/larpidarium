@@ -84,11 +84,16 @@ pub fn each_text(game: &Game, mut f: impl FnMut(Place<'_>, &str)) {
             }
         }
     }
-    for thing in &game.items {
-        f(place("items.toml", "text"), &thing.text);
-    }
-    for thing in &game.info {
-        f(place("info.toml", "text"), &thing.text);
+    for (thing, file) in game
+        .items
+        .iter()
+        .map(|t| (t, "items.toml"))
+        .chain(game.info.iter().map(|t| (t, "info.toml")))
+    {
+        f(place(file, "text"), &thing.text);
+        if let Some(h) = &thing.handout {
+            f(place(file, "handout"), h);
+        }
     }
     for segment in &game.segments {
         f(place("segments.toml", "text"), &segment.text);
@@ -144,10 +149,12 @@ fn each_text_mut(game: &mut Game, mut f: impl FnMut(&mut String)) {
                 .for_each(&mut f);
         }
     }
-    game.items
-        .iter_mut()
-        .chain(&mut game.info)
-        .for_each(|t| f(&mut t.text));
+    for t in game.items.iter_mut().chain(&mut game.info) {
+        f(&mut t.text);
+        if let Some(h) = &mut t.handout {
+            f(h);
+        }
+    }
     game.segments.iter_mut().for_each(|s| f(&mut s.text));
     game.cycles.iter_mut().for_each(|c| f(&mut c.text));
     game.blocks.iter_mut().for_each(|b| f(&mut b.text));

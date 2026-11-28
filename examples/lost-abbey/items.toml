@@ -13,6 +13,7 @@ category = "key"
 owners = ["brother-anselm"]
 starting = true
 text = "Velký železný klíč od krypty. Anselm ho nosí na krku."
+prop = "velký železný klíč (aspoň dlaň dlouhý), zrezivělý, na koženém řemínku na krk"
 
 [[item]]
 id = "sealed-letter"
@@ -21,6 +22,17 @@ category = "evidence"
 owners = ["novice-marta"]
 starting = true
 text = "Dopis s opatovou pečetí, adresovaný biskupovi. Nikdy nebyl odeslán."
+prop = "nažloutlá obálka zapečetěná červeným voskem, adresovaná biskupovi; uvnitř vytištěná kartička s dopisem"
+handout = """
+Nejdůstojnější otče biskupe,
+píši Vám s těžkým srdcem o věci, kterou už nemohu nést sám.
+[[brother-anselm]], jemuž jsem svěřil pokladnici našeho opatství, z ní krade.
+Přepočítal jsem při svíčce truhlici i knihy příjmů a nesouhlasí to.
+Nevím, komu z bratří ještě mohu věřit, proto se obracím přímo k Vám.
+Pošlete, prosím, někoho, kdo věc vyšetří, dřív než se rozkřikne.
+Váš pokorný služebník v Kristu
+opat
+"""
 
 [[item]]
 id = "abbot-bones"
@@ -28,3 +40,5 @@ name = "Opatovy kosti"
 category = "evidence"
 owners = ["crypt"]
 text = "Kostra v mnišské kutně. Lebka má prasklinu."
+prop = "kostra v životní velikosti (plastová) v hnědé mnišské kutně, na lebce namalovaná prasklina"
+location = "crypt"

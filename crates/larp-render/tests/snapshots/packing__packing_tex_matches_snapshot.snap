@@ -1,0 +1,58 @@
+---
+source: crates/larp-render/tests/packing.rs
+expression: "tex(&game(), Page::Packing)"
+---
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[czech]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{amssymb}
+\tracinglostchars=2
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\definecolor{muted}{HTML}{6B665D}
+\definecolor{accent}{HTML}{3E5C7A}
+\newcommand{\packpart}[1]{\par\needspace{5\baselineskip}\vspace{12pt}{\sffamily\bfseries\Large\textcolor{accent}{\relax#1}\par}\vspace{2pt}}
+\newcommand{\packplace}[1]{\par\needspace{3\baselineskip}\vspace{6pt}{\sffamily\bfseries {\relax#1}\par}}
+\begin{document}
+{\fontsize{24}{28}\selectfont\bfseries Balicí seznam\par}
+{\sffamily\textcolor{muted}{Řád \& Kříž}}\par
+\packpart{Před hrou}
+\packplace{Anna\_\#1 \{Ř\}}
+
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item 3× {\bfseries Klíč \& \$5} {\color{muted}· mosaz <stará> 100 \%}
+\end{itemize}
+\packplace{Sklep <50 \%>}
+
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item {\bfseries Kniha ů}
+\item {\bfseries Lampa\_\{x\}} {\color{muted}· \#2 petrolejka} {\small\itshape\color{muted}(pro Příjezd \& \{uvítání\})}
+\end{itemize}
+\packplace{Řád\_\{x\}}
+{\small\itshape\color{muted} členové: Anna\_\#1 \{Ř\}\par}
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item {\bfseries Pečeť}
+\end{itemize}
+\packplace{Nikdo to nemá}
+
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item {\bfseries Prsten \& co}
+\end{itemize}
+\packpart{Během hry}
+\packplace{Příjezd \& \{uvítání\}}
+{\small\itshape\color{muted} vydává Anna\_\#1 \{Ř\}\par}
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item {\bfseries Lampa\_\{x\}} {\color{muted}· \#2 petrolejka} {\small\color{muted}$\rightarrow$ Sklep <50 \%>}
+\item {\bfseries Dopis <tajný>} {\small\itshape (kartička)}
+\end{itemize}
+\packplace{Volba}
+{\small\itshape\color{muted} vydává Anna\_\#1 \{Ř\}\par}
+\begin{itemize}[nosep,leftmargin=1.4em,label=$\square$]
+\item {\bfseries Svíce} {\color{muted}· vosk} {\small\itshape\color{muted}(při volbě „Ano \& \{hned\}“)}
+\end{itemize}
+
+\end{document}

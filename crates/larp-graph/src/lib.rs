@@ -1,12 +1,16 @@
 #![doc = include_str!("../README.md")]
 
 mod destiny;
+mod inventory;
 mod layout;
 mod progress;
 mod schedule;
 
 pub use destiny::{
     Destiny, DestinyOption, DestinyStep, MiniEdge, MiniGraph, MiniNode, Source, ThingRef, destiny,
+};
+pub use inventory::{
+    InventoryItem, Move, PackItem, Packing, PackingAct, PackingPlace, inventory, packing,
 };
 pub use progress::{OpenPart, Progress, StatusCount, progress};
 pub use schedule::{
@@ -68,6 +72,8 @@ pub struct GraphData {
     pub blocks: Vec<BlockView>,
     /// Who knows which info and from when, for the Knowledge tab.
     pub knowledge: Vec<KnowView>,
+    /// Items and handouts, for the Inventory tab.
+    pub inventory: Vec<InventoryItem>,
 }
 
 /// One way a person comes to know an info (see [`larp_model::knowledge`]).
@@ -613,6 +619,7 @@ fn build_shown(
         progress: progress(game),
         blocks: Vec::new(),
         knowledge: knowledge(game),
+        inventory: inventory(game),
         endings: playthroughs
             .map(|p| {
                 p.endings

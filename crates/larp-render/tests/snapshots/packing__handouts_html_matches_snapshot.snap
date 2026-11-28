@@ -1,0 +1,28 @@
+---
+source: crates/larp-render/tests/packing.rs
+expression: "html(&game(), Page::Handouts)"
+---
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kartičky pro hráče · Řád &amp; Kříž</title>
+<style>
+  body { font-family: Georgia, serif; margin: 1.5rem; color: #222; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; }
+  .card { border: 1px dashed #999; padding: 1rem 1.2rem; break-inside: avoid; min-height: 8rem; }
+  .card h2 { font-size: 1rem; margin: 0 0 .5rem; font-family: system-ui, sans-serif; color: #6b665d; text-transform: uppercase; letter-spacing: .04em; }
+  .card p { white-space: pre-wrap; margin: 0; line-height: 1.5; }
+  .noprint { color: #6b665d; } @media print { .noprint { display: none; } body { margin: 0; } }
+</style>
+</head>
+<body>
+<p class="noprint">Řád &amp; Kříž · Kartičky pro hráče</p>
+
+<div class="cards">
+<div class="card"><h2>Dopis &lt;tajný&gt;</h2><p>Excelence &amp; přátelé,
+50 % $ _ # { } &lt;b&gt;čeřů&lt;&#x2f;b&gt;</p></div>
+</div>
+</body>
+</html>

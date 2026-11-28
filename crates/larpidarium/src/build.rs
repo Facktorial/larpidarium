@@ -68,6 +68,26 @@ pub(crate) fn run(dir: &Path, out: &Path, open: bool) -> Result<()> {
         schedules += 1;
     }
 
+    let packing = larp_graph::packing(&shown);
+    for (page, file, name) in [
+        (
+            larp_render::Page::Packing,
+            "packing.html",
+            "templates/packing.html.j2",
+        ),
+        (
+            larp_render::Page::Handouts,
+            "handouts.html",
+            "templates/handouts.html.j2",
+        ),
+    ] {
+        let template = read_named_template(dir, name)?;
+        let html = larp_render::packing_html(&shown, &packing, page, template.as_deref())
+            .map_err(|e| miette!("{e}"))
+            .wrap_err_with(|| format!("cannot render {file}"))?;
+        write(&out.join(file), &html)?;
+    }
+
     let index = out.join("index.html");
     println!(
         "✔ wrote {}, {sheets} character sheet(s) in {} and {schedules} organizer sheet(s) in {}",

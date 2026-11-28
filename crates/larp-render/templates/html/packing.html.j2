@@ -1,0 +1,38 @@
+{#- Packing list for organizers. Copy to <game>/templates/packing.html.j2 to customize it.
+    Available: game_title, language, t (labels), p: { before: [{ name, members, items }],
+    during: [{ title, owners, items }], handouts }, where an item is { name, prop, quantity,
+    handout, location, option, for_acts }. A place with an empty name holds what nobody has. -#}
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ t.pack_title }} · {{ game_title }}</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; color: #222; line-height: 1.45; }
+  h1 { margin-bottom: 0; } .sub { color: #6b665d; margin-top: .2rem; }
+  h2 { border-bottom: 2px solid #3e5c7a; padding-bottom: .2rem; margin-top: 2rem; }
+  h3 { margin: 1.2rem 0 .3rem; }
+  ul { list-style: none; padding-left: 0; } li { padding: .15rem 0; }
+  li::before { content: "☐ "; } .prop { color: #6b665d; } .tag { font-size: .8em; background: #eee; border-radius: 3px; padding: 0 .3em; }
+  .by { color: #6b665d; font-style: italic; }
+  @media print { body { margin: 0; } h2 { break-after: avoid; } }
+</style>
+</head>
+<body>
+{%- macro item(x, during=false) -%}
+<li>{% if x.quantity > 1 %}{{ x.quantity }}× {% endif %}<strong>{{ x.name }}</strong>{% if x.prop %} <span class="prop">· {{ x.prop }}</span>{% endif %}{% if x.handout %} <span class="tag">{{ t.pack_handout }}</span>{% endif %}{% if during and x.location %} <span class="by">→ {{ x.location }}</span>{% endif %}{% if x.option %} <span class="by">({{ t.pack_if }} {{ t.q_open }}{{ x.option }}{{ t.q_close }})</span>{% endif %}{% if x.for_acts %} <span class="by">({{ t.pack_for }} {{ x.for_acts | join(", ") }})</span>{% endif %}</li>
+{%- endmacro %}
+<h1>{{ t.pack_title }}</h1>
+<p class="sub">{{ game_title }}</p>
+{% if not p.before and not p.during %}<p>{{ t.pack_empty }}</p>{% endif %}
+{% if p.before %}<h2>{{ t.pack_before }}</h2>
+{% for place in p.before %}<h3>{{ place.name or t.pack_unassigned }}</h3>{% if place.members %}<p class="by">{{ t.pack_members }}: {{ place.members | join(", ") }}</p>{% endif %}
+<ul>{% for x in place.items %}{{ item(x) }}{% endfor %}</ul>
+{% endfor %}{% endif %}
+{% if p.during %}<h2>{{ t.pack_during }}</h2>
+{% for act in p.during %}<h3>{{ act.title }}</h3>{% if act.owners %}<p class="by">{{ t.pack_by }} {{ act.owners | join(", ") }}</p>{% endif %}
+<ul>{% for x in act.items %}{{ item(x, true) }}{% endfor %}</ul>
+{% endfor %}{% endif %}
+</body>
+</html>

@@ -11,6 +11,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
   an organizer sheet, and show up in the viewer (owner list, Frakce tab, People column).
 - Relationships: `check` warns when a player character has a relation with another player character
   who has none back, and the viewer has a Vztahy tab with a relationship graph.
+- Inventory and handouts: items and info take `prop`, `quantity`, `location` and `handout`; the
+  viewer has an Inventář tab, `build` writes `packing.html` and `handouts.html`, and `pdf` writes
+  `_packing` and `_handouts`.
 - Who knows what: a Znalosti tab in the viewer shows for every info who knows it from the start,
   who finds it out and who is told, and when; `check` warns when a sheet or a brief names an info
   (`[[info-id]]`) before the reader can know it.

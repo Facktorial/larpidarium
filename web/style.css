@@ -315,3 +315,6 @@ svg.relations .rel-label { fill: var(--text-color, #ddd); font-size: 12px; }
 .know-finds { color: #3498db; }
 .know-told { color: #e67e22; }
 .know.maybe { opacity: .65; font-style: italic; }
+
+.muted { color: var(--muted); }
+.hint a { color: var(--text-color); text-decoration: underline; text-decoration-color: var(--accent); }

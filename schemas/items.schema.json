@@ -39,8 +39,17 @@
             "description": "Reaching it ends the game (an ending).",
             "type": "boolean"
           },
+          "handout": {
+            "description": "Text printed on a handout card for players (handouts).",
+            "type": "string"
+          },
           "id": {
             "description": "Id of the item: lowercase ASCII letters, digits and dashes.",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "location": {
+            "description": "Id of the room where it lies, or where its prop waits.",
             "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
             "type": "string"
           },
@@ -56,6 +65,15 @@
               "type": "string"
             },
             "type": "array"
+          },
+          "prop": {
+            "description": "The physical prop organizers bring (packing list).",
+            "type": "string"
+          },
+          "quantity": {
+            "description": "How many props (default 1).",
+            "minimum": 1,
+            "type": "integer"
           },
           "starting": {
             "description": "Exists when the game starts.",

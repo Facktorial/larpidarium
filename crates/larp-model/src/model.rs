@@ -618,4 +618,20 @@ pub struct Thing {
     /// Description for sheets.
     #[serde(default)]
     pub text: String,
+    /// The physical prop organizers bring, such as "mosazný klíč, zrezivělý".
+    pub prop: Option<String>,
+    /// How many props are needed (default 1).
+    pub quantity: Option<Spanned<u32>>,
+    /// Room where it lies at the start, or where its prop waits until the game gives it.
+    pub location: Option<Ref>,
+    /// Text printed on a handout card for players (a letter, a note, a document).
+    pub handout: Option<String>,
+}
+
+impl Thing {
+    /// How many props are needed: `quantity`, or 1.
+    #[must_use]
+    pub fn count(&self) -> u32 {
+        self.quantity.as_ref().map_or(1, |q| *q.get_ref())
+    }
 }

@@ -1,0 +1,23 @@
+---
+source: crates/larp-render/tests/packing.rs
+expression: "tex(&game(), Page::Handouts)"
+---
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[czech]{babel}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{xcolor}
+\tracinglostchars=2
+\setlength{\parindent}{0pt}
+\definecolor{muted}{HTML}{6B665D}
+% A card grows with its text, so long handouts never overflow it.
+% The lowered rule beside the text keeps short cards 7 cm deep.
+\newcommand{\handout}[2]{\fbox{\rule[-7cm]{0pt}{7cm}\begin{minipage}[t]{0.44\textwidth}\vspace{4pt}%
+  {\sffamily\small\bfseries\textcolor{muted}{\MakeUppercase{\relax#1}}}\par\vspace{6pt}%
+  {\setlength{\parskip}{6pt}\relax#2\par}\vspace{4pt}\end{minipage}}}
+\begin{document}
+\pagestyle{empty}
+\handout{Dopis <tajný>}{Excelence \& přátelé,\newline
+50 \% \$ \_ \# \{ \} <b>čeřů</b>}\hfill
+
+\end{document}

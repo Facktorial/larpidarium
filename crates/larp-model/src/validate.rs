@@ -106,19 +106,7 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
         check_refs(step.gives, &step.file, THING, "gift", &registry, diags);
     }
     check_person_refs(game, &registry, diags);
-    for (thing, file) in things(game) {
-        check_refs(&thing.owners, file, OWNER, "owner", &registry, diags);
-        if let Some(category) = &thing.category {
-            check_refs(
-                std::slice::from_ref(category),
-                file,
-                &[Kind::Category],
-                "category",
-                &registry,
-                diags,
-            );
-        }
-    }
+    check_thing_refs(game, &registry, diags);
 
     check_cycle_refs(game, &registry, diags);
     for block in &game.blocks {
@@ -252,6 +240,33 @@ fn steps(game: &Game) -> Vec<Step<'_>> {
         }
     }
     steps
+}
+
+/// Owners, location, quantity and category of items and info.
+fn check_thing_refs(game: &Game, registry: &HashMap<Id, Entry>, diags: &mut Vec<Diagnostic>) {
+    for (thing, file) in things(game) {
+        check_refs(&thing.owners, file, OWNER, "owner", registry, diags);
+        let location: Vec<Ref> = thing.location.iter().cloned().collect();
+        check_refs(&location, file, &[Kind::Room], "location", registry, diags);
+        if let Some(q) = &thing.quantity
+            && *q.get_ref() == 0
+        {
+            diags.push(
+                Diagnostic::error(file, Some(q.span()), "`quantity` must be at least 1")
+                    .with_help("leave `quantity` out when one prop is enough"),
+            );
+        }
+        if let Some(category) = &thing.category {
+            check_refs(
+                std::slice::from_ref(category),
+                file,
+                &[Kind::Category],
+                "category",
+                registry,
+                diags,
+            );
+        }
+    }
 }
 
 /// Relations, players and segments named by people.

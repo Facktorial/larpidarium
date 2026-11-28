@@ -46,6 +46,8 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
+      qo: '„', qc: '“', tabInventory: 'Inventář', noInventory: 'Hra nemá žádné předměty.', packingList: 'Balicí seznam', handoutCards: 'Kartičky k tisku',
+      prop: 'Rekvizita', location: 'Kde leží', holdsAtStart: 'Má na začátku', givenAt: 'Získá se', neededAt: 'Potřeba', usedAt: 'Spotřebuje se', handoutCol: 'Kartička',
       tabKnowledge: 'Znalosti', noKnowledge: 'Nikdo nic neví: v info.toml nejsou informace, které by někdo měl nebo získal.',
       knowledgeHint: '● ví od začátku · 🔍 zjistí sám · 💬 dozví se od jiných (nejpozději v tu chvíli) · ? jen při některé volbě. Najeď na buňku pro všechny cesty.',
       knowStart: 'ví od začátku', knowFinds: 'zjistí', knowTold: 'dozví se', knowOption: 'při volbě', knowStep: 'krok', knowCount: 'Kolik ví',
@@ -99,6 +101,8 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
+      qo: '“', qc: '”', tabInventory: 'Inventory', noInventory: 'The game has no items.', packingList: 'Packing list', handoutCards: 'Handouts to print',
+      prop: 'Prop', location: 'Where', holdsAtStart: 'Held at start', givenAt: 'Given at', neededAt: 'Needed at', usedAt: 'Used up at', handoutCol: 'Handout',
       tabKnowledge: 'Knowledge', noKnowledge: 'Nobody knows anything: info.toml has no info that anyone holds or learns.',
       knowledgeHint: '● knows from the start · 🔍 finds it out · 💬 is told (by then at the latest) · ? only after some choice. Hover a cell for every way.',
       knowStart: 'knows from the start', knowFinds: 'finds out', knowTold: 'is told', knowOption: 'after choice', knowStep: 'step', knowCount: 'Known by',
@@ -1848,7 +1852,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       if (k.how === 'start') return t.knowStart;
       const n = byId.get(k.node);
       const what = k.how === 'finds' ? t.knowFinds : t.knowTold;
-      return `${what}: ${n?.title ?? k.node}${n ? ` (${when(n)})` : ''}${k.option ? ` · ${t.knowOption} „${k.option}“` : ''}`;
+      return `${what}: ${n?.title ?? k.node}${n ? ` (${when(n)})` : ''}${k.option ? ` · ${t.knowOption} ${t.qo}${k.option}${t.qc}` : ''}`;
     };
     // Built once: info → person → ways (already sorted by time on the Rust side).
     const ways = new Map();
@@ -1885,6 +1889,48 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
       { label: t.info, cell: (x) => x.name, sort: (x) => x.name },
       { label: t.knowCount, cell: (x) => String(countOf(x.id)), sort: (x) => countOf(x.id) },
       ...who.map((o) => ({ label: o.name, cell: (x) => cell(x, o), sort: (x) => tick(shown(waysOf(x.id, o.id))) })),
+    ]));
+    return box;
+  }
+
+  /**
+   * Inventory: every item (and info with a prop or handout): the prop, how many, where it lies,
+   * who has it at the start, and which acts give, need and use it up.
+   */
+  function inventoryTable() {
+    const inv = G.inventory ?? [];
+    if (!inv.length) return el('p', 'hint', t.noInventory);
+    const moves = (list) => {
+      const s = el('span');
+      list.forEach((m, i) => {
+        if (i) s.append(', ');
+        const n = byId.get(m.node);
+        s.append(n ? nodeLink(n) : m.title);
+        if (m.option) s.append(` (${t.qo}${m.option}${t.qc})`);
+        if (m.owners.length) s.append(el('span', 'muted', ` · ${m.owners.join(', ')}`));
+      });
+      return s;
+    };
+    const box = el('div');
+    const links = el('p', 'hint');
+    const pack = el('a', null, `📦 ${t.packingList}`);
+    pack.href = 'packing.html';
+    links.append(pack);
+    if (inv.some((x) => x.handout)) {
+      const cards = el('a', null, `🗒 ${t.handoutCards}`);
+      cards.href = 'handouts.html';
+      links.append(' · ', cards);
+    }
+    box.append(links);
+    box.append(dataTable(inv, [
+      { label: t.name, cell: (x) => [x.name, x.kind === 'info' ? ` (${t.info})` : ''].join(''), sort: (x) => x.name },
+      { label: t.prop, cell: (x) => [x.quantity > 1 ? `${x.quantity}× ` : '', x.prop].join(''), sort: (x) => x.prop },
+      { label: t.location, cell: (x) => x.location, sort: (x) => x.location },
+      { label: t.holdsAtStart, cell: (x) => x.holders.join(', ') },
+      { label: t.givenAt, cell: (x) => moves(x.given), sort: (x) => x.given.length },
+      { label: t.neededAt, cell: (x) => moves(x.needed), sort: (x) => x.needed.length },
+      { label: t.usedAt, cell: (x) => moves(x.used), sort: (x) => x.used.length },
+      { label: t.handoutCol, cell: (x) => (x.handout ? '🗒' : ''), sort: (x) => (x.handout ? 0 : 1) },
     ]));
     return box;
   }
@@ -2436,6 +2482,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     ...(factions.length ? [['factions', t.tabFactions, factionsTable]] : []),
     ...(people.some((o) => o.relations.length) ? [['relations', t.tabRelations, relationsView]] : []),
     ...((G.knowledge ?? []).length ? [['knowledge', t.tabKnowledge, knowledgeTable]] : []),
+    ...((G.inventory ?? []).length ? [['inventory', t.tabInventory, inventoryTable]] : []),
     ['players', t.tabPlayers, playersGrid], ...(G.cycles.length ? [['cycles', t.tabCycles, cyclesTable]] : []),
     ['things', t.tabThings, thingsTable], ...(G.blocks?.length ? [['blocks', t.tabBlocks, blocksTable]] : []),
     ['segments', t.tabSegments, segmentsTable], ['problems', `${t.tabProblems} (${G.findings.length})`, problemsTable],

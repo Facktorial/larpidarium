@@ -253,11 +253,39 @@ starting = true                # exists at game start, no action needs to give i
 text     = "Velký železný klíč od krypty."
 ```
 
-Item keys: `id`, `name` (required), `category`, `owners`, `starting`, `ending`, `text`.
+Item keys: `id`, `name` (required), `category`, `owners`, `starting`, `ending`, `text`, and for
+preparing the game `prop`, `quantity`, `location`, `handout`.
 `ending = true` marks an outcome of the game, so nothing has to need it.
 
+```toml
+[[item]]
+id       = "sealed-letter"
+name     = "Zapečetěný dopis"
+owners   = ["novice-marta"]
+starting = true
+prop     = "obálka zapečetěná voskem"   # what organizers bring
+quantity = 1                            # how many props per holder or room (default 1)
+location = "library"                    # room where it lies, or where its prop waits
+handout  = """
+Excelence, píši Vám v tísni…
+"""                                     # printed on a card for players
+```
+
+- **Inventory.** The viewer's **Inventář** tab lists every item (and every info with a `prop` or
+  `handout`): the prop, where it lies, who has it at the start, and which acts give it, need it
+  and use it up.
+- **Packing list.** `build` writes `packing.html` and `pdf` writes `_packing`.
+  - Before the game: what goes into each room (`location`) or to each holder (a faction's things
+    list its members), the props that wait in a room until an act hands them out, and starting
+    things nobody holds (under "Nikdo to nemá").
+  - During the game: what each act hands out, option by option, and where its prop waits; acts in
+    world-time order (same time: by id).
+- **Handouts.** `build` writes `handouts.html` and `pdf` writes `_handouts`: one card per item or
+  info with a `handout`, to print and cut out. Line breaks are kept; a card grows with its text
+  but cannot be longer than a page. `[[links]]` work in handouts too.
+
 `rooms.toml` uses `[[room]]` with `id`, `name`, `color`. `info.toml` uses `[[info]]` with the same
-keys as items; info can be needed and given exactly like items.
+keys as items; info can be needed and given exactly like items (a letter's content as a `handout`).
 
 ```toml
 # info.toml

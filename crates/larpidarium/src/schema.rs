@@ -194,6 +194,10 @@ fn thing(kind: &str) -> Value {
             "starting": { "type": "boolean", "description": "Exists when the game starts." },
             "ending": { "type": "boolean", "description": "Reaching it ends the game (an ending)." },
             "text": text("Description."),
+            "prop": text("The physical prop organizers bring (packing list)."),
+            "quantity": { "type": "integer", "minimum": 1, "description": "How many props (default 1)." },
+            "location": reference("the room where it lies, or where its prop waits"),
+            "handout": text("Text printed on a handout card for players (handouts)."),
         }),
     )
 }
