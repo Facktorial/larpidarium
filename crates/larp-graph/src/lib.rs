@@ -66,6 +66,38 @@ pub struct GraphData {
     pub progress: Progress,
     /// Shared texts from `blocks.toml`.
     pub blocks: Vec<BlockView>,
+    /// Who knows which info and from when, for the Knowledge tab.
+    pub knowledge: Vec<KnowView>,
+}
+
+/// One way a person comes to know an info (see [`larp_model::knowledge`]).
+#[derive(Debug, Clone, Serialize)]
+pub struct KnowView {
+    /// Person id.
+    pub person: String,
+    /// Info id.
+    pub info: String,
+    /// `"start"`, `"finds"` or `"told"`.
+    pub how: &'static str,
+    /// Node id, except for `"start"`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub node: Option<String>,
+    /// The decision option it depends on.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub option: Option<String>,
+}
+
+fn knowledge(game: &Game) -> Vec<KnowView> {
+    larp_model::knowledge::knowledge(game)
+        .into_iter()
+        .map(|l| KnowView {
+            person: l.person.to_string(),
+            info: l.info.to_string(),
+            how: l.how.as_str(),
+            node: l.node.map(|n| n.to_string()),
+            option: l.option,
+        })
+        .collect()
 }
 
 /// One block from `blocks.toml` with where it is used.
@@ -580,6 +612,7 @@ fn build_shown(
         findings: diagnostics.iter().map(finding).collect(),
         progress: progress(game),
         blocks: Vec::new(),
+        knowledge: knowledge(game),
         endings: playthroughs
             .map(|p| {
                 p.endings

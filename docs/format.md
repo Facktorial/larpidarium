@@ -379,6 +379,32 @@ text = "13. března"
   mean"); a block that includes itself is an error, and so is a chain of 16 or more blocks including each other or a block that grows past 200 000 bytes when expanded; a block used nowhere and shown to nobody is a
   warning. Blocks can have `status` and `writer` like everything else.
 
+## Who knows what, and when
+
+`check` and the viewer work out, for every person and every piece of info, when they can know it:
+
+- **from the start**: the info is `starting` and they (or one of their factions) own it;
+- **finds it out**: one of their own actions or decision options `gives` it;
+- **is told**: one of their own actions or options `needs` it, so someone tells them by then.
+
+The viewer's **Znalosti** tab is a table: one row per info, one column per person; each cell shows
+the first moment (● start, 🔍 finds out, 💬 is told, with the segment or cycle step), "?" when it
+happens only after some decision. Hover a cell for every way.
+
+**Spoiler check.** When a text names an info with `[[info-id]]`, `check` warns if the reader can't
+know it yet (organizers know the whole plot and are not checked):
+
+- a person's sheet (goals, secrets, sections, relations, blocks shown to them, and their factions'
+  goals, secrets and sections) is read before the game, so it may only name info they know from
+  the start. The warning points at the file the text is written in (`people/…`, `blocks.toml`,
+  `factions.toml`) and names the reader;
+- the brief of one of their own actions may also name info they learn at that very action, or
+  surely learn (not only after some decision option) at an action in an earlier segment. In a game
+  without segments, any such action counts.
+
+Phases are not checked. Names written as plain text are not checked; link the info to get the
+check.
+
 ## Writing status
 
 Any action, decision, person, block or faction can say how far it is written and who writes it:
@@ -415,5 +441,10 @@ node editor in `serve` can set both.
 | Player with no action, or no decision of their own              | warning |
 | Player sheet missing `backstory`, `whereabouts` or `goals`      | warning |
 | Unknown file in the game folder                                | warning |
+| One-sided relationship between player characters               | warning |
+| Faction without members                                        | warning |
+| Unknown `[[link]]`, block loop, too deep or too big block       | error   |
+| Block used nowhere and shown to nobody                         | warning |
+| `[[info]]` in a text a person reads before they know the info  | warning |
 
 Warnings don't stop the game from being generated; errors do.

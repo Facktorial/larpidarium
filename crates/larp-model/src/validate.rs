@@ -11,6 +11,7 @@ use crate::playthrough::{self, Playthroughs};
 use crate::{Diagnostic, Id, Severity};
 
 mod blocks;
+mod knowledge;
 mod lives;
 mod map;
 
@@ -131,6 +132,7 @@ pub(crate) fn validate(game: &Game, diags: &mut Vec<Diagnostic>) -> Option<Playt
         );
     }
     blocks::check(game, &registry, diags);
+    knowledge::check(game, diags);
     for faction in &game.factions {
         if game.members(faction.id.get_ref()).next().is_none() {
             diags.push(

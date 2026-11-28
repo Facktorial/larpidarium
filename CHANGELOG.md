@@ -11,6 +11,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
   an organizer sheet, and show up in the viewer (owner list, Frakce tab, People column).
 - Relationships: `check` warns when a player character has a relation with another player character
   who has none back, and the viewer has a Vztahy tab with a relationship graph.
+- Who knows what: a Znalosti tab in the viewer shows for every info who knows it from the start,
+  who finds it out and who is told, and when; `check` warns when a sheet or a brief names an info
+  (`[[info-id]]`) before the reader can know it.
 - The example game lost-abbey has a faction (Konvent), shared blocks and both-way relationships.
 - Shared texts and facts in `blocks.toml`: write `[[id]]` in any text to include a block or show
   the name of a person, room, item or info. Blocks with `show` appear on those players' sheets.

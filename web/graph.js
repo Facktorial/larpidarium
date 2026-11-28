@@ -46,6 +46,9 @@
       light: 'Světlý režim', dark: 'Tmavý režim', unassigned: 'Bez vlastníka', action: 'Akce',
       decision: 'Rozhodnutí', options: 'Možnosti', starting: 'od začátku', ending: 'konec',
       item: 'předmět', info: 'informace', player: 'hráč', organizer: 'organizátor', npc: 'CP',
+      tabKnowledge: 'Znalosti', noKnowledge: 'Nikdo nic neví: v info.toml nejsou informace, které by někdo měl nebo získal.',
+      knowledgeHint: '● ví od začátku · 🔍 zjistí sám · 💬 dozví se od jiných (nejpozději v tu chvíli) · ? jen při některé volbě. Najeď na buňku pro všechny cesty.',
+      knowStart: 'ví od začátku', knowFinds: 'zjistí', knowTold: 'dozví se', knowOption: 'při volbě', knowStep: 'krok', knowCount: 'Kolik ví',
       tabRelations: 'Vztahy', noRelations: 'Nikdo nemá vztahy ([[person.relation]]).', oneWay: 'jen jedním směrem',
       relationsHint: 'Plná čára: oba se znají. Přerušovaná šipka: vztah jen jedním směrem. Najeď na čáru pro texty, klikni na postavu.',
       factionTag: 'frakce', factions: 'Frakce', tabFactions: 'Frakce', members: 'Členové',
@@ -96,6 +99,9 @@ tabCycles: 'Cykly', hero: 'Hrdina', when: 'Kdy', death: 'Smrt', helpers: 'Pomocn
       light: 'Light mode', dark: 'Dark mode', unassigned: 'Unassigned', action: 'Action',
       decision: 'Decision', options: 'Options', starting: 'at start', ending: 'ending',
       item: 'item', info: 'info', player: 'player', organizer: 'organizer', npc: 'NPC',
+      tabKnowledge: 'Knowledge', noKnowledge: 'Nobody knows anything: info.toml has no info that anyone holds or learns.',
+      knowledgeHint: '● knows from the start · 🔍 finds it out · 💬 is told (by then at the latest) · ? only after some choice. Hover a cell for every way.',
+      knowStart: 'knows from the start', knowFinds: 'finds out', knowTold: 'is told', knowOption: 'after choice', knowStep: 'step', knowCount: 'Known by',
       tabRelations: 'Relationships', noRelations: 'Nobody has relationships ([[person.relation]]).', oneWay: 'one way only',
       relationsHint: 'Solid line: both have a view of each other. Dashed arrow: one way only. Hover a line for the texts, click a person.',
       factionTag: 'faction', factions: 'Factions', tabFactions: 'Factions', members: 'Members',
@@ -1824,6 +1830,65 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     return wrap;
   }
 
+  /**
+   * Who knows what, and when: one row per info, one column per person who learns anything.
+   * A cell shows the first moment: ● at the start, 🔍 finds it out, 💬 is told, with the act;
+   * a "?" means only on some decision paths. Hover for every way.
+   */
+  function knowledgeTable() {
+    const infos = G.things.filter((x) => x.kind === 'info');
+    const know = G.knowledge ?? [];
+    if (!infos.length || !know.length) return el('p', 'hint', t.noKnowledge);
+    const who = people.filter((o) => know.some((k) => k.person === o.id))
+      .sort((a, b) => (a.role === 'player' ? 0 : 1) - (b.role === 'player' ? 0 : 1) || a.name.localeCompare(b.name));
+    const icon = { start: '●', finds: '🔍', told: '💬' };
+    // A cycle node is placed by its cycle and step, other nodes by their segment.
+    const when = (n) => (n.cycle && cycles.has(n.cycle) ? `${cycles.get(n.cycle).name}${n.step ? ` · ${t.knowStep} ${n.step}` : ''}` : segName(segKey(n)));
+    const describe = (k) => {
+      if (k.how === 'start') return t.knowStart;
+      const n = byId.get(k.node);
+      const what = k.how === 'finds' ? t.knowFinds : t.knowTold;
+      return `${what}: ${n?.title ?? k.node}${n ? ` (${when(n)})` : ''}${k.option ? ` · ${t.knowOption} „${k.option}“` : ''}`;
+    };
+    // Built once: info → person → ways (already sorted by time on the Rust side).
+    const ways = new Map();
+    for (const k of know) {
+      if (!ways.has(k.info)) ways.set(k.info, new Map());
+      const per = ways.get(k.info);
+      if (!per.has(k.person)) per.set(k.person, []);
+      per.get(k.person).push(k);
+    }
+    const waysOf = (info, person) => ways.get(info)?.get(person) ?? [];
+    const countOf = (info) => ways.get(info)?.size ?? 0;
+    // The moment shown: the first sure way (no option), else the first way, marked "?".
+    const shown = (list) => list.find((k) => !k.option) ?? list[0];
+    const tick = (k) => {
+      if (!k) return 1e12;
+      if (k.how === 'start') return -1;
+      const n = byId.get(k.node);
+      return n && tickSpan(n) ? nodeTime(n) : 1e11;
+    };
+    const cell = (info, person) => {
+      const list = waysOf(info.id, person.id);
+      if (!list.length) return '';
+      const first = shown(list);
+      const sure = !first.option;
+      const n = first.node ? byId.get(first.node) : null;
+      const s = el('span', `know know-${first.how}${sure ? '' : ' maybe'}`,
+        `${icon[first.how]}${n ? ` ${when(n)}` : ''}${sure ? '' : ' ?'}`);
+      s.title = `${person.name} · ${info.name}\n${list.map(describe).join('\n')}`;
+      return s;
+    };
+    const box = el('div');
+    box.append(el('p', 'hint', t.knowledgeHint));
+    box.append(dataTable(infos, [
+      { label: t.info, cell: (x) => x.name, sort: (x) => x.name },
+      { label: t.knowCount, cell: (x) => String(countOf(x.id)), sort: (x) => countOf(x.id) },
+      ...who.map((o) => ({ label: o.name, cell: (x) => cell(x, o), sort: (x) => tick(shown(waysOf(x.id, o.id))) })),
+    ]));
+    return box;
+  }
+
   /** Factions: members, their actions (owned by the faction itself) and what they hold. */
   function factionsTable() {
     return dataTable(factions, [
@@ -2370,6 +2435,7 @@ tabCycles: 'Cycles', hero: 'Hero', when: 'When', death: 'Death', helpers: 'Helpe
     ...(rooms.length ? [['map', t.tabMap, mapView]] : []), ['people', t.tabPeople, peopleTable],
     ...(factions.length ? [['factions', t.tabFactions, factionsTable]] : []),
     ...(people.some((o) => o.relations.length) ? [['relations', t.tabRelations, relationsView]] : []),
+    ...((G.knowledge ?? []).length ? [['knowledge', t.tabKnowledge, knowledgeTable]] : []),
     ['players', t.tabPlayers, playersGrid], ...(G.cycles.length ? [['cycles', t.tabCycles, cyclesTable]] : []),
     ['things', t.tabThings, thingsTable], ...(G.blocks?.length ? [['blocks', t.tabBlocks, blocksTable]] : []),
     ['segments', t.tabSegments, segmentsTable], ['problems', `${t.tabProblems} (${G.findings.length})`, problemsTable],

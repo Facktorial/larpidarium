@@ -2,6 +2,7 @@
 
 mod diagnostic;
 mod id;
+pub mod knowledge;
 mod load;
 pub mod model;
 mod playthrough;

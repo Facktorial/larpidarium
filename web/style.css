@@ -308,3 +308,10 @@ svg.relations .rel-line:hover { stroke-width: 4; opacity: 1; }
 svg.relations .rel-line.faded { opacity: .08; }
 svg.relations .rel-node { cursor: pointer; }
 svg.relations .rel-label { fill: var(--text-color, #ddd); font-size: 12px; }
+
+/* knowledge table */
+.know { white-space: nowrap; cursor: help; }
+.know-start { color: #27ae60; }
+.know-finds { color: #3498db; }
+.know-told { color: #e67e22; }
+.know.maybe { opacity: .65; font-style: italic; }
